@@ -14,7 +14,7 @@ def mywrite(files):
 		"yangwenbin", "liuyanfu", "chenghuixian",
 		"chenmingming", "jiachen", "zhengshaopeng",
 		"wangrui", "liwei", "yaojianjiao",
-		"liuyunpeng", "zhaojing"]
+		"liuyunpeng", "zhaojing", "juwenhui"]
 	tmpdict = {}
 	while len(tmpdict) < len(lst):
 		i = int(random.random()*len(files))
