@@ -1,6 +1,14 @@
 #include <iostream>
 using namespace std;
 
+/*
+ * 1. 课程范围："c++ primer"第4班第1.2.1节
+ * 2. 课后练习：
+ *    a) 描述"using namespace std;"给后继程序带来的变化
+ *    b) g++ cout_cerr_clog.cpp -o out && ./out >& log.all && ./out > log.out 2> log.err
+ *    c) 观察log.all，描述值得注意的现象，理解缓冲区、强制清空的概念；
+ *    d) 观察log.out与log.err的区别，理解标准输出流、标准错误流；
+ */
 int main(void)
 {
 	// cout输出到标准输出流，>

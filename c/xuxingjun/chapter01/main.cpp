@@ -6,7 +6,7 @@
 #include "string.h"
 
 /*
- * 1. 课程范围：《c++ primer》第4版第1.节
+ * 1. 课程范围："c++ primer"第4版第1.1节
  * 2. 课后练习：
  *    a) 读懂注释：向别人讲述自己的理解
  *    b) 编译程序：g++ main.cpp -o main
