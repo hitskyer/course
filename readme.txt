@@ -1,12 +1,14 @@
+--应用github管理《c++ primer》的课程代码
 1. 将课程的代码工程clone至本地
    git clone https://github.com/hitskyer/course.git
 2. 建立属于自己的代码目录
    cd course/c/ && mkdir "your name"(for example : xuxingjun)
-3. 上传一个文件
+3. 上传若干文件
    a) cd "your name"(for example : xuxingjun)
-   b) vim readme.txt(write a sentence for yourself)
-   c) git add readme.txt 
-   d) git commit -m "我上传的第一个git文件"
+   b) mkdir chapter01 && cd chapter01
+   c) cp ../../xuxingjun/chapter01/*cpp ./
+   c) git add *cpp
+   d) git commit -m "将xuxingjun在chapter01中的源代码拷贝至我的对应目录下"
    e) git push(failed: git pull && git push)
 4. git的作用
    a) 从服务器上克隆完整的Git仓库（包括代码和版本信息）到单机上
