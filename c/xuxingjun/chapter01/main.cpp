@@ -1,3 +1,6 @@
+/*
+ * 包含头文件，就是向别人家借工具箱
+ */
 #include <stdio.h>
 #include <iostream>
 #include "string.h"
@@ -5,12 +8,13 @@
 /*
  * 1. 课程范围：《c++ primer》第4版第1.节
  * 2. 课后练习：
- *    a) 编译程序：g++ main.cpp -o main
- *    b) 查看结果：ll main*（注意文件权限的不同）
- *    c) 无参执行：./main         && echo $?
- *    d) 正确执行：./main success && echo $?
- *    e) 异常执行：./main failed  && echo $?
- *    f) 思考问题：解释不同运行状态的原因
+ *    a) 读懂注释：向别人讲述自己的理解
+ *    b) 编译程序：g++ main.cpp -o main
+ *    c) 查看结果：ll main*（注意文件权限的不同）
+ *    d) 无参执行：./main         && echo $?
+ *    e) 正确执行：./main success && echo $?
+ *    f) 异常执行：./main failed  && echo $?
+ *    g) 思考问题：解释不同运行状态的原因
  */
 
 /*
