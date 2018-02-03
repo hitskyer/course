@@ -1,1 +1,48 @@
+Last login: Thu Feb  1 22:49:21 on ttys000
+Siqis-MacBook:~ siqi$ ssh ht@39.104.102.117
+ht@39.104.102.117's password: 
+Last login: Thu Feb  1 22:50:49 2018 from 123.118.216.7
 
+Welcome to Alibaba Cloud Elastic Compute Service !
+
+[ht@ht ~]$ cd htcourse
+[ht@ht htcourse]$ cd wansiqi
+[ht@ht wansiqi]$ vim wansiqi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  1 #include <stdio.h>
+  2 
+  3 int main(int argc, char* argv[])
+  4 {
+  5     printf("hello_world!\n");
+  6 
+  7     return hello_world;
+  8 
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+wansiqi                                                       8,0-1          All
+"wansiqi" 8L, 105C
