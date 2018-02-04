@@ -1,13 +1,19 @@
 2018
 
 Q1
-5:00-6:00	早餐
-6:00-8:00	learning
-8:00-10:00	to work
-10:00-12:00	work:
+5:00-6:00	breakfast@home
+6:00-8:00	learning@home
+8:00-10:00	to work:wangyuquan @road
+10:00-12:00	work:paper
 
-12:00-14:00	pray&sleep&code
-14:00-16:00	work:
-16:00-18:00	work:comm
+12:00-14:00	pray&sleep
+14:00-16:00	work:code
+16:00-18:00	work:communicate
+
+18:00-20:00	sisters&brothers
+20:00-21:00	go home:xueqiu @road
+
+21:00-22:00	book@home
+
 
 
