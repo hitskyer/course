@@ -11,7 +11,7 @@
  *    a) 读懂注释：向别人讲述自己的理解
  *    b) 编译程序：g++ main.cpp -o main
  *    c) 查看结果：ll main*（注意文件权限的不同）
- *    d) 无参执行：./main         && echo $?
+ *    d) 无参执行：./main         || echo $?
  *    e) 正确执行：./main success && echo $?
  *    f) 异常执行：./main failed  || echo $?
  *    g) 思考问题：解释不同运行状态的原因
