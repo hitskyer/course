@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 int main()
 {
 	using namespace std;
@@ -14,9 +15,9 @@ int main()
 			cin.ignore(1000,'\n');  //清空已输入的数据
 			}
 	cout << "两数之差为：" << x-y << "\n";
-	cout << "输入y或者Y继续计算\n输入其他任意字符退出程序。\n" << endl;
-	//cin >> s;
+	cout << "输入y或者Y继续计算\n输入其他任意字符退出程序。" << endl;
+	cin >> s;
 	}
-	while(cin.get() == 'y' || cin.get() == 'Y');		//输入y或Y继续执行程序
+	while(s == "y" || s == "Y");	//输入y或Y继续执行程序
 	return 0;
 }
