@@ -34,11 +34,11 @@ int main(void)
 	cout << "--------" << endl;
 
 	// 每次输出，都会强制清空缓冲区
-	cout << "cout 5\n";
-	clog << "clog 3\n";
+	cout << "cout 5" << endl;
+	clog << "clog 3" << endl;
 	
-	cout << "cout 6\n";
-	clog << "clog 4\n";
+	cout << "cout 6" << endl;
+	clog << "clog 4" << endl;
 
 	cout << "--------" << endl;
 
