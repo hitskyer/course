@@ -9,8 +9,8 @@ int main()
 		int sum = 0, n = 0, start = 1;
 		cin >> n;
 		while (start <= n) {
-			sum += start;
-			start++;
+			sum += start;  //等价于sum = sum + start;
+			start++;       //注意与++start;的区别
 		}
 		cout << "the sum from 1 to " << n << " is : " << sum << endl;
 		while (true) {
