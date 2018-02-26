@@ -73,18 +73,142 @@ def getSpiderList(spider_list):
 	for infs in spider_list:
 		total += infs[1]
 	print "total = %d" % (total)
+def getContent(txt):
+	tmpdict = json.loads(txt)
+	if "data" in tmpdict and "content" in tmpdict["data"]:
+		txt = tmpdict["data"]["content"].encode("utf8")
+		#pattern = "<span class=\"vn\">\d+</span>"
+		#txt = re.sub(pattern, "", txt)
+		#pattern = "<mark class=\"add\">"
+		#txt = re.sub(pattern, "", txt)
+		#pattern = "</mark>"
+		#txt = re.sub(pattern, "", txt)
+		return txt
+	else:
+		sys.stderr.write("getContent(.) failed.\n")
+		sys.exit(-1)
+def getSectionId(txt):
+	pattern = "[a-zA-Z]*?.\d+.\d+"
+	p       = re.search(pattern, txt)
+	if p == None:
+		sys.stderr.write("getSectionId(.) failed.\n")
+		sys.exit(-1)
+	else:
+		return txt[p.start():p.end()]
+def clean4topic(txt):
+	txt = txt.replace("<h5>", "")
+	txt = txt.replace("</h5>", "")
+	return txt
+def getSectionTxt(txt):
+	pattern = "<.*?>"
+	txt = re.sub(pattern, "", txt)
+	return txt
+def getEndForSection(txt, begin):
+	end = txt.find("</div>", begin)
+	if end > begin:
+		return end + len("</div>")
+	else:
+		sys.stderr.write("getEndForSection(..) failed.\n")
+		sys.exit(-1)
+def getSectionInfo(txt, begin, p3, p4, sections):
+	if p3 == None:
+		sec_id  = getSectionId(txt[begin+p4.start():begin+p4.end()])
+		sec_txt = getSectionTxt(txt[begin+p4.start():begin+p4.end()])
+		sections.append([sec_id, sec_txt])
+		begin  += p4.end()
+	elif p4 == None:
+		end     = getEndForSection(txt, begin+p3.start())
+		sec_id  = getSectionId(txt[begin+p3.start():end])
+		sec_txt = getSectionTxt(txt[begin+p3.start():end])
+		sections.append([sec_id, sec_txt])
+		begin   = end
+	else:
+		if p3.start() < p4.start():
+			end     = getEndForSection(txt, begin+p3.start())
+			sec_id  = getSectionId(txt[begin+p3.start():end])
+			sec_txt = getSectionTxt(txt[begin+p3.start():end])
+			sections.append([sec_id, sec_txt])
+			begin   = end
+		else:
+			sec_id  = getSectionId(txt[begin+p4.start():begin+p4.end()])
+			sec_txt = getSectionTxt(txt[begin+p4.start():begin+p4.end()])
+			sections.append([sec_id, sec_txt])
+			begin  += p4.end()
+	return begin
+def split4topic(txt, topics):
+	pattern1  = "<h5>.*?</h5>"
+	pattern2  = "<div class=\"p\">"
+	#pattern3  = "<.*?\"[a-zA-Z]*?.\d+.\d+\".*?>.*?</.*?>"
+	pattern3  = "<div id=\"[a-zA-Z]*?.\d+.\d+\" class=\"v\"><span class=\"vn\">\d+</span>"
+	pattern4  = "<i class=\"pi\" for=\"[a-zA-Z]*?.\d+.\d+\">.*?</i>"
+	begin     = 0
+	pre_topic = ""
+	paras     = []
+	sections  = []
+	while True:
+		p1   = re.search(pattern1, txt[begin:])
+		p2   = re.search(pattern2, txt[begin:])
+		p3   = re.search(pattern3, txt[begin:])
+		p4   = re.search(pattern4, txt[begin:])
+		if p3 == None and p4 == None:
+			if sections != []:
+				paras.append(sections)
+			if paras != []:
+				topics.append([pre_topic, paras])
+			break
+		elif p2 == None:
+			begin = getSectionInfo(txt, begin, p3, p4, sections)
+		elif p1 == None:
+			if (p3 != None and p3.start() < p2.start()) or (p4 != None and p4.start() < p2.start()):
+				begin = getSectionInfo(txt, begin, p3, p4, sections)
+			else:
+				if sections != []:
+					paras.append(sections)
+					sections = []
+				begin += p2.end()
+		elif (p3 != None and p3.start() < p2.start() and p3.start() < p1.start()) or (p4 != None and p4.start() < p2.start() and p4.start() < p1.start()):
+			begin = getSectionInfo(txt, begin, p3, p4, sections)
+		elif p2.start() < p3.start() and p2.start() < p1.start():
+			if sections != []:
+				paras.append(sections)
+				sections = []
+			begin += p2.end()
+		elif p1.start() < p3.start() and p1.start() < p2.start():
+			if sections != []:
+				paras.append(sections)
+				sections = []
+			if paras != []:
+				topics.append([pre_topic, paras])
+				paras = []
+			pre_topic = clean4topic(txt[begin+p1.start():begin+p1.end()])
+			begin += p1.end()
+		else:
+			sys.stderr.write("split4topic(..) failed.\n")
+			sys.exit(-1)
+def out4debug(topics):
+	for infs in topics:
+		topic = infs[0]
+		print "---------%s---------" % (topic)
+		for para in infs[1]:
+			print "para"
+			for section in para:
+				print "\t%s:%s" % (section[0], section[1])
+	print "\n\n"
 def spider(spider_list, bible_file):
 	for infs in spider_list:
 		number = infs[1]
 		pm     = ProxyMgr()
 		for i in range(number):
 			url = "http://wdbible.com/api/bible/chapterhtml/cunps/%s.%d" % (infs[0], i+1)
-			txt = pm.getTextFromUrl(url)
-			print url
-			print txt
-			print "\n\n"
+			txt = getContent(pm.getTextFromUrl(url))
+			sys.stderr.write(txt + "\n")
+			topics = []
+			split4topic(txt, topics)
+			out4debug(topics)
 import sys
 from ProxyMgr import *
+import re
+import json
 try:
 	bible_file = sys.argv[1]
 except:
