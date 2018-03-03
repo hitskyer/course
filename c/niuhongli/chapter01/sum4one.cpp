@@ -20,7 +20,7 @@ int main()
 	cout << "Enter two numbers:" << endl;
 
 	// 初始化所需变量，定义的同时初始化是非常好的习惯
-	int a = 0, b = 0;
+	int a=0, b=0;
 	// 程序会在这里等待两个整数的输入
 	// cin >> a;
 	// cin >> b;

@@ -17,30 +17,18 @@ int main()
 	 * 等价表达式：(std::cout << "Enter two numbers:") << std::endl;
 	 * endl是立即刷新缓冲区，并输出换行，便于定位问题且美观
 	*/
-	int x=0,y=0;
-	char s;
-	do
-	{
-		cout << "Enter two numbers:" << endl;
-		while(true)
-		{
-			if(!(cin >> x >> y))
-			{
-			cout << "检测到非数字，请重新输入！"<< endl;
-       	               	cin.clear();
-               	       	cin.ignore(1000,'\n');
-			}
-			else
-			{
-			cin.ignore(1000,'\n');
-			cout << x << " and " << y << "的和为：" << x+y << endl;
-			break;
-			}
-		}
-		cout << "请输入y或者Y继续计算，输入其他字符结束计算！"<< endl;
-		s=cin.get();
-		cin.ignore(1000,'\n');
-	}
-	while(s == 'y' || s == 'Y');
-	return 0;	
+	cout << "Enter two numbers:" << endl;
+
+	// 初始化所需变量，定义的同时初始化是非常好的习惯
+	int a = 0, b = 0;
+	// 程序会在这里等待两个整数的输入
+	// cin >> a;
+	// cin >> b;
+	cin >> a >> b;
+	// 拿到输入后，会计算并输出
+	cout << "The multi of " << a << " and " << b
+		<< " is " << a * b << endl;
+	
+	// 报告老板，我把活正常干完了
+	return 0;
 }
