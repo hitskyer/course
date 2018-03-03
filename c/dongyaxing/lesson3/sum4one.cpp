@@ -17,21 +17,26 @@ int main()
 	 * 等价表达式：(std::cout << "Enter two numbers:") << std::endl;
 	 * endl是立即刷新缓冲区，并输出换行，便于定位问题且美观
 	*/
-	cout << "Enter two numbers:" << endl;
-
-	// 初始化所需变量，定义的同时初始化是非常好的习惯
-	int a = 0, b = 0;
-	// 程序会在这里等待两个整数的输入
-	   cin >> a;
-           cin >> b;
-	// 拿到输入后，会计算并输出
-	cout << "The sum of " << endl;
-	cout << a << " and " << endl;
-	cout << b << endl;
-	cout << " is " << endl;
-	cout << a+b << endl;
-	cout << endl;
 	
+	//cout << "Enter two numbers:" << endl;
+	// 初始化所需变量，定义的同时初始化是非常好的习惯
+	float a = 0;
+	float b = 0;
+	char s;
+	// 程序会在这里等待两个整数的输入
+	do
+	{
+	cout<<"Enter two numbers:"<<endl;
+	cin >> a;
+	cin >> b;
+	//cin >> a >> b;
+	// 拿到输入后，会计算并输出
+	cout << "The sum of " << a << " and " << b
+		<< " is " << a+b << endl;
+	cout<<"if continue,please enter 'y'or'Y'.Otherwise,press any key to exit."<<endl;
+	cin>>s;
+	}
+	while(s=='y'||s=='Y');
 	// 报告老板，我把活正常干完了
-	return 0;
+	//return 0;
 }
