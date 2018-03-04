@@ -1,49 +1,21 @@
-#include <iostream>
-
-#include <string>
+#include<stdio.h>
+#include<iostream>
+using namespace std;
 
 int main()
+{cout << "请输入2个相乘的数字" << endl;
+int a=0,b=0;
+cin >> a;
+cin >> b;
 
-{
 
-	using namespace std;
-
-	double x=0,y=0;
-
-	char s;
-
-	do
-
-	{
-
-		cout << "------------------\n请输入两个数，求乘积！\n";
-
-		while(!(cin >> x >>y))
-
-		{
-
-			cout << "输入了非数字，请输入数字！\n";
-
-			cin.clear();
-
-			cin.ignore(1000,'\n');
-
-		}
-
-		cout << x << " and " << y << "的乘积为：" << x*y << "\n";
-
-		cout << "请输入y或者Y继续计算，输入其他字符结束计算！"<< endl;
-
-		cin.ignore(1000,'\n');
-
-		s=cin.get();
-
-		cin.ignore(1000,'\n');
-
-	}
-
-	while(s == 'y' || s == 'Y');
-
-	return 0;
+cout << "乘法计算过程";
+cout << a;
+cout << "乘以";
+cout << b;
+cout << "等于";
+cout << a*b;
+cout << endl;
+return 0;
 
 }
