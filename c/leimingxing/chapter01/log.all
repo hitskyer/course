@@ -1,0 +1,19 @@
+clog 1
+clog 2
+cout 1
+cout 2
+--------
+cout 3
+cerr 1
+cout 4
+cerr 2
+--------
+cout 5
+clog 3
+cout 6
+clog 4
+--------
+cout 7
+cerr 3
+cout 8
+cerr 4
