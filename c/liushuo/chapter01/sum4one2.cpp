@@ -25,11 +25,12 @@ int main()
 	   cin >> a;
            cin >> b;
 	// 拿到输入后，会计算并输出
-	cout << "The sum of " << endl;
-	cout << a << " and " << endl;
-	cout << b << endl;
-	cout << " is " << endl;
-	cout << a+b << endl;
+	cout << "The sum of "  ;
+	cout << a;
+        cout << " and " ;
+	cout << b ;
+	cout << " is " ;
+	cout << a+b ;
 	cout << endl;
 	
 	// 报告老板，我把活正常干完了
