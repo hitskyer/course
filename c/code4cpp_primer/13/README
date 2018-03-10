@@ -1,9 +1,6 @@
-No programs in this chapter read input.
-Sample data files are in the data directory:
+All of the executables in this directory are self-contained:
+They do not read any input.
 
-     File           Programs that use that input file
-     ----           --------
-
-Programs not listed above print output and do
-not read any input
+Note: the 'plain-ptr' program is likely to crash:  It attempts
+to assign to a dangling pointer.
 

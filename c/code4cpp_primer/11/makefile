@@ -1,17 +1,27 @@
 # executable files for this directory
-OBJECTS = erasemap.exe map1.exe \
-		  multimap.exe pair.exe \
-		  restricted_count.exe setOps.exe \
-		  unorderedWordCount.exe wcEx.exe \
-		  word_count.exe word_transform.exe
+OBJECTS = inserters.exe use-istream-iter.exe \
+	  equiv-istream-iter.exe \
+	  scores.exe rev-iters.exe innerprod.exe \
+	  use_find.exe vocab.exe elim-dups.exe \
+	  use_equalrange.exe iostream_iter.exe \
+	  use-ostream-iter.exe reverse-iter.exe \
+	  count-size.exe arrow.exe parms.exe
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-# directory 7 has Sales_data code, 6 has make_plural function
-LOCFLAGS = -I../7 -I../6
+# one or more files in this directory includes a header
+# defined in chapter 1
+LOCFLAGS=-I ../1
 
-map1.exe: map1.o ../7/Sales_data.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) map1.o ../7/Sales_data.o -o map1.exe
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+count-size.exe: count-size.o ../7/mk_plural2.o
+	$(CC) $(CCFLAGS) count-size.o \
+	                       ../7/mk_plural2.o -o count-size.exe
+
+vocab.exe: vocab.o ../8/get_openfile.o ../7/mk_plural2.o
+	$(CC) $(CCFLAGS) vocab.o ../8/get_openfile.o ../7/mk_plural2.o \
+                                -o vocab.exe
 

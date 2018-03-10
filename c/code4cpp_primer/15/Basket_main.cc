@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,60 +21,71 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
-#include <memory>
-using std::shared_ptr; using std::make_shared;
 #include "Basket.h"
 #include <iostream>
 using std::cout; using std::endl;
 
 int main()
 {
+	Sales_item item1(Item_base("123", 45));
+	Sales_item item2(Bulk_item("345", 45, 3, .15));
+	Sales_item item3(Bulk_item("678", 55, 5, .25));
+	Sales_item item4(Lim_item("abc", 35, 2, .10));
+	Sales_item item5(Item_base("def", 35));
+
 	Basket sale;
-	sale.add_item(shared_ptr<Quote>(new Quote("123", 45)));
-	sale.add_item(shared_ptr<Quote>(new Quote("123", 45)));
-	sale.add_item(shared_ptr<Quote>(new Quote("123", 45)));
-	sale.add_item(make_shared<Bulk_quote>("345", 45, 3, .15));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("345", 45, 3, .15)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Bulk_quote("678", 55, 5, .25)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Lim_quote("abc", 35, 2, .10)));
-	sale.add_item(shared_ptr<Quote>(new Quote("def", 35)));
-	sale.add_item(shared_ptr<Quote>(new Quote("def", 35)));
+	sale.add_item(item1);
+cout << "added first item" << endl;
+	sale.add_item(item1);
+	sale.add_item(item1);
+	sale.add_item(item1);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item2);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item3);
+	sale.add_item(item4);
+	sale.add_item(item4);
+	sale.add_item(item4);
+	sale.add_item(item4);
+	sale.add_item(item4);
+	sale.add_item(item4);
+	sale.add_item(item5);
+	sale.add_item(item5);
+cout << "added last item" << endl;
 
-	sale.total_receipt(cout);
-
-	Basket bsk;
-	// arguments are the ISBN, price, minimum quantity, and discount
-	bsk.add_item(shared_ptr<Quote>(new Bulk_quote("0-201-82470-1", 50, 5, .19)));
-	bsk.add_item(shared_ptr<Quote>(new Bulk_quote("0-201-82470-1", 50, 5, .19)));
-	bsk.add_item(shared_ptr<Quote>(new Bulk_quote("0-201-82470-1", 50, 5, .19)));
-	bsk.add_item(shared_ptr<Quote>(new Bulk_quote("0-201-82470-1", 50, 5, .19)));
-	bsk.add_item(shared_ptr<Quote>(new Bulk_quote("0-201-82470-1", 50, 5, .19)));
-	bsk.add_item(shared_ptr<Quote>(new Lim_quote("0-201-54848-8", 35, 2, .10)));
-	bsk.add_item(shared_ptr<Quote>(new Lim_quote("0-201-54848-8", 35, 2, .10)));
-	bsk.add_item(shared_ptr<Quote>(new Lim_quote("0-201-54848-8", 35, 2, .10)));
-	bsk.total_receipt(cout);
+	sale.display(cout);
+	cout << sale.total() << endl;
+{
+	// arguments are the isbn, price, minimum quantity, and discount
+	Bulk_item bulk("0-201-82470-1", 50, 5, .19);
+	Basket sale;
+	sale.add_item(Bulk_item("0-201-82470-1", 50, 5, .19));
+	sale.add_item(Bulk_item("0-201-82470-1", 50, 5, .19));
+	sale.add_item(Bulk_item("0-201-82470-1", 50, 5, .19));
+	sale.add_item(Bulk_item("0-201-82470-1", 50, 5, .19));
+	sale.add_item(Bulk_item("0-201-82470-1", 50, 5, .19));
+	sale.add_item(Lim_item("0-201-54848-8", 35, 2, .10));
+	sale.add_item(Lim_item("0-201-54848-8", 35, 2, .10));
+	sale.add_item(Lim_item("0-201-54848-8", 35, 2, .10));
+	double total = sale.total();
+	cout << "Total Sale: " << total << endl;
+}
 }

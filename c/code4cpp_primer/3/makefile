@@ -1,15 +1,15 @@
 # executable files for this directory
-OBJECTS = add_using.exe arrayScores.exe cctype.exe \
-		  char_repl.exe cstring_hdr.exe getline.exe \
-		  hexify.exe multidim.exe \
-		  ptr_traversal2.exe square.exe strcompare.exe \
-		  string_add.exe string_io.exe string_io2.exe \
-		  string_size.exe string_size2.exe string_size3.exe \
-		  vec_decls.exe vecStrings2.exe vecScores.exe \
-		  vecSubs.exe word_echo.exe
+OBJECTS = string_size.exe char_repl.exe init_vec.exe \
+	  string_add.exe str_vers3.exe \
+	  str_vers2.exe vec_assign.exe \
+	  cctype.exe strcompare.exe bits.exe \
+	  string_io2.exe add_using.exe \
+	  word_echo.exe getline.exe string_io.exe
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-LOCFLAGS = -I../1
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+vec_decls.o: vec_decls.cc ../1/Sales_item.h

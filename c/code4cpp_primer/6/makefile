@@ -1,21 +1,19 @@
 # executable files for this directory
-OBJECTS = arrRet.exe count-calls.exe errMsg_initList.exe\
-		  fact.exe fcnptrRet.exe good_printmain.exe \
-		  inline_shorter.exe mainmath.exe mainret.exe \
-		  mk_plural.exe ref-fcn.exe refparms.exe refret-ex.exe  \
-		  reset.exe stl-arr-fcns.exe usefcnptr.exe wdebug.exe
+OBJECTS = forcount.exe copy_array.exe wdebug.exe nodebug.exe \
+	  vowels.exe othercnt.exe doWhile.exe exception_example.exe
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-LOCFLAGS = 
+# one or more files in this directory includes a header
+# defined in chapter 1
+LOCFLAGS = -I../1
 
-fact.o mainmath.o LocalMath.o: LocalMath.h
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+wdebug.exe: wdebug.cc
+	$(CC) $(CCFLAGS) wdebug.cc -o wdebug.exe
 
-fact.exe: fact.o LocalMath.o
-	$(CC) $(CCFLAGS) fact.o LocalMath.o -o fact.exe
-
-mainmath.exe: mainmath.o LocalMath.o 
-	$(CC) $(CCFLAGS) mainmath.o LocalMath.o -o mainmath.exe
-
+nodebug.exe: wdebug.cc
+	$(CC) -D NDEBUG $(CCFLAGS) wdebug.cc -o nodebug.exe

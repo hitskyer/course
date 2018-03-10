@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,33 +21,27 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
 #include <iostream>
+#include <string>
 
-// Program for illustration purposes only: It is bad style for a function
-// to use a global variable and also define a local variable with the same name
-
-int reused = 42;  // reused has global scope
+std::string s1 = "hello";  // s1 has global scope
 
 int main()
 {
-	int unique = 0; // unique has block scope
+	std::string s2 = "world"; // s2 has local scope
 
-	// output #1: uses global reused; prints 42 0
-	std::cout << reused << " " << unique << std::endl;   
+	// uses global s1; prints ``hello world''
+	std::cout << s1 << " " << s2 << std::endl;   
 
-	int reused = 0; // new, local object named reused hides global reused
+	int s1 = 42; // s1 is local and hides global s1
 
-	// output #2: uses local reused; prints 0 0
-	std::cout << reused << " " <<  unique << std::endl;  
-
-	// output #3: explicitly requests the global reused; prints 42 0
-	std::cout << ::reused << " " <<  unique << std::endl;  
-
+	// uses local s1; prints ``42 world''
+	std::cout << s1 << " " <<  s2 << std::endl;  
 	return 0;
 }

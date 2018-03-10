@@ -1,18 +1,14 @@
 # executable files for this directory
-OBJECTS = Animal.exe book.exe class.exe \
-		  ex-over.exe inherit.exe mi-scope.exe\
-		  over.exe over2.exe spec.exe \
-		  usingDirective.exe virt-inherit.exe
+OBJECTS = statmem.exe QueueMain.exe QueueMain2.exe QueueMain3.exe \
+	  typeid.exe dyn_cast.exe vec.exe vec-opnew.exe
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-LOCFLAGS = -I../16
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+QueueMain.exe: QueueMain.cc Queue.h Queue.cc
+QueueMain2.exe: QueueMain2.cc Queue.h Queue.cc
+QueueMain3.exe: QueueMain3.cc Queue.h Queue.cc
 
-Animal.o: Animal.h
-book.o: ../16/Sales_data.h bookexcept.h
-virt-inherit.o: Animal_virtual_baseVers.h
-
-book.exe: book.o bookexcept.h Sales_data.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) book.o Sales_data.o -o book.exe

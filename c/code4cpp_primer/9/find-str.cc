@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,25 +21,26 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
 #include <string>
-using std::string; 
-
 #include <iostream>
-using std::cout; using std::endl;
+using std::string; using std::cout; using std::endl;
 
 int main() 
 {
     string name("AnnaBelle");
-    auto pos1 = name.find("Anna"); // pos1 == 0
-    cout << pos1 ;
+    string::size_type pos1 = name.find("Anna"); // pos1 == 0
+    cout << pos1 << endl;
     string lowercase("annabelle");
     pos1 = lowercase.find("Anna");   // pos1 == npos
-    cout << " " << pos1 << endl;
+    if (pos1 != string::npos)
+        cout << " " << pos1 << endl;
+    else
+        cout << "not found!" << endl;
     return 0;
 }

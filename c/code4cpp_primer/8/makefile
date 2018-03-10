@@ -1,18 +1,19 @@
 # executable files for this directory
-OBJECTS = buf.exe clearIO.exe fileIO.exe add_item.exe \
-		  add_itemV2.exe sstream.exe
+OBJECTS = manips.exe prec.exe point.exe sci_dec.exe \
+	  buf.exe setw.exe seek.exe  sstream.exe \
+	  use-getopen.exe main-proto.exe badgetc.exe \
+	  skipws.exe no-skipws.exe getput.exe getc.exe \
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-LOCFLAGS = -I../7
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+main-proto.exe: main-proto.o get_openfile.o
+	$(CC) $(CCFLAGS) main-proto.o get_openfile.o \
+	               -o main-proto.exe
 
-add_itemV2.exe: add_itemV2.o ../7/Sales_data.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) add_itemV2.o ../7/Sales_data.o \
-		-o add_itemV2.exe
-
-add_item.exe: add_item.o ../7/Sales_data.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) add_item.o ../7/Sales_data.o \
-		-o add_item.exe
- 
+use-getopen.exe: use-getopen.o get_openfile.o
+	$(CC) $(CCFLAGS) use-getopen.o get_openfile.o \
+	               -o use-getopen.exe

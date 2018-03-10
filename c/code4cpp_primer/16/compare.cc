@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,46 +21,85 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
-#include <vector>
-using std::vector;
+#include "tmpl_preamble.h"
+#include "Sales_item.h"
 
-#include <string>
-using std::string;
+// implement strcmp-like generic compare function 
+// returns 0 if the values are equal, 1 if v1 is larger, -1 if v1 is smaller
+template <typename T>
+int compare(const T &v1, const T &v2)
+{
+    if (v1 < v2) return -1;
+    if (v2 < v1) return 1;
+    return 0;
+}
 
-#include <cstring>
-using std::strcmp;
+// repeats body of compare but with comments
+int f(int v1, int v2)
+{
+    if (v1 < v2) return -1;  // < on two objects of type T
+    if (v2 < v1) return 1;   // < on two objects of type T
+    return 0;                // return int;  not dependent on T
+}
 
-#include <iostream>
-using std::cout; using std::endl;
+// special version of compare to handle C-style character strings
+template <>
+int compare<const char*>(const char* const &v1, 
+                         const char* const &v2)
+{
+    return strcmp(v1, v2);
+}
 
-#include "compare.h"
+// returns 0 if the values are equal, -1 if v1 is smaller, 1 if v2 is smaller
+int compare(const string &v1, const string &v2)
+{
+    if (v1 < v2) return -1;
+    if (v2 < v1) return 1;
+    return 0;
+}
+
+int compare(const double &v1, const double &v2)
+{
+    if (v1 < v2) return -1;
+    if (v2 < v1) return 1;
+    return 0;
+}
 
 int main()
 {
-    // instantiates int compare(const int&, const int&)
-    cout << compare(1, 0) << endl;       // T is int
+    // T is int; 
+    // compiler instantiates int compare(const int&, const int&)
+    cout << compare(1, 0) << endl;  
 
-    // instantiates int compare(const vector<int>&, const vector<int>&)
-    vector<int> vec1{1, 2, 3}, vec2{4, 5, 6};
-    cout << compare(vec1, vec2) << endl; // T is vector<int>
-
-    long l1, l2;
+    // T is string; 
+    // compiler instantiates int compare(const string&, const string&)
+    string s1 = "hi", s2 = "world";
+    cout << compare(s1, s2) << endl; 
+{
+    short s1, s2;
     int i1, i2;
-    compare(i1, i2);      // instantiate compare(int, int)
-    compare(l1, l2);      // instantiate compare(long, long)
-	compare<int>(i1, l2); // uses compare(int, int)
-	compare<long>(i1, l2);// uses compare(long, long)
+    compare(i1, i2);    // ok: instantiate compare(int, int)
+    compare(s1, s2);    // ok: instantiate compare(short, short)
+}
+    char *cp1 = "world", *cp2 = "hi";
+    cout << compare(cp1, cp2) << endl;       // compares pointer values!
 
-    const char *cp1 = "hi", *cp2 = "world";
-    compare(cp1, cp2);          // calls the specialization
+{
+    const char *cp1 = "world", *cp2 = "hi";
+    int i1, i2;
+    compare(cp1, cp2); // calls the specialization
+    compare(i1, i2);   // calls the generic version instantiated with int
+}
+{
+    const char *cp1 = "world", *cp2 = "hi";
     compare<string>(cp1, cp2);  // converts arguments to string
-
+}
     return 0;
 }
 

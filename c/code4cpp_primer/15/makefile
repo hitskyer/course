@@ -1,44 +1,51 @@
 # executable files for this directory
-OBJECTS = andQueryTest.exe and_orQueryTest.exe \
-		  Basket_main.exe wordQueryTest.exe \
-		  sample.exe scope.exe useQuote.exe \
-		  vecBasket.exe virtualsNscope.exe
+OBJECTS = Basket_main.exe scope.exe V2_Basket_main.exe \
+	  bsk2.exe Query.exe main4.exe main5.exe 
 
 # tells make to use the file "../GNU_makefile_template", which
 # defines general rules for making .o and .exe files
 include ../GNU_makefile_template
 
-LOCFLAGS = -I../12 -I../6
+# one or more files in this directory includes a header
+# defined in chapter 10
+LOCFLAGS = -I../10
 
-sample.o useQuote.o Quote.o: Quote.h
-vecBasket.o Basket_main.o Basket.o: Basket.h Quote.h
+# additional dependencies or rules follow --
+# see makefile for chapter 2 for additional explanation if needed
+bsk2.exe: Basket.o bsk2.o
+	$(CC) $(CCFLAGS) bsk2.o Basket.o -o bsk2.exe
 
-get_print.o andQueryTest.o and_orQueryTest.o \
-wordQueryTest.o Query.o: Query.h ../12/TextQuery.h
+V2_Basket_main.cc V2_Basket.cc: Basket2.h Basket_main.cc Basket.cc mk_basket2
+	mk_basket2
 
-wordQueryTest.exe: Query.o wordQueryTest.o ../12/TextQuery.o get_print.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) Query.o wordQueryTest.o \
-		../12/TextQuery.o get_print.o -o wordQueryTest.exe
+V2_Basket_main.exe: V2_Basket_main.o V2_Basket.o
+	$(CC) $(CCFLAGS) V2_Basket_main.o V2_Basket.o \
+	                 -o V2_Basket_main.exe
 
-andQueryTest.exe: Query.o andQueryTest.o ../12/TextQuery.o get_print.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) Query.o andQueryTest.o \
-		../12/TextQuery.o get_print.o -o andQueryTest.exe
+Query.o querymain.o main4.o main5.o: Query.h
+Basket.o Basket_main.o: Basket.h
 
-and_orQueryTest.exe: Query.o and_orQueryTest.o ../12/TextQuery.o get_print.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) Query.o and_orQueryTest.o \
-		../12/TextQuery.o get_print.o -o and_orQueryTest.exe
+Basket_main.exe: Basket_main.o Basket.o
+	$(CC) $(CCFLAGS) Basket_main.o Basket.o -o Basket_main.exe
 
-useQuote.exe: useQuote.o Quote.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) useQuote.o Quote.o -o useQuote.exe
+get_print.o ../10/TextQuery.o: ../10/TextQuery.h 
 
-vecBasket.exe: Basket.o vecBasket.o Quote.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) vecBasket.o Basket.o Quote.o \
-			-o vecBasket.exe
 
-Basket_main.exe: Basket.o Basket_main.o Quote.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) Basket_main.o Basket.o Quote.o \
-			-o Basket_main.exe
+main5.exe: Query.o main5.o Query.h ../10/TextQuery.h ../10/TextQuery.o \
+		get_print.o  ../8/get_openfile.o
+	$(CC) $(CCFLAGS) main5.o Query.o \
+	        ../10/TextQuery.o get_print.o \
+		../8/get_openfile.o -o main5.exe
 
-sample.exe: sample.o Quote.o
-	$(CC) $(CCFLAGS) $(LOCFLAGS) sample.o Quote.o -o sample.exe
+main4.exe: Query.o main4.o Query.h ../10/TextQuery.h ../10/TextQuery.o \
+		get_print.o ../8/get_openfile.o
+	$(CC) $(CCFLAGS) main4.o Query.o \
+	        ../10/TextQuery.o get_print.o \
+		../8/get_openfile.o  -o main4.exe
+
+Query.exe: Query.o querymain.o Query.h ../10/TextQuery.h \
+		../10/TextQuery.o get_print.o ../8/get_openfile.o
+	$(CC) $(CCFLAGS) querymain.o Query.o \
+	        ../10/TextQuery.o get_print.o \
+		../8/get_openfile.o -o Query.exe
 

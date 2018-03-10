@@ -1,4 +1,8 @@
-echo "avg_price:" && ./avg_price < data/book_sales
-echo "add_item:" && ./add_item < data/add_item
+echo "mainmath" && ./mainmath < data/mainmath
 
-../noinput useAccount.exe useDebug.exe useScreen.exe 
+../noinput cfcn_ex.exe conv-enums.exe count-calls.exe enum-match.exe \
+	   fact.exe good_printmain.exe inline_shorter.exe \
+	   mainret.exe mk_plural.exe pow_main.exe ref-fcn.exe \
+	   refret-ex.exe rgcd.exe stl-arr-fcns.exe swapmain1.exe \
+	   swapmain2.exe usefcnptr.exe useptrparms.exe useptrswap.exe \
+	   vec-parms.exe vecprintmain.exe

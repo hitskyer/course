@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,17 +21,14 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
-#include <vector>
-using std::vector;
+#include "seq_preamble.h"
 
-#include <iostream>
-using std::cout; using std::endl;
 
 int main()
 {
@@ -57,7 +54,7 @@ int main()
     while (ivec.size() != ivec.capacity())
          ivec.push_back(0);
 
-    // capacity should be unchanged and size and capacity are now equal
+    // size should be 50; capacity should be unchanged
     cout << "ivec: size: " << ivec.size()
          << " capacity: "  << ivec.capacity() << endl;
     ivec.push_back(42); // add one more element
@@ -66,12 +63,7 @@ int main()
     cout << "ivec: size: " << ivec.size()
          << " capacity: "  << ivec.capacity() << endl;
 
-	ivec.shrink_to_fit();  // ask for the memory to be returned
 
-    // size should be unchanged; capacity is implementation defined
-    cout << "ivec: size: " << ivec.size()
-         << " capacity: "  << ivec.capacity() << endl;
-
-return 0;
+    return 0;
 }
 

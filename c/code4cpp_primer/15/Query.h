@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,10 +21,10 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
 #ifndef QUERY_H
@@ -34,45 +34,64 @@
 #include <set>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <memory>
 
-// abstract class acts as a base class for concrete query types; all members are private
+// private, abstract class acts as a base class for concrete query types
 class Query_base {
     friend class Query;  
 protected:
-    using line_no = TextQuery::line_no; // used in the eval functions
-    virtual ~Query_base() = default;
+    typedef TextQuery::line_no line_no;
+    virtual ~Query_base() { }
 private:
-    // eval returns the QueryResult that matches this Query
-    virtual QueryResult eval(const TextQuery&) const = 0; 
-    // rep is a string representation of the query
-	virtual std::string rep() const = 0;
+    // eval returns the |set| of lines that this Query matches
+    virtual std::set<line_no> 
+        eval(const TextQuery&) const = 0; 
+    // display prints the query
+    virtual std::ostream& 
+        display(std::ostream& = std::cout) const = 0;
 };
 
-// interface class to manage the Query_base inheritance hierarchy
+
+// handle class to manage the Query_base inheritance hierarchy
 class Query {
-    // these operators need access to the shared_ptr constructor
+    // these operators need access to the Query_base* constructor
     friend Query operator~(const Query &);
     friend Query operator|(const Query&, const Query&);
     friend Query operator&(const Query&, const Query&);
 public:
     Query(const std::string&);  // builds a new WordQuery
 
-    // interface functions: call the corresponding Query_base operations
-    QueryResult eval(const TextQuery &t) const 
-                            { return q->eval(t); }
-	std::string rep() const { return q->rep(); }
+    // copy control to manage pointers and use counting
+    Query(const Query &c): q(c.q), use(c.use) { ++*use; }
+    ~Query() { decr_use(); }
+    Query& operator=(const Query&);
+
+    // interface functions: will call corresponding Query_base operations
+    std::set<TextQuery::line_no> 
+      eval(const TextQuery &t) const { return q->eval(t); }
+    std::ostream &display(std::ostream &os) const
+                            { return q->display(os); }
 private:
-    Query(std::shared_ptr<Query_base> query): q(query) { }
-    std::shared_ptr<Query_base> q;
+    Query(Query_base *query): q(query), 
+                              use(new std::size_t(1)) { }
+    Query_base *q;
+    std::size_t *use;
+    void decr_use() 
+    { if (--*use == 0) { delete q; delete use; } }
 };
-inline 
-std::ostream &
-operator<<(std::ostream &os, const Query &query) 
+
+inline Query& Query::operator=(const Query &rhs)
 {
-	// Query::rep makes a virtual call through its Query_base pointer to rep() 
-	return os << query.rep(); 
+    ++*rhs.use; 
+    decr_use(); 
+    q = rhs.q; 
+    use = rhs.use; 
+    return *this; 
+}
+
+inline std::ostream& 
+operator<<(std::ostream &os, const Query &q)
+{
+    return q.display(os);
 }
 
 class WordQuery: public Query_base {
@@ -80,75 +99,79 @@ class WordQuery: public Query_base {
     WordQuery(const std::string &s): query_word(s) { }
 
     // concrete class: WordQuery defines all inherited pure virtual functions
-    QueryResult eval(const TextQuery &t) const
-                     { return t.query(query_word); }
-	std::string rep() const { return query_word; }
+    std::set<line_no> eval(const TextQuery &t) const
+                      { return t.run_query(query_word); }
+    std::ostream& display (std::ostream &os) const 
+                          { return os << query_word; }
     std::string query_word;   // word for which to search 
 };
 
 inline
-Query::Query(const std::string &s): q(new WordQuery(s)) { }
+Query::Query(const std::string &s): q(new WordQuery(s)),
+                               use(new std::size_t(1)) { }
 
 class NotQuery: public Query_base {
     friend Query operator~(const Query &);
-    NotQuery(const Query &q): query(q) { }
+    NotQuery(Query q): query(q) { }
 
     // concrete class: NotQuery defines all inherited pure virtual functions
-	std::string rep() const {return "~(" + query.rep() + ")";}
-    QueryResult eval(const TextQuery&) const;
-    Query query;
+    std::set<line_no> eval(const TextQuery&) const;
+    std::ostream& display(std::ostream &os) const
+          { return os << "~(" << query << ")"; }
+    const Query query;
 };
 
 class BinaryQuery: public Query_base {
 protected:
-    BinaryQuery(const Query &l, const Query &r, std::string s): 
-          lhs(l), rhs(r), opSym(s) { }
+    BinaryQuery(Query left, Query right, std::string op): 
+          lhs(left), rhs(right), oper(op) { }
 
     // abstract class: BinaryQuery doesn't define eval 
-	std::string rep() const { return "(" + lhs.rep() + " " 
-	                                     + opSym + " " 
-		                                 + rhs.rep() + ")"; }
+    std::ostream& display(std::ostream &os) const
+    { return os << "(" << lhs  << " " << oper << " " 
+                       << rhs << ")"; }
 
-    Query lhs, rhs;    // right- and left-hand operands
-    std::string opSym; // name of the operator
+    const Query lhs, rhs;   // right- and left-hand operands
+    const std::string oper; // name of the operator
 };
     
 class AndQuery: public BinaryQuery {
     friend Query operator&(const Query&, const Query&);
-    AndQuery(const Query &left, const Query &right): 
+    AndQuery(Query left, Query right): 
                         BinaryQuery(left, right, "&") { }
 
-    // concrete class: AndQuery inherits rep and defines the remaining pure virtual
-    QueryResult eval(const TextQuery&) const;
+    // concrete class: AndQuery inherits display and defines remaining pure virtual
+    std::set<line_no> eval(const TextQuery&) const;
 };
 
 class OrQuery: public BinaryQuery {
     friend Query operator|(const Query&, const Query&);
-    OrQuery(const Query &left, const Query &right): 
+    OrQuery(Query left, Query right): 
                 BinaryQuery(left, right, "|") { }
 
-    QueryResult eval(const TextQuery&) const;
+    // concrete class: OrQuery inherits display and defines remaining pure virtual
+    std::set<line_no> eval(const TextQuery&) const;
 };
 
 inline Query operator&(const Query &lhs, const Query &rhs)
 {
-    return std::shared_ptr<Query_base>(new AndQuery(lhs, rhs));
+    return new AndQuery(lhs, rhs);
 }
 
 inline Query operator|(const Query &lhs, const Query &rhs)
 {
-    return std::shared_ptr<Query_base>(new OrQuery(lhs, rhs));
+    return new OrQuery(lhs, rhs);
 }
 
-inline Query operator~(const Query &operand)
+inline Query operator~(const Query &oper)
 {
-    return std::shared_ptr<Query_base>(new NotQuery(operand));
+    return new NotQuery(oper);
 }
 
 std::ifstream& open_file(std::ifstream&, const std::string&);
-TextQuery get_file(int, char**);
+TextQuery build_textfile(const std::string&);
 bool get_word(std::string&);
 bool get_words(std::string&, std::string&);
-std::ostream &print(std::ostream&, const QueryResult&);
+void print_results(const std::set<TextQuery::line_no>&, const TextQuery&);
 
 #endif

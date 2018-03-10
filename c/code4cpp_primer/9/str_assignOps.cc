@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,86 +21,91 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
-#include <string>
-using std::string;
+#include "seq_preamble.h"
 
-#include <vector>
-using std::vector;
-
-#include <iostream>
-using std::cout; using std::endl;
-
+vector<char> c_vec;
+//string s("some string"), s2("some other string");
+string s, s2;
 
 int main() 
 {
-	string s = "some string", s2 = "some other string";
-	// equivalent ways to insert all the characters from s2 at beginning of s
-	// insert iterator range before s.begin()
-	s.insert(s.begin(), s2.begin(), s2.end());  
-	cout << "insert iterators version:        " << s << endl;
-	
-	s = "some string";
-	s.insert(0, s2); // insert a copy of s2 before position 0 in s
-	cout << "insert string at given position: " << s << endl;
+    s = "some string";
+    s2 = "some other string";
+    // 3 equivalent ways to insert all the characters from s2 at beginning of s
+    // insert iterator range before s.begin()
+    s.insert(s.begin(), s2.begin(), s2.end());  
 
-	s = "some string";
-	// insert s2.size() characters from s2 starting at s2[0] before s[0]
-	s.insert(0, s2, 0, s2.size());   
-	cout << "insert positional version:       " << s << endl;
+    cout << "insert iterators version:        " << s << endl;
+    s = "some string";
 
-	
-	s = "";  // s is now empty
-	vector<char> c_vec(1, 'a');
-	// insert characters from c_vec into s
-	s.insert(s.begin(), c_vec.begin(), c_vec.end());  
-	s.insert(s.size(), 5, '!'); // add five exclamation points at the end of s
-	cout << s << endl;
+    // insert copy of s2 before position 0 in s
+    s.insert(0, s2);                  
 
-	s.erase(s.size() - 5, 5);   // erase the last five characters from s
-	cout << s << endl;
+    cout << "insert string at given position: " << s << endl;
+    s = "some string";
 
-	s = "";  // s is now empty
-	const char *cp = "Stately, plump Buck";
-	s.assign(cp, 7);            // s == "Stately"
-	cout << s << endl;
-	s.insert(s.size(), cp + 7); // s == "Stately, plump Buck"
-	cout << s << endl;
-	
-	s = "C++ Primer";  // reset s and s2
-	s2 = s;            // to "C++ Primer"
-	s.insert(s.size(), " 4th Ed."); // s == "C++ Primer 4th Ed."
-	s2.append(" 4th Ed."); // equivalent: appends " 4th Ed." to s2; 
-	cout << s << " " << s2 << endl;
-	
-	// two ways to replace "4th" by "5th"
-	// 1. insert and erase
-	s.erase(11, 3);                 // s == "C++ Primer Ed."
-	s.insert(11, "5th");            // s == "C++ Primer 5th Ed."
-	
-	// 2. use replace
-	// erase three characters starting at position 11
-	//  and then insert "5th"
-	s2.replace(11, 3, "5th"); // equivalent: s == s2
-	
-	cout << s << " " << s2 << endl;
-	
-	// two ways to replace "5th" by "Fifth"
-	// 1. use replace if we know where the string we want to replace is
-	s.replace(11, 3, "Fifth"); // s == "C++ Primer Fifth Ed."
-	
-	// 2. call find first to get position from which to replace
-	auto pos = s2.find("5th");
-	if (pos != string::npos)
-		s2.replace(pos, 3, "Fifth");
-	else
-		cout << "something's wrong, s2 is: " << s2 << endl;
-	cout << s << " " << s2 << endl;
+    // insert s2.size() characters from s2 starting at s2[0] before s[0]
+    s.insert(0, s2, 0, s2.size());   
 
-	return 0;
+    cout << "insert positional version:       " << s << endl;
+    s = "";
+
+    c_vec.push_back('a');   // temporary hack to workaround g++ bug
+
+    // replace characters in s by elements from c_vec
+    s.insert(s.begin(), c_vec.begin(), c_vec.end());  
+
+    s.insert(s.size(), 5, '!'); // insert five exclamation points at end of s
+    cout << s << endl;
+    s.erase(s.size() - 5, 5);  // erase last five characters from s
+    cout << s << endl;
+{
+    char *cp = "Stately plump Buck";
+    string s;
+
+    s.assign(cp, 7);            // s == "Stately"
+    cout << s << endl;
+    s.insert(s.size(), cp + 7); // s == "Stately plump Buck"
+    cout << s << endl;
+}
+
+{
+    string s("C++ Primer");         // initialize s to "C++ Primer"
+    s.append(" 3rd Ed.");           // s == "C++ Primer 3rd Ed."
+
+    // equivalent to s.append(" 3rd Ed.")
+    s.insert(s.size(), " 3rd Ed."); 
+    cout << s << endl;
+
+    // starting at position 11, erase 3 characters and then insert "4th"
+    s.replace(11, 3, "4th");        // s == "C++ Primer 4th Ed."
+
+    cout << s << endl;
+
+    // equivalent way to replace "3rd" by "4th"
+    s.erase(11, 3);                 // s == "C++ Primer Ed."
+    s.insert(11, "4th");            // s == "C++ Primer 4th Ed."
+
+    cout << s << endl;
+
+    s.replace(11, 3, "4th");        // s == "C++ Primer 4th Ed."
+
+    cout << s << endl;
+
+    s.replace(11, 3, "Fourth"); // s == "C++ Primer Fourth Ed."
+    cout << s << endl;
+
+{
+    string s("C++ Primer, 3rd Ed.");
+    s.replace(s.find("3rd"), 3, "Fourth");
+    cout << s << endl;
+}
+}
+    return 0;
 }

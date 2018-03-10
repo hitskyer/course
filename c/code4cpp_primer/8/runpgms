@@ -1,6 +1,11 @@
-echo "add_item:" && ./add_item < data/add_item
-echo "add_itemV2:" && ./add_itemV2 < data/add_item
-echo "fileIO:" && ./fileIO data/add_item data/sstream
-echo "sstream:" && ./sstream < data/sstream
+echo "no-skipws" && ./no-skipws < data/chars
+echo "skipws" && ./skipws < data/chars
+echo "skipws" && ./getput < data/chars
+echo "getc" && ./getc < data/chars
+echo "badgetc" && ./badgetc < data/badgetc
 
-../noinput buf.exe clearIO.exe 
+echo "main-proto" && ./main-proto main-proto.cc
+cp data/seek copyOut           # get fresh copy of the data file
+echo "seek" && ./seek copyOut
+
+../noinput buf manips point prec sci_dec setw sstream use-getopen

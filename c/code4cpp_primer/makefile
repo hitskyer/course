@@ -1,4 +1,4 @@
-DIRS = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+DIRS = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
 
 all:  
 	cd 1; make 
@@ -19,7 +19,6 @@ all:
 	cd 16; make 
 	cd 17; make 
 	cd 18; make 
-	cd 19; make
 
 clean: 
 	cd 1; make clean 
@@ -40,7 +39,6 @@ clean:
 	cd 16; make clean 
 	cd 17; make clean 
 	cd 18; make clean 
-	cd 19; make clean
 
 clobber: 
 	cd 1; make clobber 
@@ -61,5 +59,4 @@ clobber:
 	cd 16; make clobber 
 	cd 17; make clobber 
 	cd 18; make clobber 
-	cd 19; make clobber
 

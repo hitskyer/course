@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
- * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
+ * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,10 +21,10 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Permissions Department
- * 	One Lake Street
- * 	Upper Saddle River, NJ  07458
- * 	Fax: (201) 236-3290
+ * 	Rights and Contracts Department
+ * 	75 Arlington Street, Suite 300
+ * 	Boston, MA 02216
+ * 	Fax: (617) 848-7047
 */ 
 
 #ifndef BASKET_H
@@ -37,38 +37,148 @@
 #include <utility>
 #include <cstddef>
 #include <stdexcept>
-#include <memory>
-#include "Quote.h"
+
+// Item sold at an undiscounted price
+// derived classes will define various discount strategies
+class Item_base {
+friend std::istream& operator>>(std::istream&, Item_base&);
+friend std::ostream& operator<<(std::ostream&, const Item_base&);
+public:
+    virtual Item_base* clone() const 
+                       { return new Item_base(*this); }
+public:
+    Item_base(const std::string &book = "", 
+              double sales_price = 0.0):
+                     isbn(book), price(sales_price) { }
+
+    std::string book() const { return isbn; }
+
+    // returns total sales price for a specified number of items
+    // derived classes will override and apply different discount algorithms
+    virtual double net_price(std::size_t n) const 
+               { return n * price; }
+
+    // no work, but virtual destructor needed 
+    // if base pointer that points to a derived object is ever deleted
+    virtual ~Item_base() { } 
+private:
+    std::string isbn;   // identifier for the item
+protected:
+    double price;       // normal, undiscounted price
+
+};
+
+class Sales_item;
+
+bool compare(const Sales_item &lhs, const Sales_item &rhs);
+
+// discount kicks in when a specified number of copies of same book are sold
+// the discount is expressed as a fraction used to reduce the normal price
+class Bulk_item : public Item_base {
+public:
+    std::pair<size_t, double> discount_policy() const
+        { return std::make_pair(min_qty, discount); }
+    // other members as before
+    Bulk_item* clone() const 
+        { return new Bulk_item(*this); }
+    Bulk_item(): min_qty(0), discount(0.0) { }
+    Bulk_item(const std::string& book, double sales_price, 
+              std::size_t qty = 0, double disc_rate = 0.0):
+                 Item_base(book, sales_price), 
+                 min_qty(qty), discount(disc_rate) { }
+
+    // redefines base version so as to implement bulk purchase discount policy
+    double net_price(std::size_t) const;
+private:
+    std::size_t min_qty;   // minimum purchase for discount to apply
+    double discount;       // fractional discount to apply
+};
+
+// discount (a fraction off list) for only a specified number of copies, 
+// additional copies sold at standard price
+class Lim_item : public Item_base {
+public:
+    Lim_item(const std::string& book = "", 
+             double sales_price = 0.0,
+             std::size_t qty = 0, double disc_rate = 0.0):
+                 Item_base(book, sales_price), 
+                 max_qty(qty), discount(disc_rate) { }
+
+    // redefines base version so as to implement limited discount policy
+    double net_price(std::size_t) const;
+private:
+    std::size_t max_qty;   // maximum number sold at discount
+    double discount;       // fractional discount to apply
+public:
+    Lim_item* clone() const { return new Lim_item(*this); }
+    std::pair<size_t, double> discount_policy() const
+        { return std::make_pair(max_qty, discount); }
+};
+
+// use counted handle class for the Item_base hierarchy 
+class Sales_item {
+friend class Basket;
+public:
+    // default constructor: unbound handle
+    Sales_item(): p(0), use(new std::size_t(1)) { }
+
+    // attaches a handle to a copy of the Item_base object
+    Sales_item(const Item_base&); 
+
+    // copy control members to manage the use count and pointers
+    Sales_item(const Sales_item &i): 
+                      p(i.p), use(i.use) { ++*use; }
+    ~Sales_item() { decr_use(); }
+    Sales_item& operator=(const Sales_item&);
+
+    // member access operators
+    const Item_base *operator->() const { if (p) return p; 
+        else throw std::logic_error("unbound Sales_item"); }
+    const Item_base &operator*() const { if (p) return *p; 
+        else throw std::logic_error("unbound Sales_item"); }
+private:
+    Item_base *p;         // pointer to shared item
+    std::size_t *use;     // pointer to shared use count
+
+    // called by both destructor and assignment operator to free pointers
+    void decr_use() 
+         { if (--*use == 0) { delete p; delete use; } }
+};
+
 
 // holds items being purchased
 class Basket {
+    // type of the comparison function used to order the multiset
+    typedef bool (*Comp)(const Sales_item&, const Sales_item&);
 public:
-	// Basket uses synthesized default constructor and copy-control members
-	void add_item(const std::shared_ptr<Quote> &sale)  
-        { items.insert(sale); }
+    // make it easier to type the type of our set
+    typedef std::multiset<Sales_item, Comp> set_type;
 
-	void add_item(const Quote& sale) // copy the given object
-      { items.insert(std::shared_ptr<Quote>(sale.clone())); }
+    // typedefs modeled after corresponding container types
+    typedef set_type::size_type size_type;
+    typedef set_type::const_iterator const_iter;
 
-	void add_item(Quote&& sale)      // move the given object
-      { items.insert(
-	      std::shared_ptr<Quote>(std::move(sale).clone())); }
+    void display(std::ostream&) const;
 
-    // prints the total price for each book 
-	// and the overall total for all items in the basket
-    double total_receipt(std::ostream&) const;
-
-	// for debugging purposes, prints contents of the basket
-	void display (std::ostream&) const;
+    Basket(): items(compare) { }  // initialze the comparator 
+    void add_item(const Sales_item &item) 
+                        { items.insert(item); }
+    size_type size(const Sales_item &i) const
+                         { return items.count(i); }
+    double total() const;  // sum of net prices for all items in the basket
 private:
-	// function to compare shared_ptrs needed by the multiset member
-	static bool compare(const std::shared_ptr<Quote> &lhs,
-	                    const std::shared_ptr<Quote> &rhs)
-		{ return lhs->isbn() < rhs->isbn(); }
-
-	// multiset to hold multiple quotes, ordered by the compare member
-    std::multiset<std::shared_ptr<Quote>, decltype(compare)*> 
-	              items{compare}; 
+    std::multiset<Sales_item, Comp> items;
 };
 
+inline
+Sales_item::Sales_item(const Item_base &item):
+            p(item.clone()), use(new std::size_t(1)) { }
+
+// compare defines item ordering for the multiset in Basket
+inline bool 
+compare(const Sales_item &lhs, const Sales_item &rhs) 
+{
+    return lhs->book() < rhs->book(); 
+} 
 #endif
+
