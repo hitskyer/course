@@ -1,6 +1,8 @@
-echo "cnt_found" && ./cnt_found < data/find
-echo "find_word" && ./find_word <data/find
+echo "add_item2:" && ./add_item2 < data/add_item_data
+echo "guess:" && ./guess < data/guesses
+echo "ifgrades:" && ./ifgrades < data/grades
+echo "othercnt:" && ./othercnt < data/readme
+echo "vowels:" && ./vowels < data/readme
+echo "doWhile:" && ./doWhile < data/doWhile
 
-../noinput andtest arraysizeof assignment cond cond2 incr int-div oknew \
-	   overflow prec shift-prec sizeof_arr sizeof_pgm vec_init \
-	   warn_dbltoint
+../noinput rangefor.exe

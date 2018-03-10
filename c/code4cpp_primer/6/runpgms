@@ -1,7 +1,9 @@
-echo "exception_example" && ./exception_example < data/add_item
-echo "exception_example" && ./exception_example < data/bad_items
-echo "doWhile" && ./doWhile <data/doWhile
-echo "vowels" && ./vowels <README
-echo "othercnt" && ./othercnt <README
+echo "mainmath:" && ./mainmath < data/mainmath
+echo "refparms:" && ./refparms < data/refparms
 
-../noinput copy_array forcount nodebug wdebug
+../noinput arrRet.exe count-calls.exe \
+		   errMsg_initList.exe fact.exe fcnptrRet.exe \
+		   good_printmain.exe inline_shorter.exe \
+		   mainret.exe mk_plural.exe \
+		   ref-fcn.exe refret-ex.exe  reset.exe \
+		   stl-arr-fcns.exe usefcnptr.exe wdebug.exe

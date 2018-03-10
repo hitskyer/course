@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,22 +21,30 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include "seq_preamble.h"
+#include <string>
+using std::string;
+
+#include <iostream>
+using std::cout; using std::endl;
+
+#include <stdexcept>
+using std::out_of_range;
 
 int main()
 {
-    string s("hello world");
-    // return substring of 5 characters starting at position 6
-    string s2 = s.substr(6, 5);  // s2 = world
+	try {
+		string s("hello world");
+		cout << s.substr(0, 5) << endl;  // prints hello
+		cout << s.substr(6) << endl;     // prints world
+		cout << s.substr(6, 11) << endl; // prints world
+		cout << s.substr(12) << endl;    // throws out_of_range 
+	} catch(out_of_range) {cout << "caught out_of_range" << endl; }
 
-    // return substring from position 6 to the end of s
-    string s3 = s.substr(6);    // s3 = world
-    cout << s << "\n" << s2 << "\n" << s3 << "\n" << s.substr() << endl;
-    return 0;
+	return 0;
 }

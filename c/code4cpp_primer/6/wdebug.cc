@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,30 +21,46 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include <cassert>
-#include <string> 
-#include <iostream> 
+#include <cstddef>
+using std::size_t;
 
-using std::endl; using std::cerr; using std::cin;
+#include <cassert>
+// assert is a preprocessor macro and therefore not in std
+// hence we need to include cassert header, 
+// but no using declaration for assert 
+
+#include <string> 
 using std::string;
 
-int main() 
+#include <iostream> 
+using std::endl; using std::cerr; using std::cin;
+
+#include <cstddef>
+using std::size_t;
+
+void print(const int ia[], size_t size)
 {
 #ifndef NDEBUG
-cerr << "starting main" << endl;
+// __func__ is a local static defined by the compiler that holds the name of this function
+cerr << __func__ << ": array size is " << size << endl;
 #endif
-// ...
+// . . .
+}
+
+int main()
+{
     string word = "foo";
     const string::size_type threshold = 5;
     if (word.size() < threshold) 
         cerr << "Error: " << __FILE__
-             << " : line " << __LINE__ << endl
+             << " : in function " << __func__ 
+             << " at line " << __LINE__ << endl
              << "       Compiled on " << __DATE__ 
              << " at " << __TIME__ << endl
              << "       Word read was \"" << word 

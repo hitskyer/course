@@ -1,10 +1,10 @@
 #g++ compiler: options
 
-# -ansi disables language extensions that conflict with the ISO C++ standard
-# -W enables extra warning messages for code that may be in error
-# -Wall enables warnings about questionable programming practices
+# -std=c++0x enables ISO C++ 11 standard
+# -I.. pulls in the Version_test.h file for conditional compilation
+#      of code the uses features that might not yet be implemented
 CC = g++
-CCFLAGS = -ansi -W -Wall 
+CCFLAGS = -std=c++0x -I..
 
 # Some programs include headers defined in earlier chapters
 # LOCFLAGS used to set tell the compiler where to find a
@@ -16,11 +16,11 @@ LOCFLAGS =
 
 ####### To compile without using a makefile
 # To compile an object file from a source file you could execute
-# g++ -ansi -W -Wall -c filename.cc # produces filename.obj
+# g++ -std=c++0x -c filename.cc # produces filename.obj
 # To compile an executable file from an object file, you would execute
-# g++ -ansi -W -Wall filename.o      # produces filename.exe
+# g++ -std=c++0x filename.o      # produces filename.exe
 # To compile an executable file from a source file, you would execute
-# g++ -ansi -W -Wall filename.cc    # produces filename.exe
+# g++ -std=c++0x filename.cc    # produces filename.exe
 #######
 
 # each subdirectory contains a Makefile that lists the executable

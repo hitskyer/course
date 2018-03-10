@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,65 +21,79 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include <functional>
 using std::plus; using std::negate;
+using std::function; using std::placeholders::_1;
+using std::bind; using std::less_equal; 
 
 #include <iostream>
 using std::cout; using std::endl;
 
-#include <vector>
 #include <algorithm>
-using std::count_if; using std::bind2nd; using std::not1; using std::ptr_fun;
-using std::less_equal; using std::vector;
+using std::count_if; 
+
+#include <vector>
+using std::vector;
 
 #include <iostream>
 using std::cin;
 
 #include <string>
-using std::string;
+using std::string; 
 
-bool size_compare(string s, string::size_type sz)
+bool size_compare(const string &s, string::size_type sz)
 {
     return s.size() >= sz;
 }
 
 int main() {
 
-    cout << plus<int>()(3,4) << endl; // prints 7
+	cout << plus<int>()(3,4) << endl; // prints 7
+	
+	plus<int> intAdd;      // object that can add two int values
+	negate<int> intNegate; // object that can negate an int value
+	
+	// uses intAdd::operator(int, int) to add 10 and 20
+	int sum = intAdd(10, 20);         // equivalent to sum = 30
+	cout << sum << endl;
+	
+	sum = intNegate(intAdd(10, 20));  // equivalent to sum = -30
+	cout << sum << endl;
+	
+	// uses intNegate::operator(int) to generate -10 
+	// as the second argument to intAdd::operator(int, int)
+	sum = intAdd(10, intNegate(10));  // sum = 0
+	
+	cout << sum << endl;
+	
+	vector<int> vec = {0,1,2,3,4,5,16,17,18,19};
+	
+	// bind second argument to less_equal
+	cout << count_if(vec.begin(), vec.end(),
+		             bind(less_equal<int>(), _1, 10));  
+	cout << endl;
+	
+	vector<string> svec;
+	string in;
+	while (cin >> in) 
+		svec.push_back(in);
 
-    plus<int> intAdd;        // function object that can add two int values
-    negate<int>  intNegate;  // function object that can negate an int value
+	function<decltype(size_compare)> fp1 = size_compare;
 
-    // uses intAdd::operator(int, int) to add 10 and 20
-    int sum = intAdd(10, 20);        // sum = 30
+	//decltype(fp1)::result_type ret;
+	function<bool(const string&)> fp2 = bind(size_compare, _1, 6);
+	cout << count_if(svec.begin(), svec.end(), fp2)
+	     << endl;
+	cout << count_if(svec.begin(), svec.end(), 
+	                 bind(size_compare, _1, 6))
+	     << endl;
 
-    cout << sum << endl;
 
-    // uses intNegate::operator(int) to generate -10 as second parameter
-    // to intAdd::operator(int, int)
-    sum = intAdd(10, intNegate(10));  // sum = 0
-
-    cout << sum << endl;
-
-    int arry[] = {0,1,2,3,4,5,16,17,18,19};
-
-    vector<int> vec(arry, arry + 10);
-
-    cout <<
-    count_if(vec.begin(), vec.end(),
-             bind2nd(less_equal<int>(), 10));
-    cout << endl;
-
-    cout <<
-    count_if(vec.begin(), vec.end(),
-             not1(bind2nd(less_equal<int>(), 10)));
-    cout << endl;
-
-    return 0;
+	return 0;
 }

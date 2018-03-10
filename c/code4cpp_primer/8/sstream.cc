@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,73 +21,89 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include "io_preamble.h"
+#include <iostream>
+using std::cin; using std::cout; using std::cerr;
+using std::istream; using std::ostream; using std::endl;
 
-void f2()
+#include <sstream>
+using std::ostringstream; using std::istringstream;
+
+#include <vector>
+using std::vector;
+
+#include <string>
+using std::string;
+
+// members are public by default
+struct PersonInfo { 
+	string name;
+	vector<string> phones;
+};
+
+// we'll see how to reformat phone numbers in chapter 17
+// for now just return the string we're given
+string format(const string &s) { return s; }
+
+bool valid(const string &s)
 {
+	// we'll see how to validate phone numbers 
+	// in chapter 17, for now just return true
+	return true;
+}
 
-    ostringstream format_message;
-    format_message << "val1: " << 512 << "\n"
-                   << "val2: " << 1024 << "\n";
-    istringstream input_istring(format_message.str());
-    int val1 = 0;
-    int val2 = 0;
-    input_istring >> val1 >> val2;
-    input_istring.clear();
-    string dump;
-    input_istring >> dump >> val1 >> dump >> val2;
-    cout << val1 <<  " " << val2 << endl;
+vector<PersonInfo>
+getData(istream &is)
+{
+	// will hold a line and word from input, respectively
+	string line, word;
+
+	// will hold all the records from the input
+	vector<PersonInfo> people;
+
+	// read the input a line at a time until end-of-file (or other error)
+	while (getline(is, line)) {       
+		PersonInfo info;            // object to hold this record's data
+	    istringstream record(line); // bind record to the line we just read
+		record >> info.name;        // read the name
+	    while (record >> word)      // read the phone numbers 
+			info.phones.push_back(word);  // and store them
+		people.push_back(info); // append this record to people
+	}
+	
+	return people;
+}
+
+ostream& process(ostream &os, vector<PersonInfo> people)
+{
+	for (const auto &entry : people) {    // for each entry in people
+		ostringstream formatted, badNums; // objects created on each loop
+		for (const auto &nums : entry.phones) {  // for each number 
+			if (!valid(nums)) {           
+				badNums << " " << nums;  // string in badNums
+			} else                        
+				// ``writes'' to formatted's string
+				formatted << " " << format(nums); 
+		}
+		if (badNums.str().empty())      // there were no bad numbers
+			os << entry.name << " "     // print the name 
+			   << formatted.str() << endl; // and reformatted numbers 
+		else                   // otherwise, print the name and bad numbers
+			cerr << "input error: " << entry.name 
+			     << " invalid number(s) " << badNums.str() << endl;
+	}
+	
+	return os;
 }
 
 int main()
 {
-     int val1 = 512, val2 = 1024;
-     ostringstream format_message;
+	process(cout, getData(cin));
 
-     //  ok: converts values to a string representation
-     format_message << "val1: " << val1 << "\n"
-                    << "val2: " << val2 << "\n";
-    cout << format_message.str() << endl;
-
-{
-    // str member obtains the string associated with a stringstream
-    istringstream input_istring(format_message.str());
-
-    string dump;  // place to dump the labels from the formatted message
-
-    // extracts the stored ascii values, converting back to arithmetic types
-    input_istring >> dump >> val1 >> dump >> val2;
-
-    cout << val1 << " " << val2 << endl; // prints 512 1024
-}
-
-    f2();  // call f2, which prints val1 and val2 again
-
-{
-    istringstream input_istring;   // empty istringstream
-    // bind input_istring to string held in format_message
-    input_istring.str(format_message.str());  
-}
-    return 0;
-}
-
-// Sample code to use getline and istringstream to read a line of text
-// and then process the line a word at at time
-void f3()
-{
-    string line, word;    // will hold a line and word from input, respectively
-
-    while (getline(cin, line)) {    // read a line from the input into line
-        // do per-line processing
-        istringstream stream(line); // bind to stream to the line we read
-        while (stream >> word) {    // read a word from line 
-            // do per-word processing
-        }
-    }
+	return 0;
 }

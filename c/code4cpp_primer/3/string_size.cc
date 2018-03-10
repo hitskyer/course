@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,24 +21,21 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include <string>
 using std::string;
 
-string st1;         // empty string
+#include <iostream>
+using std::cout; using std::endl;
 
+string st1;       // empty string
 string st2(st1);  // st2 is a copy of st1
 
-string st3("Hello World");  // st3 holds Hello World
-#include <iostream>
-
-using std::cout;
-using std::endl;
 int main()
 {
     string st("The expense of spirit\n");

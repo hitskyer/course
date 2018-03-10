@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,17 +21,25 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include <iostream>
 int main()
 {
-    int i, &ri = i;
-    i = 5; ri = 10;
-    std::cout << i << " " << ri << std::endl;
-    return 0;
+	int i = 0, &ri = i;  // ri is a reference to i
+	// ri is just another name for i; 
+	// this statement prints the value of i twice
+	std::cout << i << " " << ri << std::endl;
+
+	i = 5; // changing i is reflected through ri as well
+	std::cout << i << " " << ri << std::endl;
+
+	ri = 10; // assigning to ri actually assigns to i
+	std::cout << i << " " << ri << std::endl;
+
+	return 0;
 }

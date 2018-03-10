@@ -3,8 +3,13 @@ Sample data files are in the data directory:
 
      File           Programs that use that input file
      ----           --------
-   find             cnt_found, find_word
+   add_item_data    add_item2
+   doWhile          doWhile
+   grades           ifgrades
+   guesses          guess
+   readme           othercnt
+   readme           vowels 
 
 Programs not listed above print output and do
-not read any input.
+not read any input
 

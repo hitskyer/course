@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,39 +21,39 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include "Query.h"
 #include "TextQuery.h"
+
 #include <string>
-#include <set>
-#include <iostream>
-#include <fstream>
-
-using std::set;
 using std::string;
-using std::cerr;
-using std::cout;
-using std::cin;
-using std::ifstream;
-using std::endl;
 
-TextQuery build_textfile(const string &filename)
+#include <iostream>
+using std::cout; using std::cin; 
+
+#include <fstream>
+using std::ifstream;
+
+#include <stdexcept>
+using std::runtime_error;
+
+// these functions are declared in Query.h
+TextQuery get_file(int argc, char **argv)
 {
     // get a file to read from which user will query words
-    ifstream infile;
-    if (!open_file(infile, filename)) {
-        cerr << "No input file!" << endl;
-        return TextQuery();
+	ifstream infile;
+	if (argc == 2)
+    	infile.open(argv[1]);
+    if (!infile) {
+        throw runtime_error("No input file!");
     }
 
-    TextQuery ret;
-    ret.read_file(infile);  // builds query map
-    return ret;  // builds query map
+    return TextQuery(infile);  // builds query map
 }
 
 bool get_word(string &s1)
@@ -77,26 +77,3 @@ bool get_words(string &s1, string &s2)
     return true;
 }
 
-void print_results(const set<TextQuery::line_no>& locs, const TextQuery &file)
-{
-    // report no matches
-    if (locs.empty()) {
-        cout << "\nSorry. There are no entries for your query." 
-             << "\nTry again." << endl;
-        return;
-    }
-
-    // if the word was found, then print count and all occurrences
-    set<TextQuery::line_no>::size_type size = locs.size();
-    cout << "match occurs " 
-         << size << (size == 1 ? " time:" : " times:") << endl;
-
-    // print each line in which the word appeared
-    set<TextQuery::line_no>::const_iterator it = locs.begin();
-    for ( ; it != locs.end(); ++it) {
-        cout << "\t(line "
-             // don't confound user with text lines starting at 0
-             << (*it) + 1 << ") "
-             << file.text_line(*it) << endl;
-    }
-}

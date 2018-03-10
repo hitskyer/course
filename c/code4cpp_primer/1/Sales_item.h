@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -20,53 +20,61 @@
  * what code you would like to use, and in what specific way, to the following
  * address: 
  * 
- * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ *     Pearson Education, Inc.
+ *     Rights and Permissions Department
+ *     One Lake Street
+ *     Upper Saddle River, NJ  07458
+ *     Fax: (201) 236-3290
 */ 
 
+/* This file defines the Sales_item class used in chapter 1.
+ * The code used in this file will be explained in
+ * Chapter 7 (Classes) and Chapter 14 (Overloaded Operators)
+ * Readers shouldn't try to understand the code in this file
+ * until they have read those chapters.
+*/
+
 #ifndef SALESITEM_H
+// we're here only if SALESITEM_H has not yet been defined 
 #define SALESITEM_H
 
 // Definition of Sales_item class and related functions goes here
-
-
 #include <iostream>
 #include <string>
 
 class Sales_item {
-friend bool operator==(const Sales_item&, const Sales_item&);
-// other members as before
+// these declarations are explained section 7.2.1, p. 270 
+// and in chapter 14, pages 557, 558, 561
+friend std::istream& operator>>(std::istream&, Sales_item&);
+friend std::ostream& operator<<(std::ostream&, const Sales_item&);
+friend bool operator<(const Sales_item&, const Sales_item&);
+friend bool 
+operator==(const Sales_item&, const Sales_item&);
 public:
-    // added constructors to initialize from a string or an istream
-    Sales_item(const std::string &book):
-              isbn(book), units_sold(0), revenue(0.0) { }
+    // constructors are explained in section 7.1.4, pages 262 - 265
+    // default constructor needed to initialize members of built-in type
+    Sales_item() = default;
+    Sales_item(const std::string &book): bookNo(book) { }
     Sales_item(std::istream &is) { is >> *this; }
-    friend std::istream& operator>>(std::istream&, Sales_item&);
-    friend std::ostream& operator<<(std::ostream&, const Sales_item&);
 public:
     // operations on Sales_item objects
     // member binary operator: left-hand operand bound to implicit this pointer
     Sales_item& operator+=(const Sales_item&);
-    // other members as before
     
-public:
     // operations on Sales_item objects
+    std::string isbn() const { return bookNo; }
     double avg_price() const;
-    bool same_isbn(const Sales_item &rhs) const
-        { return isbn == rhs.isbn; }
-    // default constructor needed to initialize members of built-in type
-    Sales_item(): units_sold(0), revenue(0.0) { }
 // private members as before
 private:
-    std::string isbn;
-    unsigned units_sold;
-    double revenue;
-
+    std::string bookNo;      // implicitly initialized to the empty string
+    unsigned units_sold = 0; // explicitly initialized
+    double revenue = 0.0;
 };
 
+// used in chapter 10
+inline
+bool compareIsbn(const Sales_item &lhs, const Sales_item &rhs) 
+{ return lhs.isbn() == rhs.isbn(); }
 
 // nonmember binary operator: must declare a parameter for each operand
 Sales_item operator+(const Sales_item&, const Sales_item&);
@@ -77,7 +85,7 @@ operator==(const Sales_item &lhs, const Sales_item &rhs)
     // must be made a friend of Sales_item
     return lhs.units_sold == rhs.units_sold &&
            lhs.revenue == rhs.revenue &&
-	   lhs.same_isbn(rhs);
+           lhs.isbn() == rhs.isbn();
 }
 
 inline bool 
@@ -86,10 +94,7 @@ operator!=(const Sales_item &lhs, const Sales_item &rhs)
     return !(lhs == rhs); // != defined in terms of operator==
 }
 
-using std::istream; using std::ostream;
-
-// assumes that both objects refer to the same isbn
-inline
+// assumes that both objects refer to the same ISBN
 Sales_item& Sales_item::operator+=(const Sales_item& rhs) 
 {
     units_sold += rhs.units_sold; 
@@ -97,22 +102,20 @@ Sales_item& Sales_item::operator+=(const Sales_item& rhs)
     return *this;
 }
 
-// assumes that both objects refer to the same isbn
-inline
+// assumes that both objects refer to the same ISBN
 Sales_item 
 operator+(const Sales_item& lhs, const Sales_item& rhs) 
 {
-    Sales_item ret(lhs);  // copy lhs into a local object that we'll return
-    ret += rhs;           // add in the contents of rhs 
-    return ret;           // return ret by value
+    Sales_item ret(lhs);  // copy (|lhs|) into a local object that we'll return
+    ret += rhs;           // add in the contents of (|rhs|) 
+    return ret;           // return (|ret|) by value
 }
 
-inline
-istream& 
-operator>>(istream& in, Sales_item& s)
+std::istream& 
+operator>>(std::istream& in, Sales_item& s)
 {
     double price;
-    in >> s.isbn >> s.units_sold >> price;
+    in >> s.bookNo >> s.units_sold >> price;
     // check that the inputs succeeded
     if (in)
         s.revenue = s.units_sold * price;
@@ -121,16 +124,14 @@ operator>>(istream& in, Sales_item& s)
     return in;
 }
 
-inline
-ostream& 
-operator<<(ostream& out, const Sales_item& s)
+std::ostream& 
+operator<<(std::ostream& out, const Sales_item& s)
 {
-    out << s.isbn << "\t" << s.units_sold << "\t" 
-        << s.revenue << "\t" <<  s.avg_price();
+    out << s.isbn() << " " << s.units_sold << " "
+        << s.revenue << " " << s.avg_price();
     return out;
 }
 
-inline
 double Sales_item::avg_price() const
 {
     if (units_sold) 
@@ -138,6 +139,4 @@ double Sales_item::avg_price() const
     else 
         return 0;
 }
-
-
 #endif

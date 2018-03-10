@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,108 +21,174 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include "Folder.h"
+#include <utility>   
+// for move, we don't supply a using declaration for move
+
 #include <iostream>
 using std::cerr; using std::endl;
-using std::set; using std::string; using std::vector;
+
+#include <set>
+using std::set; 
+
+#include <string>
+using std::string; 
+
+#include "Folder.h"
+
+void swap(Message &lhs, Message &rhs)
+{
+	using std::swap;  // not strictly needed in this case, but good habit
+
+	// remove pointers to each Message from their (original) respective Folders
+	for (auto f: lhs.folders) 
+		f->remMsg(&lhs);
+	for (auto f: rhs.folders) 
+		f->remMsg(&rhs);
+
+	// swap the contents and Folder pointer sets
+	swap(lhs.folders, rhs.folders);   // uses swap(set&, set&)
+	swap(lhs.contents, rhs.contents); // swap(string&, string&)
+
+	// add pointers to each Message to their (new) respective Folders
+	for (auto f: lhs.folders) 
+		f->addMsg(&lhs);
+	for (auto f: rhs.folders) 
+		f->addMsg(&rhs);
+}
+
+Folder::Folder(Folder &&f)
+{
+	move_Messages(&f);   // make each Message point to this Folder
+}
+
+Folder& Folder::operator=(Folder &&f) 
+{
+	if (this != &f) {
+		remove_from_Msgs();  // remove this Folder from the current msgs
+		move_Messages(&f);   // make each Message point to this Folder
+	}
+	return *this;
+}
+
+void Folder::move_Messages(Folder *f)
+{
+	msgs = std::move(f->msgs); // move the set from f to this Folder
+	f->msgs.clear(); // ensure that destroying f is harmless
+	for (auto m : msgs) {  // for each Message in this Folder
+		m->remFldr(f);     // remove the pointer to the old Folder
+		m->addFldr(this);  // insert pointer to this Folder
+	}
+}
+
+Message::Message(Message &&m): contents(std::move(m.contents))
+{
+	move_Folders(&m); // moves folders and updates the Folder pointers
+}
 
 Message::Message(const Message &m): 
     contents(m.contents), folders(m.folders) 
 {
-    // add this Message to each Folder that points to m
-    put_Msg_in_Folders(folders);  
+    add_to_Folders(m); // add this Message to the Folders that point to m
 }
 
+Message& Message::operator=(Message &&rhs) 
+{
+	if (this != &rhs) {       // direct check for self-assignment
+		remove_from_Folders();
+		contents = std::move(rhs.contents); // move assignment
+		move_Folders(&rhs); // reset the Folders to point to this Message
+	}
+    return *this;
+}
 
 Message& Message::operator=(const Message &rhs)
 {
-    if (&rhs != this) {
-        remove_Msg_from_Folders(); // update existing Folders
-        contents = rhs.contents;   // copy contents from rhs
-        folders = rhs.folders;     // copy Folder pointers from rhs
-        // add this Message to each Folder in rhs 
-        put_Msg_in_Folders(rhs.folders); 
-    }
+	// handle self-assignment by removing pointers before inserting them
+    remove_from_Folders();    // update existing Folders
+    contents = rhs.contents;  // copy message contents from rhs
+    folders = rhs.folders;    // copy Folder pointers from rhs
+    add_to_Folders(rhs);      // add this Message to those Folders
     return *this;
 }
 
 Message::~Message()
 {
-    remove_Msg_from_Folders();
+    remove_from_Folders();
 }
 
-// add this Message to Folders that point to rhs
-void Message::put_Msg_in_Folders(const set<Folder*> &rhs)
+// move the Folder pointers from m to this Message
+void Message::move_Folders(Message *m)
 {
-    for(std::set<Folder*>::const_iterator beg = rhs.begin(); 
-                                     beg != rhs.end(); ++beg)
-        (*beg)->addMsg(this);  // *beg points to a Folder
+	folders = std::move(m->folders); // uses set move assignment
+	for (auto f : folders) {  // for each Folder 
+		f->remMsg(m);    // remove the old Message from the Folder
+		f->addMsg(this); // add this Message to that Folder
+	}
+	m->folders.clear();  // ensure that destroying m is harmless
 }
 
-// remove this Message from corresponding Folders 
-void Message::remove_Msg_from_Folders()
+// add this Message to Folders that point to m
+void Message::add_to_Folders(const Message &m)
 {
-    // remove this message from corresponding folders
-    for(std::set<Folder*>::const_iterator beg =
-          folders.begin(); beg != folders.end(); ++beg)
-        (*beg)->remMsg(this);  // *beg points to a Folder
+	for (auto f : m.folders) // for each Folder that holds m
+        f->addMsg(this); // add a pointer to this Message to that Folder
 }
 
-void Folder::copy_msgs(const set<Message*> &m)
+// remove this Message from the corresponding Folders 
+void Message::remove_from_Folders()
 {
-    for (Msg_iter beg = m.begin(); beg != m.end(); ++beg)
-        (*beg)->save(*this);   // add this Folder to each Message
+	for (auto f : folders)  // for each pointer in folders
+		f->remMsg(this);    // remove this Message from that Folder
+	folders.clear();        // no Folder points to this Message
+
 }
 
-Folder::Folder(const Folder &f)
+void Folder::add_to_Messages(const Folder &f)
 {
-    copy_msgs(f.msgs);  // add this Folder to each Message in f.msgs
+	for (auto msg : f.msgs)
+		msg->addFldr(this);   // add this Folder to each Message
+}
+
+Folder::Folder(const Folder &f) : msgs(f.msgs)
+{
+    add_to_Messages(f);  // add this Folder to each Message in f.msgs
 }
 
 Folder& Folder::operator=(const Folder &f)
 {
-    if (&f != this) {
-        empty_msgs();  // remove this folder from each Message in msgs
-        copy_msgs(f.msgs); // add this folder to each Message in msgs
-    }
+    remove_from_Msgs();  // remove this folder from each Message in msgs
+	msgs = f.msgs;       // copy the set of Messages from f
+    add_to_Messages(f);  // add this folder to each Message in msgs
     return *this;
 }
 
 Folder::~Folder()
 {
-    empty_msgs();
+    remove_from_Msgs();
 }
 
 
-void Folder::empty_msgs()
+void Folder::remove_from_Msgs()
 {
-    Msg_iter it = msgs.begin(); 
-    while (it != msgs.end()) {
-        Msg_iter next = it;
-        ++next;                // remember next element in msgs
-        (*it)->remove(*this);
-        it = next;
-    }
+    while (!msgs.empty()) 
+        (*msgs.begin())->remove(*this);
 }
-
 void Message::save(Folder &f)
 {
-    // add f to Folders and this Message to f's list of Messages
-    folders.insert(&f);  
-    f.addMsg(this);
+    folders.insert(&f); // add the given Folder to our list of Folders
+    f.addMsg(this);     // add this Message to f's set of Messages
 }
 
 void Message::remove(Folder &f)
 {
-    // remove f from Folders and this Message from f's list of Messages
-    folders.erase(&f);
-    f.remMsg(this);
+    folders.erase(&f); // take the given Folder out of our list of Folders
+    f.remMsg(this);    // remove this Message to f's set of Messages
 }
 
 void Folder::save(Message &m)
@@ -139,23 +205,13 @@ void Folder::remove(Message &m)
     m.remFldr(this);
 }
 
-vector<Folder*> Message::get_folders()
-{
-    return vector<Folder*>(folders.begin(), folders.end());
-}
-
-vector<Message*> Folder::messages()
-{
-    return vector<Message*>(msgs.begin(), msgs.end());
-}
-
 void Folder::debug_print()
 {
     cerr << "Folder contains " << msgs.size() << " messages" << endl;
     int ctr = 1;
-    for (Msg_iter beg = msgs.begin(); beg != msgs.end(); ++beg)
-        cerr << "Message " << ctr++ << ":\n\t" 
-             << (*beg)->print_message() << endl;
+    for (auto m : msgs) {
+        cerr << "Message " << ctr++ << ":\n\t" << m->contents << endl;
+	}
 }
 
 void Message::debug_print()

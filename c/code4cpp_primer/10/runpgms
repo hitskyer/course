@@ -1,9 +1,18 @@
-echo "word_transform" && ./word_transform data/trans-map data/trans-text
-echo "query" && ./query data/Alice_story < data/query_in
-echo "3ed_query" && ./3ed_query data/Alice_story < data/query_in
+echo "absInt:" && ./absInt.exe < data/absInt
+echo "accum:" && ./accum.exe < data/accum
+echo "accum4:" && ./accum4.exe < data/iostream_iter
+echo "avg_price:" && ./avg_price.exe < data/book_sales
+echo "bind2:" && ./bind2.exe < data/count-size
+echo "elimDups: " && ./elimDups < data/count-size
+echo "equiv-istream-iter:" && ./equiv-istream-iter.exe < data/iostream_iter
+echo "iostream_iter:" && ./iostream_iter.exe < data/iostream_iter
+echo "newcount-size:" && ./newcount-size.exe < data/count-size
+echo "ostreamIter2:" && ./ostreamIter2.exe < data/iostream_iter
+echo "rcomma:" && ./rcomma.exe < data/rcomma
+echo "reverse-iter:" && ./reverse-iter.exe < data/reverse-iter
+echo "sortSI:" && ./sortSI.exe < data/book_sales
+echo "use_find:" && ./use_find.exe < data/use_find
+echo "use-istream-iter:" && ./use-istream-iter.exe < data/iostream_iter
 
-echo "word_count" && ./word_count < word_count.cc
-echo "erasemap" && ./erasemap < erasemap.cc
-echo "setexclusion" && ./setexclusion data/remove_words < README
-
-../noinput multimap
+../noinput equal.exe inserters.exe lambda.exe reverse.exe \
+		   rev-iters.exe 

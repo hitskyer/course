@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,16 +21,26 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
+#include "Quote.h"
 #include "Basket.h"
-#include <algorithm>
-using std::multiset; using std::map; using std::pair; using std::size_t;
-using std::string; using std::ostream; using std::endl; using std::min;
+
+#include <cstddef>
+using std::size_t;
+
+#include <set>
+using std::multiset; 
+
+#include <string>
+using std::string; 
+
+#include <iostream>
+using std::ostream; using std::endl; 
 using std::cout;
 
 // debugging routine to check contents in a Basket
@@ -38,15 +48,15 @@ void Basket::display(ostream &os) const
 {
     os << "Basket size: " << items.size() << endl;
 
-    // print each distinct isbn in the Basket along with
+    // print each distinct ISBN in the Basket along with
     // count of how many copies are ordered and what their price will be
     // upper_bound returns an iterator to the next item in the set
-    for (const_iter next_item = items.begin();
-                  next_item != items.end();
-                  next_item = items.upper_bound(*next_item))
+    for (auto next_item = items.cbegin();
+              next_item != items.cend();
+              next_item = items.upper_bound(*next_item))
     {
         // we know there's at least one element with this key in the Basket
-        os << (*next_item)->book() << " occurs " 
+        os << (*next_item)->isbn() << " occurs " 
            << items.count(*next_item) << " times" 
            << " for a price of " 
            << (*next_item)->net_price(items.count(*next_item)) 
@@ -54,62 +64,21 @@ void Basket::display(ostream &os) const
     }
 }
 
-void print_total(ostream &, const Item_base&, size_t);
-
-// calculate and print price for given number of copies, applying any discounts 
-void print_total(ostream &os, 
-                 const Item_base &item, size_t n)
-{
-    os << "ISBN: " << item.book() // calls Item_base::book
-       << "\tnumber sold: " << n << "\ttotal price: "
-       // virtual call: which version of net_price to call is resolved at run time
-       << item.net_price(n) << endl;
-}
-
-double Basket::total() const
+double Basket::total_receipt(ostream &os) const
 {
     double sum = 0.0;    // holds the running total 
 
 
-    for (const_iter iter = items.begin(); 
-                    iter != items.end();
-                    iter = items.upper_bound(*iter))
-    {
+    // iter refers to the first element in a batch of elements with the same ISBN
+    // upper_bound returns an iterator to the element just past the end of that batch
+    for (auto iter = items.cbegin(); 
+              iter != items.cend();
+              iter = items.upper_bound(*iter)) {
         // we know there's at least one element with this key in the Basket
-        print_total(cout, *(iter->p), items.count(*iter));
-        // virtual call to net_price applies appropriate discounts, if any
-        sum += (*iter)->net_price(items.count(*iter));
-    }
+		// print the line item for this book
+        sum += print_total(os, **iter, items.count(*iter));  
+    } 
+	os << "Total Sale: " << sum << endl; // print the final overall total
     return sum;
-}
-
-// use-counted assignment operator; use is a pointer to a shared use count
-Sales_item&
-Sales_item::operator=(const Sales_item &rhs)
-{
-    ++*rhs.use;
-    decr_use();
-    p = rhs.p;
-    use = rhs.use;
-    return *this;
-}
-
-// if specified number of items are purchased, use discounted price 
-double Bulk_item::net_price(size_t cnt) const
-{
-    if (cnt >= min_qty)
-        return cnt * (1 - discount) * price;
-    else
-        return cnt * price;
-}
-
-// use discounted price for up to a specified number of items
-// additional items priced at normal, undiscounted price
-double Lim_item::net_price(size_t cnt) const
-{
-    size_t discounted = min(cnt, max_qty);
-    size_t undiscounted = cnt - discounted;
-    return discounted * (1 - discount) * price 
-           + undiscounted * price;
 }
 

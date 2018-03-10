@@ -5,8 +5,9 @@ Sample data files are in the data directory:
      ----           --------
    book_sales       avg_price, item_io
    add_item         add_item, add_item2
-   add              add, count, userforcount
+   add              add
    my_sum           my_sum
+   occurs           occurs
 
 Programs not listed above print output and do
 not read any input

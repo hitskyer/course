@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,30 +21,35 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include "Sales_item.h"
+#include "Sales_data.h"
+
 #include <iostream>
 using std::cout; using std::endl;
 
+#include <string>
+using std::string;
+
 int main()
 {
-    Sales_item item1, item2;
-    std::cin >> item1 >> item2;
-    cout << item1 + item2 << endl;
-    cout << 42 + 5 << endl;
-    cout << endl;
-
-    // equivalent direct call to nonmember operator function
-    cout << operator+(item1, item2) << endl;
-
-    item1 += item2;           // expression based ``call''
-    item1.operator+=(item2);  // equivalent call to member operator function
-    cout << endl;
-
-    return 0;
+	Sales_data data1, data2;
+	std::cin >> data1 >> data2;    // read Sales_data transactions
+	cout << data1 + data2 << endl; // write sum of Sales_data objects
+	cout << 42 + 5 << endl;        // write sum of ints
+	
+	// equivalent calls to a nonmember operator function
+	data1 + data2;            // normal expression
+	operator+(data1, data2);  // equivalent function call
+	cout << operator+(data1, data2) << endl;
+	
+	data1 += data2;           // expression-based ``call''
+	data1.operator+=(data2);  // equivalent call to a member operator function
+	cout << data1 << endl;
+	
+	return 0;
 }

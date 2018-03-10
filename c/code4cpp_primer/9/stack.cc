@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,45 +21,41 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
-#include <deque>
-#include <stack>
-#include <iostream>
+#include <cstddef>
+using std::size_t;
 
+#include <deque>
 using std::deque;
-using std::stack; using std::cout; using std::cerr; using std::endl;
+
+#include <stack>
+using std::stack; 
+
+#include <iostream>
+using std::cout; using std::cerr; using std::endl;
+
+bool process(int);
 
 int main()
 {
-    // number of elements we'll put in our stack
-    const stack<int>::size_type stk_size = 10;
-    stack<int> intStack;  // empty stack
+	stack<int> intStack;  // empty stack
 
-    // fill up the stack
-    int ix = 0;
-    while (intStack.size() != stk_size)
-        // use postfix increment; want to push old value onto intStack
-        intStack.push(ix++);   // intStack holds 0...9 inclusive
+	// fill up the stack
+	for (size_t ix = 0; ix != 10; ++ix)
+    	intStack.push(ix);   // intStack holds 0 . . . 9 inclusive
 
-    int error_cnt = 0;
-    // look at each value and pop it off the stack
-    while (intStack.empty() == false) {
-        int value = intStack.top();
-        // read the top element of the stack
-        if (value != --ix) {
-            cerr << "oops! expected " << ix 
-                 << " received " << value << endl;
-            ++error_cnt;
-        }
-        intStack.pop(); // pop the top element, and repeat
-    }
-    cout << "Our program ran with " 
-         << error_cnt << " errors!" << endl;
+	// while there are still values in intStack
+	while (!intStack.empty()) {
+    	int value = intStack.top();
+    	// code that uses value
+		cout << value << endl;
+    	intStack.pop(); // pop the top element, and repeat
+	}
 
-    return 0;
+	return 0;
 }

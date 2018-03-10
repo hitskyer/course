@@ -1,14 +1,9 @@
-echo "use_equalrange" && ./use_equalrange < data/use_equalrange
-echo "use_find" && ./use_find < data/use_find
-echo "arrow" && ./arrow < data/arrow
-echo "use-ostream-iter" && ./use-ostream-iter < data/use-ostream-iter
-echo "iostream_iter" && ./iostream_iter < data/iostream_iter
-echo "use-istream-iter" && ./use-istream-iter < data/iostream_iter
-echo "equiv-istream-iter" && ./equiv-istream-iter < data/iostream_iter
-echo "reverse-iter" && ./reverse-iter < data/reverse-iter
-echo "parms" && ./parms < data/parms
-echo "elim-dups" && ./elim-dups < data/fox_story
-echo "count-size" && ./count-size < data/fox_story
-echo "vocab" && ./vocab < data/vocab
+echo "wcEx:" && ./wcEx.exe < data/storyDataFile
+echo "erasemap:" && ./erasemap.exe < data/storyDataFile
+echo "restricted_count:" && ./restricted_count.exe < data/word_count
+echo "unorderedWordCount:" && ./unorderedWordCount.exe < data/word_count
+echo "word_count:" && ./word_count.exe < data/storyDataFile
+echo "pair:" && ./pair.exe < data/storyDataFile
+echo "word_transform:" && ./word_transform.exe data/rules data/text
 
-../noinput innerprod inserters rev-iters scores
+../noinput map1.exe multimap.exe setOps.exe 

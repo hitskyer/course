@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,10 +21,10 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include <iostream>
@@ -32,26 +32,26 @@
 
 int main() 
 {
-    // declare variables to hold running sum and data for the next record 
-    Sales_item total, trans;
+    Sales_item total; // variable to hold data for the next transaction
 
-    // is there data to process?
+    // read the first transaction and ensure that there are data to process
     if (std::cin >> total) {
-        // if so, read the transaction records 
-        while (std::cin >> trans)
-            if (total.same_isbn(trans)) 
-                // match: update the running total 
-                total = total + trans;
-            else {   
-                // no match: print & assign to total
-                std::cout << total << std::endl;
-                total = trans;
+		Sales_item trans; // variable to hold the running sum
+        // read and process the remaining transactions
+        while (std::cin >> trans) {
+			// if we're still processing the same book
+            if (total.isbn() == trans.isbn()) 
+                total += trans; // update the running total 
+            else {              
+		        // print results for the previous book 
+                std::cout << total << std::endl;  
+                total = trans;  // total now refers to the next book
             }
-        // remember to print last record
-        std::cout << total << std::endl; 
+		}
+        std::cout << total << std::endl; // print the last transaction
     } else {
-        // no input!, warn the user
-        std::cout << "No data?!" << std::endl;
+        // no input! warn the user
+        std::cerr << "No data?!" << std::endl;
         return -1;  // indicate failure
     }
 

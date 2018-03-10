@@ -1,9 +1,9 @@
 /*
- * This file contains code from "C++ Primer, Fourth Edition", by Stanley B.
- * Lippman, Jose Lajoie, and Barbara E. Moo, and is covered under the
+ * This file contains code from "C++ Primer, Fifth Edition", by Stanley B.
+ * Lippman, Josee Lajoie, and Barbara E. Moo, and is covered under the
  * copyright and warranty notices given in that book:
  * 
- * "Copyright (c) 2005 by Objectwrite, Inc., Jose Lajoie, and Barbara E. Moo."
+ * "Copyright (c) 2013 by Objectwrite, Inc., Josee Lajoie, and Barbara E. Moo."
  * 
  * 
  * "The authors and publisher have taken care in the preparation of this book,
@@ -21,71 +21,93 @@
  * address: 
  * 
  * 	Pearson Education, Inc.
- * 	Rights and Contracts Department
- * 	75 Arlington Street, Suite 300
- * 	Boston, MA 02216
- * 	Fax: (617) 848-7047
+ * 	Rights and Permissions Department
+ * 	One Lake Street
+ * 	Upper Saddle River, NJ  07458
+ * 	Fax: (201) 236-3290
 */ 
 
 #include "Query.h"
 #include "TextQuery.h"
-#include <set>
-#include <algorithm>
-#include <iostream>
 
+#include <memory>
+using std::shared_ptr; using std::make_shared;
+
+#include <set>
 using std::set;
-using std::ostream;
-using std::inserter; 
-using std::set_difference; 
-using std::set_union; 
+
+#include <algorithm>
 using std::set_intersection;
 
-// returns lines not in its operand's result set
-set<TextQuery::line_no>
-NotQuery::eval(const TextQuery& file) const
+#include <iostream>
+using std::ostream;
+
+#include <cstddef>
+using std::size_t;
+
+#include <iterator>
+using std::inserter; 
+
+// returns the lines not in its operand's result set
+QueryResult
+NotQuery::eval(const TextQuery& text) const
 {
-    // virtual call through the Query handle to eval
-    set<TextQuery::line_no> has_val = query.eval(file);
+    // virtual call to eval through the Query operand 
+    auto result = query.eval(text);
 
-    set<line_no> ret_lines;
+	// start out with an empty result set
+    auto ret_lines = make_shared<set<line_no>>();
 
-    // for each line in the input file, check whether that line is in has_val
-    // if not, add that line number to ret_lines
-    for (TextQuery::line_no n = 0; n != file.size(); ++n)
-        if (has_val.find(n) == has_val.end())
-            ret_lines.insert(n);
-    return ret_lines;
+	// we have to iterate through the lines on which our operand appears
+	auto beg = result.begin(), end = result.end();
+
+    // for each line in the input file, if that line is not in result,
+    // add that line number to ret_lines
+	auto sz = result.get_file()->size();
+    for (size_t n = 0; n != sz; ++n) {
+		// if we haven't processed all the lines in result
+		// check whether this line is present
+		if (beg == end || *beg != n) 
+			ret_lines->insert(n);  // if not in result, add this line 
+		else if (beg != end) 
+			++beg; // otherwise get the next line number in result if there is one
+	}
+	return QueryResult(rep(), ret_lines, result.get_file());
 }
 
-// returns intersection of its operands' result sets
-set<TextQuery::line_no>
-AndQuery::eval(const TextQuery& file) const
+// returns the intersection of its operands' result sets
+QueryResult
+AndQuery::eval(const TextQuery& text) const
 {
-    // virtual calls through the Query handle to get result sets for the operands
-    set<line_no> left = lhs.eval(file), 
-                 right = rhs.eval(file);
+    // virtual calls through the Query operands to get result sets for the operands
+    auto left = lhs.eval(text), right = rhs.eval(text);
 
-    set<line_no> ret_lines;  // destination to hold results 
+	// set to hold the intersection of left and right
+    auto ret_lines = make_shared<set<line_no>>();  
 
-    // writes intersection of two ranges to a destination iterator
+    // writes the intersection of two ranges to a destination iterator
     // destination iterator in this call adds elements to ret
     set_intersection(left.begin(), left.end(), 
-                  right.begin(), right.end(),
-                  inserter(ret_lines, ret_lines.begin()));
-    return ret_lines;
+                   right.begin(), right.end(),
+                   inserter(*ret_lines, ret_lines->begin()));
+    return QueryResult(rep(), ret_lines, left.get_file());
 }
 
-// returns union of its operands' result sets
-set<TextQuery::line_no>
-OrQuery::eval(const TextQuery& file) const
+// returns the union of its operands' result sets
+QueryResult
+OrQuery::eval(const TextQuery& text) const
 {
-    // virtual calls through the Query handle to get result sets for the operands
-    set<line_no> right = rhs.eval(file),
-             ret_lines = lhs.eval(file);  // destination to hold results
+    // virtual calls through the Query members, lhs and rhs 
+	// the calls to eval return the QueryResult for each operand
+    auto right = rhs.eval(text), left = lhs.eval(text);  
 
-    // inserts the lines from right that aren't already in ret_lines
-    ret_lines.insert(right.begin(), right.end());
+	// copy the line numbers from the left-hand operand into the result set
+	auto ret_lines = 
+	     make_shared<set<line_no>>(left.begin(), left.end());
 
-    return ret_lines;
+	// insert lines from the right-hand operand
+	ret_lines->insert(right.begin(), right.end());
+	// return the new QueryResult representing the union of lhs and rhs
+    return QueryResult(rep(), ret_lines, left.get_file());
 }
 
