@@ -4,7 +4,8 @@ CC       = g++
 # 编译参数
 CCFLAGS  = -std=c++0x
 # 编译目标：若干可执行文件
-OBJECTS  = sizeof.exe
+OBJECTS  = sizeof.exe bool.exe unsigned.exe char.exe \
+	escape_char.exe
 # make
 all: $(OBJECTS)
 # 将源文件编译成中间文件
