@@ -3,7 +3,7 @@ using namespace std;
 int main(){
         char flag='y';
         while('y'==flag){
-	cout<<"现在的心情是？"<<endl;
+	cout<<"你现在的心情是？"<<endl;
 	string mood="开心";
 	cin>>mood;
 	if (mood=="开心"){
@@ -14,7 +14,6 @@ int main(){
 		cout<<"生灵所结的果子，就是仁爱，喜乐，和平，忍耐，恩慈，良善，信实。-加拉太书5:22"<<endl;
 	}
         while(true){
-
             cout<<"输入“y/n”继续或终止程序："<<endl;
             cin>>flag;
             if('y'==flag){
