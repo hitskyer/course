@@ -9,7 +9,8 @@ OBJECTS  = sizeof.exe \
 	char.exe escape_char.exe wchar_t.exe \
 	short.exe int.exe unsigned.exe long.exe long_long.exe \
 	float.exe double.exe long_double.exe \
-	extern.exe
+	extern.exe const.exe reference.exe typedef.exe \
+	enum.exe
 # make
 all: $(OBJECTS)
 # 将源文件编译成中间文件
@@ -20,6 +21,8 @@ all: $(OBJECTS)
 	$(CC) $(CCFLAGS) $< -o $@
 extern.exe : ExampleForExtern.o extern.o
 	$(CC) $(CCFLAGS) ExampleForExtern.o extern.o -o $@
+const.exe : ExampleForExtern.o const.o
+	$(CC) $(CCFLAGS) ExampleForExtern.o const.o -o $@
 # make clean：清理各种中间文件
 clean:
 	rm -rf *.o core *.stackdump
