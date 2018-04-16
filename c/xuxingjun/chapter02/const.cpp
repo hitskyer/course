@@ -17,6 +17,8 @@ int main() {
 	// bufSize = 0; 
 	cout << "bufSize = " << bufSize << endl;
 	cout << g_example_for_const << endl;
+	//cout << g_example_for_int << endl;            // 没有extern，默认是局部变量
+	//cout << g_negative_example_for_const << endl; // 没有extern，默认是局部变量
 	test1();
 	test2();
 
