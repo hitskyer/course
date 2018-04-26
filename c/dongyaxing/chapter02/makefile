@@ -12,7 +12,8 @@ OBJECTS =bool.exe char.exe float.exe int.exe long.exe\
 	  2_3.exe 2_5.exe 2_6.exe 2_7.exe\
 	  2_8.exe 2_9.exe 2_10.exe\
 	  2_11.exe 2_14.exe 2_19.exe\
-	  2_20.exe 2_21.exe 
+	  2_20.exe 2_21.exe\
+	  const.cpp enum.cpp reference.cpp typedef.cpp 
 
 
 
