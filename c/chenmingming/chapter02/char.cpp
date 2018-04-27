@@ -10,9 +10,9 @@ int main()
 
 	cout << "uninitialized_outside_char " << out_char << endl;
 	cout << "uninitialized_outside_char " << out_char << endl;
-	char c='\t', d='\n', e='\a';
+	char c='\t', d='\n';// e='\a';
 	cout << "c is " << c << endl
-		<< "d is " << d << endl
-		<< "e is " << e << endl;
+		<< "d is " << d << endl;
+//		<< "e is " << e << endl;
 	return 0;
 }
