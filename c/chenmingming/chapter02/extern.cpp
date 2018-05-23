@@ -1,7 +1,7 @@
 #include <iostream>
 #include "a.h"
 using namespace std;
-int test()
+int main()
 {
 	//extern const int weekday;
 //	int x = weekday +1;
