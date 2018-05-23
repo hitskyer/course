@@ -1,5 +1,5 @@
 #include<iostream>
-#include"cal.h"
+//#inclu  de"cal.h"
 using namespace std;
 double add(double x,double y)
 {
