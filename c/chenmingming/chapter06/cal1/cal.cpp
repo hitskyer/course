@@ -1,7 +1,7 @@
 #include<iostream>
-//#include"./box/cal.h"
+#include"./box/cal.h"
 using namespace std;
-double add(double,double);
+//double add(double,double);
 int main()
 {
 	char ch;
