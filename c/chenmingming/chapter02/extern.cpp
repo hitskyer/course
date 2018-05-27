@@ -1,5 +1,5 @@
 #include <iostream>
-#include "a.h"
+//#include "a.h"
 using namespace std;
 int main()
 {
@@ -7,6 +7,8 @@ int main()
 //	int x = weekday +1;
 //	cout << weekday << endl;
 	extern int year;
+	extern const int a;
 	cout << "year = " << year << endl;
+	cout << "a = " << a << endl;
 	return 0;
 }

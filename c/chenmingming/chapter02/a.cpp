@@ -1,2 +1,3 @@
-#include "a.h"
-extern int year =521;
+//#include "a.h"
+int year =521;
+extern const int a = 100;
