@@ -1,4 +1,4 @@
- #include "stdafx.h"
+ 
  #include <string>
  #include<iostream>
  //using std::string;
@@ -23,8 +23,15 @@
 	for(string::size_type i=0;i!=str.size();i++)
 	{
 		if(islower(str[i]))
-			str[i]=toupper(str[i])													else if (isupper(str[i]))														str[i]=tolower(str[i]);
-		else if(ispunct(str[i]))														nPunct++;														else if(isspace(str[i]))														nSpace++;																													}
-	cout << str << endl<<"中有空白符" << nSpace << "个,标点符号"<< nPunct << "个" << endl;						system("pause");
-	return 0;															}
+			str[i]=toupper(str[i]);	
+		else if (isupper(str[i]))	
+			str[i]=tolower(str[i]);
+		else if(ispunct(str[i]))
+			nPunct++;
+		else if(isspace(str[i]))	
+			nSpace++;
+	}
+	cout << str << endl<<"中有空白符" << nSpace << "个,标点符号"<< nPunct << "个" << endl;
+	return 0;
+}
 
