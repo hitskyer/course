@@ -6,13 +6,13 @@ using namespace std;
 template<typename T>
 void print(const vector<T> &vec)
 {
-	for(vector<T>::size_type i=0;i!=vec.size();i++)
+	for(typename vector<T>::size_type i=0;i!=vec.size();i++)
 		cout << vec[i] << "  " ;
 }
 template<typename T>
 void print2(const vector<T> &vec)
 {
-	for(vector<T>::const_iterator iter=vec.begin();iter!= vec.end();++iter)
+	for(typename vector<T>::const_iterator iter=vec.begin();iter!= vec.end();++iter)
 		cout << *iter << endl;
 }
 int main ()
@@ -52,6 +52,5 @@ int main ()
 //const_iterator 没有+=和赋值等操作,即不可以对元素进行修改
 	//*(it2+7)=" world";
 	//cout << *(it2+5) << endl;
-	system("pause");
 	return 0;
 	}
