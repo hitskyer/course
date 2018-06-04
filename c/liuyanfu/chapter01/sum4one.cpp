@@ -17,10 +17,10 @@ int main()
 	 * 等价表达式：(std::cout << "Enter two numbers:") << std::endl;
 	 * endl是立即刷新缓冲区，并输出换行，便于定位问题且美观
 	*/
-	cout << "Enter two numbers:" << endl;
+	cout << "请输入两个整数:" << endl;
 
 	// 初始化所需变量，定义的同时初始化是非常好的习惯
-	int a = 0, b = 0;
+	float  a = 0, b = 0;
 	// 程序会在这里等待两个整数的输入
 	// cin >> a;
 	// cin >> b;
@@ -29,6 +29,6 @@ int main()
 	cout << "The sum of " << a << " and " << b
 		<< " is " << a+b << endl;
 	
-	// 报告老板，我把活正常干完了
+	// 报告老板，我把活正常干完了ma
 	return 0;
 }
