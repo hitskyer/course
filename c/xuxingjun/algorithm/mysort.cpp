@@ -48,8 +48,8 @@ bool right4sorted(const int *oarr, size_t dsize) {
 	return true;
 }
 void test4sort(size_t dsize, void (*mysort)(const int *iarr, size_t dsize, int *oarr)) {
-	int *iarr      = new int[dsize];
-	int *oarr      = new int[dsize];
+	int *iarr         = new int[dsize];
+	int *oarr         = new int[dsize];
 	long   total_time = 0;
 	
 	for (int i = 0; i != G_CycleTimes; ++i) {
@@ -57,8 +57,8 @@ void test4sort(size_t dsize, void (*mysort)(const int *iarr, size_t dsize, int *
 		
 		long start_time = getCurrentTime();
 		mysort(iarr, dsize, oarr);
-		long end_time  = getCurrentTime();
-		total_time += end_time - start_time;
+		long end_time   = getCurrentTime();
+		total_time     += end_time - start_time;
 		
 		if (!right4sorted(oarr, dsize)) {
 			cerr << "sort for ints failed" << endl;
