@@ -12,9 +12,9 @@ const int    G_CycleTimes = 1000;
  */
 void bsort(const int * iarr, size_t dsize, int *oarr) {
 	for (size_t i = 0; i != dsize; ++i) {
-		*(oarr+i) = *(iarr+i);
-		for (size_t j = i; j > 0 && *(oarr+j-1) > *(oarr+j); --j) {
-			swap(*(oarr+j-1), *(oarr+j));
+		oarr[i] = iarr[i];
+		for (size_t j = i; j > 0 && oarr[j-1] > oarr[j]; --j) {
+			swap(oarr[j-1], oarr[j]);
 		}
 	}
 }
@@ -22,15 +22,15 @@ void rand4data(size_t dsize, int *iarr) {
 	int flag = rand()%100;
 	if (flag < 10) {
 		for (size_t i = 0; i != dsize; ++i) {
-			*(iarr+i) = i;
+			iarr[i] = i;
 		}
 	} else if (flag < 20) {
 		for (size_t i = 0; i != dsize; ++i) {
-			*(iarr+i) = (int)dsize - i;
+			iarr[i] = (int)dsize - i;
 		}
 	} else {
 		for (size_t i = 0; i != dsize; ++i) {
-			*(iarr+i) = rand();
+			iarr[i] = rand();
 		}
 	}
 }
