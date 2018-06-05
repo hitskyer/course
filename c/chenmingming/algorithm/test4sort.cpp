@@ -18,6 +18,22 @@ void bsort(const int * iarr, size_t dsize, int *oarr) {
 		}
 	}
 }
+void bsort1(const int *iarr, size_t dsize, int *oarr)
+{
+	for(size_t i = 0;i != dsize;++i)
+	{	oarr[0]= iarr[i];
+		for(size_t j=0;j <= i;++j)
+		{	for(size_t j= 1;j <= i && oarr[j-1] > oarr[j];++j)
+			{	swap(oarr[j-1],oarr[j]);
+			}
+			if(j != (dsize-1))
+			{	for(size_t j= i;j > 0;--j)
+				{	oarr[j+1]= oarr[j];
+				}
+			}
+		}
+	}
+}
 void rand4data(int i, size_t dsize, int *iarr) {
 	int flag = i%5;
 	if (flag == 0) {
@@ -89,8 +105,12 @@ int main(int argc, char *argv[]) {
 			return -2;
 		}
 		if (string(argv[2]) == "bsort") {
-			test4sort(dsize, bsort);
-		} else {
+			test4sort(dsize, bsort);}
+		else if (string(argv[2]) == "bsort1")
+		{
+			test4sort(dsize, bsort1);
+		}
+		else {
 			cerr << "unknown method for sorting : " << argv[2] << endl;
 			return -3;
 		}
