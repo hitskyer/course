@@ -22,14 +22,12 @@ void bsort1(const int *iarr, size_t dsize, int *oarr)
 {
 	for(size_t i = 0;i != dsize;++i)
 	{	oarr[0]= iarr[i];
-		for(size_t j=0;j <= i;++j)
-		{	for(size_t j= 1;j <= i && oarr[j-1] > oarr[j];++j)
-			{	swap(oarr[j-1],oarr[j]);
-			}
-			if(j != (dsize-1))
-			{	for(size_t j= i;j > 0;--j)
-				{	oarr[j+1]= oarr[j];
-				}
+		for(size_t j=1;j <= i && oarr[j-1] > oarr[j];++j)
+		{	swap(oarr[j-1],oarr[j]);
+		}
+		if(i != (dsize-1))
+		{	for(size_t j= i;j >= 0;--j)
+			{	oarr[j+1]= oarr[j];
 			}
 		}
 	}
