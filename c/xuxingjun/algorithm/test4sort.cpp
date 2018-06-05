@@ -18,13 +18,13 @@ void bsort(const int * iarr, size_t dsize, int *oarr) {
 		}
 	}
 }
-void rand4data(size_t dsize, int *iarr) {
-	int flag = rand()%100;
-	if (flag < 10) {
+void rand4data(int i, size_t dsize, int *iarr) {
+	int flag = i%5;
+	if (flag == 0) {
 		for (size_t i = 0; i != dsize; ++i) {
 			iarr[i] = i;
 		}
-	} else if (flag < 20) {
+	} else if (flag == 1) {
 		for (size_t i = 0; i != dsize; ++i) {
 			iarr[i] = (int)dsize - i;
 		}
@@ -53,7 +53,7 @@ void test4sort(size_t dsize, void (*mysort)(const int *iarr, size_t dsize, int *
 	long   total_time = 0;
 	
 	for (int i = 0; i != G_CycleTimes; ++i) {
-		rand4data(dsize, iarr);
+		rand4data(i, dsize, iarr);
 		
 		long start_time = getCurrentTime();
 		mysort(iarr, dsize, oarr);
