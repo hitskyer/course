@@ -114,6 +114,24 @@ void mergesort(const int *iarr, size_t dsize, int *oarr)
 	size_t left = 0, right = dsize-1;
 	divide(oarr,left = 0,right = dsize-1);
 }
+/*
+ * 快速排序
+ */
+
+partion(int *oarr, size_t left, size_t right)
+{
+	pindex = left;
+	
+}
+void quicksort(const int *iarr, size_t dsize, int *oarr)
+{
+	for(size_t i = 0;i != dsize;++i)
+        {       oarr[i]= iarr[i];       //iarr是不可修改的，复制出来给oarr
+        }
+	size_t left = 0, right = dsize-1;
+	partion(oarr,left = 0,right = dsize-1);
+	
+}
 //产生随机数
 void rand4data(int i, size_t dsize, int *iarr) {
 	int flag = i%5;
