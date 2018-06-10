@@ -3,7 +3,7 @@ using namespace std;
 #include <sys/time.h>
 #include<stdlib.h>
 const size_t G_BigSize    = 1000000;
-const size_t G_SmallSize  = 1000;
+const size_t G_SmallSize  = 3;
 const int    G_CycleTimes = 1000;
 
 /*
@@ -118,10 +118,28 @@ void mergesort(const int *iarr, size_t dsize, int *oarr)
  * 快速排序
  */
 
-partion(int *oarr, size_t left, size_t right)
+int partion(int *oarr, size_t left, size_t right)
 {
-	pindex = left;
-	
+	size_t pindex = left;
+	for(int i = left+1;i <= right;++i )
+	{
+		if(oarr[pindex]> oarr[i])
+		{
+			swap(oarr[pindex],oarr[i]);
+			pindex = i;
+		}
+	}
+	return pindex;
+}
+void qsort(int *oarr, size_t left, size_t right)
+{
+	if(left >= right)
+	{	return;}
+	size_t pindex = partion(oarr,left,right);
+	if(pindex != left)
+	{	qsort(oarr,left,pindex-1);}
+	if(pindex != right)
+	{	qsort(oarr,pindex+1,right);}
 }
 void quicksort(const int *iarr, size_t dsize, int *oarr)
 {
@@ -129,7 +147,7 @@ void quicksort(const int *iarr, size_t dsize, int *oarr)
         {       oarr[i]= iarr[i];       //iarr是不可修改的，复制出来给oarr
         }
 	size_t left = 0, right = dsize-1;
-	partion(oarr,left = 0,right = dsize-1);
+	qsort(oarr,left = 0,right = dsize-1);
 	
 }
 //产生随机数
@@ -220,6 +238,10 @@ int main(int argc, char *argv[]) {
 		else if (string(argv[2]) == "mergesort")
 		{
 			test4sort(dsize, mergesort);
+		}
+		else if (string(argv[2]) == "quicksort")
+		{
+			test4sort(dsize, quicksort);
 		}
 		else {
 			cerr << "unknown method for sorting : " << argv[2] << endl;
