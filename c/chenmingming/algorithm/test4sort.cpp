@@ -3,7 +3,7 @@ using namespace std;
 #include <sys/time.h>
 #include<stdlib.h>
 const size_t G_BigSize    = 1000000;
-const size_t G_SmallSize  = 3;
+const size_t G_SmallSize  = 50;
 const int    G_CycleTimes = 1000;
 
 /*
@@ -121,25 +121,33 @@ void mergesort(const int *iarr, size_t dsize, int *oarr)
 int partion(int *oarr, size_t left, size_t right)
 {
 	size_t pindex = left;
+	int pval = oarr[left];
 	for(int i = left+1;i <= right;++i )
 	{
-		if(oarr[pindex]> oarr[i])
+		if(pval > oarr[i])
 		{
-			swap(oarr[pindex],oarr[i]);
-			pindex = i;
+			swap(oarr[pindex++],oarr[i]);
 		}
+		oarr[pindex] = pval;
 	}
 	return pindex;
+	cout << "pindex " << pindex << endl;
 }
 void qsort(int *oarr, size_t left, size_t right)
 {
+	cout << "left " << left << " right " << right << endl;
 	if(left >= right)
 	{	return;}
 	size_t pindex = partion(oarr,left,right);
-	if(pindex != left)
+	cout << "left " << left <<" pindex " << pindex << " right " << right << endl;
+	if(pindex == right)
 	{	qsort(oarr,left,pindex-1);}
-	if(pindex != right)
+	else if(pindex == left)
 	{	qsort(oarr,pindex+1,right);}
+	else	{
+		qsort(oarr,left,pindex-1);
+		qsort(oarr,pindex+1,right);
+		}
 }
 void quicksort(const int *iarr, size_t dsize, int *oarr)
 {
