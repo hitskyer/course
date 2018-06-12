@@ -28,6 +28,14 @@ void rand4data(int i, size_t dsize, int *iarr) {
 		for (size_t i = 0; i != dsize; ++i) {
 			iarr[i] = (int)dsize - i;
 		}
+	} else if (flag == 2) {
+		for (size_t i = 0; i != dsize; ++i) {
+			if (i%5 == 0) {
+				iarr[i] = rand();
+			} else {
+				iarr[i] = 7;
+			}
+		}
 	} else {
 		for (size_t i = 0; i != dsize; ++i) {
 			iarr[i] = rand();
