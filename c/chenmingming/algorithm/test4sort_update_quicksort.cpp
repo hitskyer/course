@@ -3,8 +3,8 @@ using namespace std;
 #include <sys/time.h>
 #include<stdlib.h>
 const size_t G_BigSize    = 1000000;
-const size_t G_SmallSize  = 50;
-const int    G_CycleTimes = 10;
+const size_t G_SmallSize  = 1000;
+const int    G_CycleTimes = 1000;
 
 /*
  * 冒泡排序(bubble sort)，做一个例子使用
@@ -117,9 +117,25 @@ void mergesort(const int *iarr, size_t dsize, int *oarr)
 /*
  * 快速排序
  */
-
+void selectmedianofthree(int *oarr, size_t left, size_t right)
+{
+	size_t mid = left + (right - left)/2;
+	if(oarr[mid]>oarr[right])
+	{
+		swap(oarr[mid],oarr[right]);
+	}
+	if(oarr[left]>oarr[right])
+	{
+		swap(oarr[left],oarr[right]);
+	}
+	if(oarr[mid]>oarr[left])
+	{
+		swap(oarr[mid],oarr[left]);
+	}
+}
 int partion(int *oarr, size_t left, size_t right)
 {
+	selectmedianofthree(oarr,left,right);
 	size_t pindex = left;
 	int pval = oarr[left];
 	for(int i = left+1;i <= right;++i )
@@ -130,16 +146,17 @@ int partion(int *oarr, size_t left, size_t right)
 		}
 		oarr[pindex] = pval;
 	}
-	cout << "pindex " << pindex << endl;
+//	cout << "pindex " << pindex << endl;
 	return pindex;
 }
 void qsort(int *oarr, size_t left, size_t right)
 {
-	cout << "left " << left << " right " << right << endl;
+//	cout << "left " << left << " right " << right << endl;
 	if(left >= right)
-	{	return;}
+	{	return;
+	}
 	size_t pindex = partion(oarr,left,right);
-	cout << "left " << left <<" pindex " << pindex << " right " << right << endl;
+//	cout << "left " << left <<" pindex " << pindex << " right " << right << endl;
 	if(pindex == right)
 	{	qsort(oarr,left,pindex-1);
 	}
