@@ -136,6 +136,7 @@ void selectmedianofthree(int *oarr, size_t left, size_t right)
 int partion(int *oarr, size_t left, size_t right)
 {
 	selectmedianofthree(oarr,left,right);
+	
 	size_t pindex = left;
 	int pval = oarr[left];
 	for(int i = left+1;i <= right;++i )
@@ -179,18 +180,41 @@ void quicksort(const int *iarr, size_t dsize, int *oarr)
 	
 }
 //产生随机数
-void rand4data(int i, size_t dsize, int *iarr) {
+void rand4data(int i, size_t dsize, int *iarr) 
+{
 	int flag = i%5;
-	if (flag == 0) {
-		for (size_t i = 0; i != dsize; ++i) {
+	if (flag == 0) 
+	{
+		for (size_t i = 0; i != dsize; ++i) 
+		{
 			iarr[i] = i;
 		}
-	} else if (flag == 1) {
-		for (size_t i = 0; i != dsize; ++i) {
+	} 
+	else if (flag == 1) 
+	{
+		for (size_t i = 0; i != dsize; ++i) 
+		{
 			iarr[i] = (int)dsize - i;
 		}
-	} else {
-		for (size_t i = 0; i != dsize; ++i) {
+	} 
+	else if (flag == 2) 
+	{
+		for (size_t i = 0; i != dsize; ++i) 
+		{
+			if (i%5 == 0) 
+			{
+				iarr[i] = rand();
+			} 
+			else 
+			{
+				iarr[i] = 7;
+			}
+		}
+	}
+	else 
+	{
+		for (size_t i = 0; i != dsize; ++i) 
+		{
 			iarr[i] = rand();
 		}
 	}
