@@ -132,60 +132,80 @@ void selectmedianofthree(int *arr, size_t left, size_t right)
 
 size_t partion(int *arr, size_t left, size_t right)
 {
-        selectmedianofthree(arr,left,right);
-        
-        size_t lessPnum = 0, equalPnum=1, largePnum=0;
-        int pval = arr[left];
-        cout << "pval " << pval << endl;
-        int *temp = new int [right-left+1];
-        for(int i = left+1;i <= right;++i )
+    selectmedianofthree(arr,left,right);
+
+    size_t lessPnum = 0, largePnum=0;
+    int pval = arr[left];
+//    cout << "pval " << pval << endl;
+    int *temp = new int [right-left+1];
+    int tempLindex=0, tempRindex = right-left;
+    for(int i = left+1; i <= right; ++i)
+    {
+        if(pval > arr[i])
         {
-                if(pval > arr[i])
-                {
-                        temp[lessPnum++] = arr[i];
-                }
-                if(pval < arr[i])
-                {
-                        temp[right-largePnum++] = arr[i];
-                }
+            temp[tempLindex++] = arr[i];
+            ++lessPnum;
         }
-        for(int i = left + lessPnum; i <= right - largePnum; ++i)
+        if(pval < arr[i])
         {
-                temp[i] = pval;
+            temp[tempRindex--] = arr[i];
+            largePnum++;
         }
-        for(int i = left, j=0; i <= right; ++i)
-        {
-                arr[i] = temp[j++];
-        }
-        delete [] temp;
-        temp = NULL;
-        parr[0]=lessPnum;
-        parr[1]=largePnum;
-        cout << "lessPnum " << parr[0] << endl;
-        cout << "largePnum " << parr[1] << endl;
+    }
+    for( ; tempLindex <= tempRindex; ++tempLindex)
+    {
+        temp[tempLindex] = pval;
+    }
+    for(int i = left, j=0; i <= right; ++i)
+    {
+        arr[i] = temp[j++];
+        // cout << arr[i] << " " ;
+    }
+    delete [] temp;
+    temp = NULL;
+    parr[0]=lessPnum;
+    parr[1]=largePnum;
+//    cout << "lessPnum " << parr[0] << endl;
+//    cout << "largePnum " << parr[1] << endl;
 }
 void qsort(int *arr, size_t left, size_t right)
 {
-        cout << "left " << left << " right " << right << endl;
-        if(left >= right)
-        {       return;}
+	if(left >= right)
+    {
+        return;
+    }
+    else if(right-left == 1)
+    {
+        if(arr[left]>arr[right])
+        {        
+        	swap(arr[left], arr[right]);
+        }
+
+    }
+    else
+    {
         partion(arr,left,right);
         size_t pl_index = left + parr[0];
         size_t pr_index = right - parr[1];
-        cout << "left " << left << "pl_index " << pl_index 
-        <<" pr_index " << pr_index << " right " << right << endl;
+//        cout << "left " << left << "pl_index " << pl_index
+//             <<" pr_index " << pr_index << " right " << right << endl;
 
-        if(pr_index == right)
+        if(pr_index == right && pl_index != left)
         {       qsort(arr,left,pl_index-1);
         }
-        else if(pl_index == left)
+        else if(pl_index == left && pr_index != right)
         {       qsort(arr,pr_index+1,right);
         }
-        else    
+        else if(pl_index == left && pr_index == right)
         {
-                qsort(arr,left,pl_index-1);
-                qsort(arr,pr_index+1,right);
+            return;
         }
+        else
+        {
+            qsort(arr,left,pl_index-1);
+            qsort(arr,pr_index+1,right);
+        }
+    }
 }
 void quicksort(size_t dsize, int *arr)
 {
