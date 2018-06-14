@@ -213,6 +213,47 @@ void quicksort(size_t dsize, int *arr)
 	qsort(arr,left,right);
 	
 }
+/*
+ * 堆排序，建堆（升序建大堆，降序建小堆）
+ * 交换堆定与最后的数据
+ * 调整，递归交换调整
+ */
+void adjust(int *arr, size_t i, size_t dsize)
+{
+	size_t LowerLeftNode = i*2+1;	//下一层左边的节点
+	while(LowerLeftNode < dsize)
+	{
+		if(LowerLeftNode+1< dsize && arr[LowerLeftNode]< arr[LowerLeftNode+1] )
+		{
+			++LowerLeftNode;
+		}
+		if(arr[i]> arr[LowerLeftNode])
+		{
+			break;
+		}
+		swap(arr[i], arr[LowerLeftNode]);
+		i = LowerLeftNode;
+		LowerLeftNode = i*2+1;
+	}
+}
+void makeheap(size_t dsize, int *arr)
+{
+	size_t i = 0;
+	for(size_t i = dsize/2 -1; i >=0;--i)	//底下第二层
+	{
+		adjust(arr,i,dsize);
+	}
+}
+void heapsort(size_t dsize, int *arr)
+{
+	makeheap(dsize,arr);
+	size_t i = 0;
+	for(i=dsize-1;i>=0;--i)
+	{
+		swap(arr[i],arr[0]);
+		adjust(arr,0,i);
+	}
+}
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
@@ -338,6 +379,10 @@ int main(int argc, char *argv[])
 		else if (string(argv[2]) == "quicksort")
 		{
 			test4sort(dsize, quicksort);
+		}
+		else if (string(argv[2]) == "heapsort")
+		{
+			test4sort(dsize, heapsort);
 		}
 		else 
 		{
