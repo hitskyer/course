@@ -242,6 +242,8 @@ void makeheap(size_t dsize, int *arr)
 	for(size_t i = dsize/2 -1; i >=0;--i)	//底下第二层
 	{
 		adjust(arr,i,dsize);
+		if(i == 0)
+			break;
 	}
 }
 void heapsort(size_t dsize, int *arr)
@@ -252,6 +254,8 @@ void heapsort(size_t dsize, int *arr)
 	{
 		swap(arr[i],arr[0]);
 		adjust(arr,0,i);
+		if(i == 0)
+			break;
 	}
 }
 //产生随机数
