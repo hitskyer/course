@@ -7,45 +7,42 @@ const size_t G_SmallSize  = 1000;
 const int    G_CycleTimes = 1000;
 
 /*
- * 冒泡排序(bubble sort)，做一个例子使用
- * 每次在末尾插入一个数字，依次向前冒泡(应该叫插入排序，每次的子序列都是有序的)
+ * 插入排序
+ * 每次在末尾插入一个数字，依次向前比较，类似与抓扑克牌(插入排序，每次左边的子序列都是有序的)
  */
-void bsort(size_t dsize, int *arr) 
+void insertsort(size_t dsize, int *arr) 
 {
 	for (size_t i = 0; i != dsize; ++i) 
 	{
-		for (size_t j = i; j > 0 && arr[j-1] > arr[j]; --j) 
+		for (size_t j = i; j > 0 && arr[j-1] > arr[j]; --j)	//每次的子列都是有序的，判断条件可写在for(内)，否则不可 
 		{
 			swap(arr[j-1], arr[j]);
 		}
 	}
 }
 /*
- *每次在队首插入数字，其他数向后平移，从前向后冒泡比较
+ *冒泡排序，数从前向后冒泡比较，冒泡过程中，数列无序状态
  */
-void bsort1(size_t dsize, int *arr)
+void bsort(size_t dsize, int *arr)
 {
-	for(size_t i = 0;i != dsize;++i)
-	{	for(size_t j=1;j <= i && arr[j-1] > arr[j];++j)	//每次的子列都是有序的，判断条件可写在for内，否则不可
-		{	swap(arr[j-1],arr[j]);
-		}
-		if(i != (dsize-1))
-		{	for(size_t j= i;j >= 0;--j)	//数据平移把第一位让出来
-			{	arr[j+1]= arr[j];
-				if(j==0)	//防止 --j溢出
-					break;
-			}
+	for(size_t i = 0; i != dsize; ++i)
+	{	
+		for(size_t j=1;j <= dsize-1-i;++j)	//后面的数都排好了，所以j<=dsize-1-i,不减i,也可以，但时间长
+		{	
+			if(arr[j-1]> arr[j])	//比较的过程中是无序的，判断条件写在for{}里，写在for()里会出现局部条件不满足就退出for循环了，以至于还未排序完
+				swap(arr[j-1],arr[j]);
 		}
 	}
 }
 /*
- *选择排序,每次找出数值最小的下标，交换未排序区域第一个与最小的
+ *选择排序,每次找出数值最小的下标，交换未排序区域第一个与最小的(与冒泡的区别，只交换一次)
  */
 void selecsort(size_t dsize, int *arr)
 {
 	size_t mindex=0;
 	for(size_t i =0 ;i!= dsize-1;++i)
-	{	mindex= i ;
+	{	
+		mindex= i ;
 		for(size_t j=i+1;j!=dsize;++j)
 		{	if(arr[j]< arr[mindex])	//子列为无序的，判断条件写在for{}里
 			{	mindex = j;		//记录下最小数的下标
@@ -55,20 +52,19 @@ void selecsort(size_t dsize, int *arr)
 	}
 }
 /*
- * 希尔排序，分组
+ * 希尔排序，分组插入排序，相隔gap个数的都为一组，从第gap个数开始（相当于每组数的第一个）
  */
 void shellsort(size_t dsize, int *arr)
 {
 	size_t gap = 1;
 	size_t j=0;
 	for(gap=dsize/2;gap> 0;gap /= 2)
-	{	for(size_t i = gap;i < dsize;++i)
-		{	j = i;
-			for(;j-gap>=0 && arr[j-gap]> arr[j];j -= gap)
-			{	swap(arr[j-gap],arr[j]);
-				if(j==gap)
-				{	break;
-				}
+	{	
+		for(size_t i = gap;i < dsize;++i)
+		{	
+			for(j=i;int(j-gap)>=0 && arr[j-gap]> arr[j];j -= gap)	//int()转换类型，避免溢出
+			{
+				swap(arr[j-gap],arr[j]);
 			}
 		}
 		
@@ -116,40 +112,80 @@ void mergesort(size_t dsize, int *arr)
 /*
  * 快速排序
  */
-
-int partion(int *arr, size_t left, size_t right)
+size_t parr [2];
+void selectmedianofthree(int *arr, size_t left, size_t right)
 {
-	size_t pindex = left;
-	int pval = arr[left];
-	for(int i = left+1;i <= right;++i )
-	{
-		if(pval > arr[i])
-		{
-			swap(arr[pindex++],arr[i]);
-		}
-		arr[pindex] = pval;
-	}
-	cout << "pindex " << pindex << endl;
-	return pindex;
+        size_t mid = left + (right - left)/2;
+        if(arr[mid]>arr[right])
+        {
+                swap(arr[mid],arr[right]);
+        }
+        if(arr[left]>arr[right])
+        {
+                swap(arr[left],arr[right]);
+        }
+        if(arr[mid]>arr[left])
+        {
+                swap(arr[mid],arr[left]);
+        }
+}
+
+size_t partion(int *arr, size_t left, size_t right)
+{
+        selectmedianofthree(arr,left,right);
+        
+        size_t lessPnum = 0, equalPnum=1, largePnum=0;
+        int pval = arr[left];
+        cout << "pval " << pval << endl;
+        int *temp = new int [right-left+1];
+        for(int i = left+1;i <= right;++i )
+        {
+                if(pval > arr[i])
+                {
+                        temp[lessPnum++] = arr[i];
+                }
+                if(pval < arr[i])
+                {
+                        temp[right-largePnum++] = arr[i];
+                }
+        }
+        for(int i = left + lessPnum; i <= right - largePnum; ++i)
+        {
+                temp[i] = pval;
+        }
+        for(int i = left, j=0; i <= right; ++i)
+        {
+                arr[i] = temp[j++];
+        }
+        delete [] temp;
+        temp = NULL;
+        parr[0]=lessPnum;
+        parr[1]=largePnum;
+        cout << "lessPnum " << parr[0] << endl;
+        cout << "largePnum " << parr[1] << endl;
 }
 void qsort(int *arr, size_t left, size_t right)
 {
-	cout << "left " << left << " right " << right << endl;
-	if(left >= right)
-	{	return;}
-	size_t pindex = partion(arr,left,right);
-	cout << "left " << left <<" pindex " << pindex << " right " << right << endl;
-	if(pindex == right)
-	{	qsort(arr,left,pindex-1);
-	}
-	else if(pindex == left)
-	{	qsort(arr,pindex+1,right);
-	}
-	else	
-	{
-		qsort(arr,left,pindex-1);
-		qsort(arr,pindex+1,right);
-	}
+        cout << "left " << left << " right " << right << endl;
+        if(left >= right)
+        {       return;}
+        partion(arr,left,right);
+        size_t pl_index = left + parr[0];
+        size_t pr_index = right - parr[1];
+        cout << "left " << left << "pl_index " << pl_index 
+        <<" pr_index " << pr_index << " right " << right << endl;
+
+        if(pr_index == right)
+        {       qsort(arr,left,pl_index-1);
+        }
+        else if(pl_index == left)
+        {       qsort(arr,pr_index+1,right);
+        }
+        else    
+        {
+                qsort(arr,left,pl_index-1);
+                qsort(arr,pr_index+1,right);
+        }
 }
 void quicksort(size_t dsize, int *arr)
 {
@@ -236,25 +272,36 @@ void test4sort(size_t dsize, void (*mysort)(size_t dsize, int *arr))
 	delete [] arr;
 	arr = NULL;
 }
-int main(int argc, char *argv[]) {
-	if (argc < 3) {
+int main(int argc, char *argv[]) 
+{
+	if (argc < 3) 
+	{
 		cerr << "\t ./" << argv[0] << " type4data(big|small) method4sort(bsort|todo)" << endl;
 		return -1;
-	} else {
+	} 
+	else 
+	{
 		size_t dsize = 0;
-		if (string(argv[1]) == "small") {
+		if (string(argv[1]) == "small") 
+		{
 			dsize = G_SmallSize;
-		} else if (string(argv[1]) == "big") {
+		} 
+		else if (string(argv[1]) == "big") 
+		{
 			dsize = G_BigSize;
-		} else {
+		} 
+		else 
+		{
 			cerr << "\t ./" << argv[0] << " type4data(big|small) method4sort(bsort|todo)" << endl;
 			return -2;
 		}
-		if (string(argv[2]) == "bsort") {
-			test4sort(dsize, bsort);}
-		else if (string(argv[2]) == "bsort1")
+		if (string(argv[2]) == "insertsort") 
 		{
-			test4sort(dsize, bsort1);
+			test4sort(dsize, insertsort);
+		}
+		else if (string(argv[2]) == "bsort")
+		{
+			test4sort(dsize, bsort);
 		}
 		else if (string(argv[2]) == "selecsort")
 		{
@@ -272,7 +319,8 @@ int main(int argc, char *argv[]) {
 		{
 			test4sort(dsize, quicksort);
 		}
-		else {
+		else 
+		{
 			cerr << "unknown method for sorting : " << argv[2] << endl;
 			return -3;
 		}
