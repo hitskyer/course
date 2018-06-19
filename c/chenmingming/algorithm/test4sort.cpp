@@ -258,6 +258,44 @@ void heapsort(size_t dsize, int *arr)
 			break;
 	}
 }
+/*
+ *计数排序，找出数列中最大最下的数，并记录下每一个元素的个数，然后放回
+ */
+void countsort(size_t dsize, int *arr)
+{
+	int index = 0;
+	int min, max;
+	min = max = arr[0];
+	for(int i = 1; i<dsize;++i)
+	{
+		min=(arr[i] < min)? arr[i] : min;
+		max=(arr[i] > max)? arr[i] : max;
+	}
+	//创建新的数组存放
+	int k = max -min +1;
+	int *temp = new int [k]();	//（）初始化为0
+	for(int i = 0;i< dsize;++i)
+	{
+		++temp[arr[i]-min];	//记录每个数的个数，存入数组
+	}
+	for(int i = min; i <= max;++i)
+	{
+		for(int j = 0; j < temp[i-min];++j)	//不为0的，才进入循环
+		{
+			arr[index++] = i;
+		}
+	}
+	delete [] temp;
+	temp = NULL;
+}
+/*
+ *桶排序，将数据按规则分组，对各小组再分别排序
+ */
+void bucketsort(size_t dsize, int *arr)
+{
+	vector<vector<size_t>> bucket(4);
+	for
+}
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
@@ -387,6 +425,10 @@ int main(int argc, char *argv[])
 		else if (string(argv[2]) == "heapsort")
 		{
 			test4sort(dsize, heapsort);
+		}
+		else if (string(argv[2]) == "countsort")
+		{
+			test4sort(dsize, countsort);
 		}
 		else 
 		{
