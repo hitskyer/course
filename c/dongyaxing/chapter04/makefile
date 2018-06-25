@@ -3,7 +3,10 @@ CC	=g++
 #编译参数
 CCFLAGS = -std=c++0x
 #编译目标：若干可执行文件
-OBJECTS =eg_7.exe eg_8.exe eg_9.exe eg_10.exe
+
+OBJECTS =eg_7.exe eg_8.exe eg_9.exe eg_10.exe eg_18.exe \
+	 eg_22.exe eg_23.exe eg_28.exe eg_30.exe eg_31.exe eg_33.exe\
+	 eg_36.exe
 # make
 all:$(OBJECTS)
 #将源文件编译成中间文件
