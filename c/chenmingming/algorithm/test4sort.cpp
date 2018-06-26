@@ -2,6 +2,7 @@
 using namespace std;
 #include <sys/time.h>
 #include<stdlib.h>
+#include<math.h>
 const size_t G_BigSize    = 1000000;
 const size_t G_SmallSize  = 1000;
 const int    G_CycleTimes = 1000;
@@ -168,7 +169,7 @@ size_t partion(int *arr, size_t left, size_t right)
 //    cout << "lessPnum " << parr[0] << endl;
 //    cout << "largePnum " << parr[1] << endl;
 }
-void qsort(int *arr, size_t left, size_t right)
+void qsort(int *arr, size_t left, size_t right, int deep)
 {
 	if(left >= right)
     {
@@ -191,10 +192,14 @@ void qsort(int *arr, size_t left, size_t right)
 //             <<" pr_index " << pr_index << " right " << right << endl;
 
         if(pr_index == right && pl_index != left)
-        {       qsort(arr,left,pl_index-1);
+        {
+//		cout << "deep is " << ++deep << endl;
+	       qsort(arr,left,pl_index-1,deep);
         }
         else if(pl_index == left && pr_index != right)
-        {       qsort(arr,pr_index+1,right);
+        {       
+//		cout << "deep is " << ++deep << endl;
+		qsort(arr,pr_index+1,right,deep);
         }
         else if(pl_index == left && pr_index == right)
         {
@@ -202,15 +207,17 @@ void qsort(int *arr, size_t left, size_t right)
         }
         else
         {
-            qsort(arr,left,pl_index-1);
-            qsort(arr,pr_index+1,right);
+//		cout << "deep is " << ++deep << endl;
+            qsort(arr,left,pl_index-1,deep);
+            qsort(arr,pr_index+1,right,deep);
         }
     }
 }
 void quicksort(size_t dsize, int *arr)
 {
 	size_t left = 0, right = dsize-1;
-	qsort(arr,left,right);
+	int deep = 0;
+	qsort(arr,left,right,deep);
 	
 }
 /*
@@ -293,8 +300,20 @@ void countsort(size_t dsize, int *arr)
  */
 void bucketsort(size_t dsize, int *arr)
 {
-	vector<vector<size_t>> bucket(4);
-	for
+	int maxval = arr[0];
+	int minval = arr[0];
+	for(int i = 1; i != dsize; ++i)
+	{
+		maxval = maxval > arr[i] ? maxval : arr[i];
+		minval = minval < arr[i] ? minval : arr[i];
+	}
+	int space = 100;	//每个桶数值最大差值
+	int div = ceil((maxval-minval)/space);
+	vector<vector<size_t>> bucket(div);
+	for(size_t b_idx = 0; b_idx != div;++b_idx)
+	{
+		for()
+	}
 }
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
