@@ -2,6 +2,7 @@
 using namespace std;
 #include <sys/time.h>
 #include<stdlib.h>
+#include<vector>
 #include<math.h>
 const size_t G_BigSize    = 1000000;
 const size_t G_SmallSize  = 1000;
@@ -188,8 +189,8 @@ void qsort(int *arr, size_t left, size_t right, int deep)
         partion(arr,left,right);
         size_t pl_index = left + parr[0];
         size_t pr_index = right - parr[1];
-//        cout << "left " << left << "pl_index " << pl_index
-//             <<" pr_index " << pr_index << " right " << right << endl;
+//      cout << "left " << left << "pl_index " << pl_index
+//           <<" pr_index " << pr_index << " right " << right << endl;
 
         if(pr_index == right && pl_index != left)
         {
@@ -207,7 +208,7 @@ void qsort(int *arr, size_t left, size_t right, int deep)
         }
         else
         {
-//		cout << "deep is " << ++deep << endl;
+//			cout << "deep is " << ++deep << endl;
             qsort(arr,left,pl_index-1,deep);
             qsort(arr,pr_index+1,right,deep);
         }
@@ -308,18 +309,48 @@ void bucketsort(size_t dsize, int *arr)
 		minval = minval < arr[i] ? minval : arr[i];
 	}
 	int space = 100;	//每个桶数值最大差值
-	int div = ceil((maxval-minval)/space);
-	vector<vector<size_t>> bucket(div);
-	for(size_t b_idx = 0; b_idx != div;++b_idx)
+	int div = ceil((maxval-minval)/space);	//桶的个数，ceil取进位数
+	int numsofeachbucket[div] = {};
+	//vector<int **p> bucket(div);
+	for(size_t i = 0; i != dsize; ++i)
 	{
-		for()
+		++numsofeachbucket[(arr[i]-minval)/space];	//把元素按大小分到不同的桶
 	}
+	int arr_temp [dsize];
+	size_t idx = 0;
+	for(size_t j = 0; j != div; ++j)
+	{
+		int *p = new int [numsofeachbucket[j]];
+		for(int i = 0; i != dsize; ++i)
+		{
+			if((arr[i]-minval)/space == j)
+			{
+				*p = arr[i];
+				p++;
+			}
+		}
+		//p = p - numsofeachbucket[j];
+		quicksort(numsofeachbucket[j], p);
+		p = p - numsofeachbucket[j];
+		for(size_t i = 0; i != numsofeachbucket[j]; ++idx)
+		{
+			arr_temp[idx] = *p;
+			p++;
+		}
+		delete [] p;
+		p = NULL;
+	}
+	for(int i = 0; i != dsize; ++i)
+	{
+		arr[i] = arr_temp[i];
+	}
+
 }
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
         int flag = i%5;
-        if (flag == 0) 
+        if (flag == 0)
         {
                 for (size_t i = 0; i != dsize; ++i) 
                 {
@@ -448,6 +479,10 @@ int main(int argc, char *argv[])
 		else if (string(argv[2]) == "countsort")
 		{
 			test4sort(dsize, countsort);
+		}
+		else if (string(argv[2]) == "bucketsort")
+		{
+			test4sort(dsize, bucketsort);
 		}
 		else 
 		{
