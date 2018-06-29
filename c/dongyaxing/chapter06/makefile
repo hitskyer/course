@@ -3,7 +3,8 @@ CC	=g++
 #编译参数
 CCFLAGS = -std=c++0x
 #编译目标：若干可执行文件
-OBJECTS = eg_13.exe eg_7.exe eg_9.exe
+OBJECTS =eg_13.exe eg_16.exe eg_18.exe eg_7.exe eg_9.exe\
+	 eg_20.exe eg_21.exe eg_23.exe eg_25.exe
 
 #make
 all:$(OBJECTS)
