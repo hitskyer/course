@@ -125,43 +125,52 @@ void bucketsort(size_t dsize, int *arr)
 		maxval = maxval > arr[i] ? maxval : arr[i];
 		minval = minval < arr[i] ? minval : arr[i];
 	}
-	int space = 4;	//每个桶数值最大差值
-	int div = ceil((float)(maxval-minval)/space);	//桶的个数，ceil取进位数
-	int numsofeachbucket[div] = {0};
-    //memset(numsofeachbucket, 0, sizeof(numsofeachbucket));
-	//vector<int **p> bucket(div);
-	for(size_t i = 0; i != dsize; ++i)
-	{
-		++numsofeachbucket[(arr[i]-minval)/space];	//把元素按大小分到不同的桶
-	}
-	int arr_temp [dsize];
-	size_t idx = 0;
-	for(size_t j = 0; j != div; ++j)
-	{
-		int *p = new int [numsofeachbucket[j]];
-		for(int i = 0,pidx = 0; i != dsize; ++i)
-		{
-			if((arr[i]-minval)/space == j)
-			{
-				p[pidx] = arr[i];
-				++pidx;
-			}
-		}
-		//p = p - numsofeachbucket[j];
-		quicksort(numsofeachbucket[j], p);
-		//p = p - numsofeachbucket[j];
-		for(size_t i = 0; i != numsofeachbucket[j]; ++i)
-		{
-			arr_temp[idx++] = p[i];
-		}
-		delete [] p;
-		p = NULL;
-	}
-	for(int i = 0; i != dsize; ++i)
-	{
-		arr[i] = arr_temp[i];
-	}
-
+    if(maxval == minval)
+    {
+        return;
+    }
+    else
+    {
+    	int space = 4;	//每个桶数值最大差值
+    	int div = ceil((float)(maxval-minval)/space);	//桶的个数，ceil取进位数
+    	int numsofeachbucket[div];
+        memset(numsofeachbucket, 0, sizeof(numsofeachbucket));
+    	//vector<int **p> bucket(div);
+    	for(size_t i = 0; i != dsize; ++i)
+    	{
+    		++numsofeachbucket[(arr[i]-minval)/space];	//把元素按大小分到不同的桶
+    	}
+    	int arr_temp [dsize];
+    	size_t idx = 0;
+    	for(size_t j = 0; j != div; ++j)
+    	{
+    		int *p = new int [numsofeachbucket[j]];
+    		for(int i = 0,pidx = 0; i != dsize; ++i)
+    		{
+    			if((arr[i]-minval)/space == j)
+    			{
+    				p[pidx] = arr[i];
+    				++pidx;
+    			}
+    		}
+    		//p = p - numsofeachbucket[j];
+    		if(numsofeachbucket[j]>1)
+            {
+                quicksort(numsofeachbucket[j], p);  //对动态数组进行排序
+            }
+    		//p = p - numsofeachbucket[j];
+    		for(size_t i = 0; i != numsofeachbucket[j]; ++i)
+    		{
+    			arr_temp[idx++] = p[i];
+    		}
+    		delete [] p;
+    		p = NULL;
+    	}
+    	for(int i = 0; i != dsize; ++i)
+    	{
+    		arr[i] = arr_temp[i];
+    	}
+    }
 }
 
 void sort(int *arr)
@@ -190,7 +199,7 @@ int main()
     int arr1[]={6,5,7,1,3,-6,6,8,4,2,5};
     int arr2[]={1,2,3,4,5,6,7,8,9,10,11};
     int arr3[]={11,10,9,8,7,6,5,4,3,2,1};
-    int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
+    int arr4[]={1,1,1,1,1,1,1,1,1,1,1};
     sort(arr1);
     sort(arr2);
     sort(arr3);
