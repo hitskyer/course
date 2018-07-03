@@ -146,11 +146,12 @@ void bucketsort(size_t dsize, int *arr)
         }
         int **p = new int* [div];
         int **temp = new int* [div];
-
+        int **temp_1 = new int* [div];
         for(size_t i = 0; i != div && numsofeachbucket[i] != 0; ++i)
         {
             p[i] = new int [numsofeachbucket[i]];
             temp[i] = p[i];
+            temp_1[i] = p[i];
         }
         for(size_t i = 0; i != dsize; ++i)
         {
@@ -168,18 +169,21 @@ void bucketsort(size_t dsize, int *arr)
             }
             for(size_t j = 0; j != numsofeachbucket[i]; ++j)
             {
-                arr[idx++] = *p[i];
-                ++p[i];
+                arr[idx++] = *temp[i];
+                ++temp[i];
             }
         }
         for(size_t i = 0; i != div && numsofeachbucket[i] != 0; ++i)
         {
-            delete [] temp[i];
+            delete [] temp_1[i];
+            temp_1[i] = NULL;
             temp[i] = NULL;
             p[i] = NULL;
         }
+        delete [] temp_1;
         delete [] temp;
         delete [] p;
+        temp_1 = NULL;
         temp = NULL;
         p = NULL;
     }
