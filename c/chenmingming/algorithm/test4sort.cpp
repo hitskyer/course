@@ -315,7 +315,7 @@ void bucketsort(size_t dsize, int *arr)
     }
     else
     {
-		int space = 1000;	//每个桶数值最大差值
+		int space = 10000;	//每个桶数值最大差值
 		int div = ceil((float)(maxval-minval)/space);	//桶的个数，ceil取进位数(先float强转，避免丢失小数点)
 		int numsofeachbucket[div];
 		for(size_t i =0; i != div; ++i)
@@ -328,86 +328,92 @@ void bucketsort(size_t dsize, int *arr)
 		{
 			++numsofeachbucket[(arr[i]-minval)/space];	//把元素按大小分到不同的桶
 		}
-		int arr_temp [dsize];
-		size_t idx = 0;
-		for(size_t j = 0; j != div; ++j)
+		int **p = new int* [div];
+		for(size_t i = 0; i != div; ++i)
 		{
-			int *p = new int [numsofeachbucket[j]];
-			for(int i = 0,pidx = 0; i != dsize; ++i)
-			{
-				if((arr[i]-minval)/space == j)	//属于这个桶，把值传给动态数组
-				{
-					p[pidx] = arr[i];
-					++pidx;
-				}
-			}
+			p[i] = new int [numsofeachbucket[i]];
+		}
+		for(size_t i = 0,pidx = 0; i != dsize; ++i)
+		{
+			*p[(arr[i]-minval)/space] = arr[i];
+			++p[(arr[i]-minval)/space];
+		}
 			//p = p - numsofeachbucket[j];	//动态数组的指针不可修改，否则delete时会报错
-			if(numsofeachbucket[j]>1)
-			{
-				quicksort(numsofeachbucket[j], p);	//对动态数组进行排序
-			}
-			for(size_t i = 0; i != numsofeachbucket[j]; ++i)
-			{
-				arr_temp[idx++] = p[i];	//把排序后的动态数组传给新的数组，然后删除动态数组
-			}
-			delete [] p;
-			p = NULL;
-		}
-		for(int i = 0; i != dsize; ++i)
+		static size_t idx = 0;
+		for(size_t i = 0; i != div; ++i)
 		{
-			arr[i] = arr_temp[i];	//排序后的数组写回到原数组
+			if(numsofeachbucket[i]>1)
+			{
+				quicksort(numsofeachbucket[i], p[i]);	//对动态数组进行排序
+			}
+			for(size_t j = 0; j != numsofeachbucket[i]; ++j)
+			{
+				arr[idx++] = *p[i];
+				++p[i];
+			}
 		}
+		for(size_t i = 0; i != div; ++i)
+		{
+			delete [] p[i];
+			p[i] = NULL;
+		}
+		delete [] p;
+		p = NULL;
 	}
 }
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
-        int flag = i%5;
-        if (flag == 0)
+    int flag = i%5;
+    if (flag == 0)
+    {
+        for (size_t i = 0; i != dsize; ++i) 
         {
-                for (size_t i = 0; i != dsize; ++i) 
-                {
-                        arr[i] = i;
-                }
-        } 
-        else if (flag == 1) 
-        {
-                for (size_t i = 0; i != dsize; ++i) 
-                {
-                        arr[i] = (int)dsize - i;
-                }
-        } 
-        else if (flag == 2) 
-        {
-                for (size_t i = 0; i != dsize; ++i) 
-                {
-                        if (i%5 == 0) 
-                        {
-                                arr[i] = rand();
-                        } 
-                        else
-                        {       
-                                arr[i] = 7;
-                        }
-                }
+            arr[i] = i;
         }
-        else 
+    } 
+    else if (flag == 1) 
+    {
+        for (size_t i = 0; i != dsize; ++i) 
         {
-                for (size_t i = 0; i != dsize; ++i) 
-                {       
-                        arr[i] = rand();
-                }
+            arr[i] = (int)dsize - i;
         }
+    } 
+    else if (flag == 2) 
+    {
+        for (size_t i = 0; i != dsize; ++i) 
+        {
+            if (i%5 == 0) 
+            {
+                arr[i] = rand();
+            } 
+            else
+            {       
+                arr[i] = 7;
+            }
+        }
+    }
+    else 
+    {
+        for (size_t i = 0; i != dsize; ++i) 
+        {       
+            arr[i] = rand();
+        }
+    }
 }
 
-long getCurrentTime() {
+long getCurrentTime() 
+{
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	return tv.tv_sec * 1000000 + tv.tv_usec;
 }
-bool right4sorted(const int *arr, size_t dsize) {
-	for (size_t i = 1; i < dsize; ++i) {
-		if (arr[i-1] > arr[i]) {
+bool right4sorted(const int *arr, size_t dsize) 
+{
+	for (size_t i = 1; i < dsize; ++i) 
+	{
+		if (arr[i-1] > arr[i]) 
+		{
 			return false;
 		}
 	}
@@ -418,7 +424,8 @@ void test4sort(size_t dsize, void (*mysort)(size_t dsize, int *arr))
 	int *arr         = new int[dsize];
 	long   total_time = 0;
 	
-	for (int i = 0; i != G_CycleTimes; ++i) {
+	for (int i = 0; i != G_CycleTimes; ++i) 
+	{
 		rand4data(i, dsize, arr);
 		
 		long start_time = getCurrentTime();
@@ -426,7 +433,8 @@ void test4sort(size_t dsize, void (*mysort)(size_t dsize, int *arr))
 		long end_time   = getCurrentTime();
 		total_time     += end_time - start_time;
 		
-		if (!right4sorted(arr, dsize)) {
+		if (!right4sorted(arr, dsize)) 
+		{
 			cerr << "sort for ints failed" << endl;
 			return;
 		}
