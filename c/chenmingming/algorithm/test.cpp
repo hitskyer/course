@@ -131,10 +131,12 @@ int main()
     int arr2[]={1,2,3,4,5,6,7,8,9,10,11};
     int arr3[]={11,10,9,8,7,6,5,4,3,2,1};
     int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
+    int arr5[]={1,1,1,1,1,1,1,1,1,1,1};
 	int *p = arr1;
     sort(p);
     sort(arr2);
     sort(arr3);
     sort(arr4);
+    sort(arr5);
     return 0;
 }

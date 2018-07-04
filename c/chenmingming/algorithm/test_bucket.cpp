@@ -109,15 +109,25 @@ void qsort(int *arr, size_t left, size_t right, int deep)
 }
 void quicksort(size_t dsize, int *arr)
 {
-	size_t left = 0, right = dsize-1;
-	int deep = 0;
-	qsort(arr,left,right,deep);
-	
+	if(dsize > 0)
+    {
+        size_t left = 0, right = dsize-1;
+    	int deep = 0;
+    	qsort(arr,left,right,deep);
+	}
+    else
+    {
+        return;
+    }
 }
 
 
 void bucketsort(size_t dsize, int *arr)
 {
+    if(dsize == 0)
+    {
+        return;
+    }
     int maxval = arr[0];
     int minval = arr[0];
     for(int i = 0; i != dsize; ++i)
@@ -170,24 +180,30 @@ void bucketsort(size_t dsize, int *arr)
         }
             //p = p - numsofeachbucket[j];  //动态数组的指针不可修改，否则delete时会报错
         static size_t idx = 0;
-        for(size_t i = 0; i != div && numsofeachbucket[i] != 0; ++i)
+        for(size_t i = 0; i != div; ++i)
         {
-            if(numsofeachbucket[i]>1)
+            if(numsofeachbucket[i] != 0)
             {
-                quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行排序
-            }
-            for(size_t j = 0; j != numsofeachbucket[i]; ++j)
-            {
-                arr[idx++] = *temp[i];
-                ++temp[i];
+                if(numsofeachbucket[i]>1)
+                {
+                    quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行排序
+                }
+                for(size_t j = 0; j != numsofeachbucket[i]; ++j)
+                {
+                    arr[idx++] = *temp[i];
+                    ++temp[i];
+                }
             }
         }
-        for(size_t i = 0; i != div && numsofeachbucket[i] != 0; ++i)
+        for(size_t i = 0; i != div; ++i)
         {
-            delete [] temp_1[i];
-            temp_1[i] = NULL;
-            temp[i] = NULL;
-            p[i] = NULL;
+            if(numsofeachbucket[i] != 0)
+            {
+                delete [] temp_1[i];
+                temp_1[i] = NULL;
+                temp[i] = NULL;
+                p[i] = NULL;
+            }
         }
         delete [] temp_1;
         delete [] temp;
