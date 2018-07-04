@@ -141,7 +141,7 @@ void bucketsort(size_t dsize, int *arr)
     }
     else
     {
-        int space = 10000;  //每个桶数值最大差值
+        int space = 100000;  //每个桶数值最大差值
         int div = ceil((float)(maxval-minval)/space);   //桶的个数，ceil取进位数(先float强转，避免丢失小数点)
         int numsofeachbucket[div];
         for(size_t i =0; i != div; ++i)
@@ -179,7 +179,8 @@ void bucketsort(size_t dsize, int *arr)
             ++p[bucketidx];
         }
             //p = p - numsofeachbucket[j];  //动态数组的指针不可修改，否则delete时会报错
-        static size_t idx = 0;
+        size_t idx = 0;
+        //cout << "static idx " << idx << endl;
         for(size_t i = 0; i != div; ++i)
         {
             if(numsofeachbucket[i] != 0)
@@ -192,6 +193,7 @@ void bucketsort(size_t dsize, int *arr)
                 {
                     arr[idx++] = *temp[i];
                     ++temp[i];
+                    //cout << "static idx " << idx << endl;
                 }
             }
         }

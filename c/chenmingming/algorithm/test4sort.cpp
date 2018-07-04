@@ -6,7 +6,7 @@ using namespace std;
 #include<math.h>
 #include <string.h>
 const size_t G_BigSize    = 1000000;
-const size_t G_SmallSize  = 10;
+const size_t G_SmallSize  = 1000;
 const int    G_CycleTimes = 1000;
 
 /*
@@ -217,10 +217,16 @@ void qsort(int *arr, size_t left, size_t right, int deep)
 }
 void quicksort(size_t dsize, int *arr)
 {
-	size_t left = 0, right = dsize-1;
-	int deep = 0;
-	qsort(arr,left,right,deep);
-	
+	if(dsize > 0)
+    {
+        size_t left = 0, right = dsize-1;
+    	int deep = 0;
+    	qsort(arr,left,right,deep);
+	}
+    else
+    {
+        return;
+    }
 }
 /*
  * 堆排序，建堆（升序建大堆，降序建小堆）
@@ -302,65 +308,98 @@ void countsort(size_t dsize, int *arr)
  */
 void bucketsort(size_t dsize, int *arr)
 {
-	int maxval = arr[0];
-	int minval = arr[0];
-	for(int i = 1; i != dsize; ++i)
-	{
-		maxval = maxval > arr[i] ? maxval : arr[i];
-		minval = minval < arr[i] ? minval : arr[i];
-	}
-	if(maxval == minval)
+    if(dsize == 0)
+    {
+        return;
+    }
+    int maxval = arr[0];
+    int minval = arr[0];
+    for(int i = 0; i != dsize; ++i)
+    {
+        maxval = maxval > arr[i] ? maxval : arr[i];
+        minval = minval < arr[i] ? minval : arr[i];
+    }
+    if(maxval == minval)
     {
         return;
     }
     else
     {
-		int space = 10000;	//每个桶数值最大差值
-		int div = ceil((float)(maxval-minval)/space);	//桶的个数，ceil取进位数(先float强转，避免丢失小数点)
-		int numsofeachbucket[div];
-		for(size_t i =0; i != div; ++i)
-		{
-			numsofeachbucket[i] = 0;
-		}
-		//memset(numsofeachbucket, 0, sizeof(numsofeachbucket));	//每个桶内元素个数置0
-		//vector<int **p> bucket(div);
-		for(size_t i = 0; i != dsize; ++i)
-		{
-			++numsofeachbucket[(arr[i]-minval)/space];	//把元素按大小分到不同的桶
-		}
-		int **p = new int* [div];
-		for(size_t i = 0; i != div; ++i)
-		{
-			p[i] = new int [numsofeachbucket[i]];
-		}
-		for(size_t i = 0,pidx = 0; i != dsize; ++i)
-		{
-			*p[(arr[i]-minval)/space] = arr[i];
-			++p[(arr[i]-minval)/space];
-		}
-			//p = p - numsofeachbucket[j];	//动态数组的指针不可修改，否则delete时会报错
-		static size_t idx = 0;
-		for(size_t i = 0; i != div; ++i)
-		{
-			if(numsofeachbucket[i]>1)
-			{
-				quicksort(numsofeachbucket[i], p[i]);	//对动态数组进行排序
-			}
-			for(size_t j = 0; j != numsofeachbucket[i]; ++j)
-			{
-				arr[idx++] = *p[i];
-				++p[i];
-			}
-		}
-		for(size_t i = 0; i != div; ++i)
-		{
-			delete [] p[i];
-			p[i] = NULL;
-		}
-		delete [] p;
-		p = NULL;
-	}
+        int space = 100000;  //每个桶数值最大差值
+        int div = ceil((float)(maxval-minval)/space);   //桶的个数，ceil取进位数(先float强转，避免丢失小数点)
+        int numsofeachbucket[div];
+        for(size_t i =0; i != div; ++i)
+        {
+            numsofeachbucket[i] = 0;
+        }
+        //memset(numsofeachbucket, 0, sizeof(numsofeachbucket));    //每个桶内元素个数置0
+        //vector<int **p> bucket(div);
+        for(size_t i = 0; i != dsize; ++i)
+        {
+            ++numsofeachbucket[(arr[i]-minval)/space];  //把元素按大小分到不同的桶
+        }
+        int **p = new int* [div];
+        int **temp = new int* [div];
+        int **temp_1 = new int* [div];
+        for(size_t i = 0; i != div; ++i)
+        {
+            if(numsofeachbucket[i] != 0)
+            {
+                p[i] = new int [numsofeachbucket[i]];
+                temp[i] = p[i];
+                temp_1[i] = p[i];
+            }
+            else
+            {
+                p[i] = NULL;
+                temp[i] = NULL;
+                temp_1[i] = NULL;
+            }
+        }
+        for(size_t i = 0; i != dsize; ++i)
+        {
+            size_t bucketidx = (arr[i]-minval)/space;
+            *p[bucketidx] = arr[i];
+            ++p[bucketidx];
+        }
+            //p = p - numsofeachbucket[j];  //动态数组的指针不可修改，否则delete时会报错
+        size_t idx = 0;
+        //cout << "static idx " << idx << endl;
+        for(size_t i = 0; i != div; ++i)
+        {
+            if(numsofeachbucket[i] != 0)
+            {
+                if(numsofeachbucket[i]>1)
+                {
+                    quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行排序
+                }
+                for(size_t j = 0; j != numsofeachbucket[i]; ++j)
+                {
+                    arr[idx++] = *temp[i];
+                    ++temp[i];
+                    //cout << "static idx " << idx << endl;
+                }
+            }
+        }
+        for(size_t i = 0; i != div; ++i)
+        {
+            if(numsofeachbucket[i] != 0)
+            {
+                delete [] temp_1[i];
+                temp_1[i] = NULL;
+                temp[i] = NULL;
+                p[i] = NULL;
+            }
+        }
+        delete [] temp_1;
+        delete [] temp;
+        delete [] p;
+        temp_1 = NULL;
+        temp = NULL;
+        p = NULL;
+    }
 }
+
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
