@@ -120,7 +120,7 @@ void bucketsort(size_t dsize, int *arr)
 {
     int maxval = arr[0];
     int minval = arr[0];
-    for(int i = 1; i != dsize; ++i)
+    for(int i = 0; i != dsize; ++i)
     {
         maxval = maxval > arr[i] ? maxval : arr[i];
         minval = minval < arr[i] ? minval : arr[i];
@@ -147,11 +147,20 @@ void bucketsort(size_t dsize, int *arr)
         int **p = new int* [div];
         int **temp = new int* [div];
         int **temp_1 = new int* [div];
-        for(size_t i = 0; i != div && numsofeachbucket[i] != 0; ++i)
+        for(size_t i = 0; i != div; ++i)
         {
-            p[i] = new int [numsofeachbucket[i]];
-            temp[i] = p[i];
-            temp_1[i] = p[i];
+            if(numsofeachbucket[i] != 0)
+            {
+                p[i] = new int [numsofeachbucket[i]];
+                temp[i] = p[i];
+                temp_1[i] = p[i];
+            }
+            else
+            {
+                p[i] = NULL;
+                temp[i] = NULL;
+                temp_1[i] = NULL;
+            }
         }
         for(size_t i = 0; i != dsize; ++i)
         {
