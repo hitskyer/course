@@ -325,8 +325,8 @@ void bucketsort(size_t dsize, int *arr)
     }
     else
     {
-        int space = 100000;  //每个桶数值最大差值
-        int div = ceil((float)(maxval-minval)/space);   //桶的个数，ceil取进位数(先float强转，避免丢失小数点)
+        int space = 10000;  //每个桶数值最大差值
+        int div = ceil((double)(maxval-minval)/space);   //桶的个数，ceil取进位数(先float强转，避免丢失小数点)
         int numsofeachbucket[div];
         for(size_t i =0; i != div; ++i)
         {
