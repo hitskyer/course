@@ -10,5 +10,6 @@ int main()
 	//cout << t << endl << *t << endl;
 	delete [] a;
 	p = NULL;
-	
+	a = NULL;
+	return 0;
 }
