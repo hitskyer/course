@@ -124,89 +124,91 @@ void quicksort(size_t dsize, int *arr)
 
 void bucketsort(size_t dsize, int *arr)
 {
-    if(dsize == 0)
+    if(dsize == 0)  //预防特殊情况下后面代码失效
     {
         return;
     }
     int maxval = arr[0];
     int minval = arr[0];
-    for(int i = 0; i != dsize; ++i)
+    for(int i = 0; i != dsize; ++i) //遍历数组，找出最大最小元素
     {
         maxval = maxval > arr[i] ? maxval : arr[i];
         minval = minval < arr[i] ? minval : arr[i];
     }
-    if(maxval == minval)
+    if(maxval == minval)    //如果最大==最小，数组不需要排序（排除下面div=0，进不了位，div总是为0）
     {
         return;
     }
     else
     {
-        int space = 10000;  //每个桶数值最大差值
-        int div = ceil((float)(maxval-minval)/space);   //桶的个数，ceil取进位数(先float强转，避免丢失小数点)
-        int numsofeachbucket[div];
+        int space = 10000;  //每个桶数元素值的最大差值（区间大小）
+        int div = ceil((double)(maxval-minval)/space);   //桶的个数，ceil取进位数(先double强转（float的精度不够高），避免丢失小数点)
+        //space 太小，桶个数太多，会造成栈空间溢出
+        int numsofeachbucket[div];  //开辟数组，存放每个桶内的元素个数
         for(size_t i =0; i != div; ++i)
         {
-            numsofeachbucket[i] = 0;
+            numsofeachbucket[i] = 0;    //每个桶的元素个数初始化为0
         }
         //memset(numsofeachbucket, 0, sizeof(numsofeachbucket));    //每个桶内元素个数置0
         //vector<int **p> bucket(div);
         for(size_t i = 0; i != dsize; ++i)
         {
-            ++numsofeachbucket[(arr[i]-minval)/space];  //把元素按大小分到不同的桶
+            ++numsofeachbucket[(arr[i]-minval)/space];  //把元素按大小分到不同的桶，并增加该桶元素个数
         }
-        int **p = new int* [div];
-        int **temp = new int* [div];
-        int **temp_1 = new int* [div];
+        int **p = new int* [div];   //开辟堆空间，指针数组，每个元素（指针）指向每个桶的0位
+        int **temp = new int* [div];    //临时数组，保存某些指针的初始值，方便delete（delete时，指针必须位于初始位置）
+        int **temp_1 = new int* [div];  //同上
         for(size_t i = 0; i != div; ++i)
         {
-            if(numsofeachbucket[i] != 0)
+            if(numsofeachbucket[i] != 0)    //桶内有元素（没有元素就不要申请空间了，如申请了，指针的地址不为NULL，会出问题）
             {
-                p[i] = new int [numsofeachbucket[i]];
-                temp[i] = p[i];
-                temp_1[i] = p[i];
+                p[i] = new int [numsofeachbucket[i]];   //指针数组，每个元素（指针）指向每个桶的0位
+                temp[i] = p[i]; //记录每个桶申请的空间的初始地址，后面delete temp_1[i]即可删除开辟的p[i] new出的空间
+                temp_1[i] = p[i];   //记录初始地址，后面p[i],temp[i]（指针）也要挪动
             }
             else
             {
-                p[i] = NULL;
+                p[i] = NULL;    //没有元素的桶，不申请空间，指针初始化为NULL
                 temp[i] = NULL;
                 temp_1[i] = NULL;
             }
         }
         for(size_t i = 0; i != dsize; ++i)
         {
-            size_t bucketidx = (arr[i]-minval)/space;
-            *p[bucketidx] = arr[i];
-            ++p[bucketidx];
+            size_t bucketidx = (arr[i]-minval)/space;   //遍历数组，每个元素的桶号
+            *p[bucketidx] = arr[i]; //把每个元素写入对应的桶中
+            ++p[bucketidx]; //该桶指针后移一位
         }
-            //p = p - numsofeachbucket[j];  //动态数组的指针不可修改，否则delete时会报错
-        static size_t idx = 0;
+        size_t idx = 0; //之前用了static，下次调用的时候idx不会被赋值 =0 操作
+        //cout << "static idx " << idx << endl;
         for(size_t i = 0; i != div; ++i)
         {
-            if(numsofeachbucket[i] != 0)
+            if(numsofeachbucket[i] != 0)    //桶非空
             {
-                if(numsofeachbucket[i]>1)
+                if(numsofeachbucket[i]>1)   //桶元素个数2个或更多
                 {
-                    quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行排序
+                    quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行快速排序（p[i]挪动过了，temp[i]指向数组首位）
                 }
                 for(size_t j = 0; j != numsofeachbucket[i]; ++j)
                 {
-                    arr[idx++] = *temp[i];
+                    arr[idx++] = *temp[i];  //对排序后的数组（1个元素不需排序），写入原数组
                     ++temp[i];
+                    //cout << "static idx " << idx << endl;
                 }
             }
         }
         for(size_t i = 0; i != div; ++i)
         {
-            if(numsofeachbucket[i] != 0)
+            if(numsofeachbucket[i] != 0)    //对申请出来的空间，释放掉
             {
-                delete [] temp_1[i];
-                temp_1[i] = NULL;
+                delete [] temp_1[i];    //上面每个桶的数组初始位置指针p[i],temp[i]都动过了，所以用此副本初始地址
+                temp_1[i] = NULL;       //被释放的空间的相关的指针置为空
                 temp[i] = NULL;
                 p[i] = NULL;
             }
         }
-        delete [] temp_1;
-        delete [] temp;
+        delete [] temp_1;   //delete 与 new 配对出现，释放数组，指针置NULL
+        delete [] temp;     //内存检测工具valgrind    http://valgrind.org/
         delete [] p;
         temp_1 = NULL;
         temp = NULL;
