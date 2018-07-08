@@ -10,7 +10,7 @@ const size_t G_SmallSize  = 1000;
 const int    G_CycleTimes = 1000;
 
 /*
- * 插入排序
+ * 1.插入排序
  * 每次在末尾插入一个数字，依次向前比较，类似与抓扑克牌(插入排序，每次左边的子序列都是有序的)
  */
 void insertsort(size_t dsize, int *arr) 
@@ -24,7 +24,7 @@ void insertsort(size_t dsize, int *arr)
 	}
 }
 /*
- *冒泡排序，数从前向后冒泡比较，冒泡过程中，数列无序状态
+ *2.冒泡排序，数从前向后冒泡比较，冒泡过程中，数列无序状态
  */
 void bsort(size_t dsize, int *arr)
 {
@@ -38,7 +38,7 @@ void bsort(size_t dsize, int *arr)
 	}
 }
 /*
- *选择排序,每次找出数值最小的下标，交换未排序区域第一个与最小的(与冒泡的区别，只交换一次)
+ *3.选择排序,每次找出数值最小的下标，交换未排序区域第一个与最小的(与冒泡的区别，只交换一次)
  */
 void selecsort(size_t dsize, int *arr)
 {
@@ -55,7 +55,7 @@ void selecsort(size_t dsize, int *arr)
 	}
 }
 /*
- * 希尔排序，分组插入排序，相隔gap个数的都为一组，从第gap个数开始（相当于每组数的第一个）
+ * 4.希尔排序，分组插入排序，相隔gap个数的都为一组，从第gap个数开始（相当于每组数的第一个）
  */
 void shellsort(size_t dsize, int *arr)
 {
@@ -74,7 +74,7 @@ void shellsort(size_t dsize, int *arr)
 	}
 }
 /*
- *归并排序，自顶向下，递归
+ *5.归并排序，自顶向下，递归
  */
 void merge(int *arr,size_t left,size_t mid,size_t right)
 {
@@ -113,7 +113,7 @@ void mergesort(size_t dsize, int *arr)
 	divide(arr,left,right);
 }
 /*
- * 快速排序
+ * 6.快速排序
  */
 size_t parr [2];
 void selectmedianofthree(int *arr, size_t left, size_t right)
@@ -229,7 +229,7 @@ void quicksort(size_t dsize, int *arr)
     }
 }
 /*
- * 堆排序，建堆（升序建大堆，降序建小堆）
+ * 7.堆排序，建堆（升序建大堆，降序建小堆）
  * 交换堆定与最后的数据
  * 调整，递归交换调整
  */
@@ -274,7 +274,7 @@ void heapsort(size_t dsize, int *arr)
 	}
 }
 /*
- *计数排序，找出数列中最大最下的数，并记录下每一个元素的个数，然后放回
+ *8.计数排序，找出数列中最大最下的数，并记录下每一个元素的个数，然后放回
  */
 void countsort(size_t dsize, int *arr)
 {
@@ -304,7 +304,7 @@ void countsort(size_t dsize, int *arr)
 	temp = NULL;
 }
 /*
- *桶排序，将数据按规则分组，对各小组再分别排序
+ *9.桶排序，将数据按规则分组，对各小组再分别排序
  */
 void bucketsort(size_t dsize, int *arr)
 {
@@ -399,7 +399,48 @@ void bucketsort(size_t dsize, int *arr)
         p = NULL;
     }
 }
-
+/*
+ *10.基数排序
+ */
+void radix_countsort(size_t dsize, int *arr, int exp)
+{
+	int numofeachbucket[10] = {0};
+	for(int i = 0; i != dsize; ++i)
+	{
+		++numofeachbucket[(arr[i]/exp)%10];	//记录该数位上相同的元素个数
+	}
+	for(int i = 1; i < 10; ++i)
+	{
+		numofeachbucket[i] += numofeachbucket[i-1]; //每个位数区间的最大序号+1的值
+	}
+	int *output = new int [dsize];
+	for(int i = dsize-1; i >= 0; --i)
+	{
+		output[--numofeachbucket[(arr[i]/exp)%10]] = arr[i];
+	}
+	for(int i = 0; i != dsize; ++i)
+	{
+		arr[i] = output[i];
+	}
+	delete [] output;
+	output = NULL;
+}
+void radixsort(size_t dsize, int *arr)
+{
+	if(dsize <= 1)
+	{
+		return;
+	}
+    int maxval = arr[0];
+    for(size_t i = 0; i != dsize; ++i)
+    {
+    	maxval = arr[i] > maxval ? arr[i] : maxval;
+    }
+    for(int exp = 1; maxval/exp > 0; exp *= 10)
+    {
+    	radix_countsort(dsize, arr, exp);
+    }
+}
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr) 
 {
@@ -543,6 +584,10 @@ int main(int argc, char *argv[])
 		else if (string(argv[2]) == "bucketsort")
 		{
 			test4sort(dsize, bucketsort);
+		}
+		else if (string(argv[2]) == "radixsort")
+		{
+			test4sort(dsize, radixsort);
 		}
 		else 
 		{
