@@ -7,7 +7,10 @@ using namespace std;
 #include <string.h>
 
 
-size_t parr [2];
+/*
+ * 6.快速排序(改进：不使用全局变量传递参数)
+ */
+//size_t parr [2];
 void selectmedianofthree(int *arr, size_t left, size_t right)
 {
         size_t mid = left + (right - left)/2;
@@ -25,11 +28,11 @@ void selectmedianofthree(int *arr, size_t left, size_t right)
         }
 }
 
-size_t partion(int *arr, size_t left, size_t right)
+size_t partion(int *arr, size_t left, size_t right, size_t &lessPnum, size_t &largePnum)
 {
     selectmedianofthree(arr,left,right);
 
-    size_t lessPnum = 0, largePnum=0;
+//   size_t lessPnum = 0, largePnum=0;
     int pval = arr[left];
 //    cout << "pval " << pval << endl;
     int *temp = new int [right-left+1];
@@ -58,8 +61,8 @@ size_t partion(int *arr, size_t left, size_t right)
     }
     delete [] temp;
     temp = NULL;
-    parr[0]=lessPnum;
-    parr[1]=largePnum;
+//    parr[0]=lessPnum;
+//    parr[1]=largePnum;
 //    cout << "lessPnum " << parr[0] << endl;
 //    cout << "largePnum " << parr[1] << endl;
 }
@@ -79,9 +82,10 @@ void qsort(int *arr, size_t left, size_t right, int deep)
     }
     else
     {
-        partion(arr,left,right);
-        size_t pl_index = left + parr[0];
-        size_t pr_index = right - parr[1];
+    	size_t lessPnum = 0, largePnum=0;
+        partion(arr,left,right,lessPnum,largePnum);
+        size_t pl_index = left + lessPnum;
+        size_t pr_index = right - largePnum;
 //      cout << "left " << left << "pl_index " << pl_index
 //           <<" pr_index " << pr_index << " right " << right << endl;
 
@@ -93,7 +97,7 @@ void qsort(int *arr, size_t left, size_t right, int deep)
         else if(pl_index == left && pr_index != right)
         {       
 //		cout << "deep is " << ++deep << endl;
-		qsort(arr,pr_index+1,right,deep);
+			qsort(arr,pr_index+1,right,deep);
         }
         else if(pl_index == left && pr_index == right)
         {
@@ -122,97 +126,72 @@ void quicksort(size_t dsize, int *arr)
 }
 
 
-void bucketsort(size_t dsize, int *arr)
+void bucketsort1(size_t dsize, int *arr)
 {
-    if(dsize == 0)  //预防特殊情况下后面代码失效
+    if(dsize <= 1)	//预防特殊情况下后面代码失效
     {
         return;
     }
     int maxval = arr[0];
     int minval = arr[0];
-    for(int i = 0; i != dsize; ++i) //遍历数组，找出最大最小元素
+    for(int i = 0; i != dsize; ++i)	//遍历数组，找出最大最小元素
     {
         maxval = maxval > arr[i] ? maxval : arr[i];
         minval = minval < arr[i] ? minval : arr[i];
     }
-    if(maxval == minval)    //如果最大==最小，数组不需要排序（排除下面div=0，进不了位，div总是为0）
+    if(maxval == minval)	//如果最大==最小，数组不需要排序（排除下面div=0，进不了位，div总是为0）
     {
         return;
     }
     else
     {
-        int space = 10000;  //每个桶数元素值的最大差值（区间大小）
-        int div = ceil((double)(maxval-minval)/space);   //桶的个数，ceil取进位数(先double强转（float的精度不够高），避免丢失小数点)
+        int div = 5;
+        int space = (maxval-minval)/div+1;
+        //桶的个数，ceil取进位数(先double强转（float的精度不够高），避免丢失小数点)
         //space 太小，桶个数太多，会造成栈空间溢出
-        int numsofeachbucket[div];  //开辟数组，存放每个桶内的元素个数
-        for(size_t i =0; i != div; ++i)
-        {
-            numsofeachbucket[i] = 0;    //每个桶的元素个数初始化为0
-        }
-        //memset(numsofeachbucket, 0, sizeof(numsofeachbucket));    //每个桶内元素个数置0
-        //vector<int **p> bucket(div);
+        int *numsofeachbucket = new int [div]();
+        int *endpositionofeachbucket = new int [div]();	//开辟数组，存放每个桶内的元素个数
+        //知识点：
+        //1.桶的个数跟数据相关，space是固定的，但是桶的个数会根据环境变化，不能确保程序在其他环境下正确运行
+        //2.div很大时，int numsofeachbucket[div]，直接撑爆栈空间，需要采用new 开辟堆空间
+        //3.当(maxval-minval)是space的整数倍的时候，段错误，访问越界
+        //第3个问题改成int div = floor((double)(maxval-minval)/space)+1;即可
+       
         for(size_t i = 0; i != dsize; ++i)
         {
             ++numsofeachbucket[(arr[i]-minval)/space];  //把元素按大小分到不同的桶，并增加该桶元素个数
+            ++endpositionofeachbucket[(arr[i]-minval)/space];
         }
-        int **p = new int* [div];   //开辟堆空间，指针数组，每个元素（指针）指向每个桶的0位
-        int **temp = new int* [div];    //临时数组，保存某些指针的初始值，方便delete（delete时，指针必须位于初始位置）
-        int **temp_1 = new int* [div];  //同上
+        for(int i = 1; i != div; ++i)
+		{
+			endpositionofeachbucket[i] += endpositionofeachbucket[i-1]; 
+			//每个桶区间的最大下标+1的值（现在存储的是下标区间的上限+1）
+		}
+		int *temparr = new int [dsize];	//开辟堆空间，指针数组，每个元素（指针）指向每个桶的0位
+        for(size_t i = 0; i != dsize; ++i)
+        {
+            temparr[--endpositionofeachbucket[(arr[i]-minval)/space]] = arr[i];	
+            //遍历数组，把每个元素写入对应的桶中
+            //运行完成后endpositionofeachbucket[i]就是该桶的首位
+        }
         for(size_t i = 0; i != div; ++i)
         {
-            if(numsofeachbucket[i] != 0)    //桶内有元素（没有元素就不要申请空间了，如申请了，指针的地址不为NULL，会出问题）
+            if(numsofeachbucket[i] > 1)	//桶非空
             {
-                p[i] = new int [numsofeachbucket[i]];   //指针数组，每个元素（指针）指向每个桶的0位
-                temp[i] = p[i]; //记录每个桶申请的空间的初始地址，后面delete temp_1[i]即可删除开辟的p[i] new出的空间
-                temp_1[i] = p[i];   //记录初始地址，后面p[i],temp[i]（指针）也要挪动
-            }
-            else
-            {
-                p[i] = NULL;    //没有元素的桶，不申请空间，指针初始化为NULL
-                temp[i] = NULL;
-                temp_1[i] = NULL;
-            }
+                quicksort(numsofeachbucket[i], &temparr[endpositionofeachbucket[i]]);   
+                //对动态数组进行快速排序（p[i]挪动过了，temp[i]指向数组首位）
+            }  
         }
         for(size_t i = 0; i != dsize; ++i)
         {
-            size_t bucketidx = (arr[i]-minval)/space;   //遍历数组，每个元素的桶号
-            *p[bucketidx] = arr[i]; //把每个元素写入对应的桶中
-            ++p[bucketidx]; //该桶指针后移一位
+            arr[i] = temparr[i];	//对排序后的数组（1个元素不需排序），写入原数组
         }
-        size_t idx = 0; //之前用了static，下次调用的时候idx不会被赋值 =0 操作
-        //cout << "static idx " << idx << endl;
-        for(size_t i = 0; i != div; ++i)
-        {
-            if(numsofeachbucket[i] != 0)    //桶非空
-            {
-                if(numsofeachbucket[i]>1)   //桶元素个数2个或更多
-                {
-                    quicksort(numsofeachbucket[i], temp[i]);   //对动态数组进行快速排序（p[i]挪动过了，temp[i]指向数组首位）
-                }
-                for(size_t j = 0; j != numsofeachbucket[i]; ++j)
-                {
-                    arr[idx++] = *temp[i];  //对排序后的数组（1个元素不需排序），写入原数组
-                    ++temp[i];
-                    //cout << "static idx " << idx << endl;
-                }
-            }
-        }
-        for(size_t i = 0; i != div; ++i)
-        {
-            if(numsofeachbucket[i] != 0)    //对申请出来的空间，释放掉
-            {
-                delete [] temp_1[i];    //上面每个桶的数组初始位置指针p[i],temp[i]都动过了，所以用此副本初始地址
-                temp_1[i] = NULL;       //被释放的空间的相关的指针置为空
-                temp[i] = NULL;
-                p[i] = NULL;
-            }
-        }
-        delete [] temp_1;   //delete 与 new 配对出现，释放数组，指针置NULL
-        delete [] temp;     //内存检测工具valgrind    http://valgrind.org/
-        delete [] p;
-        temp_1 = NULL;
-        temp = NULL;
-        p = NULL;
+        delete [] numsofeachbucket;	//delete 与 new 配对出现，释放数组，指针置NULL
+        delete [] endpositionofeachbucket;		//内存检测工具valgrind	http://valgrind.org/
+        delete [] temparr;
+        numsofeachbucket = NULL;
+        endpositionofeachbucket = NULL;
+        temparr = NULL;
     }
 }
 
@@ -226,7 +205,7 @@ void sort(int *arr)
     cout << endl;
 
 
-	bucketsort(dsize, arr);    
+	bucketsort1(dsize, arr);    
 
 
 
@@ -239,10 +218,10 @@ void sort(int *arr)
 }
 int main()
 {
-    int arr1[]={6,5,7,1,3,-6,6,8,4,2,5};
+    int arr1[]={6,5,7,1,3,0,6,8,4,10,5};
     int arr2[]={1,2,3,4,5,6,7,8,9,10,11};
     int arr3[]={11,10,9,8,7,6,5,4,3,2,1};
-    int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
+    int arr4[]={1,1,1,1,1,1,1,1,1,1,-5};
     sort(arr1);
     sort(arr2);
     sort(arr3);
