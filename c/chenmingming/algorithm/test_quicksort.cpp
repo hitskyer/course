@@ -375,7 +375,7 @@ void quicksort2(size_t dsize, int *arr)
  */
 void partion3(int *arr, size_t left, size_t right, size_t &lessPnum, size_t &largePnum)//数据分段
 {
-    int pval = arr[rand()%(right-left)+left];  //左边的数赋值给哨兵
+    int pval = arr[rand()%(right-left)+left];  //随机的数赋值给哨兵
     int *temp = new int [right-left+1]();  //开辟堆空间存放临时数组
     int tempLindex=0, tempRindex = right-left;  //临时数组的首末位下标
     for(int i = left+1; i <= right; ++i)
@@ -442,19 +442,19 @@ void quicksort3(size_t dsize, int *arr)
  */
 void selectmedianofthree4(int *arr, size_t left, size_t right)  //找出中间大小的数做哨兵
 {
-        size_t mid = left + (right - left)/2;  //中部数据的下标
-        if(arr[mid]>arr[right])
-        {
-                swap(arr[mid],arr[right]);
-        }
-        if(arr[left]>arr[right])
-        {
-                swap(arr[left],arr[right]);
-        }
-        if(arr[mid]>arr[left])
-        {
-                swap(arr[mid],arr[left]);  //把中间大小的数值放到首位
-        }
+    size_t mid = left + (right - left)/2;  //中部数据的下标
+    if(arr[mid]>arr[right])
+    {
+            swap(arr[mid],arr[right]);
+    }
+    if(arr[left]>arr[right])
+    {
+            swap(arr[left],arr[right]);
+    }
+    if(arr[mid]>arr[left])
+    {
+            swap(arr[mid],arr[left]);  //把中间大小的数值放到首位
+    }
 }
 void partion4(int *arr, size_t left, size_t right, size_t &lessPnum, size_t &largePnum)//数据分段
 {
