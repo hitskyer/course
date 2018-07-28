@@ -25,18 +25,24 @@ int main()
 	DNAdata dna[m];
 	char temp;
 	size_t i,j,k;
+	size_t A = 0, C = 0, G = 0;
 	for(int i = 0; i != m; ++i)
 	{
 		cin >> dna[i].name;
-		for(int j = 0; j != n; ++j)
+		for(int j = n-1; j >= 0; --j)
 		{
-			temp = dna[i].name[j];
-			for(k = j+1; k != n; ++k)
+			switch(dna[i].name[j])
 			{
-				if(temp>dna[i].name[k])
-				{
-					++dna[i].sum;
-				}
+				case 'A':
+					++A;break;
+				case 'C':
+					++C;dna[i].sum += A;break;
+				case 'G':
+					++G;dna[i].sum += A + C;break;
+				case 'T':
+					dna[i].sum += A + C + G;break;
+				default:
+					break;
 			}
 		}
 	}
