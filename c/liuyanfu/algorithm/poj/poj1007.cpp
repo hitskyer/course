@@ -23,17 +23,16 @@ void swapDNA(DNAdata &a,DNAdata &b)
 int main()
 {
 	size_t n,m;
-	n = 10;
-	m = 6;
-	DNAdata dna[6];
 	char temp;
 	size_t i,j,k;
-	dna[0].name= "AACATGAAGG";
-	dna[1].name= "TTTTGGCCAA";
-	dna[2].name= "TTTGGCCAAA";
-	dna[3].name= "GATCAGATTT";
-	dna[4].name= "CCCGGGGGGA";
-	dna[5].name= "ATCGATGCAT";
+	cin >> n >> m;
+	DNAdata *dna = new DNAdata[m];
+	int tp = 0;
+	while(tp<m)
+	{
+		cin >> dna[tp].name ;
+		++tp;
+	}
 	for(i=0;i!=m;++i)
 	{
 		for(j =0;j!=n;++j)
@@ -49,11 +48,6 @@ int main()
 			}
 		}
 	}
-	for (i =0;i!=m;++i)
-	{
-		cout << dna[i].name << " "<<dna[i].sum << endl;
-	}
-	cout << endl;
 	for(i=0;i!=m;++i)
 	{
 		for(j =0;j<m-i-1;++j)
@@ -66,7 +60,8 @@ int main()
 	}
 	for (i =0;i!=m;++i)
 	{
-		cout << dna[i].name << " "<<dna[i].sum << endl;
+		cout << dna[i].name << endl;
 	}
+	delete []dna;
 	return 0;
 }
