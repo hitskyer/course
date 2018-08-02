@@ -2,49 +2,67 @@
 using namespace std;
 
 
-void adjust(int *arr, size_t i, size_t dsize)
+void partion2(int *arr, size_t left, size_t right, size_t &lessPnum, size_t &largePnum)//数据分段
 {
-    size_t LowerLeftNode = i*2+1;   //下一层左边的节点
-    while(LowerLeftNode < dsize)
+    int pval = arr[left];  //左边的数赋值给哨兵
+    int *temp = new int [right-left+1]();  //开辟堆空间存放临时数组
+    int tempLindex=0, tempRindex = right-left;  //临时数组的首末位下标
+    for(int i = left+1; i <= right; ++i)
     {
-        if(LowerLeftNode+1< dsize && arr[LowerLeftNode]< arr[LowerLeftNode+1] )
+        if(pval > arr[i]) //比哨兵小的放在左边，从左边首位往中间写入，记录下比哨兵小的有多少个
         {
-            ++LowerLeftNode;
+            temp[tempLindex++] = arr[i];
+            ++lessPnum;
         }
-        if(arr[i]> arr[LowerLeftNode])
+        else  //比哨兵大或等于的放在右边，从右边末位往中间写入，记录下比哨兵大和等的有多少个
         {
-            break;
+            temp[tempRindex--] = arr[i];
+            largePnum++;
         }
-        swap(arr[i], arr[LowerLeftNode]);
-        i = LowerLeftNode;
-        LowerLeftNode = i*2+1;
+    }
+    temp[tempLindex] = pval;
+    for(int i = left, j=0; i <= right; ++i)
+    {
+        arr[i] = temp[j++]; //把分好段的数组写回原数组{[小于哨兵的],[大于等于哨兵的]}
+    }
+    delete [] temp; //释放临时数组
+    temp = NULL;  //指针置空
+}
+void qsort2(int *arr, size_t left, size_t right, int deep)
+{
+    if(left >= right)
+    {
+        return;
+    }
+    else
+    {
+        size_t lessPnum = 0, largePnum=0;
+        partion2(arr,left,right,lessPnum,largePnum);  //数据分段，{[小于哨兵],[等于哨兵],[大于哨兵]}
+        size_t p_index = left + lessPnum;  //哨兵的下标
+        if(p_index == right)  //哨兵位于数组最右边，且左边还有数据
+        {
+            qsort2(arr,left,p_index-1,deep); //只对左边非哨兵数据快排
+        }
+        else if(p_index == left)  //哨兵位于数组最左边，且右边还有数据
+        {
+            qsort2(arr,p_index+1,right,deep);  //只对右边非哨兵数据快排
+        }
+        else  //两侧都有非哨兵数据，对两侧调用快排
+        {
+            qsort2(arr,left,p_index-1,deep);
+            qsort2(arr,p_index+1,right,deep);
+        }
     }
 }
-void makeheap(size_t dsize, int *arr)
+void quicksort2(size_t dsize, int *arr)
 {
-    size_t i = 0;
-    for(size_t i = dsize/2 -1; i >=0;--i)   //底下第二层
+    if(dsize <= 1)  //预防特殊情况下后面代码失效
     {
-        adjust(arr,i,dsize);
-        if(i == 0)
-        {
-            break;
-        }
+        return;
     }
-}
-void heapsort(size_t dsize, int *arr)
-{
-    makeheap(dsize,arr);
-    size_t i = 0;
-    for(i=dsize-1;i>=0;--i)
-    {
-        swap(arr[i],arr[0]);
-        adjust(arr,0,i);
-        if(i == 0)
-        {
-            break;
-        }
-    }
+    size_t left = 0, right = dsize-1;
+    int deep = 0;  //可以打印显示出调用的层数
+    qsort2(arr,left,right,deep);
 }
 
 
@@ -60,12 +78,12 @@ void sort(int *arr)
 
 
 //    size_t left = 0, right = dsize-1;
-    heapsort(dsize,arr);
+    quicksort2(dsize,arr);
 
 
     for(int i=0;i <= 10;++i)
     {
-        cout << arr[i]<< " ";
+        cout << arr[i] << " ";
     }
     cout << endl;
 
