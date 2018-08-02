@@ -1,7 +1,7 @@
 #include<iostream>
 
 using namespace std;
-void swap(int *arr, int &low, int &high)
+void swap(int *arr, int low, int high)
 {
         int temp;
         temp=arr[low];
@@ -39,17 +39,17 @@ void qsort(int *arr, int low, int high)
         }
 }
 
-void quicksort(int *arr)
+void quicksort(int *arr, size_t length)
 {
-	qsort(arr, 1, sizeof(arr)/sizeof(arr[0]));
+	qsort(arr, 0, length-1);
 }
 
 
 int main()
 {
-	int a[21]={0,2,4,56,3,23,6,8,5,98,96,46,43,64,37,26,38,46,45,55,77};
-	quicksort(a);
-	for(int i=1;i<21;++i)
+	int a[20]={2,4,56,3,23,6,8,5,98,96,46,43,64,37,26,38,46,45,55,77};
+	quicksort(a, sizeof(a)/sizeof(a[0]));
+	for(int i=0;i<20;++i)
 	{
 		cout<<a[i]<<" ";
 	}
