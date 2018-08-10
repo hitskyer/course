@@ -13,5 +13,14 @@ int main()
 	{
 		cout << *iter << " ";
 	}
+
+	slist1=slist2;
+	//等价于
+	slist1=assign(slist2.begin(),slist.end());
+
+	slist1.assign(10,"Hello");
+	//等价于
+	slist1.clear();
+	slist1.insert(slist1.begin(),10,"Hello");
 	return 0;
 }
