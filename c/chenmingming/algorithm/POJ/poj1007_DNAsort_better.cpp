@@ -24,25 +24,35 @@ int main()
     DNAdata dna[101];
     char temp;
     size_t i,j,k;
+    size_t A = 0, C = 0, G = 0;
     for(i = 0; i != m; ++i)
     {
         for(j = 0; j != n; ++j) //输入1个dna的字符序列
         {
             cin >> dna[i].name[j];
         }
-        for(j = 0; j != n; ++j) //对该序列进行求逆序数
+        for(int j = n-1; j >= 0; --j)	//从后往前计算逆序数
         {
-            temp = dna[i].name[j];
-            for(k = j+1; k != n; ++k)
+            switch(dna[i].name[j])
             {
-                if(temp>dna[i].name[k])
-                {
-                    ++dna[i].sum;
-                }
+                case 'A':
+                    ++A;break;
+                case 'C':
+                    ++C;dna[i].sum += A;break;
+                case 'G':
+                    ++G;dna[i].sum += A + C;break;
+                case 'T':
+                    dna[i].sum += A + C + G;break;
+                default:
+                    break;
             }
         }
+        A = 0;	//为下一个计算，清零
+        C = 0;
+        G = 0;
     }
-    for (i = 0; i != m; ++i)  //插入排序
+
+    for (i = 0; i != m; ++i)	//插入排序
     {
         for (j = i; j > 0 && dna[j-1].sum > dna[j].sum; --j)
             //每次的子列都是有序的，判断条件可写在for(内)，否则不可（这么做减少运行次数）
@@ -51,6 +61,7 @@ int main()
             swapDNA(&dna[j-1], &dna[j]);
         }
     }
+
     for (i = 0; i != m; ++i)  //输出排序后的dna序列
     {
         for(j = 0; j != n; ++j)
@@ -58,6 +69,7 @@ int main()
             cout << dna[i].name[j];
         }
         cout << endl;
+        //cout << " " << dna[i].sum << endl;
     }
     return 0;
 }
