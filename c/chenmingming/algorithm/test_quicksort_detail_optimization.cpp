@@ -242,10 +242,10 @@ void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_
 {
     selectmedianofthree1(arr,left,right);  //找出中间大小的哨兵，让分段尽量均匀，提高效率
     int pval = arr[left];  //中间大小的数赋值给哨兵
-    int i = left, j = right;
+    size_t i = left, j = right;
     while(i < j)
     {
-        while(i < j && pval <= arr[j])
+        while(i < j && pval < arr[j]) //把<=改成<,则哨兵群都在右边,下面代码可减少
             --j;
         swap(arr[i],arr[j]);
         while(i < j && pval >= arr[i])
@@ -254,22 +254,26 @@ void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_
     }
     size_t pindex = i;
     size_t leftpnum = 0, rightpnum = 0;
-    for(i = pindex-1; i >= left; --i)
-    {
-        if(arr[i] == pval)
-        {
-            ++leftpnum;
-            pl_index = pindex - leftpnum;
-            swap(arr[i],arr[pl_index]);   
-        }
-    }
-    for(i = pindex+1; i <= right; ++i)
+    pl_index = pindex - leftpnum;
+    pr_index = pindex + rightpnum;
+    // for(i = pindex-1; i >= left; --i)//左边哨兵群向中间集合，哨兵都在右边，即可忽略以下代码
+    // {
+    //     if(arr[i] == pval)
+    //     {
+    //         ++leftpnum;
+    //         pl_index = pindex - leftpnum;
+    //         swap(arr[i],arr[pl_index]);
+    //     }
+    //     if(i == left)    //size_t 做减法要小心越界
+    //         break;
+    // }
+    for(i = pindex+1; i <= right; ++i)//右边哨兵群向中间集合
     {
         if(arr[i] == pval)
         {
             ++rightpnum;
             pr_index = pindex + rightpnum;
-            swap(arr[i],arr[pr_index]);  
+            swap(arr[i],arr[pr_index]);
         }
     }
 }
@@ -280,7 +284,7 @@ void qsort1_opti2(int *arr, size_t left, size_t right, int deep)
         return;
     }
     else if(right-left == 1)
-    //只有两个数直接比较交换（也可以设置长度小于X（比如10），调用其他排序，如归并，减少不必要的调用快排）
+        //只有两个数直接比较交换（也可以设置长度小于X（比如10），调用其他排序，如归并，减少不必要的调用快排）
     {
         if(arr[left]>arr[right])
         {
@@ -294,8 +298,8 @@ void qsort1_opti2(int *arr, size_t left, size_t right, int deep)
     }
     else
     {
-        size_t pl_index;  //首位哨兵的下标
-        size_t pr_index;  //末位哨兵的下标
+        size_t pl_index=0;  //首位哨兵的下标
+        size_t pr_index=0;  //末位哨兵的下标
         partion1_opti2(arr,left,right,pl_index,pr_index);  //数据分段，{[小于哨兵],[等于哨兵],[大于哨兵]}
         if(pr_index == right && pl_index != left)  //哨兵群位于数组最右边，且左边还有数据
         {
