@@ -22,9 +22,9 @@ void shellsort(size_t dsize, int *arr)
         }
     }
 }
-void selectmedianofthree1(int *arr, size_t left, size_t right)
+void selectmedianofthree1(int *arr, int left, int right)
 {
-    size_t mid = left + (right - left)/2;
+    int mid = left + (right - left)/2;
     if(arr[mid]>arr[right])
     {
         swap(arr[mid],arr[right]);
@@ -38,7 +38,7 @@ void selectmedianofthree1(int *arr, size_t left, size_t right)
         swap(arr[mid],arr[left]);
     }
 }
-void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_t &pr_index)//数据分段
+void partion1_opti2(int *arr, int left, int right, int &pl_index, int &pr_index)//数据分段
 {
     selectmedianofthree1(arr,left,right);  //找出中间大小的哨兵，让分段尽量均匀，提高效率
     int pval = arr[left];  //中间大小的数赋值给哨兵
@@ -54,50 +54,54 @@ void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_
     }
     size_t pindex = i;
     size_t leftpnum = 0, rightpnum = 0;
-    pl_index = pindex - leftpnum;
-    pr_index = pindex + rightpnum;
-    // for(i = pindex-1; i >= left; --i)
-    // {
-    //     if(arr[i] == pval)
-    //     {
-    //         ++leftpnum;
-    //         pl_index = pindex - leftpnum;
-    //         swap(arr[i],arr[pl_index]);   
-    //     }
-    // }
-    // for(i = pindex+1; i <= right; ++i)
-    // {
-    //     if(arr[i] == pval)
-    //     {
-    //         ++rightpnum;
-    //         pr_index = pindex + rightpnum;
-    //         swap(arr[i],arr[pr_index]);  
-    //     }
-    // }
+//    pl_index = pindex - leftpnum;
+//    pr_index = pindex + rightpnum;
+    for(i = pindex-1; i >= left; --i)
+    {
+        if(arr[i] == pval)
+        {
+            ++leftpnum;
+            pl_index = pindex - leftpnum;
+            swap(arr[i],arr[pl_index]);
+        }
+        if(i == left)
+            break;
+    }
+    for(i = pindex+1; i <= right; ++i)
+    {
+        if(arr[i] == pval)
+        {
+            ++rightpnum;
+            pr_index = pindex + rightpnum;
+            swap(arr[i],arr[pr_index]);
+        }
+        if(i == right)
+            break;
+    }
 }
-void qsort1_opti2(int *arr, size_t left, size_t right, int deep)
+void qsort1_opti2(int *arr, int left, int right, int deep)
 {
     if(left >= right)
     {
         return;
     }
     else if(right-left == 1)
-    //只有两个数直接比较交换（也可以设置长度小于X（比如10），调用其他排序，如归并，减少不必要的调用快排）
+        //只有两个数直接比较交换（也可以设置长度小于X（比如10），调用其他排序，如归并，减少不必要的调用快排）
     {
         if(arr[left]>arr[right])
         {
             swap(arr[left], arr[right]);
         }
     }
-    // else if(right-left > 1 && right-left < 20)  //数组长度较小时，调用希尔排序，减少调用快排
-    // {
-    //     size_t len = right - left + 1;
-    //     shellsort(len, &arr[left]); //数组首地址为&arr[left]
-    // }
+        // else if(right-left > 1 && right-left < 20)  //数组长度较小时，调用希尔排序，减少调用快排
+        // {
+        //     size_t len = right - left + 1;
+        //     shellsort(len, &arr[left]); //数组首地址为&arr[left]
+        // }
     else
     {
-        size_t pl_index;  //首位哨兵的下标
-        size_t pr_index;  //末位哨兵的下标
+        int pl_index;  //首位哨兵的下标
+        int pr_index;  //末位哨兵的下标
         partion1_opti2(arr,left,right,pl_index,pr_index);  //数据分段，{[小于哨兵],[等于哨兵],[大于哨兵]}
         if(pr_index == right && pl_index != left)  //哨兵群位于数组最右边，且左边还有数据
         {
@@ -124,7 +128,7 @@ void quicksort1_opti2(size_t dsize, int *arr)
     {
         return;
     }
-    size_t left = 0, right = dsize-1;
+    int left = 0, right = dsize-1;
     int deep = 0;  //可以打印显示出调用的层数
     qsort1_opti2(arr,left,right,deep);
 }
@@ -140,7 +144,7 @@ void sort(int *arr)
 
 
 
-    size_t left = 0, right = dsize-1;
+    int left = 0, right = dsize-1;
     quicksort1_opti2(dsize,arr);
 
 
@@ -158,7 +162,7 @@ int main()
     int arr3[]={11,10,9,8,7,6,5,4,3,2,1};
     int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
     int arr5[]={1,1,1,1,1,1,1,1,1,1,1};
-	int *p = arr1;
+    int *p = arr1;
     sort(p);
     sort(arr2);
     sort(arr3);
