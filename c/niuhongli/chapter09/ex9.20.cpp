@@ -41,8 +41,8 @@ int main()
     // 输出
     if(il==ilist.end()&&it==ivec.end())
     {
-   	 	cout << " The elements in vector and list are the same" << endl;
-   	 	return 0;
+   	 cout << " The elements in vector and list are the same" << endl;
+   	 return 0;
     }
     else
     {
