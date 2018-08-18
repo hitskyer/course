@@ -1,21 +1,45 @@
+function timediff() 
+{
+	# time format:date +"%s.%N", such as 1502758855.907197692
+    start_time=$1
+    end_time=$2
+    
+    start_s=${start_time%.*}
+    start_nanos=${start_time#*.}
+    end_s=${end_time%.*}
+    end_nanos=${end_time#*.}
+    
+    # end_nanos > start_nanos? 
+    # Another way, the time part may start with 0, which means
+    # it will be regarded as oct format, use "10#" to ensure
+    # calculateing with decimal
+    if [ "$end_nanos" -lt "$start_nanos" ];then
+        end_s=$(( 10#$end_s - 1 ))
+        end_nanos=$(( 10#$end_nanos + 10**9 ))
+    fi
+    
+	# get timediff
+    time=$(( 10#$end_s - 10#$start_s )).$(( (10#$end_nanos - 10#$start_nanos)/10**6 ))
+    avgtime=`echo "sclae=4; $time/$n" | bc -l`
+    echo $avgtime
+}
 
-
-starttime=`date +'%Y-%m-%d %H:%M:%S'`
+starttime=`date +'%s.%N'`
 
 i=0
-n=2
-while [ $i -lt 2 ] 
+n=5
+while [ $i -lt 5 ] 
 do
-    ./a.out big quicksort1 &
+    ./a.out big quicksort1
+    wait
     let i=i+1
 done
 wait # 等待执行完成 即可
-endtime=`date +'%Y-%m-%d %H:%M:%S'`
+endtime=`date +'%s.%N'`
 
-start_seconds=$(date --date="$starttime" +%s)
-end_seconds=$(date --date="$endtime" +%s)
-let time=end_seconds-start_seconds
-let avgtime=time/n
-echo "程序平均运行时间： $avgtime s"
+
+echo "程序平均运行时间： "  
+timediff $starttime $endtime 
+echo " s"
 
 exit 0
