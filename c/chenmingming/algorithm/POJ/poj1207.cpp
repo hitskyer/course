@@ -5,12 +5,12 @@ int main()
 	int a,b;
 	while(cin >> a >> b)
 	{
+		cout << a << " " << b << " " ;//坑，要先输出a,b,如果调换了，输出就颠倒了
 		if(a > b)
 			swap(a,b);
-		int len = b-a+1;
-		int *maxcyclen = new int [len];
+		int maxcyclen=0;
 		int cyctime=0;
-		int num=0,maxcyctime=0;
+		int num=0;
 		for(int i = a,j=0; i <= b; ++i,++j)
 		{
 			num = i;
@@ -27,17 +27,12 @@ int main()
 				}
 				++cyctime;
 			}
-			maxcyclen[j] = cyctime;
+			if(maxcyclen < cyctime)
+			{
+				maxcyclen = cyctime;
+			}
 		}
-		maxcyctime = maxcyclen[0];
-		for(int i = 0; i != len; ++i)
-		{
-			if(maxcyctime < maxcyclen[i])
-				maxcyctime = maxcyclen[i];
-		}
-		cout << a << " " << b << " " << maxcyctime << endl;
-		delete [] maxcyclen;
-		maxcyclen = NULL;
+		cout << maxcyclen << endl;
 	}
 	return 0;
 }
