@@ -1,6 +1,3 @@
-#include <iostream>
-using namespace std;
-
 void parti(int *arr,size_t left,size_t right)
 {
 	size_t mid  = (left+right)/2;
@@ -22,11 +19,15 @@ void qsort(int *arr, size_t left, size_t right)
 {
 	if (left >= right)
 		return;
+	else if(right-left == 1)
+	{
+		if(arr[right]<arr[left])
+			swap(arr[right],arr[left]);
+	}
 	parti(arr,left,right);
 	size_t i = left;
 	size_t j = right;
 	int temp = arr[left];
-	int t    = 0;
 	while(i!=j)
 	{
 		while(i<j && arr[j]>temp)
@@ -35,16 +36,14 @@ void qsort(int *arr, size_t left, size_t right)
 			++i;
 		if(i < j)
 		{
-			t = arr[i];
-			arr[i] = arr[j];
-			arr[j] = t;
+			swap(arr[i],arr[j]);
 		}
 	}
 	arr[left] = arr[i];
 	arr[i]   = temp;
 
-	int pval = i;
-	int k1=0,k2=i-1;
+	size_t pval = i;
+	size_t k1=left,k2=pval;
 	while(k1!=k2)
 	{
 		while(k1<k2 && arr[k2]==temp)
@@ -56,14 +55,14 @@ void qsort(int *arr, size_t left, size_t right)
 			swap(arr[k1],arr[k2]);
 		}
 	}
-	if(k2!=0)
+	if(k2!=left)
 	{
 		if(arr[k2]==temp)
 			qsort(arr,left,k2-1);
 		else
 			qsort(arr,left,k2);
 	}
-	qsort(arr,i+1,right);
+	qsort(arr,pval+1,right);
 	return;
 
 }

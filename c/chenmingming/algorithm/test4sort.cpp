@@ -31,12 +31,15 @@ void insertsort(size_t dsize, int *arr) //dsize是数组arr的长度
 }
 
 /*
+<<<<<<< HEAD
+=======
  时间复杂度分析
  最好情况：原数列有序，每次放在最后就好了，复杂度为n
  最坏情况：原数列倒序的，每次都要挪到最前面，1+2+...+n-1=n(n-1)/2
  */
 
 /*
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
  *2.冒泡排序，数从前向后冒泡比较，冒泡过程中，数列无序状态
  */
 void bsort(size_t dsize, int *arr)
@@ -104,7 +107,11 @@ void selecsort(size_t dsize, int *arr)
 
 
 /*
+<<<<<<< HEAD
+ * 4.希尔排序，分组插入排序，相隔gap个数的都为一组，从第gap个数开始（相当于每组数的第一个）
+=======
  * 4.希尔排序，分组插入排序，相隔gap个数的都为一组，从第gap个数开始
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
  */
 void shellsort(size_t dsize, int *arr)
 {
@@ -184,9 +191,13 @@ void mergesort(size_t dsize, int *arr)
 }
 
 /*
+<<<<<<< HEAD
+ * 6.快速排序
+=======
  1. 6.快速排序
  2. 对数组找出一个中间大小的合适哨兵，把小于哨兵的放左边，大于哨兵的放右边，中间是等于哨兵的
  3. 分别对左右递归调用快排
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
  */
 size_t parr [2]; //全局变量，全局变量不好，长期占用内存，每个函数都可访问，容易被修改，函数间相互干扰
 void selectmedianofthree(int *arr, size_t left, size_t right)  //找出中间大小的数做哨兵
@@ -397,8 +408,13 @@ void quicksort1(size_t dsize, int *arr)
 
 /*
  * 7.堆排序，建堆（升序建大堆，降序建小堆）
+<<<<<<< HEAD
+ * 交换堆定与最后的数据
+ * 调整，递归交换调整
+=======
  * 交换堆顶与最后一位无序数据
  * 调整堆，递归，交换调整
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
  */
 void adjust(int *arr, size_t i, size_t dsize)
 {
@@ -445,7 +461,11 @@ void heapsort(size_t dsize, int *arr)
 }
 
 /*
+<<<<<<< HEAD
+ *8.计数排序，找出数列中最大最下的数，并记录下每一个元素的个数，然后放回
+=======
  *8.计数排序，找出数列中最大最小的数，并记录下每一个元素的个数，然后放回
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
  */
 void countsort(size_t dsize, int *arr)
 {
@@ -584,6 +604,8 @@ void bucketsort(size_t dsize, int *arr)
         p = NULL;
     }
 }
+<<<<<<< HEAD
+=======
 
 /*
  *9.1桶排序(改进)，将数据按规则分组，对各小组再分别排序
@@ -656,11 +678,51 @@ void bucketsort1(size_t dsize, int *arr)
         temparr = NULL;
     }
 }
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
 /*
  *10.基数排序
  */
 void radix_countsort(size_t dsize, int *arr, int exp)
 {
+<<<<<<< HEAD
+	int numofeachbucket[10] = {0};
+	for(int i = 0; i != dsize; ++i)
+	{
+		++numofeachbucket[(arr[i]/exp)%10];	//记录该数位上相同的元素个数
+	}
+	for(int i = 1; i < 10; ++i)
+	{
+		numofeachbucket[i] += numofeachbucket[i-1]; //每个位数区间的最大序号+1的值
+	}
+	int *output = new int [dsize];
+	for(int i = dsize-1; i >= 0; --i)
+	{
+		output[--numofeachbucket[(arr[i]/exp)%10]] = arr[i];
+	}
+	for(int i = 0; i != dsize; ++i)
+	{
+		arr[i] = output[i];
+	}
+	delete [] output;
+	output = NULL;
+}
+void radixsort(size_t dsize, int *arr)
+{
+	if(dsize <= 1)
+	{
+		return;
+	}
+    int maxval = arr[0];
+    for(size_t i = 0; i != dsize; ++i)
+    {
+    	maxval = arr[i] > maxval ? arr[i] : maxval;
+    }
+    for(int exp = 1; maxval/exp > 0; exp *= 10)
+    {
+    	radix_countsort(dsize, arr, exp);
+    }
+}
+=======
     int numofeachbucket[10] = {0};  //十个数位，每个桶上有0个元素
     for(int i = 0; i != dsize; ++i)
     {
@@ -701,6 +763,7 @@ void radixsort(size_t dsize, int *arr)
 }
 
 
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
 //产生随机数
 void rand4data(int i, size_t dsize, int *arr)
 {
@@ -846,15 +909,22 @@ int main(int argc, char *argv[])
 		{
 			test4sort(dsize, bucketsort);
 		}
+<<<<<<< HEAD
+=======
 		else if (string(argv[2]) == "bucketsort1")
 		{
 			test4sort(dsize, bucketsort1);
 		}
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
 		else if (string(argv[2]) == "radixsort")
 		{
 			test4sort(dsize, radixsort);
 		}
+<<<<<<< HEAD
+		else 
+=======
 		else
+>>>>>>> cef98c1e8f466044d516a61f31f389bc94413bd4
 		{
 			cerr << "unknown method for sorting : " << argv[2] << endl;
 			return -3;
