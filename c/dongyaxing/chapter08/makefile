@@ -5,7 +5,7 @@ CC	=g++
 CCFLAGS = -std=c++0x
 
 #编译目标文件
-OBJECTS = eg_3.exe write.exe read.exe
+OBJECTS = eg_3.exe eg_9.exe eg_16.exe write.exe read.exe
 
 #make
 all : $(OBJECTS)
