@@ -245,29 +245,32 @@ void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_
     size_t i = left, j = right;
     while(i < j)
     {
-        while(i < j && pval < arr[j]) //把<=改成<,则哨兵群都在右边,下面代码可减少
+        while(i < j && pval <= arr[j]) //把<=改成<,则哨兵群都在左边,下面相应代码可减少
             --j;
         swap(arr[i],arr[j]);
-        while(i < j && pval >= arr[i])
+        while(i < j && pval > arr[i])//(=号至少有一个才行，只有一个等号，然后忽略下面半边集合哨兵代码段是最高效的)
             ++i;
         swap(arr[i],arr[j]);
     }
     size_t pindex = i;
-    size_t leftpnum = 0, rightpnum = 0;
-    pl_index = pindex - leftpnum;
-    pr_index = pindex + rightpnum;
-    // for(i = pindex-1; i >= left; --i)//左边哨兵群向中间集合，哨兵都在右边，即可忽略以下代码
+    size_t leftpnum = 0, rightpnum = 0; //左右跟哨兵相等的元素个数
+    pl_index = pindex;//记得初始化！！！之前没有写，假如进不去for，没有初始化，就越界了
+    pr_index = pindex;
+    // if(pindex != 0)//如果pindex = 0，下面 i = pindex - 1 越界
     // {
-    //     if(arr[i] == pval)
+    //     for(i = pindex-1; i >= left; --i)//左边哨兵群向中间集合，哨兵都在右边，即可忽略以下代码
     //     {
-    //         ++leftpnum;
-    //         pl_index = pindex - leftpnum;
-    //         swap(arr[i],arr[pl_index]);
+    //         if(arr[i] == pval)
+    //         {
+    //             ++leftpnum;
+    //             pl_index = pindex - leftpnum;
+    //             swap(arr[i],arr[pl_index]);
+    //         }
+    //         if(i == left)    //size_t 做减法要小心越界
+    //             break;
     //     }
-    //     if(i == left)    //size_t 做减法要小心越界
-    //         break;
     // }
-    for(i = pindex+1; i <= right; ++i)//右边哨兵群向中间集合
+    for(i = pindex+1; i <= right; ++i)//右边哨兵群向中间集合,哨兵都在左边边，即可忽略以下代码
     {
         if(arr[i] == pval)
         {
@@ -298,8 +301,8 @@ void qsort1_opti2(int *arr, size_t left, size_t right, int deep)
     }
     else
     {
-        size_t pl_index=0;  //首位哨兵的下标
-        size_t pr_index=0;  //末位哨兵的下标
+        size_t pl_index;  //首位哨兵的下标
+        size_t pr_index;  //末位哨兵的下标
         partion1_opti2(arr,left,right,pl_index,pr_index);  //数据分段，{[小于哨兵],[等于哨兵],[大于哨兵]}
         if(pr_index == right && pl_index != left)  //哨兵群位于数组最右边，且左边还有数据
         {
