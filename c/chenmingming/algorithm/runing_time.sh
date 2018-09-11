@@ -30,7 +30,7 @@ i=0
 n=5
 while [ $i -lt 5 ] 
 do
-    ./a.out big quicksort1
+    ./a.out big quicksort1_opti2
     wait
     let i=i+1
 done

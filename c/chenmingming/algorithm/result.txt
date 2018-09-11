@@ -1,0 +1,52 @@
+You have completed for sort testing!
+And the total time is 1034.94 seconds.
+You have completed for sort testing!
+And the total time is 1036.43 seconds.
+You have completed for sort testing!
+And the total time is 1034.45 seconds.
+You have completed for sort testing!
+And the total time is 1040.21 seconds.
+You have completed for sort testing!
+And the total time is 1040.94 seconds.
+程序平均运行时间： 
+217.05580000000000000000
+ s
+You have completed for sort testing!
+And the total time is 196.119 seconds.
+You have completed for sort testing!
+And the total time is 195.627 seconds.
+You have completed for sort testing!
+And the total time is 195.56 seconds.
+You have completed for sort testing!
+And the total time is 194.935 seconds.
+You have completed for sort testing!
+And the total time is 195.423 seconds.
+程序平均运行时间： 
+203.97140000000000000000
+ s
+You have completed for sort testing!
+And the total time is 191.43 seconds.
+You have completed for sort testing!
+And the total time is 191.699 seconds.
+You have completed for sort testing!
+And the total time is 192.528 seconds.
+You have completed for sort testing!
+And the total time is 191.29 seconds.
+You have completed for sort testing!
+And the total time is 190.99 seconds.
+程序平均运行时间： 
+200.04680000000000000000
+ s
+You have completed for sort testing!
+And the total time is 157.211 seconds.
+You have completed for sort testing!
+And the total time is 156.715 seconds.
+You have completed for sort testing!
+And the total time is 156.803 seconds.
+You have completed for sort testing!
+And the total time is 156.679 seconds.
+You have completed for sort testing!
+And the total time is 157.024 seconds.
+程序平均运行时间： 
+165.37340000000000000000
+ s
