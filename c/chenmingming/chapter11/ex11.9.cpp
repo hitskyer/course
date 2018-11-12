@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 	}
 	vector<string> words;
 	string word;
-	while(cin >> word)
+	while(infile >> word)
 		words.push_back(word);
 	sort(words.begin(),words.end());
 	words.erase(unique(words.begin(),words.end()),words.end());
