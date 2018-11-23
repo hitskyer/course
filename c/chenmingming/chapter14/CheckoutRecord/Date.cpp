@@ -3,6 +3,13 @@
 using namespace std;
 
 Date::Date(int y, int m, int d):year(y),month(m),day(d) { }
+Date& Date::operator=(const Date &date)
+{
+    year = date.year;
+    month = date.month;
+    day = date.day;
+    return *this;
+}
 istream& operator>>(istream &in, Date &date)
 {
     int y,m,d;
