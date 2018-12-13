@@ -1,0 +1,11 @@
+hellpo
+hello word
+name
+adress
+telephone number
+mobile telephone
+character
+hobby
+favorite-subject
+favorite-sports
+favorite-books
