@@ -13,5 +13,5 @@ def build_profile(lastname,firstname,**profiles):
 		user_profile[key] = value
 	print(id(user_profile))
 	return user_profile
-cmm = build_profile('chen','mingming',height='178cm')
-print('\n',id(cmm))
+cmm = build_profile('chen','mingming',height='178cm',weight='79Kg')
+print('\n',cmm)
