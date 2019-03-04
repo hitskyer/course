@@ -45,37 +45,41 @@ void partion1_opti2(int *arr, size_t left, size_t right, size_t &pl_index, size_
     size_t i = left, j = right;
     while(i < j)
     {
-        while(i < j && pval < arr[j]) //把<=改成<,则哨兵群都在右边,下面代码可减少
+        while(i < j && pval <= arr[j]) //把<=改成<,则哨兵群都在右边,下面代码可减少
             --j;
         swap(arr[i],arr[j]);
+        
         while(i < j && pval >= arr[i])
             ++i;
         swap(arr[i],arr[j]);
+        
     }
+
     size_t pindex = i;
     size_t leftpnum = 0, rightpnum = 0;
     pl_index = pindex - leftpnum;
     pr_index = pindex + rightpnum;
-    // for(i = pindex-1; i >= left; --i)//左边哨兵群向中间集合，哨兵都在右边，即可忽略以下代码
-    // {
-    //     if(arr[i] == pval)
-    //     {
-    //         ++leftpnum;
-    //         pl_index = pindex - leftpnum;
-    //         swap(arr[i],arr[pl_index]);
-    //     }
-    //     if(i == left)	//size_t 做减法要小心越界
-    //         break;
-    // }
-    for(i = pindex+1; i <= right; ++i)//右边哨兵群向中间集合
+    
+    for(i = pindex-1; i >= left; --i)//左边哨兵群向中间集合，哨兵都在右边，即可忽略以下代码
     {
         if(arr[i] == pval)
         {
-            ++rightpnum;
-            pr_index = pindex + rightpnum;
-            swap(arr[i],arr[pr_index]);
+            ++leftpnum;
+            pl_index = pindex - leftpnum;
+            swap(arr[i],arr[pl_index]);
         }
+        if(i == left)	//size_t 做减法要小心越界
+            break;
     }
+    // for(i = pindex+1; i <= right; ++i)//右边哨兵群向中间集合
+    // {
+    //     if(arr[i] == pval)
+    //     {
+    //         ++rightpnum;
+    //         pr_index = pindex + rightpnum;
+    //         swap(arr[i],arr[pr_index]);
+    //     }
+    // }
 }
 void qsort1_opti2(int *arr, size_t left, size_t right, int deep)
 {
@@ -155,21 +159,21 @@ void sort(int *arr)
 }
 int main()
 {
-    // int arr1[]={6,5,7,1,3,6,6,8,4,2,0};
-    // int *p = arr1;
-    // sort(p);
+    int arr1[]={6,5,7,6,3,6,9,8,4,2,6};
+    int *p = arr1;
+    sort(p);
 
-//    int arr2[]={1,2,3,4,5,6,7,8,9,10,11};
-//    sort(arr2);
+    int arr2[]={1,2,3,4,5,6,7,8,9,10,11};
+    sort(arr2);
 
     int arr3[]={11,10,9,8,7,6,5,4,3,2,1};
-     sort(arr3);
+    sort(arr3);
 
-    //    int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
-    // sort(arr4);
+    int arr4[]={2,1,1,1,1,1,1,1,1,1,1};
+    sort(arr4);
 
-    //    int arr5[]={1,1,1,1,1,1,1,1,1,1,1};
-    //    sort(arr5);
+    int arr5[]={1,1,1,1,1,1,1,1,1,1,1};
+    sort(arr5);
 
     return 0;
 }
