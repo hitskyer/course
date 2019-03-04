@@ -1,9 +1,5 @@
-#include "single_linkedlist.h"
 #include <iostream>
-#include <string>
-
-int main()
-{
-    Single_linkedlist<string> strlist;
+int main() {
+    std::cout << "Hello, World!" << std::endl;
     return 0;
 }
