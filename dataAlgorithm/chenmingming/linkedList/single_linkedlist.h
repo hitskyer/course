@@ -35,14 +35,20 @@ public:
     {
         return p_tail;
     }
-    int getLength()  //返回链表长度
+    int getLength() const //返回链表长度
     {
         return listlength;
+    }
+    bool isEmpty() const    //判断链表是否为空
+    {
+        return listlength == 0;
     }
     ElemType getCurData(LinkNode<ElemType>* p) const  //返回当前节点的数据内容
     {
         return p->_data;
     }
+    LinkNode<ElemType>* find(int m) const; //按下标查找
+    LinkNode<ElemType>* find(ElemType &data) const; //按元素值查找
     void printList() const; //打印链表数据
 
 };

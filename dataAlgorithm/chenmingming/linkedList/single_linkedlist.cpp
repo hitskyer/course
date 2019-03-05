@@ -62,6 +62,39 @@ template <class ElemType> void Single_linkedlist<ElemType>:: deleteAll()
     p_tail = NULL;
 }
 
+template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(int m) const
+{
+    if(m < 0 | m >= listlength)
+    {
+        cout << "位置不正确（位置序号从0开始）！" << endl;
+    }
+    else
+    {
+        LinkNode<ElemType> *tempNode;
+        tempNode = p_head;
+        for(int i = 1; i <= m; ++i,tempNode = tempNode->_next)
+        {   //空函数体
+        }
+        return tempNode;
+    }
+}
+template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(ElemType &data) const
+{
+    LinkNode<ElemType> *tempNode;
+    for(tempNode = p_head; (tempNode->_data != data) && (tempNode != NULL); tempNode = tempNode->_next)
+    {   //空函数体
+    }
+    if(tempNode != NULL)
+    {
+        cout << "找到了指定元素！地址是：" << tempNode << endl;
+        return tempNode;
+    }
+    else
+    {
+        cout << data << " is not exist!" << endl;
+        return NULL;
+    }
+}
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
