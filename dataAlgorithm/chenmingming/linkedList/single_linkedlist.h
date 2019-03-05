@@ -14,9 +14,31 @@ template <class ElemType> struct LinkNode      //节点类
 };
 template <class ElemType> class Single_linkedlist
 {
-    LinkNode<ElemType> *p_head, *p_tail;    //首尾指针
-    int listlength; //链表长度
+    LinkNode<ElemType> *p_head = NULL;   //首尾指针
+    LinkNode<ElemType> *p_tail = NULL;
+    int listlength = 0; //链表长度
 public:
+    Single_linkedlist(int len = 0)
+    {
+        LinkNode<ElemType> *curNode, *prevNode;
+        for(int i = 0; i != len; ++i)
+        {
+            curNode = new LinkNode<ElemType>;
+            if(i == 0)
+            {
+                p_head = curNode;
+                p_tail = curNode;
+                prevNode = curNode;
+            }
+            else
+            {
+                prevNode->_next = curNode;
+                p_tail = curNode;
+                prevNode = curNode;
+            }
+            ++listlength;
+        }
+    }
     void* get_p_head() //返回头节点的位置，即头指针
     {
         return p_head;
@@ -32,6 +54,16 @@ public:
     ElemType getCurData(LinkNode<ElemType>* p) const  //返回当前节点的数据内容
     {
         return p->_data;
+    }
+    void printList() const
+    {
+        int m = 0;
+        LinkNode<ElemType>* tempNode;
+        tempNode = this -> p_head;
+        for(;tempNode != NULL; tempNode = tempNode->_next)
+        {
+            cout << "N.O[" << m++ << "] element "  << tempNode->_data << endl;
+        }
     }
 };
 
