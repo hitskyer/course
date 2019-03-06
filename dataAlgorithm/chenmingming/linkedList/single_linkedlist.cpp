@@ -17,7 +17,7 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len
             prevNode = curNode;
         }
         ++listlength;
-        delete curNode;
+//        delete curNode;
     }
 }
 template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char reverse, int len)
@@ -41,7 +41,10 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char re
                 prevNode = curNode;
             }
             ++listlength;
-            delete curNode;
+//            if(i != 0)
+//            {
+//                delete curNode;
+//            }
         }
     }
     else
