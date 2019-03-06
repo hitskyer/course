@@ -24,7 +24,10 @@ template <class ElemType> class Single_linkedlist
 public:
     Single_linkedlist(int len = 0); //构造函数(顺序插入)
     Single_linkedlist(char reverse, int len = 0); //构造函数(逆序插入)
-    ~Single_linkedlist(){ deleteAll();}  //析构函数
+    ~Single_linkedlist()    //析构函数
+    {
+//        deleteAll();  //不能写这句！！！内存释放错误！！！
+    }
 
     void deleteAll();   //删除所有节点
     void* get_p_head() const //返回头节点的位置，即头指针

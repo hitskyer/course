@@ -3,11 +3,11 @@
 #include <string>
 int main()
 {
-//    Single_linkedlist<int> intList1(1);
-//    intList1.printList();
-//    cout << "链表长度是：" << intList1.getLength() << endl;
-//    Single_linkedlist<double> doubleList1(3);
-//    doubleList1.printList();
+    Single_linkedlist<int> intList1(3);
+    intList1.printList();
+    cout << "链表长度是：" << intList1.getLength() << endl;
+    intList1.deleteAll();
+    cout << "链表长度是：" << intList1.getLength() << endl;
     Single_linkedlist<string> strList1('r',3);
     strList1.printList();
     cout << "链表是空的吗？(0:不是；1:是)" << strList1.isEmpty() << endl;
