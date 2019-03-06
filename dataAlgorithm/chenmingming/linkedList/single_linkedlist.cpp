@@ -17,6 +17,7 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len
             prevNode = curNode;
         }
         ++listlength;
+        delete curNode;
     }
 }
 template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char reverse, int len)
@@ -40,6 +41,7 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char re
                 prevNode = curNode;
             }
             ++listlength;
+            delete curNode;
         }
     }
     else
@@ -72,7 +74,7 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
     {
         LinkNode<ElemType> *tempNode;
         tempNode = p_head;
-        for(int i = 1; i <= m; ++i,tempNode = tempNode->_next)
+        for(int i = 0; i < m; ++i,tempNode = tempNode->_next)
         {   //空函数体
         }
         return tempNode;
@@ -81,7 +83,7 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
 template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(ElemType &data) const
 {
     LinkNode<ElemType> *tempNode;
-    for(tempNode = p_head; (tempNode->_data != data) && (tempNode != NULL); tempNode = tempNode->_next)
+    for(tempNode = p_head; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next)
     {   //空函数体
     }
     if(tempNode != NULL)
@@ -94,6 +96,16 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
         cout << data << " is not exist!" << endl;
         return NULL;
     }
+}
+template <class ElemType> void Single_linkedlist<ElemType>::addHead(ElemType &data)
+{
+    LinkNode<ElemType> node = LinkNode<ElemType>(data);
+    node._next = p_head;
+    p_head = &node;
+    ++listlength;
+    cout << "新的链表是：\n";
+    this->printList();
+    cout << "链表的长度是：" << listlength << endl;
 }
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {

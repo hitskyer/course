@@ -27,11 +27,11 @@ public:
     ~Single_linkedlist(){ deleteAll();}  //析构函数
 
     void deleteAll();   //删除所有节点
-    void* get_p_head() //返回头节点的位置，即头指针
+    void* get_p_head() const //返回头节点的位置，即头指针
     {
         return p_head;
     }
-    void* get_p_tail() //返回为节点的位置，即尾指针
+    void* get_p_tail() const //返回为节点的位置，即尾指针
     {
         return p_tail;
     }
@@ -47,6 +47,7 @@ public:
     {
         return p->_data;
     }
+    void addHead(ElemType &data);    //在链表头部添加元素
     LinkNode<ElemType>* find(int m) const; //按下标查找
     LinkNode<ElemType>* find(ElemType &data) const; //按元素值查找
     void printList() const; //打印链表数据

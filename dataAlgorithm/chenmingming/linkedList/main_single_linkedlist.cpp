@@ -15,5 +15,6 @@ int main()
     string str("abc");
     cout << "链表的包含字符串\"abc\"的元素的地址：" << endl;
     strList1.find(str);
+    strList1.addHead(str);
     return 0;
 }
