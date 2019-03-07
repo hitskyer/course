@@ -6,15 +6,15 @@ int main()
 {
     Single_linkedlist<int> intList1(3);
     intList1.printList();
-    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << intList1.getLength() << endl;
+    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << intList1.getLength() << endl;
     intList1.deleteAll();
-    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << intList1.getLength() << endl;
+    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << intList1.getLength() << endl;
     Single_linkedlist<string> strList1('r',3);
     strList1.printList();
-    cout << "Á´±íÊÇ¿ÕµÄÂğ£¿(0:²»ÊÇ£»1:ÊÇ)" << strList1.isEmpty() << endl;
-    cout << "Á´±íµÄµÚ2ºÅÔªËØlist[2]ÊÇ£º" << (strList1.find(2))->_data<< endl;
+    cout << "é“¾è¡¨æ˜¯ç©ºçš„å—ï¼Ÿ(0:ä¸æ˜¯ï¼›1:æ˜¯)" << strList1.isEmpty() << endl;
+    cout << "é“¾è¡¨çš„ç¬¬2å·å…ƒç´ list[2]æ˜¯ï¼š" << (strList1.find(2))->_data << endl;
     string str("abc");
-    cout << "Á´±íµÄ°üº¬×Ö·û´®\"abc\"µÄÔªËØµÄµØÖ·£º" << endl;
+    cout << "é“¾è¡¨çš„åŒ…å«å­—ç¬¦ä¸²\"abc\"çš„å…ƒç´ çš„åœ°å€ï¼š" << endl;
     strList1.find(str);
     strList1.addHead(str);
     strList1.addTail(str);

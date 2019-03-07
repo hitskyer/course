@@ -42,7 +42,7 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char re
     }
     else
     {
-        cout << "you should enter 'r' or 'R' to the second Parameter£¡" << endl;
+        cout << "you should enter 'r' or 'R' to the second Parameterï¼" << endl;
     }
 }
 
@@ -65,13 +65,12 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
 {
     if(m < 0 | m >= listlength)
     {
-        cout << "Î»ÖÃ²»ÕýÈ·£¨Î»ÖÃÐòºÅ´Ó0¿ªÊ¼£©£¡" << endl;
+        cout << "ä½ç½®ä¸æ­£ç¡®ï¼ˆä½ç½®åºå·ä»Ž0å¼€å§‹ï¼‰ï¼" << endl;
     }
     else
     {
         LinkNode<ElemType> *tempNode = p_head;
-        for(int i = 0; i < m; ++i,tempNode = tempNode->_next)
-        {   //¿Õº¯ÊýÌå
+        for (int i = 0; i < m; ++i, tempNode = tempNode->_next) {   //ç©ºå‡½æ•°ä½“
         }
         return tempNode;
     }
@@ -79,12 +78,11 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
 template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(ElemType &data) const
 {
     LinkNode<ElemType> *tempNode = p_head;
-    for( ; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next)
-    {   //¿Õº¯ÊýÌå
+    for (; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next) {   //ç©ºå‡½æ•°ä½“
     }
     if(tempNode != NULL)
     {
-        cout << "ÕÒµ½ÁËÖ¸¶¨ÔªËØ£¡µØÖ·ÊÇ£º" << tempNode << endl;
+        cout << "æ‰¾åˆ°äº†æŒ‡å®šå…ƒç´ ï¼åœ°å€æ˜¯ï¼š" << tempNode << endl;
         return tempNode;
     }
     else
@@ -107,9 +105,9 @@ template <class ElemType> void Single_linkedlist<ElemType>::addHead(const ElemTy
         p_head = node;
     }
     ++listlength;
-    cout << "ÐÂµÄÁ´±íÊÇ£º\n";
+    cout << "æ–°çš„é“¾è¡¨æ˜¯ï¼š\n";
     this->printList();
-    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << listlength << endl;
+    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << listlength << endl;
 }
 template <class ElemType> void Single_linkedlist<ElemType>::addTail(const ElemType &data)
 {
@@ -125,9 +123,9 @@ template <class ElemType> void Single_linkedlist<ElemType>::addTail(const ElemTy
         p_tail = node;
     }
     ++listlength;
-    cout << "ÐÂµÄÁ´±íÊÇ£º\n";
+    cout << "æ–°çš„é“¾è¡¨æ˜¯ï¼š\n";
     this->printList();
-    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << listlength << endl;
+    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << listlength << endl;
 }
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {

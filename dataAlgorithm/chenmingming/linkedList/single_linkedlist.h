@@ -4,10 +4,11 @@
 #include<iostream>
 using namespace std;
 
-template <class ElemType> struct LinkNode      //½ÚµãÀà
+template<class ElemType>
+struct LinkNode      //èŠ‚ç‚¹ç±»
 {
-    ElemType _data;    //½ÚµãµÄÊı¾İ
-    LinkNode* _next;    //Ö¸Ïò¸Ã½ÚµãµÄÏÂÒ»¸ö½ÚµãµÄÖ¸Õë
+    ElemType _data;    //èŠ‚ç‚¹çš„æ•°æ®
+    LinkNode *_next;    //æŒ‡å‘è¯¥èŠ‚ç‚¹çš„ä¸‹ä¸€ä¸ªèŠ‚ç‚¹çš„æŒ‡é’ˆ
     LinkNode(): _next(NULL)
     {
         cout << "please enter data: ";
@@ -18,43 +19,48 @@ template <class ElemType> struct LinkNode      //½ÚµãÀà
 };
 template <class ElemType> class Single_linkedlist
 {
-    LinkNode<ElemType> *p_head = NULL;   //Ê×Î²Ö¸Õë
+    LinkNode<ElemType> *p_head = NULL;   //é¦–å°¾æŒ‡é’ˆ
     LinkNode<ElemType> *p_tail = NULL;
-    int listlength = 0; //Á´±í³¤¶È
+    int listlength = 0; //é“¾è¡¨é•¿åº¦
 public:
-    Single_linkedlist(int len = 0); //¹¹Ôìº¯Êı(Ë³Ğò²åÈë)
-    Single_linkedlist(char reverse, int len = 0); //¹¹Ôìº¯Êı(ÄæĞò²åÈë)
-    ~Single_linkedlist()    //Îö¹¹º¯Êı
+    Single_linkedlist(int len = 0); //æ„é€ å‡½æ•°(é¡ºåºæ’å…¥)
+    Single_linkedlist(char reverse, int len = 0); //æ„é€ å‡½æ•°(é€†åºæ’å…¥)
+    ~Single_linkedlist()    //ææ„å‡½æ•°
     {
-//        deleteAll();  //²»ÄÜĞ´Õâ¾ä£¡£¡£¡ÄÚ´æÊÍ·Å´íÎó£¡£¡£¡
+        deleteAll();  //é‡Šæ”¾newå‡ºæ¥çš„èŠ‚ç‚¹
     }
 
-    void deleteAll();   //É¾³ıËùÓĞ½Úµã
-    void* get_p_head() const //·µ»ØÍ·½ÚµãµÄÎ»ÖÃ£¬¼´Í·Ö¸Õë
+    void deleteAll();   //åˆ é™¤æ‰€æœ‰èŠ‚ç‚¹
+    void *get_p_head() const //è¿”å›å¤´èŠ‚ç‚¹çš„ä½ç½®ï¼Œå³å¤´æŒ‡é’ˆ
     {
         return p_head;
     }
-    void* get_p_tail() const //·µ»ØÎª½ÚµãµÄÎ»ÖÃ£¬¼´Î²Ö¸Õë
+
+    void *get_p_tail() const //è¿”å›ä¸ºèŠ‚ç‚¹çš„ä½ç½®ï¼Œå³å°¾æŒ‡é’ˆ
     {
         return p_tail;
     }
-    int getLength() const //·µ»ØÁ´±í³¤¶È
+
+    int getLength() const //è¿”å›é“¾è¡¨é•¿åº¦
     {
         return listlength;
     }
-    bool isEmpty() const    //ÅĞ¶ÏÁ´±íÊÇ·ñÎª¿Õ
+
+    bool isEmpty() const    //åˆ¤æ–­é“¾è¡¨æ˜¯å¦ä¸ºç©º
     {
         return listlength == 0;
     }
-    ElemType getCurData(LinkNode<ElemType>* p) const  //·µ»Øµ±Ç°½ÚµãµÄÊı¾İÄÚÈİ
+
+    ElemType getCurData(LinkNode<ElemType> *p) const  //è¿”å›å½“å‰èŠ‚ç‚¹çš„æ•°æ®å†…å®¹
     {
         return p->_data;
     }
-    void addHead(const ElemType &data);    //ÔÚÁ´±íÍ·²¿Ìí¼ÓÔªËØ
-    void addTail(const ElemType &data);     //ÔÚÁ´±íÎ²²¿Ìí¼ÓÔªËØ
-    LinkNode<ElemType>* find(int m) const; //°´ÏÂ±ê²éÕÒ
-    LinkNode<ElemType>* find(ElemType &data) const; //°´ÔªËØÖµ²éÕÒ
-    void printList() const; //´òÓ¡Á´±íÊı¾İ
+
+    void addHead(const ElemType &data);    //åœ¨é“¾è¡¨å¤´éƒ¨æ·»åŠ å…ƒç´ 
+    void addTail(const ElemType &data);     //åœ¨é“¾è¡¨å°¾éƒ¨æ·»åŠ å…ƒç´ 
+    LinkNode<ElemType> *find(int m) const; //æŒ‰ä¸‹æ ‡æŸ¥æ‰¾
+    LinkNode<ElemType> *find(ElemType &data) const; //æŒ‰å…ƒç´ å€¼æŸ¥æ‰¾
+    void printList() const; //æ‰“å°é“¾è¡¨æ•°æ®
 
 };
 
