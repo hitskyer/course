@@ -18,35 +18,35 @@ int main()
 
 	lst.PrintList();
 
-	cout << "头结点的数据为： " << lst.GetHeadNode()->data << endl;
-	cout << "尾节点的数据为： " << lst.GetTailNode()->data << endl;
-	cout << "链表的长度为： "   << lst.GetSize() << endl;
+	cout << "The First Node is: " << lst.GetHeadNode()->data << endl;
+	cout << "The Last Node is:  " << lst.GetTailNode()->data << endl;
+	cout << "The Length of current list is: "   << lst.GetSize() << endl;
 
 	int a = 0;
-	cout << "请输入你要查找的内容： ";
+	cout << "Enter a Number to find ";
 	cin >> a;
 	if(!lst.Find(a))
-		cout << "您查找的数据不存在！" << endl;
+		cout << "This Number is not exist in current list!" << endl;
 	else
-		cout << "找到了，您查找的数据为： " << lst.Find(a)->data << endl;
+		cout << "I find it. It is  " << lst.Find(a)->data << endl;
 
 	cout << endl;
-	cout << "删除指定的数据节点" << endl;
+	cout << "Remove special node" << endl;
 	lst.RemoveAt(lst.GetNode(21));
 	lst.PrintList();
-	cout << "链表的长度为： "   << lst.GetSize() << endl;
+	cout << "The length of current list:  "   << lst.GetSize() << endl;
 
 	cout << endl;
-	cout << "在指定数据节点位置插入数据" << endl;
+	cout << "Insert data in list" << endl;
 	lst.InsertAt(lst.GetNode(28), 88);
 	lst.PrintList();
-	cout << "链表的长度为： "   << lst.GetSize() << endl;
+	cout << "The length of current list:  "   << lst.GetSize() << endl;
 
 	cout << endl;
-	cout << "修改指定数据节点的数据" << endl;
+	cout << "Modify data of specail node" << endl;
 	lst.ModifyAt(lst.GetNode(89), 99);
 	lst.PrintList();
-	cout << "链表的长度为： "   << lst.GetSize() << endl;
+	cout << "The length of current list:  "   << lst.GetSize() << endl;
 	
 	lst.Erase();
 	return 0;
