@@ -106,6 +106,16 @@ template <class ElemType> void Single_linkedlist<ElemType>::addHead(ElemType &da
     this->printList();
     cout << "链表的长度是：" << listlength << endl;
 }
+template <class ElemType> void Single_linkedlist<ElemType>::addTail(ElemType &data)
+{
+    LinkNode<ElemType> node = LinkNode<ElemType>(data);
+    p_tail->_next = &node;
+    p_tail = &node;
+    ++listlength;
+    cout << "新的链表是：\n";
+    this->printList();
+    cout << "链表的长度是：" << listlength << endl;
+}
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
