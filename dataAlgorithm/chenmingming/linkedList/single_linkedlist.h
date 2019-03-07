@@ -50,8 +50,8 @@ public:
     {
         return p->_data;
     }
-    void addHead(ElemType &data);    //在链表头部添加元素
-    void addTail(ElemType &data);     //在链表尾部添加元素
+    void addHead(const ElemType &data);    //在链表头部添加元素
+    void addTail(const ElemType &data);     //在链表尾部添加元素
     LinkNode<ElemType>* find(int m) const; //按下标查找
     LinkNode<ElemType>* find(ElemType &data) const; //按元素值查找
     void printList() const; //打印链表数据

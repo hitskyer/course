@@ -1,6 +1,6 @@
 template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len)
 {
-    LinkNode<ElemType> *curNode, *prevNode;
+    LinkNode<ElemType> *curNode;
     for(int i = 0; i != len; ++i)
     {
         curNode = new LinkNode<ElemType>;
@@ -8,13 +8,11 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len
         {
             p_head = curNode;
             p_tail = curNode;
-            prevNode = curNode;
         }
         else
         {
-            prevNode->_next = curNode;
+            p_tail->_next = curNode;
             p_tail = curNode;
-            prevNode = curNode;
         }
         ++listlength;
     }
@@ -44,7 +42,7 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char re
     }
     else
     {
-        cout << "you should enter 'r' or 'R' to the second Parameterï¼" << endl;
+        cout << "you should enter 'r' or 'R' to the second Parameter£¡" << endl;
     }
 }
 
@@ -67,27 +65,26 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
 {
     if(m < 0 | m >= listlength)
     {
-        cout << "ä½ç½®ä¸æ­£ç¡®ï¼ˆä½ç½®åºå·ä»Ž0å¼€å§‹ï¼‰ï¼" << endl;
+        cout << "Î»ÖÃ²»ÕýÈ·£¨Î»ÖÃÐòºÅ´Ó0¿ªÊ¼£©£¡" << endl;
     }
     else
     {
-        LinkNode<ElemType> *tempNode;
-        tempNode = p_head;
+        LinkNode<ElemType> *tempNode = p_head;
         for(int i = 0; i < m; ++i,tempNode = tempNode->_next)
-        {   //ç©ºå‡½æ•°ä½“
+        {   //¿Õº¯ÊýÌå
         }
         return tempNode;
     }
 }
 template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(ElemType &data) const
 {
-    LinkNode<ElemType> *tempNode;
-    for(tempNode = p_head; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next)
-    {   //ç©ºå‡½æ•°ä½“
+    LinkNode<ElemType> *tempNode = p_head;
+    for( ; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next)
+    {   //¿Õº¯ÊýÌå
     }
     if(tempNode != NULL)
     {
-        cout << "æ‰¾åˆ°äº†æŒ‡å®šå…ƒç´ ï¼åœ°å€æ˜¯ï¼š" << tempNode << endl;
+        cout << "ÕÒµ½ÁËÖ¸¶¨ÔªËØ£¡µØÖ·ÊÇ£º" << tempNode << endl;
         return tempNode;
     }
     else
@@ -96,31 +93,46 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
         return NULL;
     }
 }
-template <class ElemType> void Single_linkedlist<ElemType>::addHead(ElemType &data)
+template <class ElemType> void Single_linkedlist<ElemType>::addHead(const ElemType &data)
 {
-    LinkNode<ElemType> node = LinkNode<ElemType>(data);
-    node._next = p_head;
-    p_head = &node;
+    LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
+    if(p_head == NULL)
+    {
+        p_head = node;
+        p_tail = node;
+    }
+    else
+    {
+        node->_next = p_head;
+        p_head = node;
+    }
     ++listlength;
-    cout << "æ–°çš„é“¾è¡¨æ˜¯ï¼š\n";
+    cout << "ÐÂµÄÁ´±íÊÇ£º\n";
     this->printList();
-    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << listlength << endl;
+    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << listlength << endl;
 }
-template <class ElemType> void Single_linkedlist<ElemType>::addTail(ElemType &data)
+template <class ElemType> void Single_linkedlist<ElemType>::addTail(const ElemType &data)
 {
-    LinkNode<ElemType> node = LinkNode<ElemType>(data);
-    p_tail->_next = &node;
-    p_tail = &node;
+    LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
+    if(p_tail == NULL)
+    {
+        p_head = node;
+        p_tail = node;
+    }
+    else
+    {
+        p_tail->_next = node;
+        p_tail = node;
+    }
     ++listlength;
-    cout << "æ–°çš„é“¾è¡¨æ˜¯ï¼š\n";
+    cout << "ÐÂµÄÁ´±íÊÇ£º\n";
     this->printList();
-    cout << "é“¾è¡¨çš„é•¿åº¦æ˜¯ï¼š" << listlength << endl;
+    cout << "Á´±íµÄ³¤¶ÈÊÇ£º" << listlength << endl;
 }
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
-    LinkNode<ElemType>* tempNode;
-    tempNode = this -> p_head;
+    LinkNode<ElemType>* tempNode = p_head;
     for(;tempNode != NULL; tempNode = tempNode->_next)
     {
         cout << "N.O[" << m++ << "] element "  << tempNode->_data << endl;
