@@ -4,7 +4,7 @@
 
 int main()
 {
-    Single_linkedlist<int> intList1(3);
+    Single_linkedlist<int> intList1(2);
     intList1.printList();
     cout << "链表的长度是：" << intList1.getLength() << endl;
     intList1.deleteAll();

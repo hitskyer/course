@@ -1,16 +1,18 @@
+/*
+ * 内存泄漏总结：
+ * 局部定义的指针，指向new出来的节点（堆空间），指针就可以返回
+ * （如果指针没有指向堆空间，函数退出后，栈内的内容销毁，返回的指针也就是无效的）
+ * 链表析构的时候delete 这些new出来的节点的地址（堆指针）
+ */
 template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len)
 {
     LinkNode<ElemType> *curNode;
-    for(int i = 0; i != len; ++i)
-    {
+    for(int i = 0; i != len; ++i) {
         curNode = new LinkNode<ElemType>;
-        if(i == 0)
-        {
+        if(i == 0) {
             p_head = curNode;
             p_tail = curNode;
-        }
-        else
-        {
+        } else {
             p_tail->_next = curNode;
             p_tail = curNode;
         }
@@ -19,29 +21,22 @@ template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(int len
 }
 template <class ElemType> Single_linkedlist<ElemType>::Single_linkedlist(char reverse, int len)
 {
-    if(reverse == 'r' | reverse == 'R')
-    {
+    if(reverse == 'r' | reverse == 'R') {
         LinkNode<ElemType> *curNode, *prevNode;
-        for(int i = 0; i != len; ++i)
-        {
+        for(int i = 0; i != len; ++i) {
             curNode = new LinkNode<ElemType>;
-            if(i == 0)
-            {
+            if(i == 0) {
                 p_head = curNode;
                 p_tail = curNode;
                 prevNode = curNode;
-            }
-            else
-            {
+            } else {
                 curNode->_next = prevNode;
                 p_head = curNode;
                 prevNode = curNode;
             }
             ++listlength;
         }
-    }
-    else
-    {
+    } else {
         cout << "you should enter 'r' or 'R' to the second Parameter！" << endl;
     }
 }
@@ -50,8 +45,7 @@ template <class ElemType> void Single_linkedlist<ElemType>:: deleteAll()
 {
     LinkNode<ElemType> *del_tempNode, *tempNode;
     del_tempNode = this -> p_head;
-    while(del_tempNode != NULL)
-    {
+    while(del_tempNode != NULL) {
         tempNode = del_tempNode -> _next;
         delete del_tempNode;
         del_tempNode = tempNode;
@@ -63,12 +57,9 @@ template <class ElemType> void Single_linkedlist<ElemType>:: deleteAll()
 
 template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(int m) const
 {
-    if(m < 0 | m >= listlength)
-    {
+    if(m < 0 | m >= listlength) {
         cout << "位置不正确（位置序号从0开始）！" << endl;
-    }
-    else
-    {
+    } else {
         LinkNode<ElemType> *tempNode = p_head;
         for (int i = 0; i < m; ++i, tempNode = tempNode->_next) {   //空函数体
         }
@@ -80,13 +71,10 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
     LinkNode<ElemType> *tempNode = p_head;
     for (; (tempNode != NULL) && (tempNode->_data != data); tempNode = tempNode->_next) {   //空函数体
     }
-    if(tempNode != NULL)
-    {
+    if(tempNode != NULL) {
         cout << "找到了指定元素！地址是：" << tempNode << endl;
         return tempNode;
-    }
-    else
-    {
+    } else {
         cout << data << " is not exist!" << endl;
         return NULL;
     }
@@ -94,13 +82,10 @@ template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(
 template <class ElemType> void Single_linkedlist<ElemType>::addHead(const ElemType &data)
 {
     LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
-    if(p_head == NULL)
-    {
+    if(p_head == NULL) {
         p_head = node;
         p_tail = node;
-    }
-    else
-    {
+    } else {
         node->_next = p_head;
         p_head = node;
     }
@@ -112,13 +97,10 @@ template <class ElemType> void Single_linkedlist<ElemType>::addHead(const ElemTy
 template <class ElemType> void Single_linkedlist<ElemType>::addTail(const ElemType &data)
 {
     LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
-    if(p_tail == NULL)
-    {
+    if(p_tail == NULL) {
         p_head = node;
         p_tail = node;
-    }
-    else
-    {
+    } else {
         p_tail->_next = node;
         p_tail = node;
     }
@@ -131,8 +113,7 @@ template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
     LinkNode<ElemType>* tempNode = p_head;
-    for(;tempNode != NULL; tempNode = tempNode->_next)
-    {
+    for(; tempNode != NULL; tempNode = tempNode->_next) {
         cout << "N.O[" << m++ << "] element "  << tempNode->_data << endl;
     }
 }
