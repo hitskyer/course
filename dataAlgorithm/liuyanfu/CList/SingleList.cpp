@@ -177,7 +177,7 @@ void SingleList<ElmDataType>::PrintList() const
 	UINT Index = 1;
 	while(p)
 	{
-		cout << "第" << Index << "个链表节点的数据为:  " << p->data << endl;
+		std::cout <<"The " << Index << "th of current list is:  "<< p->data << std::endl;
 		p = p->pNext;
 		++Index;
 	}
