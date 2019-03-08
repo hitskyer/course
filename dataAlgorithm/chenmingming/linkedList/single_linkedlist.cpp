@@ -57,11 +57,16 @@ template <class ElemType> void Single_linkedlist<ElemType>:: deleteAll()
 
 template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::find(int m) const
 {
-    if(m < 0 | m >= listlength) {
+    if(m < 0 | m >= listlength)
+    {
         cout << "位置不正确（位置序号从0开始）！" << endl;
-    } else {
+        return NULL;
+    }
+    else
+    {
         LinkNode<ElemType> *tempNode = p_head;
-        for (int i = 0; i < m; ++i, tempNode = tempNode->_next) {   //空函数体
+        for (int i = 0; i < m; ++i, tempNode = tempNode->_next)
+        {   //空函数体
         }
         return tempNode;
     }
@@ -109,11 +114,69 @@ template <class ElemType> void Single_linkedlist<ElemType>::addTail(const ElemTy
     this->printList();
     cout << "链表的长度是：" << listlength << endl;
 }
+template <class ElemType> bool Single_linkedlist<ElemType>::insertAtElemFront(const LinkNode<ElemType> &data, int i)
+{
+    LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
+    LinkNode<ElemType> *tempNode = p_head;
+    if(i < 0 | i >= listlength)
+    {
+        cout << "位置不正确（位置序号从0开始）！" << endl;
+        return false;
+    }
+    else
+    {
+        if(this->find(i) == NULL)
+        {
+            p_head = node;
+            p_tail = node;
+        }
+        else
+        {
+            while(tempNode->_next != this->find(i))
+            {
+                tempNode = tempNode->_next;
+            }
+            node->_next = this->find(i);
+            tempNode->_next = node;
+        }
+        return true;
+    }
+}
+template <class ElemType> bool Single_linkedlist<ElemType>::insertAtElemBack(const LinkNode<ElemType> &data, int i)
+{
+    LinkNode<ElemType> *node = new LinkNode<ElemType>(data);
+    LinkNode<ElemType> *tempNode = p_head;
+    if(i < 0 | i >= listlength)
+    {
+        cout << "位置不正确（位置序号从0开始）！" << endl;
+        return false;
+    }
+    else
+    {
+        if(this->find(i) == NULL)
+        {
+            p_head = node;
+            p_tail = node;
+        }
+        else
+        {
+            tempNode = this->find(i);
+            node->_next = tempNode->_next;
+            tempNode->_next = node;
+        }
+        return true;
+    }
+}
+template <class ElemType> bool Single_linkedlist<ElemType>::deleteElem(int i)
+{
+
+}
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
     LinkNode<ElemType>* tempNode = p_head;
-    for(; tempNode != NULL; tempNode = tempNode->_next) {
+    for(; tempNode != NULL; tempNode = tempNode->_next)
+    {
         cout << "N.O[" << m++ << "] element "  << tempNode->_data << endl;
     }
 }

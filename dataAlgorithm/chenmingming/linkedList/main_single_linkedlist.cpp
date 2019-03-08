@@ -18,5 +18,9 @@ int main()
     strList1.find(str);
     strList1.addHead(str);
     strList1.addTail(str);
+    strList1.insertAtElemFront(str,2);
+    strList1.printList();
+    strList1.insertAtElemBack(str,3);
+    strList1.printList();
     return 0;
 }
