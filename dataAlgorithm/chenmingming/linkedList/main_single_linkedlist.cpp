@@ -22,5 +22,7 @@ int main()
     strList1.printList();
     strList1.insertAtElemBack(str,3);
     strList1.printList();
+    strList1.deleteElem(strList1.getLength()-1);
+    strList1.printList();
     return 0;
 }

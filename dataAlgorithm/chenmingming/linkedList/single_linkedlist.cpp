@@ -139,6 +139,7 @@ template <class ElemType> bool Single_linkedlist<ElemType>::insertAtElemFront(co
             node->_next = this->find(i);
             tempNode->_next = node;
         }
+        ++listlength;
         return true;
     }
 }
@@ -164,12 +165,39 @@ template <class ElemType> bool Single_linkedlist<ElemType>::insertAtElemBack(con
             node->_next = tempNode->_next;
             tempNode->_next = node;
         }
+        ++listlength;
         return true;
     }
 }
 template <class ElemType> bool Single_linkedlist<ElemType>::deleteElem(int i)
 {
-
+    LinkNode<ElemType> *tempNode = p_head, *deleteNode;
+    if(i < 0 | i >= listlength)
+    {
+        cout << "位置不正确（位置序号从0开始）！" << endl;
+        return false;
+    }
+    else
+    {
+        if(this->find(i) == NULL)
+        {
+            return false;
+        }
+        else
+        {
+            deleteNode = this->find(i);
+            while (tempNode->_next != deleteNode)
+            {
+                tempNode = tempNode->_next;
+            }
+            tempNode->_next = deleteNode->_next;
+            if (deleteNode == p_tail)
+                p_tail = tempNode;
+            delete deleteNode;
+            --listlength;
+            return true;
+        }
+    }
 }
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
