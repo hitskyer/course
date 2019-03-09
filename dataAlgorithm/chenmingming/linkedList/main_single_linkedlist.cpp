@@ -24,5 +24,7 @@ int main()
     strList1.printList();
     strList1.deleteElem(strList1.getLength()-1);
     strList1.printList();
+    strList1.modifyElem(strList1.getLength()-1,string("end"));
+    strList1.printList();
     return 0;
 }

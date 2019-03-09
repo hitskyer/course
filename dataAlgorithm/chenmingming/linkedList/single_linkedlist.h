@@ -63,6 +63,7 @@ public:
     bool insertAtElemFront(const LinkNode<ElemType> &data, int i);    //在i号元素前插入新节点
     bool insertAtElemBack(const LinkNode<ElemType> &data, int i);    //在i号元素后插入新节点
     bool deleteElem(int i); //删除i号元素节点
+    bool modifyElem(int i, const ElemType &data);   //修改i号元素的值
     void printList() const; //打印链表数据
 
 };

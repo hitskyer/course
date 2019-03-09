@@ -172,6 +172,7 @@ template <class ElemType> bool Single_linkedlist<ElemType>::insertAtElemBack(con
 template <class ElemType> bool Single_linkedlist<ElemType>::deleteElem(int i)
 {
     LinkNode<ElemType> *tempNode = p_head, *deleteNode;
+    deleteNode = this->find(i);
     if(i < 0 | i >= listlength)
     {
         cout << "位置不正确（位置序号从0开始）！" << endl;
@@ -179,13 +180,12 @@ template <class ElemType> bool Single_linkedlist<ElemType>::deleteElem(int i)
     }
     else
     {
-        if(this->find(i) == NULL)
+        if(deleteNode == NULL)
         {
             return false;
         }
         else
         {
-            deleteNode = this->find(i);
             while (tempNode->_next != deleteNode)
             {
                 tempNode = tempNode->_next;
@@ -195,6 +195,28 @@ template <class ElemType> bool Single_linkedlist<ElemType>::deleteElem(int i)
                 p_tail = tempNode;
             delete deleteNode;
             --listlength;
+            return true;
+        }
+    }
+}
+template <class ElemType> bool Single_linkedlist<ElemType>::modifyElem(int i, const ElemType &data)
+{
+    LinkNode<ElemType> *tempNode = p_head, *modifyNode;
+    modifyNode = this->find(i);
+    if(i < 0 | i >= listlength)
+    {
+        cout << "位置不正确（位置序号从0开始）！" << endl;
+        return false;
+    }
+    else
+    {
+        if(modifyNode == NULL)
+        {
+            return false;
+        }
+        else
+        {
+            modifyNode->_data = data;
             return true;
         }
     }
