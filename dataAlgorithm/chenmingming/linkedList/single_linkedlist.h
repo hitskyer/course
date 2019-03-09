@@ -68,5 +68,5 @@ public:
 
 };
 
-#include "single_linkedlist.cpp"
+#include "single_linkedlist.cpp"    //模板实现文件，包含编译模型
 #endif //LINKEDLIST_SINGLE_LINKEDLIST_H
