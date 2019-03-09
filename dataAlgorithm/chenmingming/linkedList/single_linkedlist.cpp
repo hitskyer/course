@@ -221,6 +221,28 @@ template <class ElemType> bool Single_linkedlist<ElemType>::modifyElem(int i, co
         }
     }
 }
+template <class ElemType> LinkNode<ElemType>* Single_linkedlist<ElemType>::reverse()
+{
+    if(p_head == NULL || p_head->_next == NULL)
+        return NULL;
+    else    //就地反转法
+    {
+        LinkNode<ElemType> *prevNode, *nextNode, *tempNode;
+        prevNode = p_head;
+        nextNode = prevNode->_next;
+        prevNode->_next = NULL;
+        p_tail = prevNode;
+        while(nextNode != NULL)
+        {
+            tempNode = nextNode->_next;
+            nextNode->_next = prevNode;
+            prevNode = nextNode;
+            nextNode = tempNode;
+        }
+        p_head = prevNode;
+        return p_head;
+    }
+}
 template <class ElemType> void Single_linkedlist<ElemType>::printList() const
 {
     int m = 0;
@@ -229,5 +251,6 @@ template <class ElemType> void Single_linkedlist<ElemType>::printList() const
     {
         cout << "N.O[" << m++ << "] element "  << tempNode->_data << endl;
     }
+    cout << "--------------------------------------" << endl;
 }
 

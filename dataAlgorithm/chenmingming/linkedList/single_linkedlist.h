@@ -58,12 +58,13 @@ public:
 
     void addHead(const ElemType &data);    //在链表头部添加元素
     void addTail(const ElemType &data);     //在链表尾部添加元素
-    LinkNode<ElemType> *find(int m) const; //按下标查找
-    LinkNode<ElemType> *find(ElemType &data) const; //按元素值查找
+    LinkNode<ElemType>* find(int m) const; //按下标查找
+    LinkNode<ElemType>* find(ElemType &data) const; //按元素值查找
     bool insertAtElemFront(const LinkNode<ElemType> &data, int i);    //在i号元素前插入新节点
     bool insertAtElemBack(const LinkNode<ElemType> &data, int i);    //在i号元素后插入新节点
     bool deleteElem(int i); //删除i号元素节点
     bool modifyElem(int i, const ElemType &data);   //修改i号元素的值
+    LinkNode<ElemType>* reverse();  //链表反转(就地反转法)
     void printList() const; //打印链表数据
 
 };
