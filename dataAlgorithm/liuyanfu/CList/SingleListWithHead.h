@@ -253,31 +253,122 @@ typename ListNode SingleListWithHead<ElmDataType>::
 }
 
 template<typename ElmDataType>
-typename SingleListWithHead<ElmDataType>::ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, const ElmDataType &data)
+typename SingleListWithHead<ElmDataType>::
+	ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, const ElmDataType &data)
+{
+	if(pos == NULL)
+		return;
+	ListNode prev = m_pHead;
+	ListNode p = prev;
+	while(p)
+	{
+		if(p = pos)
+		{
+			prev->pNext = new ElmDataType;
+			prev->pNext->data = data;
+			prev->pNext->pNext = p;
+			++m_ListLen;
+			break;
+		}
+		prev = p;
+		p = p->pNext;
+	}
+	return prev->pNext;
+}
+
+template<typename ElmDataType>
+typename SingleListWithHead<ElmDataType>::
+	ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, UINT nCount, const ElmDataType &data)
+{
+	if(pos == NULL)
+		return;
+	ListNode prev = m_pHead;
+	ListNode p = prev;
+	while (p)
+	{
+		if(p == pos)
+		{
+			UINT i = 0;
+			for(; i < nCount; ++i)
+			{
+				prev->pNext = new ElmDataType;
+				prev->pNext->data = data;
+				prev->pNext->pNext = p;
+				++m_ListLen;
+			}
+			if(i == nCount)
+				break;
+		}
+		prev = p;
+		p = p->pNext;
+	}
+	return prev->pNext;
+}
+
+template<typename ElmDataType>
+typename SingleListWithHead<ElmDataType>::
+	ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, ListNode begin_pos, ListNode end_pos)
 {
 
 }
 
 template<typename ElmDataType>
-typename SingleListWithHead<ElmDataType>::ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, UINT nCount, const ElmDataType &data)
+typename SingleListWithHead<ElmDataType>::
+	ListNode SingleListWithHead<ElmDataType>::Erase(ListNode pos)
 {
-
+	if(pos == NULL)
+		return;
+	ListNode prev = m_pHead;
+	ListNode p = prev;
+	while(p)
+	{
+		if(p == pos)
+		{
+			prev->pNext = p->pNext;
+			delete p;
+			--m_ListLen;
+			if(pos == m_pTail)
+				m_pTail = prev;
+		}
+		prev = p;
+		p = p->pNext;
+	}
+	return prev->pNext;
 }
 
 template<typename ElmDataType>
-typename SingleListWithHead<ElmDataType>::ListNode SingleListWithHead<ElmDataType>::Insert(ListNode pos, ListNode begin_pos, ListNode end_pos)
+typename SingleListWithHead<ElmDataType>::
+	ListNode SingleListWithHead<ElmDataType>::Erase(ListNode begin_pos, ListNode end_pos)
 {
-
+	if(begin_pos == NULL);
+		return;
+	if(!JudgeOrder())
+		return;
+	ListNode prev = m_pHead;
+	ListNode q = begin_pos;
+	ListNode retNode;
+	while(p)
+	{
+		if(p = q)
+		{
+			retNode = Erase(q);
+		}
+		q = q->pNext;
+		p = p->pNext;
+	}
+	return retNode;
 }
 
-template<typename ElmDataType>
-typename SingleListWithHead<ElmDataType>::ListNode SingleListWithHead<ElmDataType>::Erase(ListNode pos)
-{
-
-}
 
 template<typename ElmDataType>
-typename SingleListWithHead<ElmDataType>::ListNode SingleListWithHead<ElmDataType>::Erase(ListNode begin_pos, ListNode end_pos)
+ListNode SingleListWithHead<ElmDataType>::Clear()
 {
-
+	ListNode prev = m_pHead;
+	ListNode p = prev;
+	while(p)
+	{
+		prev = p;
+		p = p->pNext;
+		delete prev;
+	}
 }
