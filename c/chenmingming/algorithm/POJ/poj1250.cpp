@@ -23,9 +23,9 @@ struct list
             {
                 tempnode = delnode->next;
                 delete delnode;
-                listLength--;
                 delnode = tempnode;
             }
+            listLength = 0;
         }
 
     }
@@ -71,6 +71,7 @@ struct list
             {
                 p_head = delnode->next;
                 delete delnode;
+                listLength--;
             }
         }
     }
@@ -84,7 +85,6 @@ int main()
     char ch;
     while(cin >> numsofbed && numsofbed)
     {
-        walkedaway = 0;
         cin.get();
         while(cin.get(ch) && ch != '\n')
         {
@@ -123,6 +123,8 @@ int main()
         }
         beds.eraseAll();
         waitlist.eraseAll();
+        walkedaway = 0;
+        numsofbed = 0;
     }
     return 0;
 }
