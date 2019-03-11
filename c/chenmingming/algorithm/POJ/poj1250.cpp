@@ -14,7 +14,7 @@ struct list
     size_t listLength;
     list():p_head(NULL),listLength(0){}
     ~list(){ eraseAll();}
-    eraseAll()
+    void eraseAll()
     {
         if(p_head)
         {
