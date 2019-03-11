@@ -41,7 +41,7 @@ struct list
         node* temp = p_head;
         if(p_head)
         {
-            while(temp->data != ch)
+            while(temp != NULL && temp->data != ch)
             {
                 temp = temp->next;
             }
@@ -55,7 +55,7 @@ struct list
     {
         node* tempnode = p_head, *delnode;
         delnode = find(ch);
-        if(delnode)
+        if(delnode && delnode != p_head)
         {
             while(tempnode->next != delnode)
             {
@@ -64,6 +64,14 @@ struct list
             tempnode->next = delnode->next;
             delete delnode;
             listLength--;
+        }
+        else
+        {
+            if(delnode == p_head && delnode)
+            {
+                p_head = delnode->next;
+                delete delnode;
+            }
         }
     }
 };
@@ -74,42 +82,47 @@ int main()
     node *tempnode = NULL;
     size_t numsofbed, walkedaway = 0;
     char ch;
-    cin >> numsofbed;
-    while(cin >> ch)
+    while(cin >> numsofbed && numsofbed)
     {
-        tempnode = beds.find(ch);
-        if(tempnode)
+        walkedaway = 0;
+        cin.get();
+        while(cin.get(ch) && ch != '\n')
         {
-            beds.delNode(ch);
-        }
-        else
-        {
-            if(beds.listLength < numsofbed)
+            tempnode = beds.find(ch);
+            if(tempnode)
             {
-                beds.push_front(ch);
+                beds.delNode(ch);
             }
             else
             {
-                if(waitlist.find(ch))
+                if(beds.listLength < numsofbed)
                 {
-                    waitlist.delNode(ch);
-                    walkedaway++;
+                    beds.push_front(ch);
                 }
                 else
                 {
-                    waitlist.push_front(ch);
+                    if(waitlist.find(ch))
+                    {
+                        waitlist.delNode(ch);
+                        walkedaway++;
+                    }
+                    else
+                    {
+                        waitlist.push_front(ch);
+                    }
                 }
             }
         }
+        if(walkedaway == 0)
+        {
+            cout << "All customers tanned successfully." << endl;
+        }
+        else
+        {
+            cout << walkedaway << " customer(s) walked away." << endl;
+        }
+        beds.eraseAll();
+        waitlist.eraseAll();
     }
-    if(walkedaway = 0)
-    {
-        cout << "All customers tanned successfully." << endl;
-    }
-    else
-    {
-        cout << walkedaway << " customer(s) walked away." << endl;
-    }
-
     return 0;
 }
