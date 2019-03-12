@@ -53,6 +53,10 @@ public:
 	ListNode GetNode(const ElmDataType &data) const;
 
 	void PrintList() const;
+	void ReverseList();
+
+	ListNode RemoveAt(UINT nCountBack);//删除倒数第n个节点
+	ListNode GetMidNode();//获得当前链表的中间节点
 private:
 	ListNode m_pHead;
 	ListNode m_pTail;
