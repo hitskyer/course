@@ -113,6 +113,11 @@ int main()
         {
             charList.insertAtEnd(ch);
         }
+        if(ch == '\n')
+        {
+            cout << "empty word !" << endl;
+            continue;
+        }
         charList.delHeadSentinel();
         backHalfOfList.delHeadSentinel();   //把空表头哨兵节点删除
         Node* endOfFrontList = charList.findMiddle();
