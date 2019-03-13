@@ -107,6 +107,7 @@ int main()
     while(true)
     {
         char ch;
+        cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
         SLinkedList charList, backHalfOfList;
         if((ch = cin.get()) && ch == '\n')
