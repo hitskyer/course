@@ -109,6 +109,7 @@ int main()
         char ch;
         cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
+//        SLinkedList charList, backHalfOfList;    //不能放这里，下面如果提前退出，内存泄漏，没来得及delete
         if((ch = cin.get()) && ch == '\n')
         {
             cout << "empty word !" << endl;
@@ -158,7 +159,9 @@ int main()
         cout << "continue to check? (y/n)" << endl;
         cin >> conti;
         if(conti == 'y' || conti == 'Y')
+        {
             continue;
+        }
         else
             break;
     }
