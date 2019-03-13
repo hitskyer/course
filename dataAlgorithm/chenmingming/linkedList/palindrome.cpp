@@ -16,7 +16,11 @@ class SLinkedList
 {
     Node* p_head;
 public:
-    SLinkedList(){ p_head = new Node; }
+    SLinkedList()
+    {
+        p_head = new Node;
+        cout << "new 1" << endl;
+    }
     ~SLinkedList(){ erase(); }
     void erase()
     {
@@ -26,6 +30,7 @@ public:
         {
             tempNode = del_tempNode -> next;
             delete del_tempNode;
+            cout << "delete 1" << endl;
             del_tempNode = tempNode;
         }
     }
@@ -51,6 +56,7 @@ public:
     void insertAtEnd(char &data)
     {
         Node* newNode = new Node(data);
+        cout << "new insert 1" << endl;
         static Node* tempNode = p_head;
         tempNode->next = newNode;
         tempNode = newNode;
@@ -60,6 +66,7 @@ public:
         Node* del = p_head;
         p_head = p_head->next;
         delete del; //删除链表的表头哨兵
+        cout << "delete head 1" << endl;
     }
     Node* reverse()
     {
