@@ -15,7 +15,7 @@ public:
     Jose()
     {
         p_head = new NodeType;
-        p_head->next = p_head;
+        p_head->next = p_head;  //空的循环链表
     }
     ~Jose(){}
     void creat();
