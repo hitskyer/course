@@ -114,6 +114,7 @@ int main()
             charList.insertAtEnd(ch);
         }
         charList.delHeadSentinel();
+        backHalfOfList.delHeadSentinel();   //把空表头哨兵节点删除
         Node* endOfFrontList = charList.findMiddle();
         Node* backListHead = endOfFrontList->next;
         endOfFrontList->next = NULL;
