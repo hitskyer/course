@@ -1,5 +1,4 @@
 #include <iostream>
-#include <conio.h>
 using namespace std;
 
 struct NodeType
@@ -72,6 +71,6 @@ int main()
     game.creat();
     game.print();
     cout << "press any key to exit!" ;
-    _getch();
+    cin.get();
     return 0;
 }
