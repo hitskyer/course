@@ -109,12 +109,12 @@ int main()
         char ch;
         cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
-        SLinkedList charList, backHalfOfList;
         if((ch = cin.get()) && ch == '\n')
         {
             cout << "empty word !" << endl;
             continue;
         }
+        SLinkedList charList, backHalfOfList;
         while(ch != '\n')   //把单词存进链表
         {
             charList.insertAtEnd(ch);
