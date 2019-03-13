@@ -117,7 +117,7 @@ int main()
         Node *backList = backHalfOfList.get_head();
         bool answer = false;
         if(backList==NULL)
-            answer == true;
+            answer = true;
         else
         {
             for(size_t i = 0; i < n; ++i)
