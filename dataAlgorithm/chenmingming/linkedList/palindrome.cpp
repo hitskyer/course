@@ -117,22 +117,22 @@ int main()
             tempNode = newNode;
             ch = cin.get();
         }
-        charList.delHeadSentinel(); //链表表头删除
+        charList.delHeadSentinel();     //链表表头删除
         backHalfOfList.delHeadSentinel();   //把空表头哨兵节点删除
-        Node* endOfFrontList = charList.findMiddle();//链表的中点是前一半的结束节点
-        Node* backListHead = endOfFrontList->next;//中点的下一个节点是后半部分的开始
-        endOfFrontList->next = NULL;//把前半部分链表断开
-        backHalfOfList.set_head(backListHead);//把后半部分的链表表头地址设置好
-        backHalfOfList.reverse();//后半部分链表反转
-        size_t n = backHalfOfList.get_len();//求后半部分链表长度
-        Node *frontList = charList.get_head();//找到前半部分的开头
-        Node *backList = backHalfOfList.get_head();//后半部分的开头（反转后的）
+        Node* endOfFrontList = charList.findMiddle();   //链表的中点是前一半的结束节点
+        Node* backListHead = endOfFrontList->next;  //中点的下一个节点是后半部分的开始
+        endOfFrontList->next = NULL;    //把前半部分链表断开
+        backHalfOfList.set_head(backListHead);  //把后半部分的链表表头地址设置好
+        backHalfOfList.reverse();   //后半部分链表反转
+        size_t n = backHalfOfList.get_len();    //求后半部分链表长度
+        Node *frontList = charList.get_head();  //找到前半部分的开头
+        Node *backList = backHalfOfList.get_head(); //后半部分的开头（反转后的）
         bool answer = false;
         if(backList == NULL)    //如果后半部分为空，说明只有一个字符
             answer = true;
         else
         {
-            for(size_t i = 0; i < n; ++i)//比较数据是否相同
+            for(size_t i = 0; i < n; ++i)   //比较数据是否相同
             {
                 if(frontList->data != backList->data)
                 {
