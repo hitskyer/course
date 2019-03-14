@@ -108,6 +108,7 @@ int main()
     {
         cout << "-------------------------" << endl;
         char ch;
+        cin.ignore(1000,'\n');
         cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
 //        SLinkedList charList, backHalfOfList;    //不能放这里，下面如果提前退出，内存泄漏，没来得及delete
