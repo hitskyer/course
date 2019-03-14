@@ -107,7 +107,7 @@ int main()
 //    while(true)
 //    {
 //        cout << "-------------------------" << endl;
-//        char ch;
+        char ch;
 //        cin.ignore(1000,'\n');
 //        cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
