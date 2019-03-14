@@ -19,7 +19,7 @@ public:
     SLinkedList()
     {
         p_head = new Node;
-        cout << "new 1" << endl;
+//        cout << "new 1" << endl;
     }
     ~SLinkedList(){ erase(); }
     void erase()
@@ -30,7 +30,7 @@ public:
         {
             tempNode = del_tempNode -> next;
             delete del_tempNode;
-            cout << "delete 1" << endl;
+//            cout << "delete 1" << endl;
             del_tempNode = tempNode;
         }
     }
@@ -53,20 +53,12 @@ public:
         }
         return len;
     }
-    void insertAtEnd(char &data)
-    {
-        Node* newNode = new Node(data);
-        cout << "new insert 1" << endl;
-        static Node* tempNode = p_head;
-        tempNode->next = newNode;
-        tempNode = newNode;
-    }
     void delHeadSentinel()
     {
         Node* del = p_head;
         p_head = p_head->next;
         delete del; //删除链表的表头哨兵
-        cout << "delete head 1" << endl;
+//        cout << "delete head 1" << endl;
     }
     Node* reverse()
     {
@@ -106,21 +98,23 @@ int main()
 {
     while(true)
     {
-        cout << "-------------------------" << endl;
+        cout << "-----------------------------------" << endl;
         char ch;
-//        cin.ignore(1000,'\n');
-//        cin.clear();
+        cin.clear();
         cout << "enter a word, is it a palindrome ?" << endl;
-//        SLinkedList charList, backHalfOfList;    //不能放这里，下面如果提前退出，内存泄漏，没来得及delete
         if((ch = cin.get()) && ch == '\n')
         {
             cout << "empty word !" << endl;
             continue;
         }
         SLinkedList charList, backHalfOfList;
+        Node* tempNode = charList.get_head();
         while(ch != '\n')   //把单词存进链表
         {
-            charList.insertAtEnd(ch);
+            Node* newNode = new Node(ch);
+//            cout << "new insert 1" << endl;
+            tempNode->next = newNode;
+            tempNode = newNode;
             ch = cin.get();
         }
         charList.delHeadSentinel();
@@ -160,6 +154,7 @@ int main()
         char conti;
         cout << "continue to check? (y/n)" << endl;
         cin >> conti;
+        cin.get();
         if(conti == 'y' || conti == 'Y')
         {
             continue;
