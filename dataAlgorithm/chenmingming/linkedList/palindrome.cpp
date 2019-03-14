@@ -104,9 +104,9 @@ public:
 
 int main()
 {
-//    while(true)
-//    {
-//        cout << "-------------------------" << endl;
+    while(true)
+    {
+        cout << "-------------------------" << endl;
         char ch;
 //        cin.ignore(1000,'\n');
 //        cin.clear();
@@ -115,7 +115,7 @@ int main()
         if((ch = cin.get()) && ch == '\n')
         {
             cout << "empty word !" << endl;
-//            continue;
+            continue;
         }
         SLinkedList charList, backHalfOfList;
         while(ch != '\n')   //把单词存进链表
@@ -134,7 +134,7 @@ int main()
         Node *frontList = charList.get_head();
         Node *backList = backHalfOfList.get_head();
         bool answer = false;
-        if(backList==NULL)
+        if(backList == NULL)
             answer = true;
         else
         {
@@ -159,13 +159,13 @@ int main()
             cout << "the word is not a palindrome." << endl;
         char conti;
         cout << "continue to check? (y/n)" << endl;
-        conti = cin.get();
-//        if(conti == 'y' || conti == 'Y')
-//        {
-//            continue;
-//        }
-//        else
-//            break;
-//    }
+        cin << conti;
+        if(conti == 'y' || conti == 'Y')
+        {
+            continue;
+        }
+        else
+            break;
+    }
     return 0;   
 }
