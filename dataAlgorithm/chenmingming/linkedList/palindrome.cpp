@@ -158,7 +158,7 @@ int main()
             cout << "the word is not a palindrome." << endl;
         char conti;
         cout << "continue to check? (y/n)" << endl;
-        cin >> conti;
+        conti = cin.get();
         if(conti == 'y' || conti == 'Y')
         {
             continue;
