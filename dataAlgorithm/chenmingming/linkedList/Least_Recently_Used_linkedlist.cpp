@@ -6,6 +6,7 @@ struct weburl
 {
 	string website;
 	weburl *next;
+	
 };
 class webList
 {
