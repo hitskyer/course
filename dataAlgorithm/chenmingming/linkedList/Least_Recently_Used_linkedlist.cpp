@@ -94,11 +94,13 @@ public:
 };
 int main()
 {
-    while(1)
+	char conti = 'y';
+	size_t maxCacheSize = 5;
+    string web;
+    webList cacheList;
+    while(conti == 'y' || conti == 'Y')
     {
-        size_t maxCacheSize = 5;
-        string web;
-        webList cacheList;
+        
         cout << "-------------------------------------------" << endl;
         cout << "please enter the weburl you want to visit: " << endl;
         cin >> web;
@@ -106,7 +108,6 @@ int main()
         weburl *head = cacheList.get_head();
         if (tempNode == NULL)    //没有找到，是新的访问记录
         {
-            // weburl *first = head->next;
             weburl *newWeb = new weburl;
             newWeb->website = web;
             if (cacheList.getCacheSize() < maxCacheSize) //存储没满，直接加到队首
@@ -128,6 +129,9 @@ int main()
 
         }
         cacheList.printCacheList();
+        cout << "continue? y/n" << endl;
+        cin >> conti;
+        cin.get();
     }
     return 0;
 }
