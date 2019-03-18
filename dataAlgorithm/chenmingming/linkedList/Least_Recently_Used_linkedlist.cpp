@@ -13,7 +13,10 @@ class webList
 	weburl *p_head;
 	size_t cacheSize;
 public:
-	webList():p_head(new weburl),cacheSize(0){}
+	webList():p_head(new weburl),cacheSize(0)
+	{
+	    p_head->next = NULL;    //犯错，开始没有写这句，导致后面有的地方非法访问
+	}
 	~webList()
 	{
 	    eraseAll();
