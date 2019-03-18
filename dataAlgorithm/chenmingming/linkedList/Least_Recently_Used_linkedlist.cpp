@@ -114,6 +114,7 @@ int main()
         {
             weburl *newWeb = new weburl;
             newWeb->website = web;
+            newWeb->next = NULL;
             if (cacheList.getCacheSize() < maxCacheSize) //存储没满，直接加到队首
             {
                 cacheList.push_front(newWeb);
