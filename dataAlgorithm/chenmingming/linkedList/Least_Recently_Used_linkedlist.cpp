@@ -28,9 +28,10 @@ public:
         while(tempNode != NULL)
         {
             del_Node = tempNode;
+            tempNode = tempNode->next;
             delete del_Node;
             cacheSize--;
-            tempNode = tempNode->next;
+//          tempNode = tempNode->next;    //千万注意顺序，之前放这错了！！！
         }
     }
     weburl* get_head()
@@ -118,18 +119,21 @@ int main()
             if (cacheList.getCacheSize() < maxCacheSize) //存储没满，直接加到队首
             {
                 cacheList.push_front(newWeb);
-            } else    //存储满了，删除队尾，插入新的到队首
+            } 
+            else    //存储满了，删除队尾，插入新的到队首
             {
                 cacheList.pop_back();
                 cacheList.push_front(newWeb);
             }
-        } else    //从已有的数据中找到了记录
+        } 
+        else    //从已有的数据中找到了记录
         {
             if (tempNode == head);   //记录在第一条，则无需操作
-            else {
+            else 
+            {
                 weburl *mvRecord = tempNode->next;
-                tempNode->next = mvRecord->next;
-                cacheList.move_to_front(mvRecord);
+                tempNode->next = mvRecord->next;    //把该记录从链表中断开
+                cacheList.move_to_front(mvRecord);  //把该记录移到队首
             }
 
         }
