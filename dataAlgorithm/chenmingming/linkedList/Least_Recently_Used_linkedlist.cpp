@@ -28,9 +28,10 @@ public:
         while(tempNode != NULL)
         {
             del_Node = tempNode;
+            tempNode = tempNode->next;
             delete del_Node;
             cacheSize--;
-            tempNode = tempNode->next;
+//          tempNode = tempNode->next;    //千万注意顺序，之前放这错了！！！
         }
     }
     weburl* get_head()
