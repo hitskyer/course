@@ -118,15 +118,18 @@ int main()
             if (cacheList.getCacheSize() < maxCacheSize) //存储没满，直接加到队首
             {
                 cacheList.push_front(newWeb);
-            } else    //存储满了，删除队尾，插入新的到队首
+            } 
+            else    //存储满了，删除队尾，插入新的到队首
             {
                 cacheList.pop_back();
                 cacheList.push_front(newWeb);
             }
-        } else    //从已有的数据中找到了记录
+        } 
+        else    //从已有的数据中找到了记录
         {
             if (tempNode == head);   //记录在第一条，则无需操作
-            else {
+            else 
+            {
                 weburl *mvRecord = tempNode->next;
                 tempNode->next = mvRecord->next;
                 cacheList.move_to_front(mvRecord);
