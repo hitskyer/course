@@ -132,8 +132,8 @@ int main()
             else 
             {
                 weburl *mvRecord = tempNode->next;
-                tempNode->next = mvRecord->next;
-                cacheList.move_to_front(mvRecord);
+                tempNode->next = mvRecord->next;    //把该记录从链表中断开
+                cacheList.move_to_front(mvRecord);  //把该记录移到队首
             }
 
         }
