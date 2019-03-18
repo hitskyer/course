@@ -74,7 +74,7 @@ public:
     }
     void pop_back()
     {
-	    weburl *p = p_head, *prev;
+	    weburl *p = p_head, *prev = NULL;
 	    while(p->next != NULL)
         {
 	        prev = p;
@@ -112,7 +112,7 @@ int main()
         weburl *head = cacheList.get_head();
         if (tempNode == NULL)    //没有找到，是新的访问记录
         {
-            weburl *newWeb = new weburl;
+            auto *newWeb = new weburl;
             newWeb->website = web;
             newWeb->next = NULL;
             if (cacheList.getCacheSize() < maxCacheSize) //存储没满，直接加到队首
