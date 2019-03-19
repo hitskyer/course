@@ -13,6 +13,7 @@ typedef unsigned int UINT;
 template <typename ElmDataType>
 class SingleList
 {
+public:
 	typedef SNode<ElmDataType>* ListNode;
 	typedef SNode<ElmDataType> NodeType;
 public:

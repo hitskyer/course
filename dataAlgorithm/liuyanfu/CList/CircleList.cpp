@@ -194,3 +194,44 @@ void CCircleList<ElmDataType>::MergeList(CCircleList<ElmDataType> &lst)
 	m_ListLen += lst.m_ListLen;
 	delete lst.GetHead();
 }
+
+
+template <typename ElmDataType>
+typename CCircleList<ElmDataType>::
+	ListNode CCircleList<ElmDataType>::ModifyAt(ListNode pos, const ElmDataType &data)
+{
+	if(pos == NULL)
+		return NULL;
+	ListNode TempNode = m_pHead->pNext;
+	while(TempNode != m_pHead)
+	{
+		if(TempNode == pos)
+		{
+			TempNode->data = data;
+			return TempNode;
+		}
+		TempNode = TempNode->pNext;
+	}
+	return NULL;
+}
+
+
+template <typename ElmDataType>
+typename CCircleList<ElmDataType>::
+	ListNode CCircleList<ElmDataType>::RemoveAt(UINT nCountBack)
+{
+	if(nCountBack > m_ListLen)
+		return NULL;
+	ListNode TempNode = m_pHead->pNext;
+	ListNode PrevNode = m_pHead;
+	UINT nCount = 0;
+	for(;nCount < m_ListLen - nCountBack; ++nCount)
+	{
+		PrevNode = TempNode;
+		TempNode = TempNode->pNext;
+	}
+	PrevNode->pNext = TempNode->pNext;
+	delete TempNode;
+	--m_ListLen;
+	return 	PrevNode->pNext;
+}

@@ -44,7 +44,10 @@ public:
 	void PushFront(const ElmDataType &data);
 	void Reverse();
 	ListNode RemoveAt(ListNode pos);
+	ListNode RemoveAt(UINT nCountBack);
 	ListNode InsertAt(ListNode pos, const ElmDataType &data);
+	ListNode ModifyAt(ListNode pos, const ElmDataType &data);
+
 	ListNode Find(const ElmDataType &data) const;
 	ListNode FindByIndex(UINT Index) const;
 	void Erase();
@@ -54,7 +57,8 @@ public:
 	{
 		return m_ListLen == 0;
 	}
-	ListNode GetNode(const ElmDataType &data) const;
+	//ListNode GetNode(const ElmDataType &data) const;
+	
 private:
 	ListNode m_pHead;
 	ListNode m_pTail;
