@@ -34,13 +34,15 @@ public:
 
     void AddTail(const int &data);//在链表的尾部插入新的结点
 
+    bool posInList(ListNode pos);//检查节点指针是否在链表中
+
     ListNode InsertAt(ListNode pos, const int &data);//在指定结点前插入数据，并返回新结点的地址
 
     ListNode ModifyAt(ListNode pos, const int &data);//修改指定结点的数据，并返回当前节点的地址
 
     ListNode RemoveAt(ListNode pos);//删除指定结点，并返回被删除结点的下一结点的地址
 
-    ListNode RemoveAt(UINT nCountBack);//删除倒数第n个节点，并返回被删除结点的下一结点的地址
+    ListNode RemoveAtBack(UINT nCountBack);//删除倒数第n个节点，并返回被删除结点的下一结点的地址
 
     ListNode Find(const int &data);//在当前链表中找到和要查找数据相等的第一个结点的地址
 
@@ -53,7 +55,6 @@ public:
 
 private:
     ListNode m_pHead;
-    ListNode m_pTail;
     UINT m_nListLen;
 };
 
