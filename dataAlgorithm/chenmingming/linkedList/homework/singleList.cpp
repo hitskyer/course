@@ -4,7 +4,7 @@
 #include "singleList.h"
 #include <iostream>
 
-SingleList::SingleList():m_pHead(NULL),m_pTail(NULL),m_nListLen(0){}
+SingleList::SingleList():m_pHead(NULL),m_nListLen(0){}
 
 SingleList::~SingleList()
 {
@@ -21,7 +21,7 @@ void SingleList::Erase()
             temp = temp->pNext;
             delete del;
         }
-        m_pHead = m_pTail = NULL;
+        m_pHead = NULL;
         m_nListLen = 0;
     }
 }
