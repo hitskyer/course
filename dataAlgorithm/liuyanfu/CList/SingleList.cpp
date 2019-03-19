@@ -200,6 +200,8 @@ template <typename ElmDataType>
 void SingleList<ElmDataType>::ReverseList()
 {
 	
+	if(IsEmpty())
+		return;
 	m_pTail = m_pHead;
 	ListNode p = m_pHead->pNext;
 	m_pTail->pNext = NULL;
@@ -249,11 +251,13 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(UIN
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::GetMidNode()
 {
+	if(m_nListLen == 0)
+		return NULL;
 	ListNode p = m_pHead;
-	UINT Index = 1;
+	UINT Index = 0;
 	while(p)
 	{
-		if(Index == m_nListLen / 2)
+		if(Index == (m_nListLen  - 1)/ 2)
 		{
 			return p;
 		}
