@@ -39,8 +39,10 @@ ListNode SingleList::GetHeadNode() const
 }
 ListNode SingleList::GetTailNode() const
 {
+    if(!m_pHead)
+        return NULL;
     ListNode temp = m_pHead;
-    while(temp != NULL)
+    while(temp->pNext != NULL)
     {
         temp = temp->pNext;
     }
@@ -189,5 +191,59 @@ ListNode SingleList::RemoveAt(ListNode pos)
 }
 ListNode SingleList::RemoveAtBack(UINT nCountBack)
 {
-
+    if(nCountBack == 0 || nCountBack > m_nListLen)
+        return NULL;
+    else
+    {
+        ListNode fast = m_pHead;
+        ListNode slow = m_pHead;
+        for(int i = 0; i < nCountBack-1 && fast; ++i)
+        {
+            fast = fast->pNext;
+        }
+        while(fast->pNext)
+        {
+            fast = fast->pNext;
+            slow = slow->pNext;
+        }
+        fast = RemoveAt(slow);
+        return fast;
+    }
+}
+ListNode SingleList::Find(const int &data)
+{
+    ListNode temp = m_pHead;
+    while(temp && temp->data != data)
+    {
+        temp = temp->pNext;
+    }
+    return temp;
+}
+void SingleList::PrintList() const
+{
+    ListNode temp = m_pHead;
+    for(int i = 0; i < m_nListLen && temp; ++i)
+    {
+        std::cout << "No. " << i+1 << " node is " << temp->data << std::endl;
+        temp = temp->pNext;
+    }
+}
+void SingleList::Reverse()
+{
+    if(m_pHead && m_pHead->pNext)
+    {
+        ListNode preNode, curNode, tempNode;
+        preNode = curNode = tempNode = m_pHead;
+        curNode = preNode->pNext;
+        preNode->pNext = NULL;
+        while(curNode->pNext)
+        {
+            tempNode = curNode;
+            curNode = curNode->pNext;
+            tempNode->pNext = preNode;
+            preNode = tempNode;
+        }
+        curNode->pNext = preNode;
+        m_pHead = curNode;
+    }
 }
