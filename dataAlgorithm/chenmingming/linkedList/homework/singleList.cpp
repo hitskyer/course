@@ -190,6 +190,7 @@ ListNode SingleList::RemoveAt(ListNode pos)
     }
 }
 ListNode SingleList::RemoveAtBack(UINT nCountBack)
+    //先让快指针先走n-1步，然后快慢指针一起动，快指针到达尾部，慢指针指向倒数第n个
 {
     if(nCountBack == 0 || nCountBack > m_nListLen)
         return NULL;
@@ -230,7 +231,7 @@ void SingleList::PrintList() const
     }
     std::cout << "----- print end ----" << std::endl;
 }
-void SingleList::Reverse()
+void SingleList::Reverse()  //就地反转法
 {
     if(m_pHead && m_pHead->pNext)
     {

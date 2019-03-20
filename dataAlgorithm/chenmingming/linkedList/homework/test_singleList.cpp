@@ -21,13 +21,13 @@ int main()
         }
         cout << intList.GetLength() << " node(s) !" << endl;
         intList.PrintList();
-        cout << "---------------reverse list" << endl;
+        cout << "------------- reverse list" << endl;
         intList.Reverse();
         intList.PrintList();
         cout << "head node: " << intList.GetHeadNode()->data << endl;
         cout << "tail node: " << intList.GetTailNode()->data << endl;
         cout << "middle node: " << intList.GetMidNode()->data << endl;
-        cout << "---------------addTail " << k << endl;
+        cout << "--------------- addTail " << k << endl;
         intList.AddTail(k);
         intList.PrintList();
         if(intList.posInList(intList.GetMidNode()))
@@ -52,4 +52,3 @@ int main()
     }
     return 0;
 }
-
