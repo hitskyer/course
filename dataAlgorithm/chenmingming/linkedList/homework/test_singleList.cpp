@@ -6,7 +6,7 @@
 using namespace std;
 int main()
 {
-    for(int k = 1; k < 5; ++k)
+    for(int k = 0; k < 5; ++k)
     {
         cout << "------------ test start ----------------" << endl;
         SingleList intList;
@@ -24,15 +24,21 @@ int main()
         cout << "------------- reverse list" << endl;
         intList.Reverse();
         intList.PrintList();
-        cout << "head node: " << intList.GetHeadNode()->data << endl;
-        cout << "tail node: " << intList.GetTailNode()->data << endl;
-        cout << "middle node: " << intList.GetMidNode()->data << endl;
+        if(intList.GetHeadNode())
+        {
+            cout << "head node: " << intList.GetHeadNode()->data << endl;
+            cout << "tail node: " << intList.GetTailNode()->data << endl;
+            cout << "middle node: " << intList.GetMidNode()->data << endl;
+        }
         cout << "--------------- addTail " << k << endl;
         intList.AddTail(k);
         intList.PrintList();
         if(intList.posInList(intList.GetMidNode()))
             cout << "midNode in List !" << endl;
-        cout << "100 insert at midNode " << intList.GetMidNode()->data << " front " << endl;
+        cout << "100 insert at midNode ";
+        if(intList.GetMidNode())
+            cout << intList.GetMidNode()->data ;
+        cout << " front " << endl;
         intList.InsertAt(intList.GetMidNode(),100);
         intList.PrintList();
         cout << "modify head to 99 " << endl;
