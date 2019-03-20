@@ -41,7 +41,7 @@ int main()
         cout << "del Tail" << endl;
         intList.RemoveAt(intList.GetTailNode());
         intList.PrintList();
-        cout << "del " << intList.GetLength()-1 << " node from end !" << endl;
+        cout << "del the " << intList.GetLength()-1 << " node count from end !" << endl;
         intList.RemoveAtBack(intList.GetLength()-1);
         intList.PrintList();
         cout << "address of first " << k-3 << " is ";
