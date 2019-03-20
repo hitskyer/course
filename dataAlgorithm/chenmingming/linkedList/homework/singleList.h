@@ -48,14 +48,13 @@ public:
 
     void Erase();//删除链表的所有结点
 
-    ListNode GetNode(const int &data) const;//获取某一数据在链表中所处的结点地址
-
     void PrintList() const;//打印链表所有结点的数据
+
     void Reverse();//反转链表
 
 private:
-    ListNode m_pHead;
-    UINT m_nListLen;
+    ListNode m_pHead;   //头结点
+    UINT m_nListLen;    //链表数据长度
 };
 
 #endif
