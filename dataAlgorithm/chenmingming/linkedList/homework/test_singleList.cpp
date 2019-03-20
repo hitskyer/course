@@ -6,33 +6,49 @@
 using namespace std;
 int main()
 {
-    int num = 100;
-    for(int k = 0; k < 5; ++k)
+    for(int k = 1; k < 5; ++k)
     {
-        cout << "-----------------------------" << endl;
+        cout << "------------ test start ----------------" << endl;
         SingleList intList;
         if(intList.IsEmpty())
             cout << "empty list!" << endl;
         cout << intList.GetLength() << " node(s) !" << endl;
+        cout << "---------------" << endl;
+        cout << "add 0  to " << k-1 << " into list: " << endl;
         for(int j = 0; j < k; ++j)
         {
             intList.AddTail(j);
         }
         cout << intList.GetLength() << " node(s) !" << endl;
         intList.PrintList();
+        cout << "---------------reverse list" << endl;
         intList.Reverse();
         intList.PrintList();
-        intList.GetHeadNode();
-        intList.GetTailNode();
-        intList.GetMidNode();
+        cout << "head node: " << intList.GetHeadNode()->data << endl;
+        cout << "tail node: " << intList.GetTailNode()->data << endl;
+        cout << "middle node: " << intList.GetMidNode()->data << endl;
+        cout << "---------------addTail " << k << endl;
         intList.AddTail(k);
-        intList.posInList(intList.GetMidNode());
-        intList.InsertAt(intList.GetMidNode(),100);
-        intList.ModifyAt(intList.GetHeadNode(),99);
-        intList.RemoveAt(intList.GetTailNode());
-        intList.RemoveAtBack(intList.GetLength()-1);
-        intList.Find(k);
         intList.PrintList();
+        if(intList.posInList(intList.GetMidNode()))
+            cout << "midNode in List !" << endl;
+        cout << "100 insert at midNode " << intList.GetMidNode()->data << " front " << endl;
+        intList.InsertAt(intList.GetMidNode(),100);
+        intList.PrintList();
+        cout << "modify head to 99 " << endl;
+        intList.ModifyAt(intList.GetHeadNode(),99);
+        intList.PrintList();
+        cout << "del Tail" << endl;
+        intList.RemoveAt(intList.GetTailNode());
+        intList.PrintList();
+        cout << "del " << intList.GetLength()-1 << " node from end !" << endl;
+        intList.RemoveAtBack(intList.GetLength()-1);
+        intList.PrintList();
+        cout << "address of first " << k-3 << " is ";
+        if(intList.Find(k-3))
+            cout << intList.Find(k-3) << endl;
+        else
+            cout << "not exits !" << endl;
     }
     return 0;
 }

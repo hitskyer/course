@@ -221,12 +221,14 @@ ListNode SingleList::Find(const int &data)
 }
 void SingleList::PrintList() const
 {
+    std::cout << "----- print start ----" << std::endl;
     ListNode temp = m_pHead;
     for(int i = 0; i < m_nListLen && temp; ++i)
     {
         std::cout << "No. " << i+1 << " node is " << temp->data << std::endl;
         temp = temp->pNext;
     }
+    std::cout << "----- print end ----" << std::endl;
 }
 void SingleList::Reverse()
 {
