@@ -1,7 +1,7 @@
-//
 // Created by mingm on 2019/3/20.
-//
-#include "singleList.cpp"
+//测试程序，可以测试不同链表长度下程序是否正确
+//#include "singleList.cpp" //无头单链表
+#include "singleList_withHead.cpp"  //有头单链表
 #include <iostream>
 using namespace std;
 int main()
@@ -9,7 +9,7 @@ int main()
     for(int k = 0; k < 5; ++k)
     {
         cout << "------------ test start ----------------" << endl;
-        SingleList intList;
+        singleList_withHead intList;
         if(intList.IsEmpty())
             cout << "empty list!" << endl;
         cout << intList.GetLength() << " node(s) !" << endl;
