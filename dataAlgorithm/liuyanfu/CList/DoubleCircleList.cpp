@@ -1,6 +1,6 @@
 #include "DoubleCircleList.h"
 
-
+using namespace std;		
 template<typename ElmDataType>
 DoubleCircleList<ElmDataType>::DoubleCircleList(void)
 {

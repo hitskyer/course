@@ -1,9 +1,11 @@
 #include "CircleList.h"
 
+using namespace std;
 template <typename ElmDataType>
 CCircleList<ElmDataType>::CCircleList(void)
 {
 	m_pHead = new NodeType;
+	m_pHead->data = 0;
 	m_pHead->pNext = NULL;
 	m_pTail = m_pHead;
 	m_ListLen = 0;
@@ -12,7 +14,7 @@ CCircleList<ElmDataType>::CCircleList(void)
 template <typename ElmDataType>
 CCircleList<ElmDataType>::~CCircleList(void)
 {
-	Erase();
+	//Erase();
 	delete m_pHead;
 	m_ListLen = 0;
 	m_pHead = m_pTail = NULL;
@@ -191,8 +193,9 @@ void CCircleList<ElmDataType>::MergeList(CCircleList<ElmDataType> &lst)
 	ListNode TempNode = lst.GetHead()->pNext;
 	this->m_pTail->pNext = TempNode;
 	lst.GetTail()->pNext = this->m_pHead;
+	this->m_pTail = lst.GetTail();
 	m_ListLen += lst.m_ListLen;
-	delete lst.GetHead();
+	//delete lst.GetHead();
 }
 
 

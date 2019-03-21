@@ -1,7 +1,7 @@
 #include "SingleList.h"
 #include "Single_List_Err.h"
 
-
+using namespace std;
 template <typename ElmDataType>
 SingleList<ElmDataType>::SingleList(void)
  {
@@ -177,7 +177,7 @@ void SingleList<ElmDataType>::PrintList() const
 	UINT Index = 1;
 	while(p)
 	{
-		cout << "第" << Index << "个链表节点的数据为:  " << p->data << endl;
+		cout << "The " << Index << "th list node data is :  " << p->data << endl;
 		p = p->pNext;
 		++Index;
 	}

@@ -1,5 +1,5 @@
 #include "DoubleList.h"
-
+using namespace std;
 template<typename ElmDataType>
 DoubleList<ElmDataType>::DoubleList(void)
 {
