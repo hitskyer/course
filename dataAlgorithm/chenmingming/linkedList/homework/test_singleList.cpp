@@ -1,7 +1,9 @@
 // Created by mingm on 2019/3/20.
 //测试程序，可以测试不同链表长度下程序是否正确
-//#include "singleList.cpp" //无头单链表
-#include "singleList_withHead.cpp"  //有头单链表
+//(请根据选择的链表类型，分别打开和关闭相应的注释)
+//#include "singleList.cpp" //1.无头单链表
+//#include "singleList_withHead.cpp"  //2.有头单链表
+#include "circular_singleList.cpp"  //3.循环单链表
 #include <iostream>
 using namespace std;
 int main()
@@ -9,7 +11,9 @@ int main()
     for(int k = 0; k < 5; ++k)
     {
         cout << "------------ test start ----------------" << endl;
-        singleList_withHead intList;
+//        SingleList intList;   //1.无头单链表
+//        singleList_withHead intList;  //2.有头单链表
+        circular_singleList intList;  //3.循环单链表
         if(intList.IsEmpty())
             cout << "empty list!" << endl;
         cout << intList.GetLength() << " node(s) !" << endl;
@@ -51,8 +55,9 @@ int main()
         intList.RemoveAtBack(intList.GetLength()-1);
         intList.PrintList();
         cout << "address of first " << k-3 << " is ";
-        if(intList.Find(k-3))
-            cout << intList.Find(k-3) << endl;
+//        if(intList.Find(k-3))   // 1 & 2 无头，有头单链表
+        if(intList.Find(k-3) != intList.m_pHead)   // 3 循环单链表
+                cout << intList.Find(k-3) << endl;
         else
             cout << "not exits !" << endl;
     }
