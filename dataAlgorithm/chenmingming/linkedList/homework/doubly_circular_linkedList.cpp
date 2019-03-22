@@ -224,7 +224,7 @@ void doubly_circular_linkedList::Reverse()  //对每个节点，交换prev，nex
 //    }
 //    swapPrevNext(tempNode);
 
-    ListNode tempNode = m_pHead;    //正确代码2
+    ListNode tempNode = m_pHead;    //正确代码2，两种写法都可
     swapPrevNext(m_pHead);
     tempNode = m_pHead->pNext;
     while(tempNode != m_pHead)
