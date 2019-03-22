@@ -216,13 +216,22 @@ void doubly_circular_linkedList::PrintList() const
 }
 void doubly_circular_linkedList::Reverse()  //对每个节点，交换prev，next指针
 {
-    ListNode tempNode = m_pHead;
-    while(tempNode->pNext != m_pHead)
+//    ListNode tempNode = m_pHead;
+//    while(tempNode->prev != m_pHead)  //正确代码1，之前prev写成pNext，错误，链表断裂
+//    {
+//        swapPrevNext(tempNode);
+//        tempNode = tempNode->pNext;
+//    }
+//    swapPrevNext(tempNode);
+
+    ListNode tempNode = m_pHead;    //正确代码2
+    swapPrevNext(m_pHead);
+    tempNode = m_pHead->pNext;
+    while(tempNode != m_pHead)
     {
         swapPrevNext(tempNode);
         tempNode = tempNode->pNext;
     }
-    swapPrevNext(tempNode);
 }
 void doubly_circular_linkedList::swapPrevNext(ListNode pos)
 {
