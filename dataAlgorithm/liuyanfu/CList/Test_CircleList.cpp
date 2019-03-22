@@ -14,6 +14,7 @@ int main()
 	clst.PushBack(59);
 	clst.PushFront(98);
 	clst.PrintList();
+	cout << clst.GetLength() << endl;
 	cout << endl;
 
 	cout << "the HeadNode is : " << clst.GetHead()->data << endl;
@@ -21,11 +22,13 @@ int main()
 	cout << "Insert 66 before 59" << endl;
 	clst.InsertAt(clst.Find(59), 66);
 	clst.PrintList();
+	cout << clst.GetLength() << endl;
 	cout << endl;
 
 	cout << "delete 76" << endl;
 	clst.RemoveAt(clst.Find(76));
 	clst.PrintList();
+	cout << clst.GetLength() << endl;
 	cout << endl;
 
 	cout << "reverse list" << endl;
@@ -44,11 +47,24 @@ int main()
 	clst2.PushFront(100);
 	cout << "print the second list" << endl;
 	clst2.PrintList();
+	cout << clst.GetLength() << endl;
 
 	cout << "merge two list" << endl;
 	clst.MergeList(clst2);
 	clst.PrintList();
+	cout << clst.GetLength() << endl;
+	//clst.Erase();
+	cout << endl;
+	cout<< "change 100 to 55" << endl;
+	cout << clst.ModifyAt(clst.Find(100), 55)->data << endl;
+	clst.PrintList();
+	cout << clst.GetLength() << endl;
 
-	system("pause");
+	cout << endl;
+	cout << "delete 5th item counted from tail" << endl;
+	clst.RemoveAt(5);
+	clst.PrintList();
+	cout << clst.GetLength() << endl;
+	clst.Erase();
 	return 0;
 }

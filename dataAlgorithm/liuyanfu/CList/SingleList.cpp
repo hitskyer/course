@@ -1,7 +1,7 @@
 #include "SingleList.h"
 #include "Single_List_Err.h"
 
-
+using namespace std;
 template <typename ElmDataType>
 SingleList<ElmDataType>::SingleList(void)
  {
@@ -177,7 +177,7 @@ void SingleList<ElmDataType>::PrintList() const
 	UINT Index = 1;
 	while(p)
 	{
-		cout << "第" << Index << "个链表节点的数据为:  " << p->data << endl;
+		cout << "The " << Index << "th list node data is :  " << p->data << endl;
 		p = p->pNext;
 		++Index;
 	}
@@ -200,6 +200,8 @@ template <typename ElmDataType>
 void SingleList<ElmDataType>::ReverseList()
 {
 	
+	if(IsEmpty())
+		return;
 	m_pTail = m_pHead;
 	ListNode p = m_pHead->pNext;
 	m_pTail->pNext = NULL;
@@ -249,11 +251,13 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(UIN
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::GetMidNode()
 {
+	if(m_nListLen == 0)
+		return NULL;
 	ListNode p = m_pHead;
-	UINT Index = 1;
+	UINT Index = 0;
 	while(p)
 	{
-		if(Index == m_nListLen / 2)
+		if(Index == (m_nListLen  - 1)/ 2)
 		{
 			return p;
 		}
