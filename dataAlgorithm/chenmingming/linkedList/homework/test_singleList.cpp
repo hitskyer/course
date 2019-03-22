@@ -3,7 +3,8 @@
 //(请根据选择的链表类型，分别打开和关闭相应的注释)
 //#include "singleList.cpp" //1.无头单链表
 //#include "singleList_withHead.cpp"  //2.有头单链表
-#include "circular_singleList.cpp"  //3.循环单链表
+//#include "circular_singleList.cpp"  //3.循环单链表
+#include "doubly_linkedList.cpp"    //4.双向链表（带头）
 #include <iostream>
 using namespace std;
 int main()
@@ -13,7 +14,8 @@ int main()
         cout << "------------ test start ----------------" << endl;
 //        SingleList intList;   //1.无头单链表
 //        singleList_withHead intList;  //2.有头单链表
-        circular_singleList intList;  //3.循环单链表
+//        circular_singleList intList;  //3.循环单链表
+        doubly_linkedList intList;  //4.双向链表
         if(intList.IsEmpty())
             cout << "empty list!" << endl;
         cout << intList.GetLength() << " node(s) !" << endl;
@@ -55,8 +57,8 @@ int main()
         intList.RemoveAtBack(intList.GetLength()-1);
         intList.PrintList();
         cout << "address of first " << k-3 << " is ";
-//        if(intList.Find(k-3))   // 1 & 2 无头，有头单链表
-        if(intList.Find(k-3) != intList.m_pHead)   // 3 循环单链表
+        if(intList.Find(k-3))   // 1 & 2 & 4 无头，有头单链表，双向链表
+//        if(intList.Find(k-3) != intList.m_pHead)   // 3 循环单链表
                 cout << intList.Find(k-3) << endl;
         else
             cout << "not exits !" << endl;
