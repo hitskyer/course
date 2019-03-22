@@ -53,7 +53,7 @@ int main()
 	clst.MergeList(clst2);
 	clst.PrintList();
 	cout << clst.GetLength() << endl;
-
+	//clst.Erase();
 	cout << endl;
 	cout<< "change 100 to 55" << endl;
 	cout << clst.ModifyAt(clst.Find(100), 55)->data << endl;
@@ -65,7 +65,6 @@ int main()
 	clst.RemoveAt(5);
 	clst.PrintList();
 	cout << clst.GetLength() << endl;
-
-	system("pause");
+	clst.Erase();
 	return 0;
 }

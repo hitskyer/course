@@ -18,15 +18,19 @@ int main()
 		ch = cin.get();
 	}
 
+	cout << "the list length is " << clst.GetSize() << endl;
 	SingleList<char>::ListNode MidNode = clst.GetMidNode();
 	SingleList<char>::ListNode TempNode = MidNode->pNext;
 	MidNode->pNext = NULL;
 
 	SingleList<char> Backclst;
+	SingleList<char>::ListNode pTemp;
 	while(TempNode)
 	{
+		pTemp = TempNode;
 		Backclst.AddTail(TempNode->data);
 		TempNode = TempNode->pNext;
+		delete pTemp;
 	}
 	
 	Backclst.ReverseList();
