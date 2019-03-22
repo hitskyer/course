@@ -222,6 +222,7 @@ void doubly_circular_linkedList::Reverse()  //对每个节点，交换prev，nex
         swapPrevNext(tempNode);
         tempNode = tempNode->pNext;
     }
+    swapPrevNext(tempNode);
 }
 void doubly_circular_linkedList::swapPrevNext(ListNode pos)
 {
