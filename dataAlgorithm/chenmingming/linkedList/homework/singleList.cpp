@@ -38,6 +38,10 @@ ListNode SingleList::GetHeadNode() const
 {
     return m_pHead;
 }
+void SingleList::SetHeadNode(SNode *p)
+{
+    m_pHead = p;
+}
 ListNode SingleList::GetTailNode() const
 {
     if(!m_pHead)

@@ -26,7 +26,7 @@ ListNode mergeList(ListNode L, ListNode R)
     if(R == NULL)
         return L;
     ListNode tempL = L, tempR = R;
-    ListNode temp = new SNode, trueHead;
+    ListNode temp = new SNode, trueHead = temp;
     while(tempL && tempR)
     {
         if(tempL->data < tempR->data)
@@ -46,10 +46,10 @@ ListNode mergeList(ListNode L, ListNode R)
         temp->pNext = tempL;
     if(tempR)
         temp->pNext = tempR;
-    trueHead = temp->pNext;
-    delete temp;
-    temp = NULL;
-    return trueHead;
+    temp = trueHead->pNext;
+    delete trueHead;
+    trueHead = NULL;
+    return temp;
 }
 ListNode divList(ListNode Lhead)
 {
@@ -78,7 +78,7 @@ int main()
 {
     srand((unsigned)time(NULL));
     size_t len = 10;
-    for(size_t j = 2; j < len; ++j)
+    for(size_t j = 0; j < len; ++j)
     {
         SingleList intList;
         for(size_t i = 0; i < j; ++i)
@@ -87,7 +87,7 @@ int main()
         }
         cout << "before merge sort: " << endl;
         intList.PrintList();
-        mergeSort(intList.GetHeadNode());
+        intList.SetHeadNode(mergeSort(intList.GetHeadNode()));
         cout << "after merge sort: " << endl;
         intList.PrintList();
     }

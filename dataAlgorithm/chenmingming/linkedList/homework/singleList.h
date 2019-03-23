@@ -25,6 +25,7 @@ public:
     UINT GetLength() const;//获取当前链表的长度
 
     ListNode GetHeadNode() const;//获取链表的头结点
+    void SetHeadNode(SNode *p);
 
     ListNode GetTailNode() const;//获取链表的尾结点
 
