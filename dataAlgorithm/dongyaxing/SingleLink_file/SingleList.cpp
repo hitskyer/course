@@ -28,16 +28,31 @@ bool SingleList::IsEmpty() const
 //获取当前链表的长度
 UINT SingleList::GetLength() const
 {
+	if(m_pHead == NULL)
+	{
+		std::cout << "This is an rmpty list." << std::endl;
+		return 0;
+	}
 	return m_nListLen;
 }
 //获取链表的头结点
 ListNode SingleList::GetHeadNode() const
 {
+	if(m_pHead == NULL)
+	{
+		std::cout << "This is an rmpty list." << std::endl;
+		return NULL;
+	}
 	return m_pHead;
 }
 //获取链表的尾结点
 ListNode SingleList::GetTailNode() const
 {
+	if(m_pHead == NULL)
+	{
+		std::cout << "This is an rmpty list." << std::endl;
+		return NULL;
+	}
 	return m_pTail;
 }
 //获得链表的中间结点
@@ -46,7 +61,10 @@ ListNode SingleList::GetMidNode()
 	int mid = 0;
 	ListNode midNode;
 	if(0 == m_nListLen)
+	{
+		std::cout << "This is an rmpty list." << std::endl;
 		return NULL;
+	}
 	else if(1 == m_nListLen%2)
 	{
 		midNode = m_pHead;
@@ -145,11 +163,11 @@ ListNode SingleList::ModifyAt(ListNode pos, const int &data)
 		if(p == pos)
 		{
 			p->data = data;
-			return pos;
+			return p;
 		}
 		p = p->pNext;
 		if(p == NULL)
-			return ERROR;		// 此链表中，没有这个结点
+			return NULL;		// 此链表中，没有这个结点
 	}
 	return NULL;
 }
@@ -158,39 +176,31 @@ ListNode SingleList::RemoveAt(ListNode pos)
 {
 	if(m_pHead == NULL)
 		return NULL;
-
-	ListNode p, q;
-	p = m_pHead;
-	if(m_pHead == pos)
+	else if(m_pHead == pos)
 	{
-		p = p->pNext;
-		delete m_pHead;
+		ListNode p;
+		p = m_pHead;
+		m_pHead = m_pHead->pNext;
+		delete p;
 		--m_nListLen;
-		m_pHead = p;
 		return m_pHead;
 	}
-	while(p)
+	else 
 	{
-		if(p->pNext == pos)
+		ListNode p, q;
+		p = m_pHead;
+		q = p->pNext;
+		while(p)
 		{
-			if(pos->pNext == NULL)
+			if(q == pos)
 			{
-				m_pTail = p;
-				delete pos;
-				--m_nListLen;
-				return m_pTail;
-			}
-			else
-			{
-				q = pos;
 				p->pNext = q->pNext;
-				delete pos;
+				delete q;
 				--m_nListLen;
-				pos = p->pNext;
-				return pos;
+				return q;
 			}
+			p = p->pNext;
 		}
-		p = p->pNext;
 	}
 	return NULL;
 }
@@ -200,19 +210,32 @@ ListNode SingleList::RemoveAt(UINT nCountBack)
 	UINT n = 0, m = 0;
 	ListNode p, q;
 	p = m_pHead;
-	if(m_nListLen <= nCountBack || nCountBack <= 0)
+	q = p->pNext;
+	if(m_nListLen < nCountBack || nCountBack <= 0 || m_nListLen == 0)
+	{
 		return NULL;
+	}
+	else if(m_nListLen == nCountBack)
+	{
+		m_pHead = m_pHead->pNext;
+		delete p;
+		--m_nListLen;
+		return m_pHead;
+	}
 	else
 	{
-		n = m_nListLen - nCountBack;
-		for(size_t i = 0; i < (n - 1); ++i)
+		n = m_nListLen - nCountBack - 1;
+		while(n)
 		{
+			--n;
 			p = p->pNext;
+			q = p->pNext;
 		}
-		q = p->pNext->pNext;
-		delete p->pNext;
-		p->pNext = q;
+		p->pNext = q->pNext;
+		delete q;
 		--m_nListLen;
+		p = p->pNext;
+		return p;
 	}
 	return NULL;
 }
@@ -270,6 +293,7 @@ void SingleList::PrintList() const
 			p = p->pNext;
 		}
 		std::cout << "ListLen is " << m_nListLen << "! print over!" << std::endl;
+		return;
 	}
 }
 //反转链表
