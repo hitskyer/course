@@ -30,6 +30,8 @@ public:
 
     ListNode GetMidNode();//获得链表的中间结点
 
+    ListNode findMid(); //数组长度/2 法
+
     void AddHead(const int &data);//在链表的头部插入新的结点
 
     void AddTail(const int &data);//在链表的尾部插入新的结点
