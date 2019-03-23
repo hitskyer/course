@@ -2,6 +2,7 @@
 // Created by mingm on 2019/3/18.
 //
 #include "singleList.h"
+#include <math.h>
 #include <iostream>
 
 SingleList::SingleList():m_pHead(NULL),m_nListLen(0){}
@@ -37,6 +38,10 @@ ListNode SingleList::GetHeadNode() const
 {
     return m_pHead;
 }
+void SingleList::SetHeadNode(SNode *p)
+{
+    m_pHead = p;
+}
 ListNode SingleList::GetTailNode() const
 {
     if(!m_pHead)
@@ -70,6 +75,17 @@ ListNode SingleList::GetMidNode()   //快慢指针法
 //        slow = slow->pNext;
 //     }
     return slow;
+}
+ListNode SingleList::findMid()
+{
+    size_t len = GetLength();
+    SNode* tempNode = m_pHead;
+    size_t n = floor(double(len)/2);
+    for(size_t i = 1; i < n; ++i)
+    {
+        tempNode = tempNode->pNext;
+    }
+    return tempNode;
 }
 void SingleList::AddHead(const int &data)
 {
