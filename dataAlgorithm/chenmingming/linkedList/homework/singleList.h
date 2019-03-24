@@ -55,6 +55,8 @@ public:
 
     void Reverse();//反转链表
 
+    bool hasLoop(); //判断链表是否有环
+
 private:
     ListNode m_pHead;   //头结点
     UINT m_nListLen;    //链表数据长度

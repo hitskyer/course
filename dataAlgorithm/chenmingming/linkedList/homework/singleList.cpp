@@ -266,3 +266,25 @@ void SingleList::Reverse()  //就地反转法
         m_pHead = curNode;
     }
 }
+bool SingleList::hasLoop()
+{
+    bool loop = false;
+    ListNode fast = m_pHead, slow = m_pHead;
+    ListNode posMeet = NULL, ringEntrance = NULL;
+    size_t ringLen = 0;
+    if(m_pHead == NULL)
+        loop = false;
+    else
+    {
+        while(fast && fast->pNext)
+        {
+            fast = fast->pNext->pNext;
+            slow = slow->pNext;
+            if(fast == slow)
+            {
+                loop = true;
+                posMeet = fast;
+            }
+        }
+    }
+}
