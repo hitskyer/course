@@ -60,48 +60,50 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::InsertAt(Lis
 {
 	if(NULL == pos)
 		return NULL;
-	ListNode p = m_pHead;
-	if(pos == p)
+	else if(pos == m_pHead)
 	{
 		AddHead(data);
 		return m_pHead;
 	}
-
-	ListNode prev = NULL;
-	while(p)
+	else
 	{
-		if(p == pos)
+		ListNode p = m_pHead;
+		ListNode prev = NULL;
+		while(p)
 		{
-			ListNode pNewNode = new NodeType;
-			pNewNode->data = data;
-			pNewNode->pNext = p;
-			prev->pNext = pNewNode;
-			++m_nListLen;
-			return pNewNode;
+			if(p == pos)
+			{
+				ListNode pNewNode = new NodeType;
+				pNewNode->data = data;
+				pNewNode->pNext = p;
+				prev->pNext = pNewNode;
+				++m_nListLen;
+				p = pNewNode;
+				break;
+			}
+			prev = p;
+			p = p->pNext;
 		}
-		prev = p;
-		p = p->pNext;
+		return p;
 	}
-
-	return NULL;
 }
 
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(ListNode pos)
 {
+	ListNode p = m_pHead;
 	if(NULL == pos)
 		return NULL;
-	ListNode p = m_pHead;
-	ListNode prev = NULL;
-	if(pos == m_pHead)
+	else if(pos == m_pHead)
 	{
 		p = p->pNext;
-		delete pos;
+		delete p;
 		m_pHead = p;
 		return p;
 	}
 	else
 	{
+		ListNode prev = NULL;
 		while(p)
 		{
 			if(p == pos)
@@ -111,13 +113,14 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(Lis
 				--m_nListLen;
 				if(pos == m_pTail)
 					m_pTail = prev;
-				return prev->pNext;
+				p = prev->pNext;
+				break;
 			}
 			prev = p;
 			p = p->pNext;
 		}
 	}
-	return NULL;
+	return p;
 }
 
 
@@ -125,32 +128,37 @@ template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::ModifyAt(ListNode pos, const ElmDataType &data)
 {
 	if(NULL == pos)
-		throw(PARA_ERR);
-	ListNode p = m_pHead;
-	while(p)
+		return NULL;
+	else
 	{
-		if(p == pos)
+		ListNode p = m_pHead;
+		while(p)
 		{
-			p->data = data;
-			return p;
+			if(p == pos)
+			{
+				p->data = data;
+				break;
+			}
+			p = p->pNext;
 		}
-		p = p->pNext;
+		return p;
 	}
-	return NULL;
 }
 
 
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::Find(const ElmDataType &data)
 {
-	ListNode p = GetHeadNode();
+	ListNode p = m_pHead;
 	while(p)
 	{
 		if(p->data == data)
-			return p;
+		{
+			break;
+		}
 		p = p->pNext;
 	}
-	return NULL;
+	return p;
 }
 
 
@@ -163,6 +171,7 @@ void SingleList<ElmDataType>::Erase()
 	{
 		p = p->pNext;
 		delete q;
+		q = NULL;
 		q = p;
 	}
 	m_pHead = m_pTail = NULL;
@@ -199,7 +208,6 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::GetNode(cons
 template <typename ElmDataType>
 void SingleList<ElmDataType>::ReverseList()
 {
-	
 	if(IsEmpty())
 		return;
 	m_pTail = m_pHead;
@@ -219,7 +227,7 @@ void SingleList<ElmDataType>::ReverseList()
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(UINT nCountBack)
 {
-	ListNode p = m_pHead;
+	/*ListNode p = m_pHead;
 	if(nCountBack == m_nListLen)
 	{
 		m_pHead = m_pHead->pNext;
@@ -244,14 +252,32 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::RemoveAt(UIN
 		prev = p;
 		p = p->pNext;
 	}
-	return NULL;
+	return NULL;*/
+	if(nCountBack > m_nListLen || nCountBack == 0)
+		return NULL;
+	else
+	{
+		ListNode fast = m_pHead;
+		ListNode slow = m_pHead;
+		for(UINT i = 0; i < nCountBack -1; ++i)
+		{
+			fast = fast->pNext;
+		}
+		while(fast->pNext)
+		{
+			fast = fast->pNext;
+			slow = slow->pNext;
+		}
+		return slow;
+	}
+	
 }
 
 
 template <typename ElmDataType>
 typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::GetMidNode()
 {
-	if(m_nListLen == 0)
+	/*if(m_nListLen == 0)
 		return NULL;
 	ListNode p = m_pHead;
 	UINT Index = 0;
@@ -264,5 +290,14 @@ typename SingleList<ElmDataType>::ListNode SingleList<ElmDataType>::GetMidNode()
 		++Index;
 		p = p->pNext;
 	}
-	return NULL;
+	return NULL;*/
+
+	ListNode fast = m_pHead;
+	ListNode slow = m_pHead;
+	while(fast != NULL && fast->pNext != NULL)
+	{
+		fast = fast->pNext->pNext;
+		slow = slow->pNext;
+	}
+	return slow;
 }

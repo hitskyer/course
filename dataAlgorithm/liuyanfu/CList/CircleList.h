@@ -20,7 +20,7 @@ public:
 	~CCircleList(void);
 	ListNode GetHead() const
 	{
-		return m_pHead;
+		return m_pHead->pNext;
 	}
 	ListNode GetTail() const
 	{
@@ -28,13 +28,28 @@ public:
 	}
 	ListNode GetMidNode() const
 	{
-		UINT n = GetLength() / 2;
+		/*UINT n = GetLength() / 2;
 		ListNode TempNode = m_pHead;
 		for(UINT i = 0; i < n; ++i)
 		{
 			TempNode = TempNode->pNext;
 		}
-		return TempNode->pNext;
+		return TempNode->pNext;*/
+		if(m_ListLen == 0)
+		{
+			return NULL;
+		}
+		else
+		{
+			ListNode fast = m_pHead->pNext;
+			ListNode slow = m_pHead->pNext;
+			while(fast != m_pHead && fast->pNext != m_pHead)
+			{
+				fast = fast->pNext->pNext;
+				slow = slow->pNext;
+			}
+			return slow;
+		}
 	}
 	UINT GetLength() const
 	{

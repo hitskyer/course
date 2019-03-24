@@ -14,7 +14,7 @@ CCircleList<ElmDataType>::CCircleList(void)
 template <typename ElmDataType>
 CCircleList<ElmDataType>::~CCircleList(void)
 {
-	//Erase();
+	Erase();
 	delete m_pHead;
 	m_ListLen = 0;
 	m_pHead = m_pTail = NULL;
@@ -67,30 +67,39 @@ void CCircleList<ElmDataType>::Reverse()
 template <typename ElmDataType>
 typename CCircleList<ElmDataType>::ListNode CCircleList<ElmDataType>::RemoveAt(ListNode pos)
 {
-	if(pos == NULL)
+	if(pos == NULL || m_ListLen == 0)
 		return NULL;
-	if(m_ListLen == 0)
-		return NULL;
-	ListNode TempNode = m_pHead->pNext;
-	ListNode PrevNode = m_pHead;
-	while(TempNode != m_pHead)
+	else if(pos == m_pHead)
 	{
-		if(TempNode == pos)
-		{
-			PrevNode->pNext = TempNode->pNext;
-			delete TempNode;
-			TempNode = NULL;
-			--m_ListLen;
-			if(pos == m_pTail)
-			{
-				m_pTail = PrevNode;
-			}
-			return PrevNode->pNext;
-		}
-		PrevNode = TempNode;
-		TempNode = TempNode->pNext;
+		delete m_pHead;
+		m_pHead = NULL;
+		return NULL;
 	}
-	return NULL;
+	else
+	{
+		ListNode TempNode = m_pHead->pNext;
+		ListNode PrevNode = m_pHead;
+		while(TempNode != m_pHead)
+		{
+			if(TempNode == pos)
+			{
+				PrevNode->pNext = TempNode->pNext;
+				delete TempNode;
+				TempNode = NULL;
+				--m_ListLen;
+				if(pos == m_pTail)
+				{
+					m_pTail = PrevNode;
+				}
+				p = PrevNode->pNext
+				break;
+			}
+			PrevNode = TempNode;
+			TempNode = TempNode->pNext;
+		}
+		return p;
+	}
+	
 }
 
 
@@ -99,22 +108,28 @@ typename CCircleList<ElmDataType>::ListNode CCircleList<ElmDataType>::InsertAt(L
 {
 	if(pos == NULL)
 		return NULL;
-	ListNode TempNode = m_pHead->pNext;
-	ListNode PrevNode = m_pHead;
-	while(TempNode != m_pHead)
+	else
 	{
-		if(TempNode == pos)
+		ListNode TempNode = m_pHead->pNext;
+		ListNode PrevNode = m_pHead;
+		while(TempNode != m_pHead)
 		{
-			ListNode pNewNode = new NodeType;
-			pNewNode->data = data;
-			pNewNode->pNext = TempNode;
-			PrevNode->pNext = pNewNode;
-			++m_ListLen;
+			if(TempNode == pos)
+			{
+				ListNode pNewNode = new NodeType;
+				pNewNode->data = data;
+				pNewNode->pNext = TempNode;
+				PrevNode->pNext = pNewNode;
+				++m_ListLen;
+				TempNode = pNewNode;
+				break;
+			}
+			PrevNode = TempNode;
+			TempNode = TempNode->pNext;
 		}
-		PrevNode = TempNode;
-		TempNode = TempNode->pNext;
+		return TempNode == m_pHead ? NULL:TempNode;
 	}
-	return NULL;
+	
 }
 
 
@@ -123,14 +138,17 @@ typename CCircleList<ElmDataType>::ListNode CCircleList<ElmDataType>::Find(const
 {
 	if(m_ListLen == 0)
 		return NULL;
-	ListNode TempNode = m_pHead->pNext;
-	while(TempNode != m_pHead)
+	else
 	{
-		if(TempNode->data == data)
-			return TempNode;
-		TempNode = TempNode->pNext;
-	}
-	return NULL;
+		ListNode TempNode = m_pHead->pNext;
+		while(TempNode != m_pHead)
+		{
+			if(TempNode->data == data)
+				break;
+			TempNode = TempNode->pNext;
+		}
+		return TempNode == m_pHead ? NULL:TempNode;
+	}	
 }
 
 
@@ -144,11 +162,11 @@ typename CCircleList<ElmDataType>::ListNode CCircleList<ElmDataType>::FindByInde
 	while(TempNode != m_pHead)
 	{
 		if(nCount == Index)
-			return TempNode;
+			break;
 		++nCount;
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode == m_pHead ? NULL:TempNode;
 }
 
 
@@ -163,6 +181,7 @@ void CCircleList<ElmDataType>::Erase()
 	{
 		PrevNode->pNext = TempNode->pNext;
 		delete TempNode;
+		TempNode = NULL;
 		TempNode = PrevNode->pNext;
 		--m_ListLen;
 	}
@@ -195,7 +214,7 @@ void CCircleList<ElmDataType>::MergeList(CCircleList<ElmDataType> &lst)
 	lst.GetTail()->pNext = this->m_pHead;
 	this->m_pTail = lst.GetTail();
 	m_ListLen += lst.m_ListLen;
-	//delete lst.GetHead();
+	lst.RemoveAt(lst.GetHead());
 }
 
 
@@ -205,17 +224,20 @@ typename CCircleList<ElmDataType>::
 {
 	if(pos == NULL)
 		return NULL;
-	ListNode TempNode = m_pHead->pNext;
-	while(TempNode != m_pHead)
+	else
 	{
-		if(TempNode == pos)
+		ListNode TempNode = m_pHead->pNext;
+		while(TempNode != m_pHead)
 		{
-			TempNode->data = data;
-			return TempNode;
+			if(TempNode == pos)
+			{
+				TempNode->data = data;
+				break;
+			}
+			TempNode = TempNode->pNext;
 		}
-		TempNode = TempNode->pNext;
+		return TempNode == m_pHead ? NULL:TempNode;
 	}
-	return NULL;
 }
 
 
@@ -223,9 +245,9 @@ template <typename ElmDataType>
 typename CCircleList<ElmDataType>::
 	ListNode CCircleList<ElmDataType>::RemoveAt(UINT nCountBack)
 {
-	if(nCountBack > m_ListLen)
+	if(nCountBack > m_ListLen || nCountBack == 0)
 		return NULL;
-	ListNode TempNode = m_pHead->pNext;
+	/*ListNode TempNode = m_pHead->pNext;
 	ListNode PrevNode = m_pHead;
 	UINT nCount = 0;
 	for(;nCount < m_ListLen - nCountBack; ++nCount)
@@ -236,5 +258,21 @@ typename CCircleList<ElmDataType>::
 	PrevNode->pNext = TempNode->pNext;
 	delete TempNode;
 	--m_ListLen;
-	return 	PrevNode->pNext;
+	return 	PrevNode->pNext;*/
+
+	else
+	{
+		ListNode fast = m_pHead->pNext;
+		ListNode slow = m_pHead->pNext;
+		for(UINT i = 0; i < nCountBack - 1; ++i)
+		{
+			fast = fast->pNext;
+		}
+		while(fast->pNext != m_pHead)
+		{
+			fast = fast->pNext;
+			slow = slow->pNext;
+		}
+		return slow;
+	}
 }
