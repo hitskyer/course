@@ -56,6 +56,7 @@ public:
     void Reverse();//反转链表
 
     bool hasLoop(); //判断链表是否有环
+    size_t howManyNode(ListNode ps,ListNode pe); //计算两个指针之间有多少个节点（不包含第二个参数处的节点）
 
 private:
     ListNode m_pHead;   //头结点

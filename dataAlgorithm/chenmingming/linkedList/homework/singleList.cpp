@@ -271,20 +271,54 @@ bool SingleList::hasLoop()
     bool loop = false;
     ListNode fast = m_pHead, slow = m_pHead;
     ListNode posMeet = NULL, ringEntrance = NULL;
-    size_t ringLen = 0;
+    size_t ringLen = 0, countOfFirstMeet = 0, countFirsttoSecond = 0;
+    size_t meetTime = 0;
     if(m_pHead == NULL)
+    {
         loop = false;
+        std::cout << "list has no loop!" << std::endl;
+    }
     else
     {
         while(fast && fast->pNext)
         {
             fast = fast->pNext->pNext;
             slow = slow->pNext;
-            if(fast == slow)
+            if(meetTime == 0)
             {
-                loop = true;
-                posMeet = fast;
+                ++countOfFirstMeet;
+                if(fast == slow)
+                {
+                    loop = true;
+                    posMeet = fast;
+                    meetTime++;
+                    continue;
+                }
+            }
+            if(meetTime == 1)
+            {
+                ++countFirsttoSecond;
+                if(fast == slow )
+                {
+                    ringEntrance = fast;
+                    break;
+                }
             }
         }
+        size_t lenOf_headToEntrance = howManyNode(m_pHead,ringEntrance);
+        std::cout << "len of head to ring entrance is " << lenOf_headToEntrance << std::endl;
+        std::cout << "len of ring is " << countFirsttoSecond << std::endl;
+        std::cout << "len of List is " << lenOf_headToEntrance + countFirsttoSecond << std::endl;
     }
+    return loop;
+}
+size_t SingleList::howManyNode(ListNode ps, ListNode pe)
+{
+    size_t count = 0;
+    while(ps != pe)
+    {
+        ps = ps->pNext;
+        ++count;
+    }
+    return count;
 }
