@@ -58,7 +58,7 @@ template <class T> void Stack<T>::print()
     size_t i = 0;
     while(temp != NULL)
     {
-        cout << "No." << ++i << "elem " << temp->data << endl;
+        cout << "No." << ++i << " elem " << temp->data << endl;
         temp = temp->pNext;
     }
     cout << "----stack bottom----" << endl;

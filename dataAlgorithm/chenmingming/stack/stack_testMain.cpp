@@ -1,10 +1,11 @@
 #include <string>
 #include <iostream>
 #include "stack.cpp"
+using namespace std;
 int main()
 {
     int nums = 0;
-    for(size_t i = 0; i < 10; ++i)
+    for(size_t i = 8; i < 10; ++i)
     {
         Stack<int> intstack;
         if(intstack.Empty())
@@ -59,7 +60,7 @@ int main()
                 default:
                     break;
             }
-            if(legal == false)
+            if(!legal)
                 break;
         }
         if(charstack.Empty())
@@ -67,7 +68,7 @@ int main()
         else
             cout << "illegal string !" << endl;
         cin.get();
-        cout << "continue? y/n" << endl;
+        cout << "continue? y/n: " ;
         cin >> conti;
         cin.get();
     }
