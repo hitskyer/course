@@ -300,6 +300,7 @@ bool SingleList::hasLoop()
         size_t lenOf_headToEntrance = howManyNode(m_pHead,ringEntrance);
         size_t ringLen_1 = howManyNode(ringEntrance->pNext, ringEntrance);
         std::cout << "len of head to ring entrance is " << lenOf_headToEntrance << std::endl;
+        std::cout << "entrance Node is " << ringEntrance->data << std::endl;
         std::cout << "len of ring is " << ringLen_1 + 1 << std::endl;
         std::cout << "len of List is " << lenOf_headToEntrance + ringLen_1 + 1 << std::endl;
     }
