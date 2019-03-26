@@ -70,7 +70,7 @@ ListNode SingleList::GetMidNode() const
 		if(fast != NULL)
 		{
 			fast = fast->pNext->pNext;
-			slow = fast->pNext;
+			slow = slow->pNext;
 		}
 		return slow;
 	}
