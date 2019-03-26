@@ -1,3 +1,8 @@
+/**
+* 概要：	双向链表（非循环）
+* 修改内容：单进单出；delete p; p = nullptr; 添加const，保证返回地址不会改变； 添加注释，避免二义性
+* 修改时间：2019/3/26
+*/
 #ifndef _DULNODE_H
 #define _DULNODE_H
 #include<Windows.h>
@@ -45,7 +50,7 @@ public:
 
 	DNode RemoveAt(UINT nCountBack);				// 删除倒数第n个节点，并返回被删除结点的下一结点的地址
 
-	DNode Find(const int &data);	// 在当前链表中找到和要查找数据相等的第一个结点的地址
+	DNode Find(const int &data) const;	// 在当前链表中找到和要查找数据相等的第一个结点的地址
 
 	void Erase();					// 删除链表的所有结点
 
