@@ -27,6 +27,7 @@ int main()
     }
     cout << "以下测试一个字符串是否有非法格式的括号" << endl;
     char conti = 'y', str;
+    bool legal = false;
     while(conti == 'y'|| conti == 'Y')
     {
         Stack<char> charstack;
@@ -41,36 +42,31 @@ int main()
                     if(charstack.GetTop()->data == '{')
                         charstack.Pop();
                     else
-                        cout << "illegal string !" << endl;
+                        legal = false;
                     break;
                 case ']':
                     if(charstack.GetTop()->data == '[')
                         charstack.Pop();
                     else
-                        cout << "illegal string !" << endl;
+                        legal = false;
                     break;
                 case ')':
                     if(charstack.GetTop()->data == '(')
                         charstack.Pop();
                     else
-                        cout << "illegal string !" << endl;
+                        legal = false;
                     break;
-//                case '】':
-//                    if(charstack.GetTop()->data == '【')
-//                        charstack.Pop();
-//                    else
-//                        cout << "illegal string !" << endl;
-//                    break;
-//                case '）':
-//                    if(charstack.GetTop()->data == '（')
-//                        charstack.Pop();
-//                    else
-//                        cout << "illegal string !" << endl;
-//                    break;
                 default:
                     break;
             }
+            if(legal == false)
+                break;
         }
+        if(charstack.Empty())
+            cout << "legal string !" << endl;
+        else
+            cout << "illegal string !" << endl;
+        cin.get();
         cout << "continue? y/n" << endl;
         cin >> conti;
         cin.get();
