@@ -190,8 +190,6 @@ ListNode SingleList::ModifyAt(ListNode pos, const int &data)
 				return p;
 			}
 			p = p->pNext;
-			if(p == NULL)
-				return NULL;		// 此链表中，没有这个结点
 		}
 	}
 	return NULL;
