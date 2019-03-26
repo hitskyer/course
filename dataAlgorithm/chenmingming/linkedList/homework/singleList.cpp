@@ -270,9 +270,7 @@ bool SingleList::hasLoop()
 {
     bool loop = false;
     ListNode fast = m_pHead, slow = m_pHead;
-    ListNode posMeet = NULL, ringEntrance = NULL;
-    size_t ringLen = 0, countOfFirstMeet = 0, countFirsttoSecond = 0;
-    size_t meetTime = 0;
+    ListNode posMeet = m_pHead, ringEntrance = m_pHead;//环的可能的入口应初始化成head
     if(m_pHead == NULL)
     {
         loop = false;
@@ -284,31 +282,26 @@ bool SingleList::hasLoop()
         {
             fast = fast->pNext->pNext;
             slow = slow->pNext;
-            if(meetTime == 0)
+            if(fast == slow)
             {
-                ++countOfFirstMeet;
-                if(fast == slow)
-                {
-                    loop = true;
-                    posMeet = fast;
-                    meetTime++;
-                    continue;
-                }
-            }
-            if(meetTime == 1)
-            {
-                ++countFirsttoSecond;
-                if(fast == slow )
-                {
-                    ringEntrance = fast;
-                    break;
-                }
+                loop = true;
+                posMeet = fast; //第一次相遇的地方
+                break;
             }
         }
+        slow = m_pHead; //接着让慢指针回到表头（这里是关键），继续一起同步前行，第二次相遇的地方为环的入口
+        while(slow != fast)
+        {
+            slow = slow->pNext;
+            fast = fast->pNext;
+            if(fast == slow)
+                ringEntrance = fast;
+        }
         size_t lenOf_headToEntrance = howManyNode(m_pHead,ringEntrance);
+        size_t ringLen_1 = howManyNode(ringEntrance->pNext, ringEntrance);
         std::cout << "len of head to ring entrance is " << lenOf_headToEntrance << std::endl;
-        std::cout << "len of ring is " << countFirsttoSecond << std::endl;
-        std::cout << "len of List is " << lenOf_headToEntrance + countFirsttoSecond << std::endl;
+        std::cout << "len of ring is " << ringLen_1 + 1 << std::endl;
+        std::cout << "len of List is " << lenOf_headToEntrance + ringLen_1 + 1 << std::endl;
     }
     return loop;
 }
