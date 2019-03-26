@@ -10,6 +10,7 @@ struct SNode
 
 typedef unsigned int UINT;
 
+
 template <typename ElmDataType>
 class SingleList
 {
@@ -22,9 +23,7 @@ public:
 
 	bool IsEmpty() const
 	{
-		if(0 == m_nListLen)
-			return true;
-		return false;
+		return m_nListLen == 0;
 	}
 
 	UINT GetSize() const
