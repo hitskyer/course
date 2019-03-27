@@ -4,9 +4,9 @@
 using namespace std;
 int main()
 {
-    int nums = 0;
-    for(int i = 8; i < 10; ++i)
+    for(int i = 0; i < 10; ++i)
     {
+        int nums = 0;
         Stack<int> intstack;
         if(intstack.Empty())
             cout << "intstack is empty!" << endl;
