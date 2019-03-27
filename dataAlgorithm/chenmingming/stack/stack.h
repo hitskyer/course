@@ -16,7 +16,7 @@ struct SNode
 };
 template <class T>
         using StackNode = SNode<T>* ;
-//template <class T> typedef SNode *StackNode;
+//template <class T> typedef SNode<T>* StackNode;
 typedef unsigned int UINT;
 template <class T>
 class Stack
