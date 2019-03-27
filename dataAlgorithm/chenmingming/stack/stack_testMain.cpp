@@ -29,9 +29,9 @@ int main()
     }
     cout << "以下测试一个字符串是否有非法格式的括号" << endl;
     char conti = 'y', str;
-    bool legal = true;
     while(conti == 'y'|| conti == 'Y')
     {
+        bool legal = true;
         Stack<char> charstack;
         cout << "please enter a string to check its brackets legal or not ！" << endl;
         while(cin.get(str) && str != '\n')  //不断地获取输入的字符
