@@ -82,10 +82,11 @@ void Stack::PrintStack()
 	{
 		int index = 1;
 		std::cout << "从栈顶到栈底元素以此为： " << std::endl;
-		while(m_pTop)
+		StackNode temp = m_pTop;
+		while(temp)
 		{
-			std::cout << "第 " << index << " 个元素是： " << m_pTop->data << std::endl;
-			m_pTop = m_pTop->pNext;
+			std::cout << "第 " << index << " 个元素是： " << temp->data << std::endl;
+			temp = temp->pNext;
 			++index;
 		}
 	}
