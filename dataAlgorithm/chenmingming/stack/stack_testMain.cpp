@@ -34,20 +34,20 @@ int main()
     {
         Stack<char> charstack;
         cout << "please enter a string to check its brackets legal or not ！" << endl;
-        while(cin.get(str) && str != '\n')
+        while(cin.get(str) && str != '\n')  //不断地获取输入的字符
         {
-            if(str == '{' || str == '[' || str == '(')
+            if(str == '{' || str == '[' || str == '(')  //遇到左括号不断地压栈
             {
                 charstack.Push(str);
                 continue;
             }
-            switch(str)
+            switch(str) //遇到非左括号
             {
                 case '}':
-                    if(charstack.GetTop() && charstack.GetTop()->data == '{')
-                        charstack.Pop();
+                    if(charstack.GetTop() && charstack.GetTop()->data == '{')   //栈不为空且栈顶与右括号匹配
+                        charstack.Pop();    //删除左括号
                     else
-                        legal = false;
+                        legal = false;  //直接遇上右括号，非法；or 栈顶与当前右括号不匹配
                     break;
                 case ']':
                     if(charstack.GetTop() && charstack.GetTop()->data == '[')
@@ -65,14 +65,14 @@ int main()
                     break;
             }
             if(!legal)
-                break;
+                break;  //如果非法，不必循环了，直接退出
         }
-        if(legal && charstack.Empty())
+        if(legal && charstack.Empty())  //如果合法，且符号都匹配了（栈为空）
             cout << "legal string !" << endl;
         else
         {
             cout << "illegal string !" << endl;
-            cin.ignore(10000,'\n');
+            cin.ignore(10000,'\n'); //清除非法字符后面尚未get的字符
         }
         cout << "continue? y/n: " ;
         cin >> conti;
