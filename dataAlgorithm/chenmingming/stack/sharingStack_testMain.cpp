@@ -13,9 +13,29 @@ int main()
         len2 = L[k];
         sharingStack<int> doubleIntStack(8);
         for(int i = 0; i < len1; ++i)
-            doubleIntStack.push(i,0);
+        {
+            try
+            {
+                doubleIntStack.push(i,0);
+            }
+            catch(const char* ch)
+            {
+                cout << ch << endl;
+                break;
+            }
+        }
         for(int i = 0; i < len2; ++i)
-            doubleIntStack.push(i,1);
+        {
+            try
+            {
+                doubleIntStack.push(i,1);
+            }
+            catch(const char* ch)
+            {
+                cout << ch << endl;
+                break;
+            }
+        }
         doubleIntStack.printAll();
     }
     return 0;

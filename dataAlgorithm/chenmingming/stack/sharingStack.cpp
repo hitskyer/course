@@ -2,7 +2,7 @@
 // Created by mingm on 2019/3/28.
 //
 #include "sharingStack.h"
-#include <assert.h>
+//#include <assert.h>
 #include <iostream>
 template <class T>
 sharingStack<T>::sharingStack(int size):capacity(size)
@@ -16,7 +16,9 @@ sharingStack<T>::sharingStack(int size):capacity(size)
 template <class T>
 void sharingStack<T>::push(const T &data, int stackIndex)
 {
-    assert(!full());    //如果栈满了（条件为false），程序终止
+//    assert(!full());    //如果栈满了（条件为false），程序终止
+    if(full())
+        throw("stack is full !");
     if(stackIndex == 0)
         arr[++top[0]] = data;
     else
