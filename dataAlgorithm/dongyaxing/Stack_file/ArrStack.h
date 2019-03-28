@@ -23,13 +23,15 @@ struct ArrStack
 		top = -1;
 	}
 };
-typedef ArrStack *stack;
+typedef ArrStack stack;
 typedef unsigned int UINT;
+
 class AStack
 {
 public:
 	AStack(void);
 	~AStack(void);
+	//AStack(UINT size);
 	bool Empty() const;			// 判断是否为空
 	void Clear();				// 清空栈
 
@@ -42,7 +44,7 @@ public:
 	void PrintStack();			// 打印栈内容
 private :
 	bool IsFull() const;		// 判断是否满
-	bool Transfer() const;		// 栈满，则转移数据
+	//bool ExpendStack();		// 栈满，则转移数据，没法实现，弃置
 
 private:
 	stack m_pTop;				// 栈顶元素

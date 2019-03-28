@@ -4,18 +4,18 @@ using namespace std;
 
 AStack::AStack(void)
 {
-	//m_pTop = NULL;
-	m_pTop->top = -1;	// -1表示未存数据，top = 0，则表示有一个数据，对应于数组的下标
+	//m_pTop.top = -1;	// -1表示未存数据，top = 0，则表示有一个数据，对应于数组的下标
 }
 
 AStack::~AStack(void)
 {
 	Clear();
 }
+
 // 判断是否为空
 bool AStack::Empty() const
 {
-	if(-1 == m_pTop->top)
+	if(-1 == m_pTop.top)
 		return true;
 	else
 		return false;
@@ -38,13 +38,13 @@ int AStack::GetTop() const
 	}
 	else
 	{
-		return m_pTop->arr_stack[m_pTop->top];
+		return m_pTop.arr_stack[m_pTop.top];
 	}
 }
 
 UINT AStack::GetLength() const
 {
-	return m_pTop->top + 1;
+	return m_pTop.top + 1;
 }
 
 bool AStack::Push(int &data)
@@ -55,8 +55,8 @@ bool AStack::Push(int &data)
 	}
 	else				// 非满栈
 	{
-		++m_pTop->top;
-		m_pTop->arr_stack[m_pTop->top] = data;
+		++m_pTop.top;
+		m_pTop.arr_stack[m_pTop.top] = data;
 		return true;
 	}
 }
@@ -70,28 +70,28 @@ bool AStack::Pop()
 	else
 	{
 		int temp;
-		temp = m_pTop->arr_stack[m_pTop->top];
-		--m_pTop->top;
+		temp = m_pTop.arr_stack[m_pTop.top];
+		--m_pTop.top;
 		return true;
 	}
 }
 
 void AStack::PrintStack()
 {
-	int index = m_pTop->top + 1;
-	while(!Empty())
+	int index = m_pTop.top + 1;
+	while(index)
 	{
-		std::cout << "第 " << index << " 个元素是：" << m_pTop->arr_stack[m_pTop->top] << std::endl;
+		std::cout << "第 " << index << " 个元素是：" << m_pTop.arr_stack[index - 1] << std::endl;
 		--index;
 	}
 }
 
 bool AStack::IsFull() const
 {
-	return ((MAX_SIZE -1) == m_pTop->top);
+	return ((MAX_SIZE - 1) == m_pTop.top);
 }
 // 重新开辟一个2倍的数组，将原数据导入新的数组。
-bool AStack::Transfer() const
-{
-	return false;
-}
+//bool AStack::ExpendStack()
+//{
+//	return false;
+//}
