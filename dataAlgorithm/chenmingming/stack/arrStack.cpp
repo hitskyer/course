@@ -31,23 +31,23 @@ template <class T> void arrStack<T>::Push(T &data)
     if(IsFull())
     {
 //        cout << "overflow !" << endl;
-        m_nStackLen = 2 * m_nStackLen;
-        T* temparr = new T[m_nStackLen];
-        int i = 0;
-        for( ; i <= m_pTop; ++i)
-        {
-            temparr[i] = arr[i];
-        }
-        temparr[i] = data;
-        ++m_pTop;
-        T* temp = arr;
-        arr = temparr;
-        temparr = temp;
-        delete [] temparr;
-        temparr = NULL;
-        return;
+        Expand();
     }
     arr[++m_pTop] = data;
+}
+template <class T> void arrStack<T>::Expand()
+{
+    m_nStackLen = 2 * m_nStackLen;
+    T* temparr = new T[m_nStackLen];
+    for(int i = 0; i <= m_pTop; ++i)
+    {
+        temparr[i] = arr[i];
+    }
+    T* temp = arr;
+    arr = temparr;
+    temparr = temp;
+    delete [] temparr;
+    temparr = NULL;
 }
 template <class T> void arrStack<T>::Pop()
 {
