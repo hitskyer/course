@@ -28,8 +28,8 @@ ListNode FindLoopPort(const LinkList &L)
 		if(fast == slow)
 			break;
 	}
-	if(fast == nullptr || fast->pNext == nullptr)
-		return nullptr;
+	if(fast == NULL || fast->pNext == NULL)
+		return NULL;
 	else
 	{
 		slow = L.GetHeadNode();
@@ -49,7 +49,7 @@ int main()
 {
 	LinkList ilst;
 	ilst.SetLoopPortPos(4);
-	for(UINT i = 0; i < 6; ++i)
+	for(UINT i = 0; i < 10; ++i)
 	{
 		for(UINT j = 0; j < i; ++j)
 		{

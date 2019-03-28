@@ -1,6 +1,6 @@
 #include "AStack.h"
 #include <iostream>
-
+#include <string.h>
 
 AStack::AStack(void)
 {

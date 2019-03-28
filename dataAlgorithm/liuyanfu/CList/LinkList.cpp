@@ -1,14 +1,13 @@
 #include "LinkList.h"
-#include <iostream>
 
 LinkList::LinkList(void)
 {
 	ListNode pNewNode = new SNode;
-	pNewNode->pNext = nullptr;
+	pNewNode->pNext = NULL;
 	m_pHead = pNewNode;
 	m_pTail = pNewNode;
 	m_ListLen = 0;
-	m_pLoopPort = nullptr;
+	m_pLoopPort = NULL;
 	m_LoopPortPos = 0;
 }
 
@@ -17,7 +16,7 @@ LinkList::~LinkList(void)
 {
 	Erase();
 	delete m_pHead;
-	m_pHead = m_pTail = nullptr;
+	m_pHead = m_pTail = NULL;
 	//m_ListLen = 0;
 	//m_pLoopPort = nullptr;
 	//m_LoopPortPos = 0;
@@ -37,7 +36,7 @@ void LinkList::AddHead(const int &data)
 	pNewNode->data= data;
 	pNewNode->pNext = m_pHead->pNext;
 	m_pHead->pNext = pNewNode;
-	if(pNewNode->pNext == nullptr)
+	if(pNewNode->pNext == NULL)
 		m_pTail = pNewNode;
 	++m_ListLen;
 	SetLoopPort();
@@ -56,7 +55,7 @@ void LinkList::AddTail(const int &data)
 {
 	ListNode pNewNode = new SNode;
 	pNewNode->data = data;
-	pNewNode->pNext = nullptr;
+	pNewNode->pNext = NULL;
 	m_pTail->pNext = pNewNode;
 	m_pTail = pNewNode;
 	++m_ListLen;
@@ -77,7 +76,7 @@ bool LinkList::InsertAt(ListNode pos, const int &data)
 {
 	ListNode TempNode = m_pHead->pNext;
 	ListNode prevNode = m_pHead;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -94,7 +93,7 @@ bool LinkList::InsertAt(ListNode pos, const int &data)
 			prevNode = TempNode;
 			TempNode = TempNode->pNext;
 		}
-		return TempNode == nullptr ? false : true;
+		return TempNode == NULL ? false : true;
 	}
 	else
 	{
@@ -134,7 +133,7 @@ bool LinkList::InsertAt(ListNode pos, const int &data)
 bool LinkList::ModifyAt(ListNode pos, const int &data)
 {
 	ListNode TempNode = m_pHead->pNext;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -145,7 +144,7 @@ bool LinkList::ModifyAt(ListNode pos, const int &data)
 			}
 			TempNode = TempNode->pNext;
 		}
-		return TempNode == nullptr ? false : true;
+		return TempNode == NULL ? false : true;
 	}
 	else
 	{
@@ -182,7 +181,7 @@ bool LinkList::RemoveAt(ListNode pos)
 	ListNode TempNode = m_pHead->pNext;
 	ListNode prevNode = m_pHead;
 	UINT nFlag = 0;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -190,7 +189,7 @@ bool LinkList::RemoveAt(ListNode pos)
 			{
 				prevNode->pNext = TempNode->pNext;
 				delete TempNode;
-				TempNode = nullptr;
+				TempNode = NULL;
 				--m_ListLen;
 				if(pos == m_pTail)
 					m_pTail = prevNode;
@@ -213,7 +212,7 @@ bool LinkList::RemoveAt(ListNode pos)
 			{
 				prevNode->pNext = TempNode->pNext;
 				delete TempNode;
-				TempNode = nullptr;
+				TempNode = NULL;
 				--m_ListLen;
 				if(pos == m_pTail)
 					m_pTail = prevNode;
@@ -246,7 +245,7 @@ bool LinkList::RemoveAt(ListNode pos)
 ListNode LinkList::Find(const int &data)
 {
 	ListNode TempNode = m_pHead->pNext;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -268,7 +267,7 @@ ListNode LinkList::Find(const int &data)
 			TempNode =TempNode->pNext;
 		}
 		if(TempNode == m_pLoopPort && nTimes == 2)
-			TempNode = nullptr;
+			TempNode = NULL;
 	}
 	return TempNode;
 }
@@ -284,13 +283,13 @@ void LinkList::Erase()
 {
 	ListNode TempNode = m_pHead->pNext;
 	ListNode prevNode = m_pHead;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
 			prevNode->pNext = TempNode->pNext;
 			delete TempNode;
-			TempNode = nullptr;
+			TempNode = NULL;
 			TempNode = TempNode->pNext;
 		}
 	}
@@ -303,13 +302,13 @@ void LinkList::Erase()
 				nTimes = 2;
 			prevNode->pNext = TempNode->pNext;
 			delete TempNode;
-			TempNode = nullptr;
-			TempNode =TempNode->pNext;
+			TempNode = NULL;
+			TempNode = prevNode->pNext;
 		}
 	}
 	m_pTail = m_pHead;
-	m_pHead->pNext = nullptr;
-	m_pLoopPort = nullptr;
+	m_pHead->pNext = NULL;
+	m_pLoopPort = NULL;
 	m_LoopPortPos = 0;
 	m_ListLen = 0;
 }
@@ -326,7 +325,7 @@ void LinkList::Erase()
 ListNode LinkList::GetNode(const int &data) const
 {
 	ListNode TempNode = m_pHead->pNext;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -352,7 +351,7 @@ ListNode LinkList::GetNode(const int &data) const
 			TempNode = TempNode->pNext;
 		}
 		if(TempNode == m_pLoopPort && nTimes == 2)
-			TempNode = nullptr;
+			TempNode = NULL;
 	}
 	return TempNode;
 
@@ -369,7 +368,7 @@ void LinkList::PrintList() const
 {
 	ListNode TempNode =	m_pHead->pNext;
 	UINT i = 1;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(TempNode)
 		{
@@ -436,7 +435,7 @@ void LinkList::SetLoopPort()
 ListNode LinkList::FindByPos(UINT nNum)
 {
 	if(nNum > m_ListLen || nNum == 0)
-		return nullptr;
+		return NULL;
 	else
 	{
 		ListNode TempNode = m_pHead;
@@ -459,9 +458,11 @@ ListNode LinkList::FindByPos(UINT nNum)
 ****************************************/
 ListNode LinkList::GetMidNode()
 {
-	ListNode fast = m_pHead->pNext;
+	if(!m_ListLen)
+		return NULL;
+	ListNode fast = m_pHead;
 	ListNode slow = m_pHead;
-	if(m_pLoopPort == nullptr)
+	if(m_pLoopPort == NULL)
 	{
 		while(fast && fast->pNext)
 		{
