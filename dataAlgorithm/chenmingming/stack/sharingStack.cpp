@@ -3,9 +3,14 @@
 //
 #include "sharingStack.h"
 #include <assert.h>
+#include <iostream>
 template <class T>
-sharingStack<T>::sharingStack(int size):capacity(size),top[0](-1), bot[0](-1),top[1](size),bot[1](size)
+sharingStack<T>::sharingStack(int size):capacity(size)
 {
+    top[0] = -1;
+    bot[0] = -1;
+    top[1] = size;
+    bot[1] = size;
     arr = new T [size];
 }
 template <class T>
@@ -42,4 +47,42 @@ void sharingStack<T>::clear(int stackIndex)
         top[0] = bot[0] = -1;
     else
         top[1] = bot[1] = capacity;
+}
+template <class T>
+void sharingStack<T>::printOneSide(int stackIndex) const
+{
+    if(empty(stackIndex))
+    {
+        std::cout << "----Stack " << stackIndex << " is empty---- " << std::endl;
+        return;
+    }
+    else
+    {
+        if(stackIndex == 0)
+        {
+            std::cout << "----Stack " << stackIndex << " bottom---- " << top[stackIndex]+1 << " elem(s)" << std::endl;
+            for(int i = bot[0]+1; i<= top[0]; ++i)
+            {
+                std::cout << arr[i] << std::endl;
+            }
+            std::cout << "----Stack " << stackIndex << " top---- " << top[stackIndex]+1 << " elem(s)" << std::endl;
+        }
+        else
+        {
+            std::cout << "----Stack " << stackIndex << " top---- " << bot[stackIndex]-top[stackIndex] << " elem(s)" << std::endl;
+            for(int i = top[1]; i< bot[1]; ++i)
+            {
+                std::cout << arr[i] << std::endl;
+            }
+            std::cout << "----Stack " << stackIndex << " bottom---- " << bot[stackIndex]-top[stackIndex] << " elem(s)" << std::endl;
+        }
+    }
+}
+template <class T>
+void sharingStack<T>::printAll() const
+{
+    std::cout << "****capacity of doubleStack is " << capacity << " *****" << std::endl;
+    printOneSide(0);
+    printOneSide(1);
+    std::cout << "*******************************************" << std::endl;
 }
