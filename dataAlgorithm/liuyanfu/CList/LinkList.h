@@ -1,6 +1,6 @@
 #ifndef _LINKLIST_H
 #define _LINKLIST_H
-
+#include <iostream>
 
 typedef struct SNode 
 {
@@ -33,7 +33,7 @@ public:
 
 	ListNode GetTailNode() const
 	{
-		return m_ListLen == 0 ? nullptr : m_pTail;
+		return m_ListLen == 0 ? NULL : m_pTail;
 	}
 
 	ListNode GetMidNode();
