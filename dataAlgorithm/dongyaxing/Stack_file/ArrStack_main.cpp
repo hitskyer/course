@@ -1,6 +1,6 @@
 #include<iostream>
 #include"ArrStack.h"
-//#include"ArrStack.cpp"		// Linux下需要此文件
+#include"ArrStack.cpp"		// Linux下需要此文件
 using namespace std;
 int main()
 {
@@ -23,6 +23,6 @@ int main()
 	length = stk.GetLength();
 	stk.PrintStack();
 
-	system("pause");		// Linux下不需要此文件
+	//system("pause");		// Linux下不需要此文件
 	return 0;
 }

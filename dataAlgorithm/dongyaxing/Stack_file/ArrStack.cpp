@@ -34,7 +34,7 @@ int AStack::GetTop() const
 {
 	if(IsFull())		// ÂúÕ»
 	{
-		return NULL;
+		return 0;
 	}
 	else
 	{

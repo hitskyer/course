@@ -11,6 +11,7 @@
 #define MAX_SIZE 20
 #define INIT_VALUE -1
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 struct ArrStack
@@ -53,4 +54,4 @@ private:
 
 
 
-#endif \\_ARRSTACK_H
+#endif //_ARRSTACK_H
