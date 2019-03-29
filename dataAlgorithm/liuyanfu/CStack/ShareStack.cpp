@@ -1,4 +1,5 @@
 #include "ShareStack.h"
+#include <string.h>
 #define INITSTACKLEN 5
 
 template<typename DATA>
@@ -25,7 +26,7 @@ ShareStack<DATA>::ShareStack(const UINT& nStackSize)
 template<typename DATA>
 ShareStack<DATA>::~ShareStack(void)
 {
-	delete m_pStack;
+	delete []m_pStack;
 	m_pStack = NULL;
 	m_nTop1 = 0;
 	m_nTop2 = 0;
@@ -217,7 +218,7 @@ void ShareStack<DATA>::PrintStack() const
 {
 	if(-1 != m_nTop1)
 	{
-		cout << "LeftStack context " << endl;
+		std::cout << "LeftStack context " << std::endl;
 		int index = m_nTop1;
 		while(index >= 0)
 		{
@@ -227,7 +228,7 @@ void ShareStack<DATA>::PrintStack() const
 	}
 	if(m_nStackSize != m_nTop2)
 	{
-		cout << "RightStack context " << endl;
+		std::cout << "RightStack context " << std::endl;
 		int index = m_nTop2;
 		while(index != m_nStackSize)
 		{
