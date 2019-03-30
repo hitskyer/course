@@ -5,6 +5,8 @@
 #include <iostream>
 #include <time.h>
 #include <random>
+#include <iomanip>
+
 using namespace std;
 void updateMaxLen(int &len, int stackSize)
 {
@@ -115,7 +117,7 @@ void print_maze(int *maze, int x, int y)
         int temp = 0;
         for(int j = 0; j < y; ++j)
         {
-            cout << *(maze+i*y+j) << " ";
+            cout << setw(2) << *(maze+i*y+j) << " ";
             temp++;
         }
         if(temp == y)
