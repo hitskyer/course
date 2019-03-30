@@ -29,6 +29,7 @@ public:
     void Clear();		// 则清空栈
 
     StackNode<T> GetTop() const;	// 得到栈顶元素
+    StackNode<T> GetBot() const;	// 得到栈底元素
     UINT GetLength() const;	// 返回栈的长度
 
     void Push(T &data);	//往栈中压入数据
@@ -36,6 +37,7 @@ public:
     void print();   //自己加的接口，打印输出stack内容
 private:
     StackNode<T> m_pTop;	// 栈顶元素
+    StackNode<T> m_pBot;    //栈底元素
     UINT m_nStackLen;	// 栈长度
 };
 
