@@ -22,6 +22,7 @@ template <class T> void Stack<T>::Push(T &data)
     StackNode<T> newNode = new SNode<T>;
     newNode->data = data;
     newNode->pNext = NULL;
+    newNode->pFront = NULL;
     if(m_pTop == NULL)
     {
         m_pTop = m_pBot = newNode;
@@ -29,6 +30,7 @@ template <class T> void Stack<T>::Push(T &data)
     else
     {
         newNode->pNext = m_pTop;
+        m_pTop->pFront = newNode;
         m_pTop = newNode;
     }
     m_nStackLen++;
@@ -39,9 +41,11 @@ template <class T> void Stack<T>::Pop()
     {
         StackNode<T> temp = m_pTop->pNext;
         delete m_pTop;
-        m_pTop = temp;
         m_nStackLen--;
-        if(m_pTop == NULL)
+        m_pTop = temp;
+        if(m_pTop != NULL)
+            m_pTop->pFront = NULL;
+        else
             m_pBot = NULL;
     }
 
