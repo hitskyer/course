@@ -13,6 +13,7 @@ struct SNode
 {
     T data;
     SNode *pNext;
+    SNode *pFront;
 };
 template <class T>
         using StackNode = SNode<T>* ;

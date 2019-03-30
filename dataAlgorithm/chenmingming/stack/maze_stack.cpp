@@ -41,14 +41,22 @@ int mazepath(int **maze, int m, int n, int x0, int y0, int x_dest, int y_dest)
         pos_stack.Pop();
         while(dir < 4)   //当前位置方向可选时
         {
-            i = x + mvdir[dir].dx;  j = y + mvdir[dir].dy;  //其该方向下一个点的位置
+//            if(pos_stack.Empty())
+//            {
+                i = x + mvdir[dir].dx;  j = y + mvdir[dir].dy;
+//            }
+//            else
+//            {
+//                i = pos_stack.GetTop()->data.x + mvdir[dir].dx;  j = pos_stack.GetTop()->data.y + mvdir[dir].dy;  //其该方向下一个点的位置
+//            }
             if(*((int*)maze+i*n+j) == 0)    //下一个新的位置可以走
             {
                 curPos.x = x;   curPos.y = y;   curPos.dir_opt = dir;
                 pos_stack.Push(curPos);     //当前位置压栈
-                nextPos.x = i;  nextPos.y = j;
-                pos_stack.Push(nextPos);
-//                *((int*)maze+i*n+j) = -1;   //标记新走的位置为-1,下次检测==0时，检测不到，不走老路
+                *((int*)maze+i*n+j) = -1;   //标记新走的位置为-1,下次检测==0时，检测不到，不走老路
+                x = i;  y = j;
+//                nextPos.x = i;  nextPos.y = j;
+//                pos_stack.Push(nextPos);
                 if(i == x_dest && j == y_dest)  //如果到达出口
                 {
                     cout << "find way out !" << endl;
@@ -56,7 +64,7 @@ int mazepath(int **maze, int m, int n, int x0, int y0, int x_dest, int y_dest)
                     do     // 从起点打印路径
                     {
                         cout << "(" << pos_stackNode->data.x << "," << pos_stackNode->data.y << ")" << endl;
-                        pos_stackNode = pos_stackNode->pNext;
+                        pos_stackNode = pos_stackNode->pFront;
                     }while(pos_stackNode != NULL);
                     return 1;
                 }
@@ -124,5 +132,7 @@ int main()
     make_maze_withWall(maze,m+2,n+2,x0,y0,m,n);
     print_maze(maze,m+2,n+2);
     mazepath(maze,m+2,n+2,x0,y0,m,n);
+    print_maze(maze,m+2,n+2);
+    delete [] maze;
     return 0;
 }
