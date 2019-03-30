@@ -1,6 +1,6 @@
 #include "AStack.h"
 #include <iostream>
-
+#include <string.h>
 
 AStack::AStack(void)
 {
@@ -109,9 +109,13 @@ void AStack::Push(const UINT &data)
 ****************************************/
 void AStack::Pop()
 {
-	memset(&m_pStack[m_nTop], 0, sizeof(int));
-	--m_nTop;
-	--m_nStackLen;
+	if(!Empty())
+	{
+		memset(&m_pStack[m_nTop], 0, sizeof(int));
+		--m_nTop;
+		--m_nStackLen;
+	}
+
 }
 
 

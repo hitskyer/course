@@ -4,7 +4,7 @@
 #include "stack.h"
 #include <iostream>
 using namespace std;
-template <class T> Stack<T>::Stack():m_pTop(NULL),m_nStackLen(0){}
+template <class T> Stack<T>::Stack():m_pTop(NULL),m_pBot(NULL),m_nStackLen(0){}
 template <class T> Stack<T>::~Stack() {   Clear();    }
 template <class T> bool Stack<T>::Empty() const
 {
@@ -24,7 +24,7 @@ template <class T> void Stack<T>::Push(T &data)
     newNode->pNext = NULL;
     if(m_pTop == NULL)
     {
-        m_pTop = newNode;
+        m_pTop = m_pBot = newNode;
     }
     else
     {
@@ -41,11 +41,18 @@ template <class T> void Stack<T>::Pop()
         delete m_pTop;
         m_pTop = temp;
         m_nStackLen--;
+        if(m_pTop == NULL)
+            m_pBot = NULL;
     }
+
 }
 template <class T> StackNode<T> Stack<T>::GetTop() const
 {
     return m_pTop;
+}
+template <class T> StackNode<T> Stack<T>::GetBot() const
+{
+    return m_pBot;
 }
 template <class T> UINT Stack<T>::GetLength() const
 {

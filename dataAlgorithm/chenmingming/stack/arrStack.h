@@ -19,6 +19,7 @@ public:
     UINT GetLength() const;	// 返回栈的长度
 
     void Push(T &data);	//往栈中压入数据
+    void Expand();  //栈扩容
     void Pop();		//将栈顶数据弹出
     void print();   //自己加的接口，打印输出stack内容
 private:
