@@ -6,7 +6,12 @@
 #include <time.h>
 #include <random>
 using namespace std;
-int mazepath(int *maze, int m, int n, int x0, int y0, int x_dest, int y_dest, int &step)
+void updateMaxLen(int &len, int stackSize)
+{
+    if(len < stackSize)
+        len = stackSize;
+}
+int mazepath(int *maze, int m, int n, int x0, int y0, int x_dest, int y_dest, int &step, int &maxLenofStack)
 {
     struct Move
     {
@@ -31,6 +36,7 @@ int mazepath(int *maze, int m, int n, int x0, int y0, int x_dest, int y_dest, in
     Stack<Postion> pos_stack;   //创建链式Position栈
     StackNode<Postion> pos_stackNode;
     pos_stack.Push(curPos);     //将当前位置压入栈
+    updateMaxLen(maxLenofStack, pos_stack.GetLength());
     int x, y, dir, i, j;
     while(!pos_stack.Empty())
     {
@@ -38,6 +44,7 @@ int mazepath(int *maze, int m, int n, int x0, int y0, int x_dest, int y_dest, in
         dir = pos_stack.GetTop()->data.dir_opt + 1;   //dir方向试探下一个方向
         pos_stack.Pop();
         step++;
+        updateMaxLen(maxLenofStack, pos_stack.GetLength());
         while(dir < 4)   //当前位置方向可选时
         {
             i = x + mvdir[dir].dx;  j = y + mvdir[dir].dy;
@@ -46,6 +53,7 @@ int mazepath(int *maze, int m, int n, int x0, int y0, int x_dest, int y_dest, in
                 curPos.x = x;   curPos.y = y;   curPos.dir_opt = dir;
                 pos_stack.Push(curPos);     //当前位置压栈
                 step++;
+                updateMaxLen(maxLenofStack, pos_stack.GetLength());
                 *(maze+i*n+j) = -1;   //标记新走的位置为-1,下次检测==0时，检测不到，不走老路
                 x = i;  y = j;
                 if(i == x_dest && j == y_dest)  //如果到达出口
@@ -116,17 +124,29 @@ void print_maze(int *maze, int x, int y)
 }
 int main()
 {
-    cout << "请输入矩形迷宫的长宽："  << endl;
-    int m, n, x0 = 1, y0 = 1, totalstep = 0;   //x0,y0起点坐标（1~m,1~n）
-    cin >> m >> n;  //输入迷宫大小
+    cout << "请输入矩形迷宫的长宽（m>1, n>1）："  << endl;
+    int m, n, x0 = 1, y0 = 1, totalstep = 0, maxLenofStack = 0;   //x0,y0起点坐标（1~m,1~n）
+    while(cin >> m >> n)  //输入迷宫大小 （m>1, n>1）
+    {
+        if(m < 2 || n <2)
+        {
+            cout << "输入有误，请满足（m>1, n>1）！" << endl;
+            continue;
+        }
+        else
+            break;
+    }
     int *maze = new int [(m+2)*(n+2)]; //定义迷宫矩阵
     make_maze_withWall(maze,m+2,n+2,x0,y0,m,n); //生成随机迷宫
     cout << "迷宫如下（1不能走，0能走，只能走上下左右），外圈为围墙，除去围墙，求从左上角到达右下角的路径" << endl;
     print_maze(maze,m+2,n+2);
-    mazepath(maze,m+2,n+2,x0,y0,m,n,totalstep);
+    bool pass = mazepath(maze,m+2,n+2,x0,y0,m,n,totalstep,maxLenofStack);
     cout << "结束求解，打印迷宫，-1代表走过的地方" << endl;
     print_maze(maze,m+2,n+2);
-    cout << "共走过 " << totalstep-1 << " 步。" << endl;
+    if(pass || maxLenofStack <= 1)
+        cout << "共走过 " << totalstep-1 << " 步。" << endl;
+    else
+        cout << "共走过 " << totalstep-3 << " 步。" << endl;
     delete [] maze;
     return 0;
 }
