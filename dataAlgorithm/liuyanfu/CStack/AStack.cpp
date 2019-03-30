@@ -129,7 +129,7 @@ void AStack::Pop()
 void AStack::ExpandStack()
 {
 	int *pTemp = new int[m_nStackSize * 2];
-	memcpy(pTemp, m_pStack, m_nStackLen * sizeof(int));
+	memcpy(pTemp, m_pStack, sizeof(m_pStack));
 	delete []m_pStack;
 	m_pStack = pTemp;
 	m_nStackSize = m_nStackSize * 2;
