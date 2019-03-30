@@ -24,7 +24,7 @@ DoubleList<ElmDataType>::~DoubleList(void)
 template<typename ElmDataType>
 typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::GetMidNode()
 {
-	ListNode TempNode = m_pHead->pNext;
+	/*ListNode TempNode = m_pHead->pNext;
 	UINT i = 0;
 	while(TempNode)
 	{
@@ -35,7 +35,18 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::GetMidNode()
 		i++;
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return NULL;*/
+
+	ListNode fast = m_pHead->pNext;
+	ListNode slow = m_pHead->pNext;
+	while(fast && fast->pNext)
+	{
+		fast = fast->pNext->pNext;
+		slow = slow->pNext;
+	}
+	return slow;
+
+	
 }
 
 template<typename ElmDataType>
@@ -45,10 +56,10 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::GetNode(cons
 	while(TempNode)
 	{
 		if(TempNode->data == data)
-			return TempNode;
+			break;
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode;
 }
 
 
@@ -98,11 +109,12 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::InsertAt(Lis
 			pNewNode->pPrev->pNext = pNewNode;
 			pNewNode->pNext->pPrev = pNewNode;
 			++m_ListLen;
-			return pNewNode;
+			TempNode = pNewNode;
+			break;
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode;
 }
 
 
@@ -116,11 +128,11 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::ModifyAt(Lis
 		if(TempNode == pos)
 		{
 			TempNode->data = data;
-			return TempNode;
+			break;
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode;
 }
 
 
@@ -144,11 +156,12 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::RemoveAt(Lis
 			RetNode = TempNode->pNext;
 			delete TempNode;
 			TempNode = NULL;
-			return RetNode;
+			TempNode = RetNode;
+			break;
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode;
 }
 
 
@@ -160,11 +173,11 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::Find(const i
 	{
 		if(TempNode->data == data)
 		{
-			return TempNode;
+			break;
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode;
 }
 
 
@@ -182,6 +195,7 @@ void DoubleList<ElmDataType>::Erase()
 			TempNode->pNext->pPrev = TempNode->pPrev;		
 		TempNode = TempNode->pNext;
 		delete PrevNode;
+		PrevNode = NULL;
 	}
 	PrevNode = NULL;
 	m_pTail = m_pHead;
@@ -229,7 +243,7 @@ void DoubleList<ElmDataType>:: Reverse()
 template<typename ElmDataType>
 typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::RemoveAt(UINT nCountBack)
 {
-	if(nCountBack > m_ListLen)
+	/*if(nCountBack > m_ListLen)
 		return NULL;
 	ListNode TempNode = m_pHead->pNext;
 	UINT i = 0;
@@ -241,6 +255,23 @@ typename DoubleList<ElmDataType>::ListNode DoubleList<ElmDataType>::RemoveAt(UIN
 		}
 		++i;
 		TempNode = TempNode->pNext;
+	}*/
+	if(nCountBack > m_ListLen || nCountBack ==0)
+		return NULL;
+	else
+	{
+		ListNode fast = m_pHead->pNext;
+		ListNode slow = m_pHead->pNext;
+		for(UINT i =0; i< nCountBack - 1; ++i)
+		{
+			fast = fast->pNext;
+		}
+		while(fast && fast->pNext)
+		{
+			fast = fast->pNext;
+			slow = slow->pNext;
+		}
+		return slow;
 	}
 
 }

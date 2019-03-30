@@ -1,37 +1,35 @@
+//双向链表
+// Created by mingm on 2019/3/22.
 //
-// Created by mingm on 2019/3/18.
-//
-#ifndef _SINGLELIST_H
-#define _SINGLELIST_H
+#ifndef LINKEDLIST_DOUBLY_LINKEDLIST_H
+#define LINKEDLIST_DOUBLY_LINKEDLIST_H
 
 struct SNode		//结点的基本数据类型
 {
     int data;
+    SNode* prev;
     SNode* pNext;
 };
 
 typedef unsigned int UINT;
 typedef SNode* ListNode;
 
-class SingleList
+class doubly_linkedList
 {
 
 public:
-    SingleList(void);
-    ~SingleList(void);
+    doubly_linkedList(void);
+    ~doubly_linkedList(void);
 
     bool IsEmpty() const;//判断链表是否为空
 
     UINT GetLength() const;//获取当前链表的长度
 
     ListNode GetHeadNode() const;//获取链表的头结点
-    void SetHeadNode(SNode *p);
 
     ListNode GetTailNode() const;//获取链表的尾结点
 
     ListNode GetMidNode();//获得链表的中间结点
-
-    ListNode findMid(); //数组长度/2 法
 
     void AddHead(const int &data);//在链表的头部插入新的结点
 
@@ -55,12 +53,11 @@ public:
 
     void Reverse();//反转链表
 
-    bool hasLoop(); //判断链表是否有环
-    size_t howManyNode(ListNode ps,ListNode pe); //计算两个指针之间有多少个节点（不包含第二个参数处的节点）
+    void swapPrevNext(ListNode pos);    //交换节点的前后指针
 
 private:
     ListNode m_pHead;   //头结点
     UINT m_nListLen;    //链表数据长度
 };
 
-#endif
+#endif //LINKEDLIST_DOUBLY_LINKEDLIST_H

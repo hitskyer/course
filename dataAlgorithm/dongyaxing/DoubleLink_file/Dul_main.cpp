@@ -13,7 +13,17 @@ int main()
 	{
 		std::cout << "dl is not empty" << std::endl;
 	}
+	dl.AddHead(40);
+	dl.AddHead(30);
+	dl.AddHead(20);
+	dl.PrintList();
+	std::cout << std::endl;
+
 	dl.AddTail(40);
+	dl.AddTail(50);
+	dl.AddTail(60);
+	dl.GetTailNode();
+
 	dl.AddTail(50);
 	dl.PrintList();
 
@@ -21,27 +31,15 @@ int main()
 	pos1 = dl.GetHeadNode();
 	dl.InsertAt(pos1, 20);
 	dl.PrintList();
+	std::cout << std::endl;
 
-	dl.AddHead(30);
-	dl.AddHead(20);
+	dl.Reverse();
 	dl.PrintList();
-
-	if(dl.IsEmpty())
-	{
-		std::cout << "dl is empty" << std::endl;
-	}
-	else
-	{
-		std::cout << "dl is not empty" << std::endl;
-	}
 
 	DNode pos2;
 	pos2 = dl.GetHeadNode()->pNext;
-	
-	DNode pos3 = dl.InsertAt(pos2, 25);
-	dl.PrintList();
 
-	dl.ModifyAt(pos3, 28);
+	dl.ModifyAt(pos2, 28);
 	dl.PrintList();
 
 	DNode pos4;
@@ -59,9 +57,6 @@ int main()
 	{
 		std::cout << "There is no this data." << std::endl;
 	}
-	dl.PrintList();
-
-	dl.Reverse();
 	dl.PrintList();
 
 	system("pause");

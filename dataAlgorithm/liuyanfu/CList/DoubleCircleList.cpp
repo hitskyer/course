@@ -24,7 +24,7 @@ template<typename ElmDataType>
 typename DoubleCircleList<ElmDataType>::
 	ListNode DoubleCircleList<ElmDataType>::GetMidNode()  const
 {
-	ListNode TempNode = m_pHead->pNext;
+	/*ListNode TempNode = m_pHead->pNext;
 	UINT i = 0;
 	while(TempNode != m_pHead)
 	{
@@ -33,7 +33,21 @@ typename DoubleCircleList<ElmDataType>::
 		++i;
 		TempNode =TempNode->pNext;
 	}
-	return NULL;
+	return NULL;*/
+	ListNode fast = m_pHead->pNext;
+	ListNode slow = m_pHead->pNext;
+	if(fast == NULL)
+		return NULL;
+	else
+	{
+		while(fast != m_pHead && fast->pNext != m_pHead)
+		{
+			fast = fast->pNext->pNext;
+			slow = slow->pNext;
+		}
+		return slow;
+	}
+
 }
 
 
@@ -120,11 +134,11 @@ typename DoubleCircleList<ElmDataType>::
 		if(TempNode == pos)
 		{
 			TempNode->data = data;
-			return TempNode;
+			TempNode;
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode == m_pHead ? NULL:TempNode;
 }
 
 
@@ -147,18 +161,24 @@ typename DoubleCircleList<ElmDataType>::
 				m_pTail = m_pHead;
 				m_pHead->pNext = NULL;
 				m_pHead->pPrev = NULL;
-				return NULL;
+				TempNode = NULL;
+				break;
 			}
 			if(m_pTail == pos)
 			{
 				m_pTail = RetNode;
-				return m_pTail->pNext->pNext;//不让访问到表头
+				TempNode = m_pTail->pNext->pNext;//不让访问到表头
+				break;
 			}
-			return RetNode->pNext;
+			else
+			{
+				TempNode = RetNode->pNext;
+				break;
+			}
 		}
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode == m_pHead ? NULL:TempNode;
 }
 
 
@@ -166,7 +186,7 @@ template<typename ElmDataType>
 typename DoubleCircleList<ElmDataType>::
 	ListNode DoubleCircleList<ElmDataType>::RemoveAt(UINT nCountBack)
 {
-	if(nCountBack > m_ListLen)
+	/*if(nCountBack > m_ListLen)
 		return NULL;
 	ListNode TempNode = m_pHead->pNext;
 	ListNode RetNode = NULL;
@@ -196,7 +216,29 @@ typename DoubleCircleList<ElmDataType>::
 		++i;
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return NULL;*/
+	if(nCountBack > m_ListLen || nCountBack == 0)
+		return NULL;
+	else if(m_pHead->pNext == NULL)
+	{
+		return NULL;
+	}
+	else
+	{
+		ListNode fast = m_pHead->pNext;
+		ListNode slow = m_pHead->pNext;
+		for(UINT i = 0; i < nCountBack - 1; ++i)
+		{
+			fast = fast->pNext;
+		}
+		while(fast != m_pHead && fast != m_pHead)
+		{
+			fast = fast->pNext->pNext;
+			slow = slow->pNext;
+		}
+		return slow;
+	}
+
 }
 
 
@@ -208,10 +250,10 @@ typename DoubleCircleList<ElmDataType>::
 	while(TempNode != m_pHead)
 	{
 		if(TempNode->data == data)
-			return TempNode;
+			break;
 		TempNode = TempNode->pNext;
 	}
-	return NULL;
+	return TempNode == m_pHead ? NULL:TempNode;
 }
 
 
@@ -226,6 +268,7 @@ void DoubleCircleList<ElmDataType>::Erase()
 		TempNode->pPrev->pNext = TempNode->pNext;
 		TempNode->pNext->pPrev = TempNode->pPrev;
 		delete TempNode;
+		TempNode = NULL;
 		--m_ListLen;
 		TempNode = p;
 	}

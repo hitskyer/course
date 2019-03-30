@@ -1,29 +1,18 @@
 #include "SingleList.h"
-SingleList::SingleList(void)
+SingleList::SingleList(void):m_pHead(nullptr), m_pTail(nullptr), m_nListLen(0)
 {
-	m_nListLen = 0;
-	m_pHead = m_pTail = nullptr;
-	
+	//m_nListLen = 0;
+	//m_pHead = m_pTail = nullptr;
 }
 
 SingleList::~SingleList(void)
 {
-	ListNode p;
-	p = m_pHead;
-	while(m_pHead)
-	{
-		p = p->pNext;
-		free(m_pHead);
-		m_pHead = p;
-	}
-	m_nListLen = 0;
+	Erase();
 }
 //判断链表是否为空
 bool SingleList::IsEmpty() const
 {
-	if(m_nListLen == 0 && m_pHead == NULL && m_pTail == NULL)
-		return true;
-	return false;	
+	return m_nListLen == 0;	
 }
 //获取当前链表的长度
 UINT SingleList::GetLength() const
@@ -40,34 +29,50 @@ ListNode SingleList::GetTailNode() const
 {
 	return m_pTail;
 }
-//获得链表的中间结点
-ListNode SingleList::GetMidNode()
+//获得链表的中间结点，偶数时，返回第一个结点
+ListNode SingleList::GetMidNode() const
 {
-	int mid = 0;
-	ListNode midNode;
-	if(0 == m_nListLen)
-		return NULL;
-	else if(1 == m_nListLen%2)
+	// 基数偶数判断，找中点
+	//int mid = 0;
+	//ListNode midNode;
+	//if(0 == m_nListLen)
+	//{
+	//	return NULL;
+	//}
+	//else if(1 == m_nListLen % 2)
+	//{
+	//	midNode = m_pHead;
+	//	mid = m_nListLen / 2;
+	//	while(mid)
+	//	{
+	//		midNode = midNode->pNext;
+	//		--mid;
+	//	}
+	//	return midNode;		// 基数返回中间结点，偶数返回中间的两个
+	//}
+	//else
+	//{
+	//	midNode = m_pHead;
+	//	mid = m_nListLen/2-1;
+	//	while(mid)
+	//	{
+	//		midNode = midNode->pNext;
+	//		--mid;
+	//	}
+	//	return midNode;	
+	//}
+	//return NULL;
+	ListNode fast = m_pHead;
+	ListNode slow = m_pHead;
+	while(fast)
 	{
-		midNode = m_pHead;
-		mid = m_nListLen / 2;
-		while(mid)
+		fast = fast->pNext;
+		if(fast != NULL)
 		{
-			midNode = midNode->pNext;
-			--mid;
+			fast = fast->pNext->pNext;
+			slow = slow->pNext;
 		}
-		return midNode;		// 基数返回中间结点，偶数返回中间的两个
-	}
-	else
-	{
-		midNode = m_pHead;
-		mid = m_nListLen/2-1;
-		while(mid)
-		{
-			midNode = midNode->pNext;
-			--mid;
-		}
-		return midNode;	
+		return slow;
 	}
 	return NULL;
 }
@@ -76,15 +81,7 @@ void SingleList::AddHead(const int &data)
 {
 	ListNode newNode = new SNode;
 	newNode->data = data;
-	if(NULL == m_pHead)
-	{
-		newNode->pNext = NULL;
-		m_pTail = newNode;
-	}
-	else
-	{
-		newNode->pNext = m_pHead;
-	}
+	newNode->pNext = m_pHead;
 	m_pHead = newNode;
 	++m_nListLen;
 }
@@ -101,98 +98,192 @@ void SingleList::AddTail(const int &data)
 	else
 	{
 		m_pTail->pNext = newNode;
+		m_pTail = newNode;
+		++m_nListLen;
 	}
-	m_pTail = newNode;
-	++m_nListLen;
 }
 //在指定结点前插入数据，并返回新结点的地址
 ListNode SingleList::InsertAt(ListNode pos, const int &data)
 {
-	if(NULL == pos)
-		return NULL;
 	ListNode p = m_pHead;
-	if(pos == p)
+	if(NULL == pos)
+	{
+		return NULL;
+	}
+	else if(pos == p)
 	{
 		AddHead(data);
 		return m_pHead;
 	}
-
-	while(p)
+	else
 	{
-		if(p->pNext == pos)
+		while(p)
 		{
-			ListNode newNode = new SNode;
-			newNode->data = data;
-			newNode->pNext = p->pNext;
-			p->pNext = newNode;
-			++m_nListLen;
-			return newNode;
+			if(p->pNext == pos)
+			{
+				ListNode newNode = new SNode;
+				newNode->data = data;
+				newNode->pNext = p->pNext;
+				p->pNext = newNode;
+				++m_nListLen;
+				return newNode;
+			}
+			p = p->pNext;
 		}
-		p = p->pNext;
 	}
 	return NULL;
 }
+// 修改返回类型，单进单出2019/3/26
+bool SingleList::InsertAt_2(ListNode pos, const int &data)
+{
+	bool flag;
+	if(NULL == pos)
+	{
+		flag = false;		// 没有数据插入
+	}
+	else
+	{
+		if(pos == m_pHead)
+		{
+			AddHead(data);
+			flag = true;
+		}
+		else
+		{
+			ListNode p;
+			p = m_pHead;
+			while(p)
+			{
+				if(p->pNext == pos)
+				{
+					ListNode newNode = new SNode;
+					newNode->data = data;
+					newNode->pNext = p->pNext;
+					p->pNext = newNode;
+					flag = true;
+					break;
+				}
+				p = p->pNext;
+			}
+			flag = false;
+		}
+	}
+	return flag;
+}
+
 //修改指定结点的数据，并返回当前节点的地址
 ListNode SingleList::ModifyAt(ListNode pos, const int &data)
 {
-	if(m_pHead == NULL)
-		return NULL;
-
 	ListNode p;
 	p = m_pHead;
-	while(p)
+	if(m_pHead == NULL)
 	{
-		if(p == pos)
+		return NULL;
+	}
+	else
+	{
+		while(p)
 		{
-			p->data = data;
-			return pos;
+			if(p == pos)
+			{
+				p->data = data;
+				return p;
+			}
+			p = p->pNext;
 		}
-		p = p->pNext;
-		if(p == NULL)
-			return ERROR;		// 此链表中，没有这个结点
 	}
 	return NULL;
 }
+//修改指定结点的数据，
+bool SingleList::ModifyAt_2(ListNode pos, const int &data)
+{
+	bool flag = false;
+	if(NULL == m_pHead)
+	{
+		flag = false;
+	}
+	else
+	{
+		ListNode p;
+		p = m_pHead;
+		while(p)
+		{
+			if(p == pos)
+			{
+				p->data = data;
+				flag = true;
+				break;
+			}
+			p = p->pNext;
+		}
+	}
+	return flag;
+}
+
 //删除指定结点，并返回被删除结点的下一结点的地址
 ListNode SingleList::RemoveAt(ListNode pos)
 {
 	if(m_pHead == NULL)
 		return NULL;
-
-	ListNode p, q;
-	p = m_pHead;
-	if(m_pHead == pos)
+	else if(m_pHead == pos)
 	{
-		p = p->pNext;
-		delete m_pHead;
+		ListNode p;
+		p = m_pHead;
+		m_pHead = m_pHead->pNext;
+		delete p;
+		p = nullptr;
 		--m_nListLen;
-		m_pHead = p;
 		return m_pHead;
 	}
-	while(p)
+	else 
 	{
-		if(p->pNext == pos)
+		ListNode p, q;
+		p = m_pHead;
+		q = p->pNext;
+		while(p)
 		{
-			if(pos->pNext == NULL)
+			if(q == pos)
 			{
-				m_pTail = p;
-				delete pos;
-				--m_nListLen;
-				return m_pTail;
-			}
-			else
-			{
-				q = pos;
 				p->pNext = q->pNext;
-				delete pos;
+				delete q;
+				q = nullptr;
 				--m_nListLen;
-				pos = p->pNext;
-				return pos;
+				return q;
 			}
+			p = p->pNext;
 		}
-		p = p->pNext;
 	}
 	return NULL;
+}
+
+bool SingleList::RemoveAt_2(ListNode pos)
+{
+	bool flag = false;
+	if(m_pHead == NULL)
+	{
+		flag = false;
+	}
+	else 
+	{
+		ListNode p, q;
+		p = m_pHead;
+		q = p->pNext;
+		while(p)
+		{
+			if(p == pos)
+			{
+				delete p;
+				p = nullptr;
+				--m_nListLen;
+				m_pHead = q;
+				flag = true;
+				break;
+			}
+			p = p->pNext;
+			q = q->pNext;
+		}
+	}
+	return flag;
 }
 //删除倒数第n个节点，并返回被删除结点的下一结点的地址
 ListNode SingleList::RemoveAt(UINT nCountBack)
@@ -200,24 +291,68 @@ ListNode SingleList::RemoveAt(UINT nCountBack)
 	UINT n = 0, m = 0;
 	ListNode p, q;
 	p = m_pHead;
-	if(m_nListLen <= nCountBack || nCountBack <= 0)
+	q = p->pNext;
+	if(m_nListLen < nCountBack || nCountBack <= 0 || m_nListLen == 0)
+	{
 		return NULL;
+	}
+	else if(m_nListLen == nCountBack)
+	{
+		m_pHead = m_pHead->pNext;
+		delete p;
+		p = nullptr;
+		--m_nListLen;
+		return m_pHead;
+	}
 	else
 	{
-		n = m_nListLen - nCountBack;
-		for(size_t i = 0; i < (n - 1); ++i)
+		n = m_nListLen - nCountBack - 1;
+		while(n)
 		{
+			--n;
 			p = p->pNext;
+			q = p->pNext;
 		}
-		q = p->pNext->pNext;
-		delete p->pNext;
-		p->pNext = q;
+		p->pNext = q->pNext;
+		delete q;
+		q = nullptr;
 		--m_nListLen;
+		p = p->pNext;
+		return p;
 	}
 	return NULL;
 }
+
+bool SingleList::RemoveAt_2(UINT nCountBack)
+{
+	bool flag;
+	if(m_nListLen < nCountBack || nCountBack <= 0 || m_nListLen == 0)
+	{
+		flag = false;
+	}
+	else
+	{
+		UINT n = 0, m = 0;
+		n = m_nListLen - nCountBack;
+		ListNode p, q;
+		p = m_pHead;
+		q = p->pNext;
+		while(n)
+		{
+			p = p->pNext;
+			q = p->pNext;
+			--n;
+		}
+		delete p;
+		p = nullptr;
+		--m_nListLen;
+		q = m_pHead;
+		flag = true;
+	}
+	return flag;
+}
 //在当前链表中找到和要查找数据相等的第一个结点的地址
-ListNode SingleList::Find(const int &data)
+ListNode SingleList::Find(const int &data) const
 {
 	ListNode p;
 	p = m_pHead;
@@ -251,10 +386,6 @@ void SingleList::Erase()
 	m_nListLen = 0;
 }
 
-//获取某一数据在链表中所处的结点地址
-//ListNode SingleList::GetNode(const int &data) const
-//{}
-
 //打印链表所有结点的数据
 void SingleList::PrintList() const
 {
@@ -270,6 +401,7 @@ void SingleList::PrintList() const
 			p = p->pNext;
 		}
 		std::cout << "ListLen is " << m_nListLen << "! print over!" << std::endl;
+		return;
 	}
 }
 //反转链表
