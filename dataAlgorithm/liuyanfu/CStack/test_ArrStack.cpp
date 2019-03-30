@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
 	UINT nCount = 5;
-	UINT Toplimit = 1;
+	UINT Toplimit = 0;
 	while(Toplimit <= nCount)
 	{
 		AStack istk;
@@ -16,7 +16,10 @@ int main()
 
 		istk.PrintStack();
 		cout << "Current stack length is " << istk.GetLength() << endl;
-		cout << "The stack Top data is " << *(istk.GetTop()) << endl;
+		if(istk.GetTop() == NULL)
+			cout << "Stack is Empty" << endl;
+		else
+			cout << "The stack Top data is " << *(istk.GetTop()) << endl;
 		istk.Pop();
 		cout << "After pop stack, the rest of stack " << endl;
 		istk.PrintStack();
