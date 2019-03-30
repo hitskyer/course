@@ -43,7 +43,7 @@ template <class T> T arrStack<T>::GetTop() const
 {
 	if(!IsEmpty())
 		return arr[m_nTop];
-	return NULL;
+	return 0;
 }
 
 template <class T> UINT arrStack<T>::GetLength() const
