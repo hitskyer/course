@@ -28,10 +28,6 @@ ShareStack<DATA>::~ShareStack(void)
 {
 	delete []m_pStack;
 	m_pStack = NULL;
-	m_nTop1 = 0;
-	m_nTop2 = 0;
-	m_nStackSize = 0;
-	m_nStackLen = 0;
 }
 
 
@@ -60,7 +56,6 @@ bool ShareStack<DATA>::Empty() const
 template<typename DATA>
 void ShareStack<DATA>::Clear()
 {
-	memset(m_pStack, 0, sizeof(DATA)*m_nStackSize);
 	m_nStackLen = 0;
 	m_nTop1 = -1;
 	m_nTop2 = m_nStackSize;
@@ -127,7 +122,7 @@ void ShareStack<DATA>::LeftStackPop()
 {
 	if(-1 != m_nTop1)
 	{
-		memset(&m_pStack[m_nTop1--], 0, sizeof(DATA));
+		--m_nTop1;
 		--m_nStackLen;
 	}
 }
@@ -143,7 +138,6 @@ template<typename DATA>
 void ShareStack<DATA>::Expand()
 {
 	int *pTemp = new int[m_nStackSize * 2];
-	memset(pTemp, 0, sizeof(DATA)*m_nStackSize*2);
 	memcpy(pTemp, m_pStack, sizeof(DATA)*(m_nTop1 + 1));
 	memcpy(&pTemp[m_nStackSize*2 -1] - (m_nStackSize - m_nTop2 - 1), 
 		&m_pStack[m_nTop2], sizeof(DATA)* (m_nStackSize - m_nTop2));
@@ -201,7 +195,7 @@ void ShareStack<DATA>::RigthStackPop()
 {
 	if(m_nStackSize != m_nTop2)
 	{
-		memset(&m_pStack[m_nTop2++], 0, sizeof(DATA));
+		++m_nTop2;
 		--m_nStackLen;
 	}
 }
@@ -236,7 +230,7 @@ void ShareStack<DATA>::PrintStack() const
 			++index;
 		}
 	}
-	else
+	if(-1 == m_nTop1 && m_nStackSize == m_nTop2)
 	{
 		std::cout << "Current stack is Empty!" << std::endl;
 	}
