@@ -7,16 +7,14 @@ AStack<T>::AStack(void)
 	m_nStackSize = 20;
 	m_nStackLen = 0;
 	m_pStack = new T[m_nStackSize];
-	memset(m_pStack, 0, sizeof(int)* m_nStackSize);
 	m_nTop = -1;
 }
 
 template<typename T>
 AStack<T>::AStack(UINT &nSize):m_nStackSize(nSize)
 {
-	m_pStack = new int[m_nStackSize];
+	m_pStack = new T[m_nStackSize];
 	m_nStackLen = 0;
-	memset(m_pStack, 0, sizeof(int)* m_nStackSize);
 	m_nTop = -1;
 }
 
@@ -25,9 +23,6 @@ AStack<T>::~AStack(void)
 {
 	delete [] m_pStack;
 	m_pStack = NULL;
-	m_nStackSize = 0;
-	m_nStackLen = 0;
-	m_nTop = 0;
 }
 
 /****************************************!
@@ -54,7 +49,6 @@ bool AStack<T>::Empty() const
 template<typename T>
 void AStack<T>::Clear()
 {
-	memset(m_pStack, 0, sizeof(m_pStack));
 	m_nStackLen = 0;
 	m_nTop = -1;
 }
@@ -117,7 +111,6 @@ void AStack<T>::Push(const T &data)
 template<typename T>
 void AStack<T>::Pop()
 {
-	memset(&m_pStack[m_nTop], 0, sizeof(int));
 	--m_nTop;
 	--m_nStackLen;
 }

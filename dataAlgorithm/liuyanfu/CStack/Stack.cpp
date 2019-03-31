@@ -3,7 +3,7 @@
 
 CStack::CStack(void)
 {
-	m_pTop = nullptr;
+	m_pTop = NULL;
 	m_nStackLen = 0;
 }
 
@@ -11,8 +11,6 @@ CStack::CStack(void)
 CStack::~CStack(void)
 {
 	Clear();
-	m_pTop = nullptr;
-	m_nStackLen = 0;
 }
 
 /****************************************!
@@ -24,7 +22,7 @@ CStack::~CStack(void)
 ****************************************/
 bool CStack::Empty() const
 {
-	return m_pTop == nullptr;
+	return m_pTop == NULL;
 }
 
 
@@ -82,7 +80,7 @@ void CStack::Push(const int &data)
 ****************************************/
 void CStack::Pop()
 {
-	if(m_pTop != nullptr)
+	if(m_pTop != NULL)
 	{
 		StackNode TempNode = m_pTop->pNext;
 		delete m_pTop;
@@ -94,7 +92,7 @@ void CStack::Pop()
 
 void CStack::Clear()
 {
-	if(m_pTop != nullptr)
+	if(m_pTop != NULL)
 	{
 		StackNode TempNode = m_pTop;
 		while(TempNode)
@@ -102,8 +100,8 @@ void CStack::Clear()
 			TempNode = TempNode->pNext;
 			delete m_pTop;
 			m_pTop = TempNode;
-			--m_nStackLen;
 		}
+		m_nStackLen = 0;
 	}
 }
 
