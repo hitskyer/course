@@ -35,7 +35,7 @@ template <class T> void Stack<T>::Push(T &data)
     }
     m_nStackLen++;
 }
-template <class T> void Stack<T>::Pop()
+template <class T> inline void Stack<T>::Pop()
 {
     if(m_pTop != NULL)
     {
