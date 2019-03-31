@@ -1,14 +1,14 @@
 #include <iostream>
-#include "AStack.h"
+#include "AStack.cpp"
 
 using namespace std;
 int main()
 {
 	UINT nCount = 5;
-	UINT Toplimit = 0;
+	UINT Toplimit = 1;
 	while(Toplimit <= nCount)
 	{
-		AStack istk;
+		AStack<int> istk;
 		for(UINT i = 0; i < Toplimit; ++i)
 		{
 			istk.Push(20 + i * 2);
@@ -16,10 +16,7 @@ int main()
 
 		istk.PrintStack();
 		cout << "Current stack length is " << istk.GetLength() << endl;
-		if(istk.GetTop() == NULL)
-			cout << "Stack is Empty" << endl;
-		else
-			cout << "The stack Top data is " << *(istk.GetTop()) << endl;
+		cout << "The stack Top data is " << *(istk.GetTop()) << endl;
 		istk.Pop();
 		cout << "After pop stack, the rest of stack " << endl;
 		istk.PrintStack();
