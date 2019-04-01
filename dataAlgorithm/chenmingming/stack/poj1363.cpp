@@ -21,7 +21,6 @@ int main()
             }
             if(Barr[0] == 0)
             {
-                cout << endl;
                 break;
             }
             for(i = 1, j = 0; i <= len; ++i)
@@ -52,6 +51,7 @@ int main()
             else
                 cout << "No" << endl;
         }
+        cout << endl;
     }
     return 0;
 }
