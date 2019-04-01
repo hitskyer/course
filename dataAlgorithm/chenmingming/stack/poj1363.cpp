@@ -3,7 +3,7 @@
 //
 #include <stack>
 #include <iostream>
-#define N 1000
+#define N 1001
 using namespace std;
 int main()
 {
@@ -45,7 +45,7 @@ int main()
                     }
                 }
             }
-            while(!station.empty() && station.top() == Barr[j])
+            while(!station.empty() && station.top() == Barr[j++])
                 station.pop();
             if(station.empty())
                 cout << "Yes" << endl;
