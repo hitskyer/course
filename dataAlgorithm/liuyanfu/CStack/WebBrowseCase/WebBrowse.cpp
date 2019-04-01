@@ -40,7 +40,7 @@ void WebBrowse::forward()
 ****************************************/
 void WebBrowse::back()
 {
-	if(!fstk.Empty())
+	if(fstk.GetLength() > 1) //当网页已经是第一个浏览的网页，无法再后退
 	{
 		bstk.Push((fstk.GetTop())->data);
 		fstk.Pop();
@@ -58,7 +58,7 @@ void WebBrowse::back()
 *@param[in]  char * addr  
 *@return     void  
 ****************************************/
-void WebBrowse::browseWeb(char *addr)
+void WebBrowse::browseWeb(const char *addr)
 {
 	if(!bstk.Empty())
 		bstk.Clear();
@@ -75,7 +75,7 @@ void WebBrowse::browseWeb(char *addr)
 *@param[in]  char * addr  
 *@return     void  
 ****************************************/
-void WebBrowse::displayCurWeb(char *addr)
+void WebBrowse::displayCurWeb(const char *addr)
 {
 	if(addr)
 		std::cout << "Current web is : " << addr << std::endl;
