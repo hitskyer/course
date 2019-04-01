@@ -57,7 +57,11 @@ bool ArrQueue<T>::enqueue(const T& data)
 	}
 	else
 	{
-		memcpy(m_pQueue, &m_pQueue[m_nHead], sizeof(T) * m_nQueueLen);
+		//memcpy(m_pQueue, &m_pQueue[m_nHead], sizeof(T) * m_nQueueLen);//目标位置与源位置存在重叠
+		for(UINT i = 0; i < m_nQueueLen; ++i)
+		{
+			m_pQueue[i] = m_pQueue[m_nHead++];
+		}
 		m_nHead = 0;
 		m_pQueue[m_nQueueLen++] = data;
 		m_nTail = m_nQueueLen;
