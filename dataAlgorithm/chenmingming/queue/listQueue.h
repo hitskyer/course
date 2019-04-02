@@ -27,8 +27,8 @@ public:
     bool empty() const;		//判断队列是否为空
     void erase();		//清空队列
     void print() const;       //打印队列
-    SNode<T>* getHead();    //获取队首
-    SNode<T>* getTail();    //获取队尾
+    SNode<T>* getHead() const;    //获取队首
+    SNode<T>* getTail() const;    //获取队尾
 private:
     SNode<T>* m_pHead;
     SNode<T>* m_pTail;

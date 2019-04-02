@@ -81,12 +81,12 @@ void ListQueue<T>::print() const
     }
 }
 template <class T>
-SNode<T>* ListQueue<T>::getHead()
+SNode<T>* ListQueue<T>::getHead() const
 {
     return m_pHead;
 }
 template <class T>
-SNode<T>* ListQueue<T>::getTail()
+SNode<T>* ListQueue<T>::getTail() const
 {
     return m_pTail;
 }
