@@ -4,6 +4,8 @@
  * @date: 2019/4/2 21:24
  * @modified by:
  */
+#ifndef QUEUE_ARRQUEUE_H
+#define QUEUE_ARRQUEUE_H
 typedef unsigned int UINT;
 template <class T>
 class arrQueue
@@ -25,7 +27,7 @@ private:
     int m_pTail;
     UINT m_QueueLen;
     UINT m_capacity;
-    T* arrQueue;
+    T* arrQ;
 };
 
 #include "arrqueue.cpp"
