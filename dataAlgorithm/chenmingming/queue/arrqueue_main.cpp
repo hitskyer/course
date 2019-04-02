@@ -1,6 +1,3 @@
-#include <iostream>
-
-
 /**
  * @description:
  * @author: mingm
@@ -8,7 +5,8 @@
  * @param:
  * @return:
  */
-
+#include <iostream>
+#include "arrqueue.h"
 int main() {
     std::cout << "Hello, World!" << std::endl;
     return 0;
