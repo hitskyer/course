@@ -8,7 +8,7 @@ ArrQueue<T>::ArrQueue(void)
 {
 	m_nQueueSize = INITQUEUELEN;
 	m_pQueue = new T[m_nQueueSize];
-	m_nHead =  -1;
+	m_nHead =  0;
 	m_nTail = 0;
 	m_nQueueLen = 0;
 	
@@ -19,7 +19,7 @@ template<typename T>
 ArrQueue<T>::ArrQueue(const UINT& InitSize):m_nQueueSize(InitSize)
 {
 	m_pQueue = new T[m_nQueueSize];
-	m_nHead  = -1;
+	m_nHead  = 0;
 	m_nTail = 0;
 	m_nQueueLen = 0;
 }
@@ -49,10 +49,7 @@ bool ArrQueue<T>::enqueue(const T& data)
 	else if(m_nTail <  m_nQueueSize)
 	{
 		m_pQueue[m_nTail++] = data;
-		if(++m_nQueueLen == 1)
-		{
-			m_nHead = 0;
-		}
+		++m_nQueueLen;
 		return true;
 	}
 	else
@@ -130,7 +127,7 @@ bool ArrQueue<T>::empty() const
 template<typename T>
 void ArrQueue<T>::erase()
 {
-	m_nHead = -1;
+	m_nHead = 0;
 	m_nTail = 0;
 	m_nQueueLen = 0;
 }
