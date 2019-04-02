@@ -6,10 +6,12 @@
  * @return:
  */
 #include <iostream>
-#include "arrqueue.h"
+//#include "arrqueue.h"
+#include "circularQueue.h"
 int main()
 {
-    arrQueue<int> intqueue(7);
+//    arrQueue<int> intqueue(7);    //#include "arrqueue.h"
+    circularQueue<int> intqueue(7); //#include "circularQueue.h"
     for(UINT i = 0; i < 8; ++i)
     {
         intqueue.enqueue(i);
