@@ -1,6 +1,3 @@
-// http://poj.org/problem?id=1363
-// Created by mingm on 2019/4/1.
-//
 #include <stack>
 #include <iostream>
 #define N 1001
@@ -25,27 +22,18 @@ int main()
             }
             for(i = 1, j = 0; i <= len; ++i)
             {
-                if(i == Barr[j])
+                while(!station.empty() && station.top() == Barr[j])
                 {
+                    station.pop();
                     j++;
-                    continue;
                 }
-                else
-                {
-                    if(!station.empty() && station.top() == Barr[j])
-                    {
-                        station.pop();
-                        j++;
-                        continue;
-                    }
-                    else
-                    {
-                        station.push(i);
-                    }
-                }
+                station.push(i);
             }
-            while(!station.empty() && station.top() == Barr[j++])
+            while(!station.empty() && station.top() == Barr[j])
+            {
                 station.pop();
+                j++;
+            }
             if(station.empty())
                 cout << "Yes" << endl;
             else
