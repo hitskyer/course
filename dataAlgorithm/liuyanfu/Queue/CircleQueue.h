@@ -1,18 +1,15 @@
-#ifndef _ARR_QUEUE_H
-#define _ARR_QUEUE_H
+#ifndef _CIRCLE_QUEUE_H
+#define _CIRCLE_QUEUE_H
 #pragma once
-
-
-
 
 typedef unsigned int UINT;
 template<typename T>
-class ArrQueue
+class CircleQueue
 {
 public:
-	ArrQueue(void);
-	ArrQueue(const UINT& InitSize);
-	~ArrQueue(void);
+	CircleQueue(void);
+	CircleQueue(const UINT &InitSize);
+	~CircleQueue(void);
 	bool enqueue(const T& data);
 	bool dequeue();
 	UINT getlength() const;
@@ -27,4 +24,4 @@ private:
 	UINT m_nQueueSize;
 };
 
-#endif //_ARR_QUEUE_H
+#endif //_CIRCLE_QUEUE_H
