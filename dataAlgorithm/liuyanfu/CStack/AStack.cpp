@@ -1,31 +1,28 @@
 #include "AStack.h"
 #include <iostream>
-#include <string.h>
 
-AStack::AStack(void)
+template<typename T>
+AStack<T>::AStack(void)
 {
 	m_nStackSize = 20;
 	m_nStackLen = 0;
-	m_pStack = new int[m_nStackSize];
-	memset(m_pStack, 0, sizeof(int)* m_nStackSize);
+	m_pStack = new T[m_nStackSize];
 	m_nTop = -1;
 }
 
-AStack::AStack(UINT &nSize):m_nStackSize(nSize)
+template<typename T>
+AStack<T>::AStack(UINT &nSize):m_nStackSize(nSize)
 {
-	m_pStack = new int[m_nStackSize];
+	m_pStack = new T[m_nStackSize];
 	m_nStackLen = 0;
-	memset(m_pStack, 0, sizeof(int)* m_nStackSize);
 	m_nTop = -1;
 }
 
-AStack::~AStack(void)
+template<typename T>
+AStack<T>::~AStack(void)
 {
 	delete [] m_pStack;
 	m_pStack = NULL;
-	m_nStackSize = 0;
-	m_nStackLen = 0;
-	m_nTop = 0;
 }
 
 /****************************************!
@@ -35,7 +32,8 @@ AStack::~AStack(void)
 *@param[out] 
 *@return     bool  
 ****************************************/
-bool AStack::Empty() const
+template<typename T>
+bool AStack<T>::Empty() const
 {
 	return m_nStackLen == 0;
 }
@@ -48,9 +46,9 @@ bool AStack::Empty() const
 *@param[out] 
 *@return     void  
 ****************************************/
-void AStack::Clear()
+template<typename T>
+void AStack<T>::Clear()
 {
-	memset(m_pStack, 0, sizeof(int) * m_nStackLen);
 	m_nStackLen = 0;
 	m_nTop = -1;
 }
@@ -60,9 +58,10 @@ void AStack::Clear()
 *@author liuyanfu
 *@date   2019Äê3ÔÂ27ÈÕ	23:29
 *@param[out] 
-*@return     const int*  
+*@return     const T* 
 ****************************************/
-const int* AStack::GetTop() const
+template<typename T>
+const T* AStack<T>::GetTop() const
 {
 	if(-1 == m_nTop)
 		return NULL;
@@ -77,7 +76,8 @@ const int* AStack::GetTop() const
 *@param[out] 
 *@return     UINT  
 ****************************************/
-UINT AStack::GetLength() const
+template<typename T>
+UINT AStack<T>::GetLength() const
 {
 	return m_nStackLen;
 }
@@ -91,7 +91,8 @@ UINT AStack::GetLength() const
 *@param[in]  const UINT &data  
 *@return     void  
 ****************************************/
-void AStack::Push(const UINT &data)
+template<typename T>
+void AStack<T>::Push(const T &data)
 {
 	if(isFull())
 		ExpandStack();
@@ -107,15 +108,11 @@ void AStack::Push(const UINT &data)
 *@param[out] 
 *@return     void  
 ****************************************/
-void AStack::Pop()
+template<typename T>
+void AStack<T>::Pop()
 {
-	if(!Empty())
-	{
-		memset(&m_pStack[m_nTop], 0, sizeof(int));
-		--m_nTop;
-		--m_nStackLen;
-	}
-
+	--m_nTop;
+	--m_nStackLen;
 }
 
 
@@ -126,9 +123,10 @@ void AStack::Pop()
 *@param[out] 
 *@return     void  
 ****************************************/
-void AStack::ExpandStack()
+template<typename T>
+void AStack<T>::ExpandStack()
 {
-	int *pTemp = new int[m_nStackSize * 2];
+	T *pTemp = new T[m_nStackSize * 2];
 	memcpy(pTemp, m_pStack, sizeof(m_pStack));
 	delete []m_pStack;
 	m_pStack = pTemp;
@@ -143,7 +141,8 @@ void AStack::ExpandStack()
 *@param[out] 
 *@return     bool  
 ****************************************/
-bool AStack::isFull()
+template<typename T>
+bool AStack<T>::isFull()
 {
 	return m_nStackLen == m_nStackSize;
 }
@@ -156,7 +155,8 @@ bool AStack::isFull()
 *@param[out] 
 *@return     void  
 ****************************************/
-void AStack::PrintStack()
+template<typename T>
+void AStack<T>::PrintStack()
 {
 	if(Empty())
 	{

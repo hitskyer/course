@@ -9,11 +9,11 @@ public:
 	~WebBrowse(void);
 	void forward();
 	void back();
-	void browseWeb(char *);
-	void displayCurWeb(char *);
+	void browseWeb(const char *);
+	void displayCurWeb(const char *);
 private:
-	TmpStack<char *> fstk;
-	TmpStack<char *> bstk;
+	TmpStack<const char *> fstk;
+	TmpStack<const char *> bstk;
 };
 
 
