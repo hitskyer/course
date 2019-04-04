@@ -20,12 +20,12 @@ void yanghuitriangle(size_t n)
         for(int j = 1; j <= i - 2; ++j) //产生第n+1行的中间n-1个元素
         {
             temp = line.front();
-            cout << temp << " ";    //打印第n行的元素，并出队
+            cout << temp << " ";    //打印第n行的n-1个元素，并出队
             line.pop();
             temp = temp + line.front(); //相邻两数相加，并入队（n+1行的）
             line.push(temp);
         }
-        cout << line.front() << endl;   //打印第n行最后一个元素，并出队
+        cout << line.front() << endl;   //打印第n行最后1个元素，并出队
         line.pop();
         line.push(1);    //n+1行最后1个元素
     }
