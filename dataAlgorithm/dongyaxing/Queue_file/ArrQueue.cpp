@@ -93,7 +93,7 @@ template<typename T> void ArrQueue<T>::Print() const
 		UINT index = m_nHead;
 		for(int i = 0; i < m_nQueueLen; ++i)
 		{
-			std:cout << "The " << i << "th element data is: " << m_pQueue[index++] << std::endl;
+			std::cout << "The " << i << "th element data is: " << m_pQueue[index++] << std::endl;
 		}
 		std::cout << "Tail is here." << std::endl;
 	}
