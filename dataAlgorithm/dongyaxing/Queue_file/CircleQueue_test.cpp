@@ -50,6 +50,6 @@ int main()
 	cq.Print();
 	std::cout << "queue length is £º" << cq.GetLength() << std::endl;
 	
-	system("pause");
+//	system("pause");
 	return 0;
 }

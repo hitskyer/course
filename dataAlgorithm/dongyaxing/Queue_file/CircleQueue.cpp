@@ -19,7 +19,7 @@ template<typename T> CircleQueue<T>::~CircleQueue(void)
 
 template<typename T> CircleQueue<T>::CircleQueue(const UINT &InitSize):m_nCQueueSize(InitSize)
 {
-	m_pCQueue = new T[m_nCQueueSize];
+	CQueue = new T[m_nCQueueSize];
 	m_nHead = 0;
 	m_nTail = 0;
 	m_nCQueueLen = 0;
