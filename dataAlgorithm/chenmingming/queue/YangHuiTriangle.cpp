@@ -15,7 +15,7 @@ void yanghuitriangle(size_t n)
     int temp, space = n;
     for(int i = 2; i <= n+1; ++i)   //打印第n行元素，产生第n+1行队列
     {
-        line.push(1);        //第n+1行的第一个元素
+        line.push(1);        //第n+1行的第1个元素
         cout << setw(space--);  //设置开始打印前的空格个数
         for(int j = 1; j <= i - 2; ++j) //产生第n+1行的中间n-1个元素
         {
