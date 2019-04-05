@@ -5,18 +5,15 @@
  * @modified by: 
  */
 #include <iostream>
-#include <algorithm>
 #include <queue>
 #include <string>
 using namespace std;
-
-#define MAX 1001
-#define MAX_PEOPLE 1000001
+#define MAX 1000
+#define MAX_PEOPLE 1000000
 
 queue<int> team[MAX]; //team[i]代表一个团队队列
 queue<int> mainQueue;   //宏观主队列,存储teamIndex值
 bool teamInQueue[MAX];  //队伍是否排在主队列中
-//memset(teamInQueue, false, sizeof(teamInQueue));
 int people[MAX_PEOPLE]; //存储人的队伍teamIndex编号
 int teamNums, Scenario=1;
 void init()  //每次进入下一次任务时，清空前一次的记录
@@ -30,7 +27,7 @@ void init()  //每次进入下一次任务时，清空前一次的记录
     while(!mainQueue.empty())
         mainQueue.pop();
 }
-void input()
+void input()    //输入人员信息，及记录每人的组号
 {
     int totalPeopleInTeam,peopleID;
     for(int teamIndex = 0; teamIndex < teamNums; ++teamIndex)
@@ -63,6 +60,7 @@ void solve()
             {
                 teamInQueue[teamID] = true; //我们组终于有人了
                 mainQueue.push(teamID);     //我们组的组号排在最后一组
+                team[teamID].push(peopleID);  //找到我的组入组
             }
         }
         else   //DEQUEUE出队
@@ -86,9 +84,9 @@ int main()
 {
     while(cin >> teamNums && teamNums)
     {
-        init();
-        input();
-        solve();
+        init(); //初始化组的标记，及清空队列
+        input();    //输入人员ID，记录人员组号
+        solve();    //队列出队，入队操作
     }
     return 0;
 }
