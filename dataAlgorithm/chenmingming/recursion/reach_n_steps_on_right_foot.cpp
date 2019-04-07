@@ -7,7 +7,7 @@
 #include <iostream>
 #include <map>
 using namespace std;
-//void recursion(const size_t &targetStairs, size_t steps, size_t stairsWalkAway, size_t &ways)
+//void recursion(const unsigned long &targetStairs, unsigned long steps, unsigned long stairsWalkAway, unsigned long &ways)
 //{   //暴力搜索版，当n很大时，时间很长
 //    if(stairsWalkAway > targetStairs)
 //        return;
@@ -24,36 +24,56 @@ using namespace std;
 //}
 //int main()
 //{
-//    size_t stairs = 0, steps = 0, stairsWalkAway = 0, ways = 0;
+//    unsigned long stairs = 0, steps = 0, stairsWalkAway = 0, ways = 0;
 //    cout << "请输入台阶个数：" << endl;
 //    cin >> stairs;
 //    recursion(stairs, steps, stairsWalkAway, ways);
 //    cout << "左脚出发，右脚到达的方案有：" << ways << " 种。" << endl;
 //    return 0;
 //}
-
-size_t cal(size_t n,  size_t stepWalkAway)
+//------------------------------------------------------------------------------
+//unsigned long cal(unsigned long n,  unsigned long stepWalkAway)  //递归方案
+//{
+//    if(n==1)
+//    {
+//        if(stepWalkAway%2 == 0)
+//            return 0;   //只剩一步了，如果走过了偶数步，那就是右脚达到，不可能了，0
+//        return 1;
+//    }
+//    else if(n==2)   //n = 2 时，不论什么情况，大家都只有1种可能，使得右脚到达
+//    {
+//        return 1;
+//    }
+//    else
+//    {
+//        return cal(n-1,stepWalkAway+1)+cal(n-2,stepWalkAway+1);   //递归调用函数
+//    }
+//}
+//int main()
+//{
+//    unsigned long n, stepWalkAway = 0;
+//    cout << "请输入你要走的台阶数 n :" ;
+//    cin >> n;
+//    cout << "左脚开走，右脚走到有 " << cal(n,stepWalkAway) << " 种方案。" << endl;
+//    return 0;
+//}
+//-----------------------------------------------------------------------------------
+unsigned long dynamicProgram(unsigned long N)
 {
-    if(n==1)
+    unsigned long left[N+1], right[N+1];
+    left [1] = 1; left [2] = 1; right [1] = 0; right [2] = 1;
+    for(int i = 3; i <= N; ++i)
     {
-        if(stepWalkAway%2 == 0)
-            return 0;   //只剩一步了，如果走过了偶数步，那就是右脚达到，不可能了，0
-        return 1;
+        left[i] = right[i-1] + right[i-2];
+        right[i] = left[i-1] + left[i-2];
     }
-    else if(n==2)   //n = 2 时，不论什么情况，大家都只有1种可能，使得右脚到达
-    {
-        return 1;
-    }
-    else
-    {
-        return cal(n-1,stepWalkAway+1)+cal(n-2,stepWalkAway+1);   //递归调用函数
-    }
+    return right[N];    //题目要求返回右脚到达方案
 }
 int main()
 {
-    size_t n, stepWalkAway = 0;
+    unsigned long N;
     cout << "请输入你要走的台阶数 n :" ;
-    cin >> n;
-    cout << "左脚开走，右脚走到有 " << cal(n,stepWalkAway) << " 种方案。" << endl;
+    cin >> N;
+    cout << "左脚开走，右脚走到有 " << dynamicProgram(N) << " 种方案。" << endl;
     return 0;
 }
