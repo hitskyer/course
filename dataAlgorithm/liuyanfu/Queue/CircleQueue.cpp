@@ -68,7 +68,7 @@ bool CircleQueue<T>::dequeue()
 		return false;
 	else
 	{
-		m_nHead += 1;
+		m_nHead = (m_nHead + 1) / m_nQueueSize;
 		--m_nQueueLen;
 		return true;
 	}
@@ -138,9 +138,10 @@ void CircleQueue<T>::print() const
 	{
 		UINT index = m_nHead;
 		int i = 1;
-		while(index%m_nQueueSize != m_nTail)
+		while(index != m_nTail) 
 		{
-			std::cout << "The " << i << "th element data is " << m_pQueue[index++] << std::endl;
+			std::cout << "The " << i << "th element data is " << m_pQueue[index] << std::endl;
+			index = (index + 1) / m_nQueueSize; //索引需要通过对模取余的方式确定
 			++i;
 		}
 
