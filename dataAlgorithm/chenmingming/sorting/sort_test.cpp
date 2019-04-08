@@ -9,6 +9,7 @@
 #include <random>
 #include "bubble_sort.cpp"
 #include "insert_sort.cpp"
+#include "select_sort.cpp"
 using namespace std;
 void printArr(int* arr, size_t N)
 {
@@ -36,6 +37,9 @@ int main(int argc, char* argv[])
     printArr(originArr, N);
     cout << "after sorting :" << endl;
     insertsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after sorting :" << endl;
+    selectsort(originArr, N);
     printArr(originArr, N);
     return 0;
 }
