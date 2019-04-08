@@ -1,6 +1,6 @@
 #include "ArrQueue.h"
 #include <string.h>
-#define INITQUEUELEN 5
+#define INITQUEUELEN 5  //默认队列的长度
 
 
 template<typename T>
@@ -32,10 +32,9 @@ ArrQueue<T>::~ArrQueue(void)
 }
 
 
-
 /****************************************!
 *@brief  入队
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:12
 *@param[out] 
 *@param[in]  const T & data  
@@ -69,7 +68,7 @@ bool ArrQueue<T>::enqueue(const T& data)
 
 /****************************************!
 *@brief  出队
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:17
 *@param[out] 
 *@return     bool  
@@ -90,7 +89,7 @@ bool ArrQueue<T>::dequeue()
 
 /****************************************!
 *@brief  获取队列有效长度
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:31
 *@param[out] 
 *@return     UINT  
@@ -104,7 +103,7 @@ UINT ArrQueue<T>::getlength() const
 
 /****************************************!
 *@brief  判断队列是否为空
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:32
 *@param[out] 
 *@return     bool  
@@ -119,7 +118,7 @@ bool ArrQueue<T>::empty() const
 
 /****************************************!
 *@brief  清空队列
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:32
 *@param[out] 
 *@return     void  
@@ -135,7 +134,7 @@ void ArrQueue<T>::erase()
 
 /****************************************!
 *@brief  打印队列中的数据
-*@author liuyanfu
+*@author lyf
 *@date   2019年4月1日	21:48
 *@param[out] 
 *@return     void  
