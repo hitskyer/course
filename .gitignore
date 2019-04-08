@@ -549,3 +549,6 @@ dataAlgorithm/chenmingming/sorting/cmake-build-debug/CMakeFiles/TargetDirectorie
 dataAlgorithm/chenmingming/sorting/cmake-build-debug/Makefile
 dataAlgorithm/chenmingming/sorting/cmake-build-debug/sorting.cbp
 dataAlgorithm/chenmingming/sorting/CMakeLists.txt
+*.internal
+*.includecache
+dataAlgorithm/chenmingming/sorting/cmake-build-debug/CMakeFiles/sorting.dir/objects.a
