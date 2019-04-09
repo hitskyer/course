@@ -17,9 +17,9 @@ class User():
 	def reset_login_attempts(self):
 		self.login_attempts = 0
 		print('login times has successfully reseted!')
-cmm = User('chen','mingiming',height=178,weight='70kg')
-cmm.describe_user()
-cmm.greet_user()
-for i in range(10):
-	cmm.increment_login_attempts()
-cmm.reset_login_attempts()
+# cmm = User('chen','mingiming',height=178,weight='70kg')
+# cmm.describe_user()
+# cmm.greet_user()
+# for i in range(10):
+# 	cmm.increment_login_attempts()
+# cmm.reset_login_attempts()
