@@ -553,3 +553,4 @@ dataAlgorithm/chenmingming/sorting/CMakeLists.txt
 *.includecache
 dataAlgorithm/chenmingming/sorting/cmake-build-debug/CMakeFiles/sorting.dir/objects.a
 python/chenmingming/class/.idlerc/recent-files.lst
+python/chenmingming/class/__pycache__/restaurant.cpython-37.pyc
