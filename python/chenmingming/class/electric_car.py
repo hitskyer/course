@@ -28,6 +28,10 @@ class Battery():
 		self.battery_size = battery_size
 	def describe_battery(self):
 		print('This car has a ' + str(self.battery_size) + '-KWh battery.')
+	def upgrade_battery(self):
+		if self.battery_size != 85:
+			self.battery_size = 85
+			print("battery update successfully !")
 	def get_range(self):
 		if self.battery_size == 70:
 			range = 240
@@ -49,4 +53,6 @@ my_tesla = ElectricCar('tesla','model s', 2019)
 print(my_tesla.get_descriptive_name())
 my_tesla.battery.describe_battery()
 my_tesla.fill_gas_tank()
+my_tesla.battery.get_range()
+my_tesla.battery.upgrade_battery()
 my_tesla.battery.get_range()
