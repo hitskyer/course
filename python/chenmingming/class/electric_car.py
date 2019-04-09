@@ -1,5 +1,5 @@
 class Car():
-	def __init__(self,make,model,year):
+	def __init__(self,make,model,year):	#构造函数
 		self.make = make
 		self.model = model
 		self.year = year
@@ -24,7 +24,7 @@ class Car():
 		print('This car need fill gas !')
 
 class Battery():
-	def __init__(self, battery_size=70):
+	def __init__(self, battery_size=70):	#构造函数，带默认参数值
 		self.battery_size = battery_size
 	def describe_battery(self):
 		print('This car has a ' + str(self.battery_size) + '-KWh battery.')
@@ -41,10 +41,10 @@ class Battery():
 		message += ' miles on a full charge.'
 		print(message)
 
-class ElectricCar(Car):
+class ElectricCar(Car):		#类的继承
 	def __init__(self, make, model, year):
-		super().__init__(make, model, year)
-		self.battery = Battery()
+		super().__init__(make, model, year)	#调用父类初始化函数初始化父类成员
+		self.battery = Battery()			#新的成员，一个Battery对象
 	def fill_gas_tank(self):
 		# super().fill_gas_tank()
 		print('This car doesn\'t need a gas tank!')
