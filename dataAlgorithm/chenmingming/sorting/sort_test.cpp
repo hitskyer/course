@@ -10,6 +10,8 @@
 #include "bubble_sort.cpp"
 #include "insert_sort.cpp"
 #include "select_sort.cpp"
+#include "shellsort.cpp"
+#include "mergesort.cpp"
 using namespace std;
 void printArr(int* arr, size_t N)
 {
@@ -31,15 +33,20 @@ int main(int argc, char* argv[])
     int originArr[N];
     generateArr(originArr, N);
     printArr(originArr, N);
-    cout << endl;
-    cout << "after sorting :" << endl;
-    bubblesort(originArr, N);
-    printArr(originArr, N);
-    cout << "after sorting :" << endl;
-    insertsort(originArr, N);
-    printArr(originArr, N);
-    cout << "after sorting :" << endl;
-    selectsort(originArr, N);
+//    cout << "after bubble sorting :" << endl;
+//    bubblesort(originArr, N);
+//    printArr(originArr, N);
+//    cout << "after insert sorting :" << endl;
+//    insertsort(originArr, N);
+//    printArr(originArr, N);
+//    cout << "after select sorting :" << endl;
+//    selectsort(originArr, N);
+//    printArr(originArr, N);
+//    cout << "after shell sorting :" << endl;
+//    shellsort(originArr, N);
+//    printArr(originArr, N);
+    cout << "after merge sorting :" << endl;
+    mergesort(originArr, N);
     printArr(originArr, N);
     return 0;
 }
