@@ -13,6 +13,9 @@
 #include "shellsort.cpp"
 #include "mergesort.cpp"
 #include "quicksort.cpp"
+#include "heapsort.cpp"
+#include "countsort.cpp"
+#include "bucketsort.cpp"
 using namespace std;
 void printArr(int* arr, size_t N)
 {
@@ -51,6 +54,15 @@ int main(int argc, char* argv[])
     printArr(originArr, N);
     cout << "after quick sorting :" << endl;
     quicksort(originArr, N);
+    printArr(originArr, N);
+    cout << "after heap sorting :" << endl;
+    heapsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after count sorting :" << endl;
+    countsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after bucket sorting :" << endl;
+    bucketsort(originArr, N);
     printArr(originArr, N);
     return 0;
 }
