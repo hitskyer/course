@@ -12,6 +12,7 @@
 #include "select_sort.cpp"
 #include "shellsort.cpp"
 #include "mergesort.cpp"
+#include "quicksort.cpp"
 using namespace std;
 void printArr(int* arr, size_t N)
 {
@@ -47,6 +48,9 @@ int main(int argc, char* argv[])
 //    printArr(originArr, N);
     cout << "after merge sorting :" << endl;
     mergesort(originArr, N);
+    printArr(originArr, N);
+    cout << "after quick sorting :" << endl;
+    quicksort(originArr, N);
     printArr(originArr, N);
     return 0;
 }
