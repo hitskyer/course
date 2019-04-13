@@ -82,7 +82,7 @@ void Divide(int *arr, int left, int right)
 
 
 /**
-* @brief	  归并排序
+* @brief	  归并排序（自底向上）
 *
 * @method:    MergeSort
 * @access:    public 
