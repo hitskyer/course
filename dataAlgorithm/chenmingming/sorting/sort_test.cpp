@@ -16,6 +16,7 @@
 #include "heapsort.cpp"
 #include "countsort.cpp"
 #include "bucketsort.cpp"
+#include "radixsort.cpp"
 using namespace std;
 void printArr(int* arr, size_t N)
 {
@@ -63,6 +64,9 @@ int main(int argc, char* argv[])
     printArr(originArr, N);
     cout << "after bucket sorting :" << endl;
     bucketsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after radix sorting :" << endl;
+    radixsort(originArr, N);
     printArr(originArr, N);
     return 0;
 }
