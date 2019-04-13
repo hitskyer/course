@@ -48,15 +48,15 @@ void quick_sort(int *arr, size_t left, size_t right)
 {
     if(left >= right)
         return;
-    else if(right - left >= 1 && right - left <= 20)
-        shellsort(&arr[left], right - left +1);
+//    else if(right - left >= 1 && right - left <= 20)
+//        shellsort(&arr[left], right - left +1);
     else
     {
         size_t PL_index, PR_index;
         partition(arr, left, right, PL_index, PR_index);
         if(PR_index == right && PL_index != left)
             quick_sort(arr,left,PL_index-1);
-        else if(PL_index = left && PR_index != right)
+        else if(PL_index == left && PR_index != right)
             quick_sort(arr,PR_index+1,right);
         else if(PL_index == right && PR_index == right)
             return;

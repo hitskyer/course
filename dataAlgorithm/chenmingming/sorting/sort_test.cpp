@@ -34,7 +34,7 @@ void generateArr(int* arr, size_t N)
 int main(int argc, char* argv[])
 {
     srand(time(NULL));
-    const size_t N = 22;
+    const size_t N = 25;
     int originArr[N];
     generateArr(originArr, N);
     printArr(originArr, N);
