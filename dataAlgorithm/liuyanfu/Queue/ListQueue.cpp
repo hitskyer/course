@@ -16,7 +16,7 @@ ListQueue<T>::~ListQueue(void)
 
 /****************************************!
 *@brief  入队(入队更新尾)
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	23:06
 *@param[out] 
 *@param[in]  const T & data  
@@ -51,7 +51,7 @@ bool ListQueue<T>::enqueue(const T& data)
 
 /****************************************!
 *@brief  出队(出队更新头)
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	23:06
 *@param[out] 
 *@return     bool  
@@ -75,7 +75,7 @@ bool ListQueue<T>::dequeue()
 
 /****************************************!
 *@brief  
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	22:47
 *@param[out] 
 *@return     void  
@@ -103,7 +103,7 @@ void ListQueue<T>::print() const
 
 /****************************************!
 *@brief  
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	22:47
 *@param[out] 
 *@return     UINT  
@@ -118,7 +118,7 @@ UINT ListQueue<T>::getlength() const
 
 /****************************************!
 *@brief  
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	22:47
 *@param[out] 
 *@return     bool  
@@ -132,7 +132,7 @@ bool ListQueue<T>::empty() const
 
 /****************************************!
 *@brief  
-*@author liuyanfu
+*@author lyf
 *@date   2019年3月31日	22:47
 *@param[out] 
 *@return     void  

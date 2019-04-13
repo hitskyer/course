@@ -1,0 +1,4 @@
+In Python You Can solve problem.
+In Python You Can make a game.
+In Python You Can process image.
+In Python You Can deal with data.
