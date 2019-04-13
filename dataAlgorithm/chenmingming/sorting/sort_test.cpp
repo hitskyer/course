@@ -34,22 +34,22 @@ void generateArr(int* arr, size_t N)
 int main(int argc, char* argv[])
 {
     srand(time(NULL));
-    const size_t N = 15;
+    const size_t N = 22;
     int originArr[N];
     generateArr(originArr, N);
     printArr(originArr, N);
-//    cout << "after bubble sorting :" << endl;
-//    bubblesort(originArr, N);
-//    printArr(originArr, N);
-//    cout << "after insert sorting :" << endl;
-//    insertsort(originArr, N);
-//    printArr(originArr, N);
-//    cout << "after select sorting :" << endl;
-//    selectsort(originArr, N);
-//    printArr(originArr, N);
-//    cout << "after shell sorting :" << endl;
-//    shellsort(originArr, N);
-//    printArr(originArr, N);
+    cout << "after bubble sorting :" << endl;
+    bubblesort(originArr, N);
+    printArr(originArr, N);
+    cout << "after insert sorting :" << endl;
+    insertsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after select sorting :" << endl;
+    selectsort(originArr, N);
+    printArr(originArr, N);
+    cout << "after shell sorting :" << endl;
+    shellsort(originArr, N);
+    printArr(originArr, N);
     cout << "after merge sorting :" << endl;
     mergesort(originArr, N);
     printArr(originArr, N);

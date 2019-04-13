@@ -8,7 +8,7 @@
 using namespace std;
 void selectMiddle(int *arr, size_t left, size_t right)
 {
-    size_t mid = left + (left + right)/2;
+    size_t mid = left + (right-left)/2;
     if(arr[mid] > arr[right])
         swap(arr[mid], arr[right]);
     if(arr[left] > arr[right])
