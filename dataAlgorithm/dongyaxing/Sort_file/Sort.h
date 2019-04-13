@@ -7,7 +7,8 @@ using namespace std;
 
 class SortClass
 {
-private:
+//private:
+public:
 	int arr[NUM_SIZE];
 	int temparr[NUM_SIZE];
 public:
@@ -15,12 +16,21 @@ public:
 	~SortClass(void);
 
 	void RandNum();
-	void Bobble();
-	void InsertArr();
-	void Select();
+	void InitTempArr();
+
+	void Bobble();			// √∞≈›≈≈–Ú
+	void InsertArr();		// ≤Â»Î≈≈–Ú
+	void Select();			// —°‘Ò≈≈–Ú
+
+	void Merge(int *data, int start, int end, int *result);
+	void MergeSort(int *data, int start, int end, int *result);
+
+	void Shell();			// œ£∂˚
+
 	void Print();
 	void PrintSort();
-	void InitTempArr();
+	
+
 private:
 	inline void swap(int &a, int &b);
 };
