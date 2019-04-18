@@ -5,35 +5,38 @@
  * @modified by: 
  */
 #include <iostream>
-#include "binarySearch_simple.cpp"
 #define N 10
-int circular_Arr_BS(int *arr, size_t low, size_t high, int num)
+int circular_Arr_BS(int *arr, size_t n, int num)
 {
-    size_t mid = low+(high-low)/2;
-    if(arr[low] < arr[mid])
+    size_t low = 0, high = n-1;
+    while(low <= high)
     {
-        if(arr[mid] > num)
-            return binarySearch_simple(arr,mid-low,num);
-        else
-            return circular_Arr_BS(arr,mid+1,high,num);
+        size_t mid = low+(high-low)/2;
+        if(arr[mid] == num)
+            return mid;
+        if(arr[mid] < arr[low]) //转折点在左边,右边有序
+        {
+            if(arr[mid] <= num && num <= arr[high]) //数据在右边
+                low = mid+1;
+            else
+                high = mid-1;
+        }
+        else    //转折点在右边，左边有序
+        {
+            if(arr[low] <= num && num < arr[mid])   //数据在左边
+                high = mid-1;
+            else
+                low = mid+1;
+        }
     }
-    else
-    {
-        if(arr[mid] < num)
-            return binarySearch_simple(arr,high-mid,num);
-        else
-            return circular_Arr_BS(arr,low,mid-1,num);
-    }
+    return -1;
 }
 int main()
 {
     int arr[N] = {4,5,6,7,8,9,10,1,2,3};
     size_t mid = (N-1)/2;
     int num;
-    cin >> num;
-    if(arr[mid] == num)
-        std::cout << mid;
-    else
-        std::cout << circular_Arr_BS(arr,0,N-1,num);
+    std::cin >> num;
+    std::cout << circular_Arr_BS(arr,N,num);
     return 0;
 }
