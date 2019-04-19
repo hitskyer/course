@@ -16,44 +16,44 @@ int main()
 	cout << endl;
 
 	// ***1*** Ã°ÅİÅÅĞò
-	sc.InitTempArr();
+	/*sc.InitTempArr();
 	start = clock();
 	sc.Bobble();
 	finish = clock();
-	cout << "Bobble sort spend time : " << (finish - start)<< " ms" <<endl;
+	cout << "Bobble sort spend time : " << (finish - start)<< " ms" <<endl;*/
 	//sc.PrintSort();
 
 	// ***2*** Ñ¡ÔñÅÅĞò
-	sc.InitTempArr();
+	/*sc.InitTempArr();
 	start = clock();
 	sc.Select();
 	finish = clock();
-	cout << "Select sort spend time : " << (finish - start)<< " ms" <<endl;
+	cout << "Select sort spend time : " << (finish - start)<< " ms" <<endl;*/
 	//sc.PrintSort();  
 
 	// ***3*** ²åÈëÅÅĞò
-	sc.InitTempArr();
+	/*sc.InitTempArr();
 	start = clock();
 	sc.InsertArr();
 	finish = clock();
-	cout << "InsertArr sort spend time : " << (finish - start)<< " ms" <<endl;
+	cout << "InsertArr sort spend time : " << (finish - start)<< " ms" <<endl;*/
 	//sc.PrintSort();  
 
 	// ***4*** Ï£¶ûÅÅĞò
-	sc.InitTempArr();
+	/*sc.InitTempArr();
 	start = clock();
 	sc.Shell();
 	finish = clock();
-	cout << "Shell sort spend time : " << (finish - start)<< " ms" <<endl;
+	cout << "Shell sort spend time : " << (finish - start)<< " ms" <<endl;*/
 	//sc.PrintSort();
 	
 	// ***5*** ºÏ²¢ÅÅĞò
-	int result_1[NUM_SIZE];
+	/*int result_1[NUM_SIZE];
 	sc.InitTempArr();
 	start = clock();
 	sc.MergeSort(sc.temparr, 0, NUM_SIZE - 1, result_1);
 	finish = clock();
-	cout << "MergeSort sort spend time : " << (finish - start)<< " ms" <<endl;
+	cout << "MergeSort sort spend time : " << (finish - start)<< " ms" <<endl;*/
 	//sc.PrintSort();
 
 	//int data[] = {9,6,7,12,20,6,33,16,20,18,26};		// ×î³õµÄ11¸öÔªËØ
@@ -66,7 +66,38 @@ int main()
 	//}
 	//cout << endl;
 
+	// ***6*** ¿ìËÙÅÅĞò
+	/*sc.InitTempArr();
+	start = clock();
+	sc.QuickSort(sc.temparr, 0, 499);
+	finish = clock();
+	cout << "spend time: " << finish - start << "ms" << endl;
+	sc.PrintSort();*/
 
-	//system("pause");
+	// ***7*** Í°ÅÅĞò
+	/*sc.InitTempArr();
+	start = clock();
+	sc.BucketSort(sc.temparr, BUCKET_NUM);
+	finish = clock();
+	cout << "Bucket Sort spend time : " << finish - start << "ms" << endl;
+	sc.PrintSort();*/
+
+	//***8*** ¼ÆÊıÅÅĞò
+	/*sc.InitTempArr();
+	start = clock();
+	sc.CountSort(sc.temparr);
+	finish = clock();
+	cout << "Count Sort spend time : " << finish - start << "ms" << endl;
+	sc.PrintSort();*/
+
+	//***9*** »ùÊıÅÅĞò
+	sc.InitTempArr();
+	start = clock();
+	sc.RadixSort(sc.temparr, NUM_SIZE);
+	finish = clock();
+	cout << "Radix Sort spend time : " << finish - start << "ms" << endl;
+	sc.PrintSort();
+	
+//	system("pause");
 	return 0;
 }
