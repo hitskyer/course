@@ -7,17 +7,17 @@
  */
 #include <iostream>
 #include <iomanip>
-#define PI 3.1415926
+#define PI 3.1415926535898
 using namespace std;
 const double error = 1e-7;
 double find_max_R(size_t pizza_num, int *r_pizza, double r_low, double r_high, size_t people)
 {
-    double R_we_want = r_low+(r_high-r_low)/2;
+    double R_we_want = r_low+(r_high-r_low)/2.0;
     size_t people_get_pizza = 0;
     while(r_high - r_low > error)
     {
         people_get_pizza = 0;
-        R_we_want = r_low+(r_high-r_low)/2;
+        R_we_want = r_low+(r_high-r_low)/2.0;
         for(int i = 0; i < pizza_num; ++i)
             people_get_pizza += (int)(r_pizza[i]*r_pizza[i]/(R_we_want*R_we_want));
         if(people_get_pizza >= people)
@@ -30,7 +30,7 @@ double find_max_R(size_t pizza_num, int *r_pizza, double r_low, double r_high, s
 int main()
 {
     size_t t, pizza_num, friend_num;
-    double r_max_pizza = 0;
+    double r_max_pizza = 0.0;
     cin >> t;
     while(t--)
     {
