@@ -7,44 +7,54 @@
  */
 #include <iostream>
 #include <iomanip>
-#define PI 3.1415926535898
+#include <math.h>
+#include <algorithm>
+#define PI acos(-1.0)
 using namespace std;
 const double error = 1e-7;
-double find_max_R(size_t pizza_num, int *r_pizza, double r_low, double r_high, size_t people)
+double find_max_R(size_t pizza_num, double *s_pizza, double s_low, double s_high, size_t people)
 {
-    double R_we_want = r_low+(r_high-r_low)/2.0;
+    double S_we_want = s_low+(s_high-s_low)/2.0;
     size_t people_get_pizza = 0;
-    while(r_high - r_low > error)
+    while(s_high - s_low > error)
     {
         people_get_pizza = 0;
-        R_we_want = r_low+(r_high-r_low)/2.0;
+        S_we_want = s_low+(s_high-s_low)/2.0;
         for(int i = 0; i < pizza_num; ++i)
-            people_get_pizza += (int)(r_pizza[i]*r_pizza[i]/(R_we_want*R_we_want));
+        {
+            double temp = s_pizza[i];
+            while(temp-S_we_want>=0)
+            {
+                temp -= S_we_want;
+                people_get_pizza++;
+            }
+        }
         if(people_get_pizza >= people)
-            r_low = R_we_want;
+            s_low = S_we_want;
         else
-            r_high = R_we_want;
+            s_high = S_we_want;
     }
-    return R_we_want;
+    return S_we_want;
 }
 int main()
 {
     size_t t, pizza_num, friend_num;
-    double r_max_pizza = 0.0;
+    double s_max_pizza = 0.0;
     cin >> t;
     while(t--)
     {
         cin >> pizza_num >> friend_num;
-        int *r_pizza = new int [pizza_num];
+        double *s_pizza = new double [pizza_num];
         for(int i = 0; i < pizza_num; ++i)
         {
-            cin >> r_pizza[i];
-            r_max_pizza = r_pizza[i] > r_max_pizza ? r_pizza[i] : r_max_pizza;
+            cin >> s_pizza[i];
+            s_pizza[i] *= s_pizza[i];
         }
-        r_max_pizza = find_max_R(pizza_num,r_pizza,0,r_max_pizza,friend_num+1);
-        cout << setiosflags(ios::fixed) << setprecision(4) << PI*r_max_pizza*r_max_pizza << endl;
-        delete[] r_pizza;
-        r_pizza = NULL;
+        sort(s_pizza, s_pizza+pizza_num);
+        s_max_pizza = find_max_R(pizza_num,s_pizza,0,s_pizza[pizza_num-1],friend_num+1);
+        cout << setiosflags(ios::fixed) << setprecision(4) << PI*s_max_pizza << endl;
+        delete[] s_pizza;
+        s_pizza = NULL;
     }
     return 0;
 }
