@@ -14,10 +14,10 @@
 
 
 using namespace std;
-
+void print(int *arr, int nLen);
 
 /**
-* @brief	  计数排序
+* @brief	  计数排序(该版本数据都是从0开始存储的会浪费很多空间，而且实现不叫复杂)
 *
 * @method:    CountSort
 * @access:    public 
@@ -81,6 +81,38 @@ void CountSort(int *arr, int nLen)
 	delete []ResultArr;
 }
 
+void CountSort2(int *arr, int nLen)
+{
+	if(nLen < 2)
+		return;
+	int maxvalue = arr[0];
+	int minvalue = arr[0]; 
+	for(int i = 1; i < nLen; ++i)
+	{
+		maxvalue = maxvalue < arr[i] ? arr[i] : maxvalue;
+		minvalue = minvalue > arr[i] ? arr[i] : minvalue;
+	}
+
+	int *ptemp = new int[maxvalue - minvalue + 1];
+	memset(ptemp, 0, sizeof(int) * (maxvalue - minvalue + 1));
+	int Index = 0;
+	for(int i = 0; i < nLen; ++i)
+	{
+		Index = arr[i] - minvalue;
+		ptemp[Index]++;
+	}
+	//print(ptemp, maxvalue - minvalue + 1);
+	int j = 0;
+	for(int i = minvalue; i <= maxvalue; ++i)
+	{
+		while(ptemp[i - minvalue]--)
+		{
+			arr[j] = i;
+			j++;
+		}
+	}
+}
+
 /**
 * @brief
 *
@@ -109,27 +141,27 @@ int main()
 	int arr3[10] = {10,9,8,7,6,5,4,3,2,1};
 	int arr4[10] = {15, 4, 13, 33, 23, 24, 5, 83, 19, 74};
 	print(arr, sizeof(arr)/sizeof(arr[0]));
-	CountSort(arr,sizeof(arr)/sizeof(arr[0]));
+	CountSort2(arr,sizeof(arr)/sizeof(arr[0]));
 	print(arr, sizeof(arr)/sizeof(arr[0]));
 	cout << endl;
 
 	print(arr1, sizeof(arr1)/sizeof(arr1[0]));
-	CountSort(arr1,sizeof(arr1)/sizeof(arr1[0]));
+	CountSort2(arr1,sizeof(arr1)/sizeof(arr1[0]));
 	print(arr1, sizeof(arr1)/sizeof(arr1[0]));
 	cout << endl;
 
 	print(arr2, sizeof(arr2)/sizeof(arr2[0]));
-	CountSort(arr2,sizeof(arr2)/sizeof(arr2[0]));
+	CountSort2(arr2,sizeof(arr2)/sizeof(arr2[0]));
 	print(arr2, sizeof(arr2)/sizeof(arr2[0]));
 	cout << endl;
 
 	print(arr3, sizeof(arr3)/sizeof(arr3[0]));
-	CountSort(arr3,sizeof(arr3)/sizeof(arr3[0]));
+	CountSort2(arr3,sizeof(arr3)/sizeof(arr3[0]));
 	print(arr3, sizeof(arr3)/sizeof(arr3[0]));
 	cout << endl;
 
 	print(arr4, sizeof(arr4)/sizeof(arr4[0]));
-	CountSort(arr4,sizeof(arr4)/sizeof(arr4[0]));
+	CountSort2(arr4,sizeof(arr4)/sizeof(arr4[0]));
 	print(arr4, sizeof(arr4)/sizeof(arr4[0]));
 	return 0;
 }
