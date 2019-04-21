@@ -21,7 +21,7 @@ void generateArr(int* arr, size_t N)    //生成随机数组
 {
     srand((unsigned)time(NULL));
     for(int i = 0; i < N; ++i)
-        arr[i] = rand()%100000;
+        arr[i] = rand()%100;
 }
 void selectMiddle(int *arr, size_t left, size_t right)  //三数取中，并挪至首位
 {

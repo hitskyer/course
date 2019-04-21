@@ -19,3 +19,20 @@ void shellsort(int *arr, size_t n)
         }
     }
 }
+void shellsort_opt1(int *arr, size_t n)
+{
+    if(n < 2)
+        return;
+    int temp;
+    for (size_t gap = n/2; gap > 0; gap /= 2)
+    {
+        for(int i = gap; i < n; ++i)
+        {
+            temp = arr[i];
+            int j = i - gap;
+            for(; int(j) >=0 && arr[j] > temp; j -= gap)
+                arr[j+gap] = arr[j];
+            arr[j+gap] = temp;
+        }
+    }
+}
