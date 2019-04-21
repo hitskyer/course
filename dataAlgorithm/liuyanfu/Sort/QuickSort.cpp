@@ -101,7 +101,7 @@ void PartitionOpti(int *arr, int left, int right, int *sentinel)
 
 
 /**
-* @brief
+* @brief	 该方法并不能保证一次性将和哨兵结点相同的值全部放在中间
 *
 * @method:    PartitionOpti2
 * @access:    public 
@@ -113,7 +113,7 @@ void PartitionOpti(int *arr, int left, int right, int *sentinel)
 * @author:    RF_LYF
 * @since:   2019/4/10  22:24 
 */
-void PartitionOpti2(int *arr, int left, int right, int *sentinel, int *offset)
+void PartitionOpti2(int *arr, int left, int right, int &sentinel, int &offset)
 {
 	int mid = (left + right) / 2;
 	if(arr[left] > arr[mid])
@@ -123,7 +123,7 @@ void PartitionOpti2(int *arr, int left, int right, int *sentinel, int *offset)
 	if(arr[mid] > arr[left])
 		swap(arr[left], arr[mid]);
 
-	int lf = left;
+	int lf = left + 1;//保证哨兵的在数组的头部
 	int rg = right;
 	while(lf != rg)
 	{
@@ -135,14 +135,69 @@ void PartitionOpti2(int *arr, int left, int right, int *sentinel, int *offset)
 			swap(arr[lf], arr[rg]);
 	}
 	swap(arr[rg], arr[left]);
-	*sentinel = rg;
+	sentinel = lf;
 	int nCount = 0;
-	while(arr[*sentinel] == arr[rg++])
+	while(arr[sentinel] == arr[++rg])
 		++nCount;
-	*offset = nCount;
+	offset = nCount;
 	
 }
 
+
+/**
+* @brief	可以将哨兵的值聚集在一起，从而减少递归深度
+*
+* @method:    partitionOpti3
+* @access:    public 
+* @param:     int * arr
+* @param:     int left
+* @param:     int right
+* @param:     int & sentinel
+* @param:     int & offset
+* @Return:    void
+* @author:    RF_LYF
+* @since:   2019/4/21  22:02 
+*/
+void PartitionOpti3(int *arr, int left, int right, int &sentinel, int &offset)
+{
+	int mid = left + (right - left) / 2;
+	//将中间值放置在数组的头部
+	if(arr[mid] < arr[left])
+		swap(arr[mid], arr[left]);
+	if(arr[mid] > arr[right])
+		swap(arr[mid], arr[right]);
+	if(arr[mid] > arr[left])
+		swap(arr[mid], arr[left]);
+	
+	int i = left + 1;
+	int j = right;
+	while(i != j)
+	{
+		while(i != j && arr[j] >= arr[left])
+			--j;
+		while(i != j && arr[i] < arr[left])
+			++i;
+		if(i != j)
+			swap(arr[i], arr[j]);
+	}
+	swap(arr[i], arr[left]);
+	sentinel = i;
+
+	int nCount = 0;
+	int Index = 0;
+	//从哨兵位置开始向后遍历，将所有和哨兵值相等的结点都换到哨兵的后边，即将所有的哨兵值聚集在一起
+	for(int m = i + 1; m <= right; ++m)
+	{
+		if(arr[m] == arr[sentinel])
+		{
+			nCount++;
+			Index = sentinel + nCount;
+			swap(arr[m], arr[Index]);
+		}
+	}
+
+	offset = nCount;
+}
 
 /**
 * @brief	  分割区间
@@ -160,13 +215,20 @@ void Separate(int *arr, int left, int right)
 {
 	if(left >= right)
 		return;
+	else if(right - left == 1)
+	{
+		if(arr[left] > arr[right])
+			swap(arr[left],arr[right]);
+		return;
+	}
+		
 	else
 	{
 		int sentinel = 0;
 		int offset = 0;
-		PartitionOpti2(arr, left, right, &sentinel, &offset);
-		Separate(arr, left, sentinel);
-		Separate(arr, sentinel + offset, right);
+		PartitionOpti3(arr, left, right, sentinel, offset);
+		Separate(arr, left, sentinel - 1);
+		Separate(arr, sentinel + offset + 1, right);
 	}
 }
 
@@ -208,7 +270,7 @@ void print(int *arr, int nLen)
 }
 int main()
 {
-	int arr[10] = {5, 4, 6, 3, 3, 2, 5, 8, 9, 7};
+	int arr[10] = {5,6,7,1,2,5,4,5,3,1};
 	int arr1[10] = {1,1,1,1,1,1,1,1,1,1};
 	int arr2[10] = {1,2,3,4,5,6,7,8,9,10};
 	int arr3[10] = {10,9,8,7,6,5,4,3,2,1};
