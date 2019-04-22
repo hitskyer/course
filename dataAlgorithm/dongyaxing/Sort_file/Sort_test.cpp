@@ -91,13 +91,18 @@ int main()
 	sc.PrintSort();*/
 
 	//***9*** 基数排序
-	sc.InitTempArr();
+	/*sc.InitTempArr();
 	start = clock();
 	sc.RadixSort(sc.temparr, NUM_SIZE);
 	finish = clock();
 	cout << "Radix Sort spend time : " << finish - start << "ms" << endl;
+	sc.PrintSort();*/
+
+	//***6.2*** 快速排序
+	sc.InitTempArr();
+	sc.QuickSort_2(sc.temparr, 0, NUM_SIZE - 1);		// 注意减一
 	sc.PrintSort();
 	
-//	system("pause");
+	//system("pause");
 	return 0;
 }
