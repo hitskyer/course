@@ -39,7 +39,7 @@ void partition(int* arr, size_t left, size_t right, size_t &PL_index, size_t &PR
         {
             ++rightPnum;
             PR_index = Pindex + rightPnum;
-            swap(arr[i], arr[PL_index]);
+            swap(arr[i], arr[PR_index]);
         }
     }
 }
