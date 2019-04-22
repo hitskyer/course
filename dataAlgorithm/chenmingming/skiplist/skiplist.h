@@ -7,9 +7,9 @@
 
 #ifndef SKIPLIST_SKIPLIST_H
 #define SKIPLIST_SKIPLIST_H
-typedef unsigned int UINT
+typedef unsigned int UINT;
 template <class T>
-class skipNode<T>
+class skipNode
 {
 public:
     T data;
@@ -20,11 +20,12 @@ public:
     }
 };
 template <class T>
-class skiplist<T>
+class skiplist
 {
 public:
     UINT level;
     skipNode<T> *head;
+//    skiplist<T>
 };
 
 

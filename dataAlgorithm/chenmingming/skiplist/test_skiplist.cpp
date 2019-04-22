@@ -1,8 +1,11 @@
 /**
- * @description: 
+ * @description: 测试跳表
  * @author: michael ming
- * @date: 2019/4/22 22:21
+ * @date: 2019/4/23 0:07
  * @modified by: 
  */
-
 #include "skiplist.h"
+int main()
+{
+
+}
