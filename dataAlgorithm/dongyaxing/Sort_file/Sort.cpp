@@ -288,6 +288,96 @@ void SortClass::QuickSort(int *Qarr, int left, int right)
 		QuickSort(Qarr, dp + 1, right);
 	}
 }
+
+
+/****************************************************************
+* @brief : 		快排，把与哨兵相同的数，集中到中间，然后左边右边分别排序
+* @author : 	dyx
+* @date : 		2019/4/22 16:39
+* @version : 	ver 1.0
+* @inparam : 
+* @outparam : 
+*****************************************************************/
+void SortClass::Partition_2(int *arr, int left, int right, int &sentinel, int &offset)
+{
+	int mid = left + (right - left)/2;
+	if (arr[mid] < arr[left])
+	{
+		swap(arr[mid], arr[left]);
+	}
+	if (arr[mid] > arr[right])
+	{
+		swap(arr[mid], arr[right]);
+	}
+	if (arr[mid] > arr[left])
+	{
+		swap(arr[mid], arr[left]);
+	}
+	int i = left + 1;
+	int j = right;
+	while(i != j)
+	{
+		while(i != j && arr[left] <= arr[j])
+		{
+			--j;
+		}
+		while(i != j && arr[left] > arr[i])
+		{
+			++i;
+		}
+		if (i != j)
+		{
+			swap(arr[i], arr[j]);
+		}
+	}
+	swap(arr[left], arr[i]);
+	sentinel = i;	// 记录哨兵。
+	int index = 0;
+	int nCount = 0;
+	for (int m = i + 1; m <= right; ++m)
+	{
+		if (arr[m] == arr[sentinel])
+		{
+			nCount++;
+			index = sentinel + nCount;
+			swap(arr[index], arr[m]);
+		}
+	}
+	offset = nCount;
+}
+
+/****************************************************************
+* @brief : 		快速排序_2版
+* @author : 	dyx
+* @date : 		2019/4/22 16:40
+* @version : 	ver 1.0
+* @inparam : 
+* @outparam : 
+*****************************************************************/
+void SortClass::QuickSort_2(int *arr, int left, int right)
+{
+	if (left >= right)
+	{
+		return;
+	}
+	else if (right - left == 1)
+	{
+		if (arr[left] > arr[right])
+		{
+			swap(arr[left], arr[right]);
+			return;
+		}
+	}
+	else
+	{
+		int sentinel = 0;
+		int offset = 0;
+		Partition_2(arr, left, right, sentinel, offset);
+		QuickSort_2(arr, left, sentinel - 1);
+		QuickSort_2(arr, sentinel + offset + 1, right);
+	}
+}
+
 /********************************************************************
 * @brief : 		桶排序——把数据有序的插入桶内(小到大)，用单向链表实现
 * @author : 	dyx
@@ -411,26 +501,31 @@ void SortClass::BucketSort(int *Barr, int n)
 * @author : 	dyx
 * @date : 		
 * @version : 	
-* @inparam : 
+* @inparam :	min 考虑数组范围是100-200的时候，前100个，就没必要开辟空间。
 * @outparam : 
 *********************************************************************/
 void SortClass::CountSort(int *arr)
 {
 	// 找最大的数
 	int max = arr[0];
+	int min = arr[0];
 	for (int i = 1; i < NUM_SIZE; ++i)
 	{
 		if (max < arr[i])
 		{
 			max = arr[i];
 		}
+		if (min > arr[i])
+		{
+			min = arr[i];
+		}
 	}
 	// 填充C数组
-	int *C = new int [max + 1];
-	memset(C, 0, sizeof(int)*(max+1));
+	int *C = new int [max - min + 1];
+	memset(C, 0, sizeof(int)*(max - min +1));
 	for (int i = 0; i < NUM_SIZE; ++i)
 	{
-		C[arr[i]]++;
+		C[arr[i] - min]++;
 	}
 	// 直接复制到arr, 不稳定
 	int j = 0;
@@ -438,7 +533,7 @@ void SortClass::CountSort(int *arr)
 	{
 		while (C[i] != 0)
 		{
-			arr[j] = i;
+			arr[j] = (i + min);
 			++j;
 			--C[i];
 		}

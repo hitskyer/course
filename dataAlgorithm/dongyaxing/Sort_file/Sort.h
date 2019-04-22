@@ -44,6 +44,9 @@ public:
 	int Partition(int *arr, int left, int right);
 	void QuickSort(int *arr, int left, int right);		// 快速排序
 
+	void Partition_2(int *arr, int left, int right, int &sentinel, int &offset);
+	void QuickSort_2(int *arr, int left, int right);		// 改进的快排
+
 	void CountSort(int *arr);		// 计数排序
 
 	ListNode *Insert(ListNode *head, int val);		// 插入桶
