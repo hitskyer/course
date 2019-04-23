@@ -43,7 +43,15 @@ int main()
 
 	cout << "查找第一个大于等于给定值的元素，返回索引：" << BioSearch_4(arr, 20, 13) << endl;
 	cout << "查找最后一个小于等于给定值的元素，返回索引：" << BioSearch_5(arr, 20, 13) << endl;
+	
+	// 
+	int arr1[16] = {13,14,15,16,1,2,3,4,5,6,7,8,9,10,11,12};
+	int arr2[16] = {9,10,11,12,13,14,15,16,1,2,3,4,5,6,7,8};
 
+	cout << "index : " << BioSearch_6(arr1, 16, 14) << endl;
+	cout << "index : " << BioSearch_6(arr1, 16, 9) << endl;
+	cout << "index : " << BioSearch_6(arr2, 16, 14) << endl;
+	cout << "index : " << BioSearch_6(arr2, 16, 6) << endl;
 //	system("pause");
 	return 0;
 }

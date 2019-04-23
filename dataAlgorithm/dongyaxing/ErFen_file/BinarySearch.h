@@ -308,6 +308,78 @@ int BioSearch_5(int *arr, int len, int val)
 	}
 	return -1;
 }
+//¿¿¿¿¿¿
+//2019/4/23
+//dyx
+//
+int BioSearch_6(int *arr, int len, int val)
+{
+	int low = 0;
+	int high = len - 1;
+	int mid = 0;
+	while (low <= high)
+	{
+		mid = low + ((high - low) /2 );
+		if (arr[low] < arr[mid])
+		{
+			low = mid;
+		}
+		else if(arr[low] > arr[mid])
+		{
+			high = mid;
+		}
+		else
+		{
+			mid = low;
+			break;
+		}
+	}
+	low = 0;
+	high = mid;
+	int low_2 = mid +1;
+	int high_2 = len - 1;
+	int mid_2 = 0;
+	if (val <= arr[mid] && val >= arr[low])
+	{
+		while(low <= high)
+		{
+			mid = low + (high - low)/2;
+			if (arr[mid] == val)
+			{
+				return mid;
+			}
+			else if (arr[mid] > val)
+			{
+				high = mid - 1;
+			}
+			else
+			{
+				low = mid + 1;
+			}
+		}
+	}
+	else
+	{
+		while(low_2 <= high_2)
+		{
+			mid_2 = low_2 + (high_2 - low_2)/2;
+			if (arr[mid_2] == val)
+			{
+				return mid_2;
+			}
+			else if (arr[mid_2] > val)
+			{
+				high_2 = mid_2 - 1;
+			}
+			else
+			{
+				low_2 = mid_2 + 1;
+			}
+		}
+	}
+	return -1;
+}
+
 
 
 #endif
