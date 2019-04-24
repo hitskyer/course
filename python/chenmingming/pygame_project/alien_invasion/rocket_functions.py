@@ -6,9 +6,9 @@ def check_keydown_events(event, rocket):  #检测键盘按下事件
     elif event.key == pygame.K_LEFT:
         rocket.moving_left = True
     elif event.key == pygame.K_UP:
-        rocket.moving_up == True
+        rocket.moving_up = True
     elif event.key == pygame.K_DOWN:
-        rocket.moving_down == True 
+        rocket.moving_down = True
 
 def check_keyup_events(event, rocket):    #检测键盘松开事件
     if event.key == pygame.K_RIGHT:
@@ -16,9 +16,9 @@ def check_keyup_events(event, rocket):    #检测键盘松开事件
     elif event.key == pygame.K_LEFT:
         rocket.moving_left = False
     elif event.key == pygame.K_UP:
-        rocket.moving_up == False
+        rocket.moving_up = False
     elif event.key == pygame.K_DOWN:
-        rocket.moving_down == False
+        rocket.moving_down = False
 
 def check_events(rocket):
     for event in pygame.event.get():

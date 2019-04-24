@@ -1,6 +1,7 @@
 import pygame
 class Rocket():
     def __init__(self, rocket_setting, screen):
+        self.screen = screen
         self.rocket_setting = rocket_setting
         self.rocketimage = pygame.image.load("images/rocket.bmp")
         self.rocket_rect = self.rocketimage.get_rect()  # 图像矩形
@@ -21,7 +22,7 @@ class Rocket():
         if self.moving_up and self.rocket_rect.top > 0:
             self.centery -= self.rocket_setting.speed_factor
         if self.moving_down and self.rocket_rect.bottom < self.screen_rect.bottom:
-            self.centerx += self.rocket_setting.speed_factor
+            self.centery += self.rocket_setting.speed_factor
         self.rocket_rect.centerx = self.centerx
         self.rocket_rect.centery = self.centery
     def blitme(self):
