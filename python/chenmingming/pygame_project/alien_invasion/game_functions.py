@@ -12,6 +12,8 @@ def check_keydown_events(event,ai_settings, screen, ship, bullets):  #检测键�
         ship.moving_down = True
     elif event.key == pygame.K_SPACE:   #按下空格键，发射子弹
         fire_bullet(ai_settings, screen, ship, bullets)
+    elif event.key == pygame.K_q:
+        sys.exit()
 
 def check_keyup_events(event, ship):    #检测键盘松开事件
     if event.key == pygame.K_UP:
@@ -28,11 +30,12 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:    #键盘松开事件
             check_keyup_events(event, ship)
 
-def update_screen(ai_settings, screen, ship, bullets):
+def update_screen(ai_settings, screen, ship, alien, bullets):
     screen.fill(ai_settings.bg_color)   #屏幕填充背景色
     for bullet in bullets.sprites():    #把每个子弹画在屏幕上
         bullet.draw_bullet()
     ship.blitme()   #ship的动画效果
+    alien.blitme()
     pygame.display.flip()   #刷新，让动画尽可能流畅
 
 def update_bullets(bullets, screen):
