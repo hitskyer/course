@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from random_walk import RandomWalk
-rw = RandomWalk(50000)
+rw = RandomWalk(5000)
 rw.fill_walk()
 plt.figure(dpi=512, figsize=(10, 6))
 point_number = list(range(rw.num_points))
