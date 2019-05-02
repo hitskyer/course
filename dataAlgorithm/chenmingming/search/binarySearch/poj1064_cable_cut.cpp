@@ -16,10 +16,8 @@ int main()
     double minlen = 0.0, maxlen = 100000, mid, len[10001];
     for(int i = 0; i < cables; ++i)
     {
-//        cin >> len[i];
-        scanf("%lf", &len[i]);
-//        len[i] += 1E-15;
-//        maxlen = maxlen > len[i] ? maxlen : len[i];
+        cin >> len[i];
+//        scanf("%lf", &len[i]);
     }
     while(maxlen - minlen > 1E-3)
     {
@@ -34,8 +32,10 @@ int main()
         else
             maxlen = mid;
     }
-//    mid = double(floor(mid*100))/100.0;
-//    cout << fixed << setprecision(2) << mid << endl;
-    printf("%.2lf\n", floor(mid*100)/100);
+    cout << fixed << setprecision(2) << floor(maxlen*100)/100.0 << endl;
+//    printf("%.2lf\n", floor(maxlen*100)/100);
+//  以上两种写法都可以AC，但是注意表达式内不要写mid，要写maxlen
+//  最后如果是mid=1.999，保留两位，直接是1.99
+//  maxlen是2.001,直接保留2.00
     return 0;
 }
