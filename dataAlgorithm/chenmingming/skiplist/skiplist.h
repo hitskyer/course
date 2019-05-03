@@ -9,7 +9,8 @@
 #define SKIPLIST_SKIPLIST_H
 #include <ctime>
 #include <cstdlib>
-
+#include <iostream>
+using namespace std;
 typedef unsigned int UINT;
 template <class T>
 class skipNode
@@ -46,12 +47,41 @@ public:
     skipNode<T> *head;
     skiplist<T>(UINT level = 10):maxLevel(level)
     {
-        head = new skipNode<T>();
+        head = new skipNode<T>(level);
     }
     void insert(const T& inputdata)
     {
         skipNode<T>* newNode = new skipNode<T>(maxLevel, inputdata);
-
+        skipNode<T>* temPos[maxLevel+1];
+        skipNode<T> *p = head, *q = NULL;
+        for(int i = maxLevel-1; i >= 0; i--)
+        {
+            while((q = p->next[i]) && (q->data <= inputdata))
+            {
+                p = q;
+            }
+            temPos[i] = p;
+        }
+        UINT lv = randomLevel();
+        for(int i = 0; i <= lv; ++i)
+        {
+            newNode->next[i] = temPos[i]->next[i];
+            temPos[i]->next[i] = newNode;
+        }
+    }
+    void printSkipList()
+    {
+        skipNode<T> *p, *q;
+        for(int i = maxLevel; i >= 0; --i)
+        {
+            p = head;
+            while(q = p->next[i])
+            {
+                cout << q->data << " -> ";
+                p = q;
+            }
+            cout << endl;
+        }
     }
 };
 
