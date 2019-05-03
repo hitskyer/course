@@ -18,17 +18,21 @@ class skipNode
 public:
     T data;
     skipNode<T> **next; //跳表节点的next是 skipNode<T>* 类型的数组
-    skipNode(UINT level)
+    skipNode(const UINT level)
     {
         next = new skipNode<T>* [level+1];  //索引级别从0（链表自身）开始
         for(int i = 0; i < level+1; ++i)
             next[i] = NULL;
     }
-    skipNode(UINT level, const T& inputdata):data(inputdata)
+    skipNode(const UINT level, const T& inputdata):data(inputdata)
     {
         next = new skipNode<T>* [level+1];  //索引级别从0（链表自身）开始
         for(int i = 0; i < level+1; ++i)
             next[i] = NULL;
+    }
+    ~skipNode<T>()
+    {
+        delete [] next;
     }
 };
 template <class T>
@@ -48,6 +52,16 @@ public:
     skiplist<T>(UINT level = 10):maxLevel(level)
     {
         head = new skipNode<T>(level);
+    }
+    ~skiplist<T>()
+    {
+        skipNode<T> *p = head, *q;
+        while(p)
+        {
+            q = p;
+            p = p->next[0];
+            delete q;
+        }
     }
     void insert(const T& inputdata)
     {
