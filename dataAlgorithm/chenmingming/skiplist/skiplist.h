@@ -41,6 +41,7 @@ class skiplist
 private:
     UINT randomLevel()
     {
+        srand(UINT(time(0)));
         UINT lv = 0;
         while(rand()%2)
             lv++;
