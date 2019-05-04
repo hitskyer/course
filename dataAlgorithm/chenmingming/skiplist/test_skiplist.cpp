@@ -13,4 +13,9 @@ int main()
         intSList.insert(i);
     }
     intSList.printSkipList();
+    intSList.delete_node(9);
+    intSList.printSkipList();
+    intSList.delete_node(100);
+    intSList.printSkipList();
+    return 0;
 }

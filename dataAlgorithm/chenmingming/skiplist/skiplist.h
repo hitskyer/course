@@ -79,7 +79,7 @@ public:
         skipNode<T>* newNode = new skipNode<T>(maxLevel, inputdata);
         skipNode<T>* temPos[maxLevel+1];
         skipNode<T> *p = head, *q = NULL;
-        for(int i = maxLevel-1; i >= 0; i--)
+        for(int i = maxLevel; i >= 0; i--)
         {
             while((q = p->next[i]) && (q->data <= inputdata))
             {
@@ -92,6 +92,29 @@ public:
         {
             newNode->next[i] = temPos[i]->next[i];
             temPos[i]->next[i] = newNode;
+        }
+    }
+    void delete_node(const T& inputdata)
+    {
+        skipNode<T>* temPos[maxLevel+1];
+        skipNode<T> *p = head, *q = NULL;
+        for(int i = maxLevel; i >= 0; i--)
+        {
+            while((q = p->next[i]) && (q->data < inputdata))
+            {
+                p = q;
+            }
+            temPos[i] = p;
+        }
+        if(q && q->data == inputdata)
+        {
+            for(int i = 0; i <= maxLevel; ++i)
+            {
+                if(temPos[i]->next[i] == q)
+                    temPos[i]->next[i] = q->next[i];
+            }
+            delete q;
+            q = NULL;
         }
     }
     void printSkipList()
