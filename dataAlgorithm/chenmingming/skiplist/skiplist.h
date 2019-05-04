@@ -79,7 +79,7 @@ public:
         skipNode<T>* newNode = new skipNode<T>(maxLevel, inputdata);
         skipNode<T>* temPos[maxLevel+1];
         skipNode<T> *p = head, *q = NULL;
-        for(int i = maxLevel; i >= 0; i--)
+        for(int i = maxLevel; i >= 0; i--)  //记录插入点在每层的前一个位置
         {
             while((q = p->next[i]) && (q->data <= inputdata))
             {
@@ -87,8 +87,8 @@ public:
             }
             temPos[i] = p;
         }
-        UINT lv = randomLevel();
-        for(int i = 0; i <= lv; ++i)
+        UINT lv = randomLevel();    //新节点的随机索引级数
+        for(int i = 0; i <= lv; ++i)    //将新节点依次连接进去
         {
             newNode->next[i] = temPos[i]->next[i];
             temPos[i]->next[i] = newNode;
