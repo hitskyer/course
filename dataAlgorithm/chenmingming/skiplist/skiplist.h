@@ -41,8 +41,14 @@ class skiplist
 private:
     UINT randomLevel()
     {
-        static int count = 0;
-        srand(UINT(time(0)+count));
+        static bool flag = false;
+        if(!flag)
+        {
+            srand(UINT(time(0)));
+            flag = true;
+        }
+        else
+            flag = false;
         UINT lv = 0;
         for(int i = 0; i < maxLevel; ++i)
         {
