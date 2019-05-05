@@ -1,39 +1,26 @@
 /*
 * Copyright: (c) 2019
 *
-* 文件名称:  BucketSort.cpp	
+* 文件名称:  BucketSort2.cpp	
 * 文件标识：
 * 摘	要：
 *
 * 版	本： 1.0
 * 作	者： RF_LYF
-* 创建日期:	 2019/4/11  11:22
+* 创建日期:	 2019/4/22  9:38
 */
 
-#include <iostream>
-#include <vector>
+#include <stdio.h>
 #include <algorithm>
 using namespace std;
-
-/**
-* @brief
-*
-* @method:    compare
-* @access:    public 
-* @param:     const void * a
-* @param:     const void * b
-* @Return:    int
-* @author:    RF_LYF
-* @since:   2019/4/12  10:13 
-*/
-int compare(const void *a, const void *b)
+void print(int *arr, int nLen);
+int cmp(const void *a, const void *b)
 {
 	return *(int *)a - *(int *)b;
 }
 
-
 /**
-* @brief
+* @brief	  数组实现的桶排序
 *
 * @method:    BucketSort
 * @access:    public 
@@ -41,113 +28,113 @@ int compare(const void *a, const void *b)
 * @param:     int nLen
 * @Return:    void
 * @author:    RF_LYF
-* @since:   2019/4/11  11:54 
-*/
-/*
-桶排序的应用场景：
-（1）数据易于划分成多个桶来进行处理
-（2）桶与桶之间有天然的大小顺序
-（3）数据在每个桶的分布数量比较均匀
-实现过程：
-（1）确定桶内数据的范围，即最小和最大值
-（2）确定要将所有的数据划分到几个桶里
-（3）扫描所有数据，将数据划分到对应的桶中
-（4）分别对每个桶中的数据进行排序
-（5）从第一个桶开始，依次将桶内的数据放在数组中
+* @since:   2019/4/22  9:40 
 */
 void BucketSort(int *arr, int nLen)
 {
-	double minvalue = arr[0];
-	double maxvalue = arr[0];
-	for(int i = 1;i < nLen; ++i)
+	int maxvalue = arr[0];
+	int minvalue = arr[0];
+	for(int i = 1; i < nLen; ++i)
 	{
-		maxvalue = maxvalue >= arr[i] ? maxvalue : arr[i];
-		minvalue = minvalue <= arr[i] ? minvalue : arr[i];
+		maxvalue = maxvalue < arr[i] ? arr[i] : maxvalue;
+		minvalue = minvalue > arr[i] ? arr[i] : minvalue;
 	}
-	//桶的个数
-	int BucketNum = nLen;
+	int bucketNum = nLen;
+	//因为有些数值不能被nLen整除，所以每个跨度+1，可以保证所有元素都会分到桶中
+	int space = (maxvalue - minvalue) / nLen + 1;
 
-	//分配桶空间存储元素
-	vector<vector<int> > bucketspace(BucketNum, 0);
-
-	int index = 0;//定义桶的编号
-
-	//扫描数组中的数据，分别放在对应编号的桶中
-	for(int i = 0; i< nLen; ++i)
+	//申请动态数组记录每个桶中元素的个数
+	int *pCount = new int[bucketNum];
+	int *pEndIndexofBucket = new int [bucketNum];
+	memset(pCount, 0, sizeof(int) * bucketNum);
+	memset(pEndIndexofBucket, 0, sizeof(int) * bucketNum);
+	int Index = 0;
+	for(int i = 0; i < nLen; ++i)
 	{
-		index = (int)(arr[i] - minvalue)/(maxvalue - minvalue + 1) * BucketNum;//加1是为了保证桶的编号小于BucketNum
-		bucketspace[index].push_back(arr[i]);
+		Index = (arr[i] - minvalue) / space;
+		pCount[Index]++;
+		pEndIndexofBucket[Index]++;
 	}
+	//print(pCount, bucketNum);
 
-	//对每个桶内的元素进行排序,并将内容赋值到被排序的数组中
-	int startpos = 0;
-	for(size_t i = 0; i < bucketspace.size(); ++i)
+	//确定每个桶的索引上限
+	for(int i = 1; i < bucketNum; ++i)
 	{
-		if(bucketspace[i].empty())
-			continue;
-		qsort(&bucketspace[i][0], bucketspace[i].size(), sizeof(bucketspace[i][0]), compare);
-		memcpy(&arr[startpos],&bucketspace[i][0], sizeof(bucketspace[i][0]) * bucketspace[i].size());
-		startpos += bucketspace[i].size();
+		pEndIndexofBucket[i] += pEndIndexofBucket[i - 1];
+	}
+	//print(pEndIndexofBucket, bucketNum);
+
+	//将所有元素按照分桶之后的结果放在一个临时数组中
+	int *temp = new int[nLen];
+	for(int i = 0; i < nLen; ++i)
+	{
+		Index = (arr[i] - minvalue) / space;
+		temp[--pEndIndexofBucket[Index]] = arr[i];
+	}
+	//print(temp, nLen);
+
+	//将每个分桶内的数据进行排序
+	for(int i = 0; i < bucketNum; ++i)
+	{
+		if(pCount[i] != 0)
+		{
+			qsort(&temp[pEndIndexofBucket[i]], pCount[i], sizeof(int), cmp);
+			//print(temp, nLen);
+		}
 	}
 
-	////按住桶的编号由小到大，依次将每个桶内的元素赋值到被排序的数组中
-	//int startpos = 0;
-	//for(size_t i = 0; i < bucketspace.size(); ++i)
-	//{
-	//	if(bucketspace[i].empty())
-	//		continue;
-	//	memcpy(&arr[startpos],&bucketspace[i][0], sizeof(bucketspace[i][0]) * bucketspace[i].size());
-	//	startpos += bucketspace[i].size();
-	//}
+	memcpy(arr, temp, sizeof(int) * nLen);
 }
 
+
 /**
-* @brief	  
+* @brief
 *
 * @method:    print
 * @access:    public 
-* @param:     int arr
+* @param:     int * arr
 * @param:     int nLen
 * @Return:    void
 * @author:    RF_LYF
-* @since:   2019/4/9  11:08 
+* @since:   2019/4/22  9:40 
 */
 void print(int *arr, int nLen)
 {
-	for(int i = 0;i < nLen; ++i)
+	for(int i = 0; i < nLen; ++i)
 	{
-		cout << arr[i] << " ";
+		printf("%d ", arr[i]);
 	}
-	cout <<	endl;
+	printf("\n");
 }
+
 
 int main()
 {
-	int arr[10] = {5, 4, 6, 3, 3, 2, 5, 8, 9, 7};
+	int arr[10] = {2,5,3,0,2,3,0,3,12,1};
 	int arr1[10] = {1,1,1,1,1,1,1,1,1,1};
 	int arr2[10] = {1,2,3,4,5,6,7,8,9,10};
 	int arr3[10] = {10,9,8,7,6,5,4,3,2,1};
-	int arr4[10] = {1,99,29,38,69,69,65,32,21,30};
+	int arr4[10] = {115,2,12,9,35,578,1009,892,93,8};
 	print(arr, sizeof(arr)/sizeof(arr[0]));
 	BucketSort(arr,sizeof(arr)/sizeof(arr[0]));
 	print(arr, sizeof(arr)/sizeof(arr[0]));
-	cout << endl;
 
+	printf("\n");
 	print(arr1, sizeof(arr1)/sizeof(arr1[0]));
 	BucketSort(arr1,sizeof(arr1)/sizeof(arr1[0]));
 	print(arr1, sizeof(arr1)/sizeof(arr1[0]));
-	cout << endl;
 
+	printf("\n");
 	print(arr2, sizeof(arr2)/sizeof(arr2[0]));
 	BucketSort(arr2,sizeof(arr2)/sizeof(arr2[0]));
 	print(arr2, sizeof(arr2)/sizeof(arr2[0]));
-	cout << endl;
 
+	printf("\n");
 	print(arr3, sizeof(arr3)/sizeof(arr3[0]));
 	BucketSort(arr3,sizeof(arr3)/sizeof(arr3[0]));
 	print(arr3, sizeof(arr3)/sizeof(arr3[0]));
-	cout << endl;
 
+	printf("\n");
 	print(arr4, sizeof(arr4)/sizeof(arr4[0]));
 	BucketSort(arr4,sizeof(arr4)/sizeof(arr4[0]));
 	print(arr4, sizeof(arr4)/sizeof(arr4[0]));
