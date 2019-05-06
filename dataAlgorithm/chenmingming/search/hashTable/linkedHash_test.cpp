@@ -8,10 +8,20 @@
 int main()
 {
     linkedHash<int> ht2(10);
-    for(int i = 15; i < 35; ++i)
+    for(int i = 15; i < 37; ++i)
     {
         ht2.insert(i);
         ht2.print();
     }
+    ht2.delete_elem(15);
+    ht2.print();
+    ht2.delete_elem(18);
+    ht2.print();
+    ht2.delete_elem(28);
+    ht2.print();
+    ht2.insert(88);
+    ht2.print();
+    ht2.delete_elem(100);
+    ht2.print();
     return 0;
 }

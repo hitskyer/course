@@ -9,7 +9,7 @@
 #define SEARCH_LINKEDHASH_H
 #include <iostream>
 template <class DataType>
-struct linkedNode
+struct linkedNode   //链表节点
 {
     DataType data;
     linkedNode *next;
@@ -17,13 +17,13 @@ struct linkedNode
     linkedNode(const DataType &d):next(NULL), data(d){}
 };
 template <class DataType>
-class linkedList
+class linkedList    //链表
 {
 public:
     linkedNode<DataType> *head;
     linkedList()
     {
-        head = new linkedNode<DataType>();
+        head = new linkedNode<DataType>();  //表头哨兵
     }
     ~linkedList()
     {
@@ -35,23 +35,17 @@ class linkedHash
 {
 private:
     linkedList<DataType> *htList; //散列表链表数组
-    linkedNode<DataType> **htListHead;
     int bucket;  //散列表桶个数
 public:
     linkedHash<DataType>(int m):bucket(m)
     {
         htList = new linkedList<DataType> [bucket] ();
-        htListHead = new linkedNode<DataType>* [bucket] ();
-        for(int i = 0; i < bucket; ++i)
-        {
-            htListHead[i] = htList[i].head;
-        }
     }
     ~linkedHash<DataType>()
     {
         for(int i = 0; i < bucket; ++i)
         {
-            linkedNode<DataType> *p = htListHead[i]->next, *q = p;
+            linkedNode<DataType> *p = htList[i].head->next, *q = p;
             while(q != NULL)
             {
                 p = q;
@@ -59,7 +53,6 @@ public:
                 delete p;
             }
         }
-        delete [] htListHead;
         delete [] htList;
     }
     int hash(const DataType &newData) const
@@ -69,7 +62,7 @@ public:
     linkedNode<DataType>* find(const DataType &x) const
     {
         int i = hash(x);
-        linkedNode<DataType> *p = htListHead[i].next, *q = htListHead[i];
+        linkedNode<DataType> *p = htList[i].head->next, *q = htList[i].head;
         while(p && p->data != x)
         {
             q = p;
@@ -80,7 +73,7 @@ public:
     linkedNode<DataType>* insert(const DataType &x)
     {
         int i = hash(x);
-        linkedNode<DataType> *p = htListHead[i], *q = p;
+        linkedNode<DataType> *p = htList[i].head, *q = p;
         while(q != NULL)
         {
             p = q;
@@ -104,7 +97,7 @@ public:
         for(int i = 0; i < bucket; ++i)
         {
             std::cout << i << "[ ]";
-            linkedNode<DataType> *p = htListHead[i]->next;
+            linkedNode<DataType> *p = htList[i].head->next;
             while(p)
             {
                 std::cout << p->data << "->";
