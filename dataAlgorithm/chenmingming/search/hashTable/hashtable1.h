@@ -13,7 +13,7 @@ struct HashItem
 {
     DataType data;
     KindOfItem info;
-    HashItem<DataType>(KindOfItem i = Empty):data(0), info(i){}
+    HashItem<DataType>(KindOfItem i = Empty):info(i){}
     HashItem<DataType>(const DataType &d, KindOfItem i = Empty):data(d), info(i){}
     int operator== (HashItem<DataType> &a)
     {
