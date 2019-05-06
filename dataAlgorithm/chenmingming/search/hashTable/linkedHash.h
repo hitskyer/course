@@ -40,15 +40,25 @@ private:
 public:
     linkedHash<DataType>(int m):bucket(m)
     {
+        htList = new linkedList<DataType> [bucket] ();
+        htListHead = new linkedNode<DataType>* [bucket] ();
         for(int i = 0; i < bucket; ++i)
         {
-            htList = new linkedList<DataType> [bucket] ();
-            htListHead = new linkedNode<DataType>* [bucket] ();
             htListHead[i] = htList[i].head;
         }
     }
     ~linkedHash<DataType>()
     {
+        for(int i = 0; i < bucket; ++i)
+        {
+            linkedNode<DataType> *p = htListHead[i]->next, *q = p;
+            while(q != NULL)
+            {
+                p = q;
+                q = q->next;
+                delete p;
+            }
+        }
         delete [] htListHead;
         delete [] htList;
     }
@@ -70,7 +80,7 @@ public:
     linkedNode<DataType>* insert(const DataType &x)
     {
         int i = hash(x);
-        linkedNode<DataType> *p = htListHead[i]->next, *q = p;
+        linkedNode<DataType> *p = htListHead[i], *q = p;
         while(q != NULL)
         {
             p = q;
@@ -102,6 +112,7 @@ public:
             }
             std::cout << std::endl;
         }
+        std::cout << "----------------------" << std::endl;
     }
 };
 #endif //SEARCH_LINKEDHASH_H
