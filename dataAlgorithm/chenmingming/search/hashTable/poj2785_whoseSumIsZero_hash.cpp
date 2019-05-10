@@ -9,12 +9,13 @@
 using namespace std;
 int a[4001], b[4001], c[4001], d[4001];
 int ab[4000*4000+1], cd[4000*4000+1];   //存储a+b，c+d
-int hasht[16000057];
+int *hasht = new int[16000057];
 int offset = 1000000000;
 int hashfunc(int &value)
 {
     int mod = 16000057;
-    return value%mod;
+//    int mod = 1357;
+    return (value%mod + value/mod)%mod;
 }
 int main()
 {
@@ -43,5 +44,6 @@ int main()
             result += hasht[hashfunc(value)];
     }
     cout << result << endl;
+    delete [] hasht;
     return 0;
 }
