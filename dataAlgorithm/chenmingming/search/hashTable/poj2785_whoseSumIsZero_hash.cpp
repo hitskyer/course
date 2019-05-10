@@ -14,7 +14,6 @@ int offset = 1000000000;
 int hashfunc(int &value)
 {
     int mod = 16000057;
-//    int mod = 1357;
     return (value%mod + value/mod)%mod;
 }
 int main()
