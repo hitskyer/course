@@ -24,6 +24,10 @@ public:
     {
         tree = new node<T> [size];
     }
+    ~binary_tree()
+    {
+        delete [] tree;
+    }
     void insert(T &data)
     {
         if(tree_arrlen < size)
