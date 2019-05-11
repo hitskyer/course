@@ -10,7 +10,7 @@ template <class T>
 struct node
 {
     T data;
-    node<T>():data(NULL){}
+    node<T>(){}
 };
 template <class T>
 class binary_tree
