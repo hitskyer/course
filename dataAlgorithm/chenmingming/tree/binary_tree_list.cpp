@@ -10,8 +10,8 @@ template <class T>
 struct node
 {
     T data;
-    node<T> *father, *left, *right;
-    node<T>():father(NULL), left(NULL), right(NULL){}
+    node<T> *left, *right;
+    node<T>():left(NULL), right(NULL){}
 };
 template <class T>
 class binary_tree
@@ -25,25 +25,64 @@ public:
     {
         return root;
     }
-    void insert(T &data)
+    node<T>* insert(node<T> * nodep, size_t lv, size_t toplv, char ch = 'l', int data = 1)
     {
-        if (root == NULL)
+        if(lv == 0)
+            return NULL;
+        else if(nodep == NULL && lv == toplv)
         {
             root = new node<T>();
-            root->data = data;
-            nodelen++;
+            nodep = root;
         }
         else
         {
-            if(th)
+            nodep = new node<T>();
         }
+        nodep->data = data;
+        nodelen++;
+        node<T>* l = insert(nodep->left, lv-1, toplv, 'l', 2*data);
+        if(l)
+            nodep->left = l;    //返回创建好的left节点l，跟父接上
+        node<T>* r = insert(nodep->right, lv-1, toplv, 'r', 2*data+1);
+        if(r)
+            nodep->right = r;   //返回创建好的right节点r，跟父接上
+        return nodep;
     }
-    void preOrderPrint(size_t index = 1)
+    void preOrderPrint(node<T> * nodep)
     {
-        if (tree_arrlen < 1 || index > tree_arrlen)
+        if (nodep == NULL)
             return;
-        cout << tree[index].data << " ";
-        preOrderPrint(index * 2);
-        preOrderPrint(index * 2 + 1);
+        cout << nodep->data << " ";
+        preOrderPrint(nodep->left);
+        preOrderPrint(nodep->right);
+    }
+    void inOrderPrint(node<T> * nodep)
+    {
+        if (nodep == NULL)
+            return;
+        inOrderPrint(nodep->left);
+        cout << nodep->data << " ";
+        inOrderPrint(nodep->right);
+    }
+    void postOrderPrint(node<T> * nodep)
+    {
+        if (nodep == NULL)
+            return;
+        postOrderPrint(nodep->left);
+        postOrderPrint(nodep->right);
+        cout << nodep->data << " ";
     }
 };
+
+int main()
+{
+    binary_tree<int> btree;
+    btree.insert(btree.getRoot(), 3, 3);
+    btree.preOrderPrint(btree.getRoot());
+    cout << endl << endl;
+    btree.inOrderPrint(btree.getRoot());
+    cout << endl << endl;
+    btree.postOrderPrint(btree.getRoot());
+    cout << endl;
+    return 0;
+}
