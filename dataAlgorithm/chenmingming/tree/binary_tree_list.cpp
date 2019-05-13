@@ -72,6 +72,14 @@ public:
         postOrderPrint(nodep->right);
         cout << nodep->data << " ";
     }
+    void destory_tree(node<T> * nodep)
+    {
+        if (nodep == NULL)
+            return;
+        destory_tree(nodep->left);
+        destory_tree(nodep->right);
+        delete nodep;
+    }
 };
 
 int main()
@@ -84,5 +92,6 @@ int main()
     cout << endl << endl;
     btree.postOrderPrint(btree.getRoot());
     cout << endl;
+    btree.destory_tree(btree.getRoot());
     return 0;
 }
