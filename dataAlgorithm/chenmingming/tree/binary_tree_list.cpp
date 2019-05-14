@@ -25,7 +25,7 @@ public:
     {
         return root;
     }
-    node<T>* insert(node<T> * nodep, size_t lv, size_t toplv, char ch = 'l', int data = 1)
+    node<T>* insert(node<T> * nodep, size_t lv, size_t toplv, int data = 1)
     {
         if(lv == 0)
             return NULL;
@@ -40,10 +40,10 @@ public:
         }
         nodep->data = data;
         nodelen++;
-        node<T>* l = insert(nodep->left, lv-1, toplv, 'l', 2*data);
+        node<T>* l = insert(nodep->left, lv-1, toplv, 2*data);
         if(l)
             nodep->left = l;    //返回创建好的left节点l，跟父接上
-        node<T>* r = insert(nodep->right, lv-1, toplv, 'r', 2*data+1);
+        node<T>* r = insert(nodep->right, lv-1, toplv, 2*data+1);
         if(r)
             nodep->right = r;   //返回创建好的right节点r，跟父接上
         return nodep;
