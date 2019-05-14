@@ -5,6 +5,7 @@
  * @modified by: 
  */
 #include <iostream>
+#include <queue>
 using namespace std;
 template <class T>
 struct node
@@ -76,9 +77,18 @@ public:
     {
         if (nodep == NULL)
             return;
-        postOrderPrint(nodep->left);
-        postOrderPrint(nodep->right);
-        cout << nodep->data << " ";
+        queue<node<T>*> nodequeue;
+        nodequeue.push(nodep);
+        while(!nodequeue.empty())   //建立节点队列，打印父节点，入队左右子节点，出队父节点
+        {
+            node<T>* p = nodequeue.front();
+            cout << p->data << " ";
+            if(p->left != NULL)
+                nodequeue.push(p->left);
+            if(p->right != NULL)
+                nodequeue.push(p->right);
+            nodequeue.pop();
+        }
     }
     void destory_tree(node<T> * nodep)
     {
@@ -99,6 +109,8 @@ int main()
     btree.inOrderPrint(btree.getRoot());
     cout << endl << endl;
     btree.postOrderPrint(btree.getRoot());
+    cout << endl << endl;
+    btree.levelOrderPrint(btree.getRoot());
     cout << endl;
     btree.destory_tree(btree.getRoot());
     return 0;
