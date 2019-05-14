@@ -72,6 +72,14 @@ public:
         postOrderPrint(nodep->right);
         cout << nodep->data << " ";
     }
+    void levelOrderPrint(node<T> * nodep)    //按层打印
+    {
+        if (nodep == NULL)
+            return;
+        postOrderPrint(nodep->left);
+        postOrderPrint(nodep->right);
+        cout << nodep->data << " ";
+    }
     void destory_tree(node<T> * nodep)
     {
         if (nodep == NULL)
