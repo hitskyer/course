@@ -41,7 +41,6 @@ public:
      * @brief 获取索引链表
     */
     CNode** GetIdxList();
-
     /**
      * @brief 设置数据
     */
@@ -104,7 +103,6 @@ public:
      * @return K
     */
     int RandomLevel();
-
 private:
     int levelCount;
     /**
@@ -320,7 +318,8 @@ int CSkipList::Delete(int v)
 void CSkipList::PrintAll()
 {
     CNode* lpNode = m_lpHead;
-    while(NULL != lpNode->GetIdxList()[0]){
+    while(NULL != lpNode->GetIdxList()[0])
+    {
         std::cout<<lpNode->GetIdxList()[0]->toString().data()<<std::endl;
         lpNode = lpNode->GetIdxList()[0];
     }
@@ -330,8 +329,10 @@ void CSkipList::PrintAll(int l)
     for(int i=MAX_LEVEL-1; i>=0;--i){
         CNode* lpNode = m_lpHead;
         std::cout<<"第"<<i<<"级:"<<std::endl;
-        if((l < 0) || ((l >= 0) && (l == i))){
-            while(NULL != lpNode->GetIdxList()[i]){
+        if((l < 0) || ((l >= 0) && (l == i)))
+        {
+            while(NULL != lpNode->GetIdxList()[i])
+            {
                 std::cout<<lpNode->GetIdxList()[i]->GetData()<<" ";
                 lpNode = lpNode->GetIdxList()[i];
             }
