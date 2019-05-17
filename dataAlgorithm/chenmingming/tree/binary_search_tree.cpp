@@ -139,6 +139,8 @@ public:
             pfather->left = child;
         else
             pfather->right = child;
+        delete p;
+        p = NULL;
     }
     int get_height(BSTNode<T>* nodep)  //递归法, 求左右子树高度，较大的+1
     {
