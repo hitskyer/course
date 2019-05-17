@@ -30,10 +30,19 @@ public:
     BST():root(NULL){}
     ~BST()
     {
-//        clear(root);
+        clear(root);
         root = NULL;
     }
-    void clear(BSTNode<T>* nodeP);
+    void clear(BSTNode<T>* nodeP)
+    {
+        if(nodeP == NULL)
+            return;
+        if (nodeP == NULL)
+            return;
+        clear(nodeP->left);
+        clear(nodeP->right);
+        delete nodeP;
+    }
     BSTNode<T>* get_root() const {  return root;    }
     bool isEmpty() const {  return root == NULL;    }
     T* search(const T& d) const
