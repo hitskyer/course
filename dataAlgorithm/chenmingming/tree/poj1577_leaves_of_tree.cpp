@@ -30,7 +30,10 @@ public:
                 p = p->right;
         }
         if(root == NULL)
+        {
             root = new node(ch);
+            return;
+        }
         if(ch < prev->ch)
             prev->left = new node(ch);
         else
