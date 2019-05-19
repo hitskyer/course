@@ -12,10 +12,10 @@ class BSTNode
 public:
     int data, count;
     BSTNode *left, *right;
-    BSTNode():count(0), left(NULL), right(NULL){}
+    BSTNode():count(1), left(NULL), right(NULL){}
     BSTNode(const int& d, BSTNode *l = NULL, BSTNode *r = NULL)
     {
-        data = d;   count = 0;   left = l;   right = r;
+        data = d;   count = 1;   left = l;   right = r;
     }
 };
 class BST
@@ -42,10 +42,11 @@ public:
     bool isEmpty() const {  return root == NULL;    }
     BSTNode* search(const int& d) const
     {
+
         BSTNode* p = search(d, root);
         return p;
     }
-    BSTNode* search(const int& d, BSTNode* p) const
+    BSTNode* search(const int d, BSTNode* p) const
     {
         while(p != NULL)
         {
@@ -58,7 +59,7 @@ public:
         }
         return NULL;
     }
-    void insert(const int& d)
+    void insert(const int d)
     {
         BSTNode *p = root, *prev = NULL;
         while(p != NULL)
@@ -81,18 +82,18 @@ public:
 class linkedHash
 {
 private:
-    BST** ht_bstree; //散列表二叉树数组
+    BST* ht_bstree; //散列表二叉树数组
     int bucket;  //散列表桶个数
 public:
     linkedHash(int m):bucket(m)
     {
-        ht_bstree = new BST* [bucket] ();
+        ht_bstree = new BST [bucket] ();
     }
     ~linkedHash()
     {
         for(int i = 0; i < bucket; ++i)
         {
-            ht_bstree[i]->clear(ht_bstree[i]->get_root());
+            ht_bstree[i].clear(ht_bstree[i].get_root());
         }
         delete [] ht_bstree;
     }
@@ -103,18 +104,18 @@ public:
     int find(const int &x) const
     {
         int i = hash(x);
-        BSTNode *p = ht_bstree[i]->search(x);
+        BSTNode *p = ht_bstree[i].search(x);
         if(p)
             return p->count;
     }
-    void insert(const int &x)
+    void insert(const int x)
     {
         int i = hash(x);
-        BSTNode *p = ht_bstree[i]->search(x);
+        BSTNode *p = ht_bstree[i].search(x);
         if(p)
             p->count++;
         else
-            ht_bstree[i]->insert(x);
+            ht_bstree[i].insert(x);
     }
 };
 int a[4001], b[4001], c[4001], d[4001];
