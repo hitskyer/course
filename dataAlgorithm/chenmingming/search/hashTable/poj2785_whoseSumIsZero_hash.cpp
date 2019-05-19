@@ -27,8 +27,8 @@ public:
     BST():root(NULL){}
     ~BST()
     {
-        clear(root);
-        root = NULL;
+//        clear(root);
+//        root = NULL;
     }
     void clear(BSTNode* nodeP)
     {
@@ -122,7 +122,7 @@ int a[4001], b[4001], c[4001], d[4001];
 int ab[4000*4000+1], cd[4000*4000+1];   //存储a+b，c+d
 int main()
 {
-    linkedHash ht(16001);
+    linkedHash ht(1);
     int line, k=0;
     cin >> line;
     for(int i = 0; i < line; ++i)
