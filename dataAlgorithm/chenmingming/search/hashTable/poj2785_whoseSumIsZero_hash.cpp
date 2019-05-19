@@ -94,7 +94,7 @@ public:
     }
     int hash(const int &key) const
     {
-        return abs((((key+1000000000)%bucket)+1357)%bucket);   //留余数法
+        return abs((key+3899971)%3999971);   //留余数法
     }
     int find(const int &x) const
     {
@@ -118,7 +118,7 @@ int a[4001], b[4001], c[4001], d[4001];
 int ab[4000*4000+1], cd[4000*4000+1];   //存储a+b，c+d
 int main()
 {
-    linkedHash ht(5000);    //多次调整括号内数值，超时或者内存超限
+    linkedHash ht(3999972);    //多次调整括号内数值，超时或者内存超限
     int line, k=0;
     cin >> line;
     for(int i = 0; i < line; ++i)
