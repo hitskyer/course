@@ -2,7 +2,7 @@
  * @description: 4个数和为0的方案数，哈希法
  * @author: michael ming
  * @date: 2019/5/9 22:30
- * @modified by: 
+ * @modified by:
  */
 #include <iostream>
 #include <math.h>
@@ -25,11 +25,7 @@ private:
     int nodeLen;
 public:
     BST():root(NULL){}
-    ~BST()
-    {
-//        clear(root);
-//        root = NULL;
-    }
+    ~BST(){}
     void clear(BSTNode* nodeP)
     {
         if(nodeP == NULL)
@@ -42,7 +38,6 @@ public:
     bool isEmpty() const {  return root == NULL;    }
     BSTNode* search(const int& d) const
     {
-
         BSTNode* p = search(d, root);
         return p;
     }
@@ -99,7 +94,7 @@ public:
     }
     int hash(const int &key) const
     {
-        return abs(key%bucket);   //留余数法
+        return abs((((key+1000000000)%bucket)+1357)%bucket);   //留余数法
     }
     int find(const int &x) const
     {
@@ -107,6 +102,7 @@ public:
         BSTNode *p = ht_bstree[i].search(x);
         if(p)
             return p->count;
+        return 0;
     }
     void insert(const int x)
     {
@@ -122,7 +118,7 @@ int a[4001], b[4001], c[4001], d[4001];
 int ab[4000*4000+1], cd[4000*4000+1];   //存储a+b，c+d
 int main()
 {
-    linkedHash ht(1);
+    linkedHash ht(5000);    //多次调整括号内数值，超时或者内存超限
     int line, k=0;
     cin >> line;
     for(int i = 0; i < line; ++i)
