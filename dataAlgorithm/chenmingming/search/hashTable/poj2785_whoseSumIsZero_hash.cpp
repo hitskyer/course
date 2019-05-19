@@ -6,7 +6,6 @@
  */
 #include <iostream>
 #include <math.h>
-#include <random>
 using namespace std;
 class BSTNode
 {
@@ -43,7 +42,8 @@ public:
     bool isEmpty() const {  return root == NULL;    }
     BSTNode* search(const int& d) const
     {
-        return search(d, root);
+        BSTNode* p = search(d, root);
+        return p;
     }
     BSTNode* search(const int& d, BSTNode* p) const
     {
