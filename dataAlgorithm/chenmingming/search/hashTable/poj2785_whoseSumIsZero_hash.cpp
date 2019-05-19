@@ -6,90 +6,122 @@
  */
 #include <iostream>
 #include <math.h>
+#include <random>
 using namespace std;
-struct linkedNode   //链表节点
-{
-    pair<int, int> data;
-    linkedNode *next;
-    linkedNode():next(NULL), data(make_pair(0,0)){}
-};
-class linkedList    //链表
+class BSTNode
 {
 public:
-    linkedNode *head;
-    linkedList()
+    int data, count;
+    BSTNode *left, *right;
+    BSTNode():count(0), left(NULL), right(NULL){}
+    BSTNode(const int& d, BSTNode *l = NULL, BSTNode *r = NULL)
     {
-        head = new linkedNode();  //表头哨兵
-    }
-    ~linkedList()
-    {
-        delete head;
+        data = d;   count = 0;   left = l;   right = r;
     }
 };
+class BST
+{
+private:
+    BSTNode* root;
+    int nodeLen;
+public:
+    BST():root(NULL){}
+    ~BST()
+    {
+        clear(root);
+        root = NULL;
+    }
+    void clear(BSTNode* nodeP)
+    {
+        if(nodeP == NULL)
+            return;
+        clear(nodeP->left);
+        clear(nodeP->right);
+        delete nodeP;
+    }
+    BSTNode* get_root() const {  return root;    }
+    bool isEmpty() const {  return root == NULL;    }
+    BSTNode* search(const int& d) const
+    {
+        return search(d, root);
+    }
+    BSTNode* search(const int& d, BSTNode* p) const
+    {
+        while(p != NULL)
+        {
+            if(d == p->data)
+                return p;
+            else if(d < p->data)
+                p = p->left;
+            else
+                p = p->right;
+        }
+        return NULL;
+    }
+    void insert(const int& d)
+    {
+        BSTNode *p = root, *prev = NULL;
+        while(p != NULL)
+        {
+            prev = p;
+            if(d < p->data)
+                p = p->left;
+            else
+                p = p->right;
+        }
+        if(root == NULL)
+            root = new BSTNode(d);
+        else if(d < prev->data)
+            prev->left = new BSTNode(d);
+        else
+            prev->right = new BSTNode(d);
+    }
+};
+
 class linkedHash
 {
 private:
-    linkedList *htList; //散列表链表数组
+    BST** ht_bstree; //散列表二叉树数组
     int bucket;  //散列表桶个数
 public:
     linkedHash(int m):bucket(m)
     {
-        htList = new linkedList [bucket] ();
+        ht_bstree = new BST* [bucket] ();
     }
     ~linkedHash()
     {
         for(int i = 0; i < bucket; ++i)
         {
-            linkedNode *p = htList[i].head->next, *q = p;
-            while(q != NULL)
-            {
-                p = q;
-                q = q->next;
-                delete p;
-            }
+            ht_bstree[i]->clear(ht_bstree[i]->get_root());
         }
-        delete [] htList;
+        delete [] ht_bstree;
     }
     int hash(const int &key) const
     {
-        return abs((key%bucket + key/bucket)%bucket);   //留余数法
+        return abs(key%bucket);   //留余数法
     }
-    linkedNode* find(const int &x) const
+    int find(const int &x) const
     {
         int i = hash(x);
-        linkedNode *p = htList[i].head->next, *q = htList[i].head;
-        while(p && p->data.first != x)
-        {
-            q = p;
-            p = p->next;
-        }
-        return q;   //返回找到元素的前一个节点，或者没有找到,返回最后一个元素
+        BSTNode *p = ht_bstree[i]->search(x);
+        if(p)
+            return p->count;
     }
-    linkedNode* insert(const int &x)
+    void insert(const int &x)
     {
         int i = hash(x);
-        linkedNode *p = htList[i].head, *q = p;
-        while(q != NULL)
-        {
-            p = q;
-            q = q->next;
-            if(q && q->data.first == x)
-            {
-                q->data.second++;
-                return q;
-            }
-        }
-        p->next = new linkedNode();
-        p->next->data.first = x;
-        p->next->data.second++;
-        return p->next;
+        BSTNode *p = ht_bstree[i]->search(x);
+        if(p)
+            p->count++;
+        else
+            ht_bstree[i]->insert(x);
     }
 };
 int a[4001], b[4001], c[4001], d[4001];
 int ab[4000*4000+1], cd[4000*4000+1];   //存储a+b，c+d
 int main()
 {
-    linkedHash ht(16000057);
+    linkedHash ht(16001);
     int line, k=0;
     cin >> line;
     for(int i = 0; i < line; ++i)
@@ -106,12 +138,9 @@ int main()
         }
     }
     int result = 0;
-    linkedNode* p;
     for(int i = 0; i < k; ++i)
     {
-        p = ht.find(cd[i])->next;
-        if(p && p->data.first == cd[i])
-            result += p->data.second;
+        result += ht.find(cd[i]);
     }
     cout << result << endl;
     return 0;
