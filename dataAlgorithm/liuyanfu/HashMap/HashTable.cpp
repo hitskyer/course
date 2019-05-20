@@ -52,7 +52,7 @@ bool HashTable::Insert(const int data)
 		int index = Hash(data);
 		while(pHash[index].info != Empty && pHash[index].info != Deleted)
 		{
-			index = index + 1;
+			index = Hash(index + 1);
 		}
 		pHash[index] = data;
 		return true;
@@ -74,7 +74,7 @@ bool HashTable::Delete(const int data)
 	int index = Hash(data);
 	while(pHash[index] != data)
 	{
-		index = index + 1;
+		index = Hash(index + 1);
 		if(pHash[index].info == Empty || index == Hash(data))
 			return false;//数据不存在
 	}
@@ -116,7 +116,7 @@ bool HashTable::Contain(const int data)
 		int index = Hash(data);
 		while(pHash[index] != data)
 		{
-			index = index + 1;
+			index = Hash(index + 1);
 			if(pHash[index].info == Empty || index == Hash(data))
 				return false;
 		}

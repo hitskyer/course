@@ -7,7 +7,9 @@ HashTableOpti::HashTableOpti(void)
 	module = 17;
 	moduleOld = 0;
 	nCount = 0;
+	nCountOld = 0;
 	pHash = new HashItem[module];
+	pHashOld = NULL;
 	factor = 0.75;
 }
 
@@ -17,7 +19,9 @@ module(nLen), factor(f)
 {
 	moduleOld = 0;
 	nCount = 0;
+	nCountOld = 0;
 	pHash = new HashItem[module];
+	pHashOld = NULL;
 }
 
 
