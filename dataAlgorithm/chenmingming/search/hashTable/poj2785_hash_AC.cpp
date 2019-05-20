@@ -7,10 +7,11 @@
 #include <iostream>
 using namespace std;
 int a[4001], b[4001], c[4001], d[4001];
-const int hashtablesize = 20000001;
+const int hashtablesize = 20000001;//保证一定的富裕，装载因子0.75左右
 int hasht[hashtablesize];
 int count[hashtablesize];
-int offset = 1000000000; // 该数 > 2^29
+int offset = 1000000000;
+// 该数 > 2^29（加上他后，就没有负数了，求模后比较方便使用下标值）
 int hashfunc(int value)
 {
     return value%hashtablesize;
@@ -24,9 +25,11 @@ void insert(int num)
     int num_init = num;
     num = hashfunc(num+offset);
     while(hasht[num] != offset && hasht[num] != num_init)
-    //解决冲突，不等于初始值（够不着的大数）（值改了，位子被占了），且不等于映射的值
+        //解决冲突，不等于初始值（够不着的大数）（值改了，位子被占了），
+        // 且不等于映射的值（冲突了），第一次进入循环，第一个条件肯定不满足。
     {
-        num = hashfunc_other(num);//冲突了，继续寻找别的下标（换一个函数,不然相同的模在这可能无限循环）
+        num = hashfunc_other(num);
+        //冲突了，继续寻找别的下标（换一个函数,不然相同的模在这可能无限循环）
     }
     hasht[num] = num_init;
     count[num]++;
@@ -56,7 +59,7 @@ int main()
     {
         for(j = 0; j < line; ++j)
         {
-            value = a[i]+b[j];//避免求模后出现负数
+            value = a[i]+b[j];
             insert(value);
         }
     }
