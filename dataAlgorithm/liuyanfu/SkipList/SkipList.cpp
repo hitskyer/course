@@ -7,190 +7,181 @@
 *
 * 版	本： 1.0
 * 作	者： RF_LYF
-* 创建日期:	 2019/5/5  22:27
+* 创建日期:	 2019/5/14  8:50
 */
 
 #include "SkipList.h"
+#include <stdlib.h>
+#include <time.h>
 
-static unsigned int seed = NULL;
-
-
-/**
-* @brief
-*
-* @method:    randomval
-* @access:    private 
-* @Return:    bool
-* @author:    RF_LYF
-* @since:   2019/5/5  22:38 
-*/
-bool SkipList::randomval()
+template<typename T>
+SkipList<T>::SkipList(void)
 {
-	if(seed == NULL)
-		seed = (unsigned)time(NULL);
-	::srand(seed);
-	int ret = ::rand() % 2;
-	seed = ::rand();
-	if(ret == 0)
-		return true;
-	else
-		return false;
+	levelCount = 1;
+	head = new SNode<T>();
 }
 
-/**
-* @brief
-*
-* @method:    insert
-* @access:    public 
-* @param:     int val
-* @Return:    void
-* @author:    RF_LYF
-* @since:   2019/5/5  22:41 
-*/
-void SkipList::insert(int val)
+
+template<typename T>
+SkipList<T>::~SkipList(void)
 {
-	Node* cursor = head;
-	Node* newNode = NULL;
-	while(cursor->down != NULL)
-		cursor = cursor->down;
-	
-	Node* cur_head = cursor;
-	while(cursor->right != NULL)
+	//clear();
+}
+
+
+template<typename T>
+void SkipList<T>::Insert(const T value)
+{
+	int level = randomLevel();
+	cout << "current level is " << level << endl;
+	pSNode newNode = new SNode<T>(); 
+	newNode->data = value;
+	newNode->maxLevel = level;
+
+	pSNode* update = new pSNode[level];
+	InitArr(update, level);
+	for(int i = 0; i < level; ++i)
 	{
-		if(val < cursor->right->value && newNode == NULL)
-		{
-			newNode = new Node(val);
-			newNode->right = cursor->right;
-			cursor->right = newNode;
-		}
-		cursor = cursor->right;
-	}
-	if(newNode == NULL)
-	{
-		newNode = new Node(val);
-		cursor->right = newNode;
+		update[i] = head;
 	}
 
-	int cur_lvl = 1;
-	while(randomval())
+	pSNode p = head;
+	for(int i = level - 1; i >= 0; --i)
 	{
-		cur_lvl++;
-		if(lvl_num < cur_lvl)
+		while(p->forward[i] != NULL && p->forward[i]->data < value)
+			p = p->forward[i];
+		update[i] = p;
+	}
+
+	for(int i = 0; i < level; ++i)
+	{
+		newNode->forward[i] = update[i]->forward[i];
+		update[i]->forward[i] = newNode;
+	}
+
+	if(levelCount < level)
+		levelCount = level;
+	delete []update;
+}
+
+
+template<typename T>
+void SkipList<T>::Delete(const T value)
+{
+	pSNode *update = new pSNode[levelCount];
+	InitArr(update, levelCount);
+	pSNode p = head;
+	for(int i = levelCount - 1; i >= 0; --i)
+	{
+		while(p->forward[i] != NULL && p->forward[i]->data < value)
+			p = p->forward[i];
+		update[i] = p;
+	}
+
+	if(p->forward[0] != NULL && p->forward[0]->data == value)
+	{
+		for(int i = levelCount - 1; i >=0; --i)
 		{
-			lvl_num++;
-			Node* new_head = new Node();
-			new_head->down = head;
-			head->up = new_head;
-			head = new_head;
-		}
-		cur_head = cur_head->up;
-		cursor = cur_head;
-		Node* skipNode = NULL;
-		while(cursor->right != NULL)
-		{
-			if(val < cursor->right->value && skipNode == NULL)
+			if(update[i]->forward[i] != NULL && update[i]->forward[i]->data == value)
 			{
-				skipNode = new Node(val);
-				skipNode->right = cursor->right;
-				cursor->right = skipNode;
-			}
-			cursor = cursor->right;
-		}
-		if(skipNode == NULL)
-		{
-			skipNode = new Node(val);
-			cursor->right = skipNode;
-		}
-
-		while(newNode->up != NULL)
-			newNode = newNode->up;
-
-		skipNode->down = newNode;
-		newNode->up = skipNode;
-	}
-}
-
-/**
-* @brief
-*
-* @method:    search
-* @access:    public 
-* @param:     int val
-* @Return:    bool
-* @author:    RF_LYF
-* @since:   2019/5/6  21:55 
-*/
-bool SkipList::search(int val)
-{
-	Node* cursor = NULL;
-	if(head == NULL)
-		return false;
-
-	cursor = head;
-	while(cursor->down != NULL)
-	{
-		while(cursor->right != NULL)
-		{
-			if(val <= cursor->right->value)
-				break;
-			cursor = cursor->right;
-		}
-		cursor = cursor->down;
-	}
-	while(cursor->right != NULL)
-	{
-		if(val > cursor->right->value)
-			cursor = cursor->right;
-		else if(val == cursor->right->value)
-			return true;
-		else if(val < cursor->right->value)
-			return false;
-	}
-	return false;
-}
-
-/**
-* @brief
-*
-* @method:    remove
-* @access:    public 
-* @param:     int val
-* @Return:    void
-* @author:    RF_LYF
-* @since:   2019/5/6  22:11 
-*/
-void SkipList::remove(int val)
-{
-	Node* cursor = head;
-	Node* pre_head = NULL;
-	while(true)
-	{
-		Node* cur_head = cursor;
-		if(pre_head != NULL)
-		{
-			cur_head->up = NULL;
-			pre_head->down = NULL;
-			delete pre_head;
-			pre_head = NULL;
-			lvl_num--;
-			head = cur_head;
-		}
-		
-		while(cursor != NULL && cursor->right != NULL)
-		{
-			if(val == cursor->right->value)
-			{
-				Node* delptr = cursor->right;
-				cursor->right = cursor->right->right;
+				pSNode delptr = update[i]->forward[i];
+				update[i]->forward[i] = update[i]->forward[i]->forward[i];
 				delete delptr;
 			}
-			cursor = cursor->right;
 		}
-		if(cur_head->right == NULL)
-			pre_head = cur_head;
-		if(cur_head->down == NULL)
-			break;
-		else
-			cursor = cur_head->down;
 	}
+	delete []update;
+}
+
+
+template<typename T>
+typename SkipList<T>::pSNode SkipList<T>::Find(const T value)
+{
+	pSNode p = head;
+	for(int i = levelCount - 1; i >=0; --i)
+	{
+		while(p->forward[i] != NULL && p->forward[i]->data < value)
+			p = p->forward[i];
+	}
+	if(p->forward[0] != NULL && p->forward[0]->data == value)
+		return p->forward[0];
+	else
+		return NULL;
+}
+
+
+template<typename T>
+int SkipList<T>::randomLevel()
+{
+	int level = 1;
+	unsigned int seed = NULL;
+	for(int i = 1; i < MAX_LEVEL; ++i)
+	{
+		if(seed == NULL)
+			seed = (unsigned)(time(NULL));
+		srand(seed);
+		int ret = rand() % 2;
+		seed = rand() % (MAX_LEVEL - i);
+		if(ret == 1)
+			level++;
+	}
+	return level;
+}
+
+
+template<typename T>
+void SkipList<T>::InitArr(typename SkipList<T>::pSNode* Arr, int nLen)
+{
+	for(int i = 0; i < nLen; ++i)
+	{
+		Arr[i] = NULL;
+	}
+}
+
+
+template<typename T>
+void SkipList<T>::printAll()
+{
+	pSNode p = head;
+	while(p->forward[0] != NULL)
+	{
+		std::cout << p->forward[0]->data << std::endl;
+		p = p->forward[0];
+	}
+}
+
+
+template<typename T>
+void SkipList<T>::printByLayer()
+{
+	pSNode p = head;
+	for(int i = levelCount -1; i >= 0; --i)
+	{
+		if(p->forward[i] != NULL)
+			std::cout << "第" << i + 1 << "层" << std::endl;
+		while(p->forward[i] != NULL)
+		{
+			std::cout << p->forward[i]->data << " ";
+			p = p->forward[i];
+		}
+		std::cout << endl;
+	}
+}
+
+
+template<typename T>
+void SkipList<T>::clear()
+{
+	pSNode p = head;
+	for(int i = levelCount - 1; i >= 0; --i)
+	{
+		while(p->forward[i] != NULL)
+		{
+			pSNode delptr = p->forward[i];
+			p->forward[i] = p->forward[i]->forward[i];
+			delete delptr;
+		}
+	}
+	delete head;
+	head = NULL;
 }
