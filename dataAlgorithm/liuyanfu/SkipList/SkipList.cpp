@@ -38,15 +38,17 @@ void SkipList<T>::Insert(const T value)
 	newNode->data = value;
 	newNode->maxLevel = level;
 
-	pSNode* update = new pSNode[level];
-	InitArr(update, level);
-	for(int i = 0; i < level; ++i)
+	if(levelCount < level)
+		levelCount = level;
+	pSNode* update = new pSNode[levelCount];//预防极端情况下，通过随机得到的更新层为1时，则插入操作退化成O(n)
+	InitArr(update, levelCount);
+	for(int i = 0; i < levelCount; ++i)
 	{
 		update[i] = head;
 	}
 
 	pSNode p = head;
-	for(int i = level - 1; i >= 0; --i)
+	for(int i = levelCount - 1; i >= 0; --i)
 	{
 		while(p->forward[i] != NULL && p->forward[i]->data < value)
 			p = p->forward[i];
@@ -59,8 +61,6 @@ void SkipList<T>::Insert(const T value)
 		update[i]->forward[i] = newNode;
 	}
 
-	if(levelCount < level)
-		levelCount = level;
 	delete []update;
 }
 
