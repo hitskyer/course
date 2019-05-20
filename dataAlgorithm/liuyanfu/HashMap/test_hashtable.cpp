@@ -23,6 +23,7 @@ int main()
 	mp.Insert(3);
 	mp.Insert(66);
 	mp.Insert(28);
+	cout << mp.Count() << endl;
 	mp.Insert(39);
 
 	mp.Insert(22);
@@ -57,6 +58,6 @@ int main()
 	else
 		mp.Insert(27);
 	mp.print();
-	system("pause");
+	//system("pause");
 	return 0;
 }

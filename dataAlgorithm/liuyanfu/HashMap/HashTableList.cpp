@@ -1,5 +1,6 @@
 #include "HashTableList.h"
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 HashTableList::HashTableList(void)
@@ -7,7 +8,7 @@ HashTableList::HashTableList(void)
 	module = 17;
 	nCount = 0;
 	pHeadArr = new NodeType[module];
-	memset(pHeadArr, NULL, module*sizeof(int));
+	memset((void *)pHeadArr, 0, module*sizeof(NodeType));
 }
 
 
@@ -21,7 +22,7 @@ HashTableList::HashTableList(int nLen):module(nLen)
 {
 	nCount = 0;
 	pHeadArr = new NodeType[module];
-	memset(pHeadArr, NULL, module*sizeof(int));
+	memset((void *)pHeadArr, 0, module*sizeof(NodeType));
 }
 
 
@@ -40,11 +41,11 @@ bool HashTableList::Insert(const int& data)
 	int index = Hash(data);
 	if(pHeadArr[index] == NULL)
 	{
-		pHeadArr[index] = new list<HashItem>;
+		pHeadArr[index] = new list<HashItem>();
 	}
 	HashItem *pTemp = new HashItem(data);
 	pHeadArr[index]->push_back(*pTemp);
-	delete []pTemp;
+	delete pTemp;
 	++nCount;
 	return true;
 }
