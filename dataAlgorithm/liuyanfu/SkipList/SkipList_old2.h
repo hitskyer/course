@@ -3,7 +3,7 @@
 *
 * 文件名称:  SkipList.h	
 * 文件标识：
-* 摘	要： 跳表的一种实现方法，跳表中存储的是正整数，并且存储的是不重复的
+* 摘	要： 跳表的一种模板实现方法，跳表中存储的是模板类型，并且存储的是不重复的
 *
 * 版	本： 1.0
 * 作	者： RF_LYF
@@ -19,8 +19,8 @@
 template<typename T>
 class SNode
 {
-public:
 	typedef SNode<T>* pSNode;
+public:
 	SNode()
 	{
 		maxLevel = 0;
@@ -33,6 +33,7 @@ public:
 	~SNode()
 	{
 		delete []forward;
+		forward = NULL;
 	}
 	T data;
 	int maxLevel;
@@ -51,11 +52,11 @@ public:
 	void Delete(const T value);
 	pSNode Find(const T value);
 	void printAll();
-	void printByLayer();
 private:
 	int randomLevel();
 	void InitArr(pSNode*, int);
 	void clear();
+	int getRandom();
 private:
 	int levelCount;
 	pSNode head;
