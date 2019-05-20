@@ -17,16 +17,16 @@ int hashfunc(int value)
 }
 int hashfunc_other(int value)
 {
-    return (value+101)%hashtablesize;
+    return (value+3)%hashtablesize;
 }
 void insert(int num)
 {
     int num_init = num;
-    num = hashfunc(num);
+    num = hashfunc(num+offset);
     while(hasht[num] != offset && hasht[num] != num_init)
     //解决冲突，不等于初始值（够不着的大数）（值改了，位子被占了），且不等于映射的值
     {
-        num = hashfunc_other(num);//冲突了，继续寻找别的下标（换一个函数）
+        num = hashfunc_other(num);//冲突了，继续寻找别的下标（换一个函数,不然相同的模在这可能无限循环）
     }
     hasht[num] = num_init;
     count[num]++;
@@ -34,7 +34,7 @@ void insert(int num)
 int find(int num)
 {
     int num_init = num;
-    num = hashfunc(num);
+    num = hashfunc(num+offset);
     while(hasht[num] != offset && hasht[num] != num_init)
         num = hashfunc_other(num);    //往下查找空位或者相等的值得位子
     if(hasht[num] == offset)    //找到的是空位子，则没有匹配的和等于0
@@ -56,7 +56,7 @@ int main()
     {
         for(j = 0; j < line; ++j)
         {
-            value = a[i]+b[j]+offset;//避免求模后出现负数
+            value = a[i]+b[j];//避免求模后出现负数
             insert(value);
         }
     }
@@ -65,7 +65,7 @@ int main()
     {
         for(j = 0; j < line; ++j)
         {
-            value = (-c[i]-d[j])+offset;
+            value = (-c[i]-d[j]);
             result += find(value);
         }
     }
