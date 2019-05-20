@@ -65,7 +65,7 @@ int main()
     {
         for(j = 0; j < line; ++j)
         {
-            value = (-a[i]-b[j])+offset;
+            value = (-c[i]-d[j])+offset;
             result += find(value);
         }
     }
