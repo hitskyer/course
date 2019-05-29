@@ -24,7 +24,7 @@ int main()
     intheap.insert(file3[i3]);
     intheap.insert(file4[i4]);
     int top;
-    while(i0+i1+i2+i3+i4 < new_len-5 || intheap.heapsize())
+    while(intheap.heapsize())
     {
         top = intheap.getMin();
         bigFile[j++] = top;
