@@ -117,22 +117,22 @@ public:
         node<T> *nodep = root;
         while(nodep != NULL)
         {
-            while(nodep != NULL)
+            while(nodep != NULL)//入栈右、根
             {
                 if(nodep->right)
                     nodeStack.push(nodep->right);
                 nodeStack.push(nodep);
                 nodep = nodep->left;
             }
-            nodep = nodeStack.top();
+            nodep = nodeStack.top();//根节点
             nodeStack.pop();
-            while(!nodeStack.empty() && nodep->right == NULL)
+            while(!nodeStack.empty() && nodep->right == NULL)//nodep为叶子节点
             {
-                cout << nodep->data << " ";
+                cout << nodep->data << " ";//打印叶子节点
                 nodep = nodeStack.top();
                 nodeStack.pop();
             }
-            cout << nodep->data << " ";
+            cout << nodep->data << " ";//左节点为空，右节点非空or最后一个节点
             if(!nodeStack.empty())
             {
                 nodep = nodeStack.top();
@@ -149,18 +149,18 @@ public:
         while(nodep != NULL)
         {
             for(;nodep->left != NULL; nodep = nodep->left)
-                nodeStack.push(nodep);
+                nodeStack.push(nodep);  //入栈一路上的左节点
             while(nodep->right == NULL || nodep->right == temp)
             {
-                cout << nodep->data << " ";
+                cout << nodep->data << " ";//打印叶子节点
                 temp = nodep;
                 if(nodeStack.empty())
                     return;
-                nodep = nodeStack.top();
+                nodep = nodeStack.top();//回到父节点
                 nodeStack.pop();
             }
             nodeStack.push(nodep);
-            nodep = nodep->right;
+            nodep = nodep->right;//转到右子树
         }
     }
 
