@@ -23,6 +23,10 @@ public:
     {
         delete [] arr;
     }
+    int heapsize()
+    {
+        return heap_size;
+    }
     void MinHeapify(int i)
     {
         int l = left(i), r = right(i);
@@ -78,19 +82,19 @@ public:
         }
     }
 };
-int main()
-{
-    MinHeap minheap(8);
-    minheap.insert(6);
-    minheap.insert(8);
-    minheap.insert(12);
-    minheap.insert(4);
-    minheap.insert(15);
-    minheap.insert(0);
-    minheap.insert(5);
-    minheap.insert(9);
-    minheap.insert(10);
-    minheap.delMin();
-    cout << minheap.getMin() << endl;
-    return 0;
-}
+//int main()
+//{
+//    MinHeap minheap(8);
+//    minheap.insert(6);
+//    minheap.insert(8);
+//    minheap.insert(12);
+//    minheap.insert(4);
+//    minheap.insert(15);
+//    minheap.insert(0);
+//    minheap.insert(5);
+//    minheap.insert(9);
+//    minheap.insert(10);
+//    minheap.delMin();
+//    cout << minheap.getMin() << endl;
+//    return 0;
+//}
