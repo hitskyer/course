@@ -91,6 +91,79 @@ public:
             nodequeue.pop();
         }
     }
+    //-----------------栈实现的非递归 二叉树遍历-----------------------
+    void stackPreOrder()
+    {
+        stack<node<T>*> nodeStack;
+        node<T> * nodep = root;
+        if(nodep != NULL)
+        {
+            nodeStack.push(nodep);
+            while(!nodeStack.empty())
+            {
+                nodep = nodeStack.top();
+                nodeStack.pop();
+                cout << nodep->data << " ";
+                if(nodep->right != NULL)    //注意左右节点入栈顺序！！！
+                    nodeStack.push(nodep->right);
+                if(nodep->left != NULL)
+                    nodeStack.push(nodep->left);
+            }
+        }
+    }
+    void stackInOrder()
+    {
+        stack<node<T>*> nodeStack;
+        node<T> *nodep = root;
+        while(nodep != NULL)
+        {
+            while(nodep != NULL)
+            {
+                if(nodep->right)
+                    nodeStack.push(nodep->right);
+                nodeStack.push(nodep);
+                nodep = nodep->left;
+            }
+            nodep = nodeStack.top();
+            nodeStack.pop();
+            while(!nodeStack.empty() && nodep->right == NULL)
+            {
+                cout << nodep->data << " ";
+                nodep = nodeStack.top();
+                nodeStack.pop();
+            }
+            cout << nodep->data << " ";
+            if(!nodeStack.empty())
+            {
+                nodep = nodeStack.top();
+                nodeStack.pop();
+            }
+            else
+                nodep = NULL;
+        }
+    }
+    void stackPostOrder()
+    {
+        stack<node<T>*> nodeStack;
+        node<T> *nodep = root, *temp = root;
+        while(nodep != NULL)
+        {
+            for(;nodep->left != NULL; nodep = nodep->left)
+                nodeStack.push(nodep);
+            while(nodep->right == NULL || nodep->right == temp)
+            {
+                cout << nodep->data << " ";
+                temp = nodep;
+                if(nodeStack.empty())
+                    return;
+                nodep = nodeStack.top();
+                nodeStack.pop();
+            }
+            nodeStack.push(nodep);
+            nodep = nodep->right;
+        }
+    }
+
     void destory_tree(node<T> * nodep)
     {
         if (nodep == NULL)
@@ -99,6 +172,7 @@ public:
         destory_tree(nodep->right);
         delete nodep;
     }
+    //-----------------求二叉树高度-----------------------
     int get_height(node<T>* nodep)  //递归法, 求左右子树高度，较大的+1
     {
         if(nodep == NULL)
@@ -168,12 +242,25 @@ int main()
 {
     binary_tree<int> btree;
     btree.insert(btree.getRoot(), 3, 3);
+    cout << "recursion preorder：" << endl;
     btree.preOrderPrint(btree.getRoot());
-    cout << endl << endl;
+    cout << endl;
+    cout << "stack preorder：" << endl;
+    btree.stackPreOrder();
+    cout << endl;
+    cout << "recursion inorder：" << endl;
     btree.inOrderPrint(btree.getRoot());
-    cout << endl << endl;
+    cout << endl;
+    cout << "stack inorder：" << endl;
+    btree.stackInOrder();
+    cout << endl;
+    cout << "recursion postorder：" << endl;
     btree.postOrderPrint(btree.getRoot());
-    cout << endl << endl;
+    cout << endl;
+    cout << "stack postorder：" << endl;
+    btree.stackPostOrder();
+    cout << endl;
+    cout << "stack levelorder：" << endl;
     btree.levelOrderPrint(btree.getRoot());
     cout << endl;
     cout << "height of tree: " << btree.get_height(btree.getRoot()) << endl;
