@@ -1,5 +1,5 @@
 /**
- * @description: 堆
+ * @description: 小顶堆
  * @author: michael ming
  * @date: 2019/5/26 22:22
  * @modified by: 
