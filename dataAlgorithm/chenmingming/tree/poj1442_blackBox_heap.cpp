@@ -9,25 +9,27 @@
 #include <vector>
 #include <functional>
 using namespace std;
-int arr[30001], total[30001];
+int arr[30005], total[30005];
 int main()
 {
-    int arrlen, k, arrindex=0, maxheapsize=0, insertnum, minheapsize;
+    int arrlen, k, arrindex=1, maxheapsize=0, insertnum , minheapsize;
     cin >> arrlen >> k;
-    for(int i = 0; i < arrlen; ++i)
+    for(int i = 1; i <= arrlen; ++i)
         cin >> arr[i];
-    for(int i = 0; i < k; ++i)
+    for(int i = 1; i <= k; ++i)
         cin >> total[i];
     vector<int> maxheap, minheap;
-    for(int i = 0; i < k; ++i)
+    for(int i = 1; i <= k; ++i)
     {
         maxheapsize++;
         minheapsize = total[i] - maxheapsize;
         insertnum = total[i] - total[i-1];
-        if(insertnum == 0)
+        if(insertnum == 0 && !minheap.empty())
         {
-            cout << minheap[0] << endl;
-            continue;
+            maxheap.push_back(minheap[0]);
+            push_heap(maxheap.begin(), maxheap.end());//默认采用 < , 大堆
+            pop_heap(minheap.begin(), minheap.end(), greater<int>());
+            minheap.pop_back();
         }
         while(insertnum--)
         {
