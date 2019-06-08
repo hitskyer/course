@@ -12,7 +12,7 @@ using namespace std;
 class graph
 {
     int v;//顶点个数
-    list<int> *adj;
+    list<int> *adj;//邻接表
 public:
     graph(int numofvertex)
     {
@@ -23,7 +23,7 @@ public:
     {
         delete [] adj;
     }
-    void insertEdge(int s, int t)
+    void insertEdge(int s, int t)   //无向图，一次存两边
     {
         s--;t--;
         adj[s].push_back(t);
@@ -41,12 +41,12 @@ public:
             cout << endl;
         }
     }
-    void bfs(int s)
+    void bfs(int s)//从s开始遍历全部
     {
-        bool *visited = new bool [v+1];
-        memset(visited,false, sizeof(bool)*(v+1));
-        visited[s] = true;
-        list<int> q;
+        bool *visited = new bool [v];
+        memset(visited,false, sizeof(bool)*(v));
+        visited[s] = true;//visited存储已经访问的节点，避免重复访问
+        list<int> q;//
         q.push_back(s);
         list<int>::iterator it;
         cout << "从" << s << "开始广度搜索的结果是:" << endl;
