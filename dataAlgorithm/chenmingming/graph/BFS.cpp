@@ -27,6 +27,7 @@ public:
     {
         s--;t--;
         adj[s].push_back(t);
+        adj[t].push_back(s);
     }
     void print()
     {
@@ -48,6 +49,7 @@ public:
         list<int> q;
         q.push_back(s);
         list<int>::iterator it;
+        cout << "从" << s << "开始广度搜索的结果是:" << endl;
         while(!q.empty())
         {
             int w = q.front();
@@ -79,6 +81,6 @@ int main()
     gp.insertEdge(6,8);
     gp.insertEdge(7,8);
     gp.print();
-    gp.bfs(2);
+    gp.bfs(7);
     return 0;
 }
