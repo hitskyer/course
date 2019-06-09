@@ -91,6 +91,7 @@ public:
                     if(*it == t)
                     {
                         printPath(prev, s, t);//递归打印路径
+                        delete [] prev;
                         return;
                     }
                     visited[*it] = true;
@@ -98,6 +99,7 @@ public:
                 }
             }
         }
+        delete [] prev;
     }
     void printPath(int *prev, int s, int t)
     {
