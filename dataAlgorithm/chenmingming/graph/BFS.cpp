@@ -72,9 +72,9 @@ public:
         bool *visited = new bool [v];
         memset(visited,false, sizeof(bool)*(v));
         visited[s] = true;//visited存储已经访问的节点，避免重复访问
-        list<int> q;//
+        list<int> q;
         q.push_back(s);
-        int *prev = new int [v];
+        int *prev = new int [v];//记录搜索的路径
         for(int i = 0; i < v; ++i)
             prev[i] = -1;
         list<int>::iterator it;
@@ -87,7 +87,7 @@ public:
             {
                 if(visited[*it]==false)
                 {
-                    prev[*it] = w;
+                    prev[*it] = w;//从w找到了it位置，记录下来
                     if(*it == t)
                     {
                         printPath(prev, s, t);//递归打印路径
