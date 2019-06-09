@@ -65,6 +65,48 @@ public:
             }
         }
     }
+    void bfs(int s, int t)//从s开始,搜索t
+    {
+        if(s == t)
+            return;
+        bool *visited = new bool [v];
+        memset(visited,false, sizeof(bool)*(v));
+        visited[s] = true;//visited存储已经访问的节点，避免重复访问
+        list<int> q;//
+        q.push_back(s);
+        int *prev = new int [v];
+        for(int i = 0; i < v; ++i)
+            prev[i] = -1;
+        list<int>::iterator it;
+        cout << "从" << s << "开始搜索" << t << "的结果是:" << endl;
+        while(!q.empty())
+        {
+            int w = q.front();
+            q.pop_front();
+            for(it = adj[w].begin(); it != adj[w].end();++it)
+            {
+                if(visited[*it]==false)
+                {
+                    prev[*it] = w;
+                    if(*it == t)
+                    {
+                        printPath(prev, s, t);//递归打印路径
+                        return;
+                    }
+                    visited[*it] = true;
+                    q.push_back(*it);
+                }
+            }
+        }
+    }
+    void printPath(int *prev, int s, int t)
+    {
+        if(prev[t] != -1 && t != s)
+        {
+            printPath(prev, s, prev[t]);//递归打印路径
+        }
+        cout << t << " ";
+    }
 };
 
 int main()
@@ -82,5 +124,7 @@ int main()
     gp.insertEdge(7,8);
     gp.print();
     gp.bfs(7);
+    cout << endl;
+    gp.bfs(7,1);
     return 0;
 }
