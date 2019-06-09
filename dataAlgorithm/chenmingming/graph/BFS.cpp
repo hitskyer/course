@@ -64,6 +64,7 @@ public:
                 }
             }
         }
+        delete [] visited;
     }
     void bfs(int s, int t)//从s开始,搜索t
     {
@@ -91,6 +92,7 @@ public:
                     if(*it == t)
                     {
                         printPath(prev, s, t);//递归打印路径
+                        delete [] visited;
                         delete [] prev;
                         return;
                     }
@@ -99,6 +101,7 @@ public:
                 }
             }
         }
+        delete [] visited;
         delete [] prev;
     }
     void printPath(int *prev, int s, int t)
