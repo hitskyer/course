@@ -8,6 +8,8 @@
 #include <queue>
 #include <iostream>
 #include <memory.h>
+#include <stack>
+
 using namespace std;
 class graph
 {
@@ -112,6 +114,37 @@ public:
         }
         cout << t << " ";
     }
+    void dfs(int s)
+    {
+        bool *visited = new bool [v];
+        bool found = false;
+        memset(visited,false, sizeof(bool)*(v));
+        visited[s] = true;//visited存储已经访问的节点，避免重复访问
+        stack<int> q;
+        q.push(s);
+        list<int>::iterator it;
+        cout << "从" << s << "开始广度搜索的结果是:" << endl;
+        while(!q.empty())
+        {
+            int w = q.top();
+            q.pop();
+            if(visited[w] == true)
+            {
+                cout << w << " ";
+                for(it = adj[w].begin(); it != adj[w].end();++it)
+                {
+                    q.push(*it);
+                    if(visited[*it]==false)
+                    {
+                        visited[*it] = true;
+    //                    q.push_back(*it);
+                    }
+                }
+            }
+            visited[w] = false;
+        }
+        delete [] visited;
+    }
 };
 
 int main()
@@ -131,5 +164,7 @@ int main()
     gp.bfs(7);
     cout << endl;
     gp.bfs(7,1);
+    cout << endl;
+    gp.dfs(0);
     return 0;
 }
