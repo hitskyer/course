@@ -114,6 +114,25 @@ public:
         }
         cout << t << " ";
     }
+    void dfs_r(int s)//递归法深度遍历
+    {
+        cout << "从" << s << "开始深度搜索的结果是（递归）:" << endl;
+        bool *visited = new bool [v];
+        memset(visited,false, sizeof(bool)*(v));
+        dfs_recu(visited, s);
+        delete [] visited;
+    }
+    void dfs_recu(bool *visited, int s)
+    {
+        list<int>::iterator it;
+        visited[s] = true;
+        cout << s << " ";
+        for(it = adj[s].begin(); it != adj[s].end();++it)
+        {
+            if(!visited[*it])
+                dfs_recu(visited, *it);
+        }
+    }
     void dfs(int s)
     {
         bool *visited = new bool [v];
@@ -123,7 +142,7 @@ public:
         stack<int> q;
         q.push(s);
         list<int>::iterator it;
-        cout << "从" << s << "开始广度搜索的结果是:" << endl;
+        cout << "从" << s << "开始深度搜索的结果是（非递归）:" << endl;
         while(!q.empty())
         {
             int w = q.top();
@@ -133,15 +152,13 @@ public:
                 cout << w << " ";
                 for(it = adj[w].begin(); it != adj[w].end();++it)
                 {
-                    q.push(*it);
                     if(visited[*it]==false)
                     {
                         visited[*it] = true;
-    //                    q.push_back(*it);
+                        q.push(*it);
                     }
                 }
             }
-            visited[w] = false;
         }
         delete [] visited;
     }
@@ -165,6 +182,8 @@ int main()
     cout << endl;
     gp.bfs(7,1);
     cout << endl;
-    gp.dfs(0);
+    gp.dfs_r(6);
+    cout << endl;
+    gp.dfs(6);
     return 0;
 }
