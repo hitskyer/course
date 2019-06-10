@@ -1,5 +1,5 @@
 /**
- * @description: BFS
+ * @description: BFS DFS,基于邻接表
  * @author: michael ming
  * @date: 2019/6/4 23:05
  * @modified by: 
@@ -145,6 +145,7 @@ public:
         dfs_recu(visited, prev, found, s, t);
         printPath(prev, s, t);
         delete [] visited;
+        delete [] prev;
     }
     void dfs_recu(bool *visited, int *prev, bool &found, int s, int t)
     {
