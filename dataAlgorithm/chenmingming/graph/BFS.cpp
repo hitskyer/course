@@ -81,7 +81,7 @@ public:
         for(int i = 0; i < v; ++i)
             prev[i] = -1;
         list<int>::iterator it;
-        cout << "从" << s << "开始搜索" << t << "的结果是:" << endl;
+        cout << "从" << s << "开始广度搜索" << t << "的结果是:" << endl;
         while(!q.empty())
         {
             int w = q.front();
@@ -91,7 +91,7 @@ public:
                 if(visited[*it]==false)
                 {
                     prev[*it] = w;//从w找到了it位置，记录下来
-                    if(*it == t)
+                    if(*it == t)//找到目标t
                     {
                         printPath(prev, s, t);//递归打印路径
                         delete [] visited;
@@ -114,7 +114,7 @@ public:
         }
         cout << t << " ";
     }
-    void dfs_r(int s)//递归法深度遍历
+    void dfs_r(int s)//从s开始递归法深度搜索遍历
     {
         cout << "从" << s << "开始深度搜索的结果是（递归）:" << endl;
         bool *visited = new bool [v];
@@ -133,10 +133,41 @@ public:
                 dfs_recu(visited, *it);
         }
     }
-    void dfs(int s)
+    void dfs_r(int s, int t)//从s开始递归法深度遍历搜索t
+    {
+        bool found = false;
+        cout << "从" << s << "开始深度搜索" << t << "的结果是（递归）:" << endl;
+        bool *visited = new bool [v];
+        memset(visited,false, sizeof(bool)*(v));
+        int *prev = new int [v];//记录搜索的路径
+        for(int i = 0; i < v; ++i)
+            prev[i] = -1;
+        dfs_recu(visited, prev, found, s, t);
+        printPath(prev, s, t);
+        delete [] visited;
+    }
+    void dfs_recu(bool *visited, int *prev, bool &found, int s, int t)
+    {
+        if(found == true)//如果已经找到了，for循环剩余的不执行（优化）
+            return;
+        visited[s] = true;
+        if(s == t)
+        {
+            found = true;
+            return;
+        }
+        for(auto it = adj[s].begin(); it != adj[s].end();++it)
+        {
+            if(!visited[*it])
+            {
+                prev[*it] = s;
+                dfs_recu(visited, prev, found, *it, t);
+            }
+        }
+    }
+    void dfs(int s)//从s开始，非递归深度遍历
     {
         bool *visited = new bool [v];
-        bool found = false;
         memset(visited,false, sizeof(bool)*(v));
         visited[s] = true;//visited存储已经访问的节点，避免重复访问
         stack<int> q;
@@ -162,6 +193,47 @@ public:
         }
         delete [] visited;
     }
+    void dfs(int s, int t)//从s开始，非递归深度遍历搜索t
+    {
+        if(s == t)
+            return;
+        bool *visited = new bool [v];
+        memset(visited,false, sizeof(bool)*(v));
+        visited[s] = true;//visited存储已经访问的节点，避免重复访问
+        stack<int> q;
+        q.push(s);
+        int *prev = new int [v];//记录搜索的路径
+        for(int i = 0; i < v; ++i)
+            prev[i] = -1;
+        list<int>::iterator it;
+        cout << "从" << s << "开始深度搜索" << t << "的结果是（非递归）:" << endl;
+        while(!q.empty())
+        {
+            int w = q.top();
+            q.pop();
+            if(visited[w] == true)
+            {
+                for(it = adj[w].begin(); it != adj[w].end();++it)
+                {
+                    if(visited[*it]==false)
+                    {
+                        prev[*it] = w;
+                        if(*it == t)
+                        {
+                            printPath(prev, s, t);//递归打印路径
+                            delete [] visited;
+                            delete [] prev;
+                            return;
+                        }
+                        visited[*it] = true;
+                        q.push(*it);
+                    }
+                }
+            }
+        }
+        delete [] visited;
+        delete [] prev;
+    }
 };
 
 int main()
@@ -178,12 +250,11 @@ int main()
     gp.insertEdge(6,8);
     gp.insertEdge(7,8);
     gp.print();
-    gp.bfs(7);
-    cout << endl;
-    gp.bfs(7,1);
-    cout << endl;
-    gp.dfs_r(6);
-    cout << endl;
-    gp.dfs(6);
+    gp.bfs(7);      cout << endl;
+    gp.bfs(7,3);    cout << endl;
+    gp.dfs_r(6);    cout << endl;
+    gp.dfs(6);      cout << endl;
+    gp.dfs_r(7,3);  cout << endl;
+    gp.dfs(7,3);
     return 0;
 }
