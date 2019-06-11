@@ -1,5 +1,5 @@
 /**
- * @description: 基于邻接矩阵的图
+ * @description: 基于邻接矩阵的无向图
  * @author: michael ming
  * @date: 2019/6/11 21:50
  * @modified by: 
