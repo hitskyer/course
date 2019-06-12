@@ -93,7 +93,7 @@ public:
         visited[i] = 1;
         queue<char> q;
         q.push(s);
-        cout << "从" << s << "开始广度优先搜索结果：" << endl;
+        cout << "从" << s << "开始广度优先遍历结果：" << endl;
         while(!q.empty())
         {
             char w = q.front();
@@ -127,7 +127,7 @@ public:
         char *prev = new char [v];//记录搜索的路径
         for(i = 0; i < v; ++i)
             prev[i] = '*';
-        cout << "从" << s << "开始广度优先搜索" << t << "结果：" << endl;
+        cout << "从" << s << "开始广度优先搜索 " << t << " 路径：" << endl;
         while(!q.empty())
         {
             char w = q.front();
@@ -172,7 +172,7 @@ public:
         j = i;//j存储了开始字符s的位置
         for(i = 0; i < v; ++i)
             visited[i] = 0;//访问标志置0
-        cout << "从" << s << "开始深度优先搜索结果（递归）：" << endl;
+        cout << "从" << s << "开始深度优先遍历结果（递归）：" << endl;
         for(i = 0; i < v; ++i,++j)
         {
             if(j == v)
@@ -192,6 +192,52 @@ public:
                 dfs_recu(i);
         }
     }
+
+    void dfs_r(char s, char t)//从字符 s 开始递归深度搜索 t
+    {
+        cout << "从" << s << "开始深度优先搜索 " << t << " 路径（递归）：" << endl;
+        bool found = false;
+        int i, j;
+        char *prev = new char [v];//记录搜索的路径
+        for(i = 0; i < v; ++i)
+            prev[i] = '*';
+        i = findPos(s);
+        if(i >= v)
+            return;
+        j = i;//j存储了开始字符s的位置
+        for(i = 0; i < v; ++i)
+            visited[i] = 0;//访问标志置0
+        for(i = 0; i < v; ++i,++j)
+        {
+            if(j == v)
+                j = 0;
+            if(!visited[j])//没有访问
+                dfs_recu(j, prev, found, s, t);
+        }
+        i = findPos(t);
+        printPath(prev, s, t, i);//递归打印路径
+        cout << t << endl;
+        delete [] prev;
+    }
+    void dfs_recu(int k, char *prev, bool &found, char s, char t)
+    {
+        if(found == true)//如果已经找到了，for循环剩余的不执行（优化）
+            return;
+        visited[k] = 1;
+        if(s == t)
+        {
+            found = true;
+            return;
+        }
+        for(int i = 0; i < v; ++i)
+        {
+            if(ew[k][i] != MaxValue && !visited[i])
+            {
+                prev[i] = vertex[k];    //从k处找到了i位置，记录下来
+                dfs_recu(i, prev, found, vertex[k], t);
+            }
+        }
+    }
 };
 
 int main()
@@ -207,6 +253,8 @@ int main()
     cout << "打印图的邻接矩阵：" << endl;
     ag.printArrOfGraph();
     ag.bfs('B');
-    ag.bfs('A','W');
+    ag.bfs('A','G');
     ag.dfs_r('B');
+    ag.dfs_r('A','E');
+    return 0;
 }
