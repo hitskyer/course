@@ -5,6 +5,7 @@
  * @modified by: 
  */
 #include <iostream>
+#include <queue>
 using namespace std;
 #define MaxNum 20   //最大顶点数
 #define MaxValue 65535  //最大值(标记矩阵空位)
@@ -75,17 +76,103 @@ public:
             cout << endl;
         }
     }
+    int findPos(char ch)
+    {
+        int i;
+        for(i = 0; i < v && ch != vertex[i]; ++i);//找到s的位置i
+        return i;
+    }
+    void bfs(char s)//从字符s开始广度遍历
+    {
+        int i, k;
+        for(i = 0; i < v; ++i)
+            visited[i] = 0;//访问标志置0
+        i = findPos(s);
+        if(i >= v)
+            return;
+        visited[i] = 1;
+        queue<char> q;
+        q.push(s);
+        cout << "从" << s << "开始广度优先搜索结果：" << endl;
+        while(!q.empty())
+        {
+            char w = q.front();
+            cout << w << " ";
+            q.pop();
+            k = findPos(w);
+            for(i = 0; i < v; ++i)
+            {
+                if(ew[k][i] != MaxValue && !visited[i])
+                {
+                    visited[i] = 1;
+                    q.push(vertex[i]);
+                }
+            }
+        }
+        cout << endl;
+    }
+    void bfs(char s, char t)//从字符s开始广度搜索t
+    {
+        if(s == t)
+            return;
+        int i, k;
+        k = findPos(s);
+        if(k >= v)
+            return;//s不存在
+        for(i = 0; i < v; ++i)
+            visited[i] = 0;//访问标志置0
+        visited[k] = 1;//访问s，存入队列
+        queue<char> q;
+        q.push(s);
+        char *prev = new char [v];//记录搜索的路径
+        for(i = 0; i < v; ++i)
+            prev[i] = '*';
+        cout << "从" << s << "开始广度优先搜索" << t << "结果：" << endl;
+        while(!q.empty())
+        {
+            char w = q.front();
+            q.pop();
+            k = findPos(w);
+            for(i = 0; i < v; ++i)
+            {
+                if(ew[k][i] != MaxValue && !visited[i])
+                {
+                    prev[i] = vertex[k];    //从k处找到了i位置，记录下来
+                    if(vertex[i] == t)
+                    {
+                        printPath(prev, s, t, i);//递归打印路径
+                        cout << t << endl;
+                        delete [] prev;
+                        return;
+                    }
+                    visited[i] = 1;
+                    q.push(vertex[i]);
+                }
+            }
+        }
+        delete [] prev;
+        cout << endl;
+    }
+    void printPath(char *prev, char s, char t, int i)
+    {
+        int k = findPos(prev[i]);
+        if(prev[k] != '*' && t != s)
+        {
+            printPath(prev, s, prev[k], k);//递归打印路径
+        }
+        cout << prev[i] << " ";
+    }
 
-    void dfs_r(char s)
+    void dfs_r(char s)//从字符s开始递归深度遍历
     {
         int i, j;
-        for(i = 0; i < v && s != vertex[i]; ++i);
+        i = findPos(s);
         if(i >= v)
             return;
         j = i;//j存储了开始字符s的位置
         for(i = 0; i < v; ++i)
             visited[i] = 0;//访问标志置0
-        cout << "从" << s << "开始深度优先搜索结果：" << endl;
+        cout << "从" << s << "开始深度优先搜索结果（递归）：" << endl;
         for(i = 0; i < v; ++i,++j)
         {
             if(j == v)
@@ -119,5 +206,7 @@ int main()
 //请输入A B C D E F G H  A B 1 B C 1 A D 1 B E 1 C F 1 D E 1 E F 1 E G 1 F H 1 G H 1
     cout << "打印图的邻接矩阵：" << endl;
     ag.printArrOfGraph();
+    ag.bfs('B');
+    ag.bfs('A','W');
     ag.dfs_r('B');
 }
