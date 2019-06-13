@@ -90,27 +90,13 @@ public:
                     edges[i][j] = edges[j][i] = 0;//无向图
         eN /= 2;
     }
-    void printPath_dfs(int s, int t)
-    {
-        int k = s;
-        while(k != t)
-        {
-            cout << endl;
-            cout << "(" << vertex[k].farmer << vertex[k].wolf
-                    << vertex[k].sheep << vertex[k].vegetable << ")";
-            k = prev[k];
-        }
-        cout << endl;
-        cout << "(" << vertex[k].farmer << vertex[k].wolf
-             << vertex[k].sheep << vertex[k].vegetable << ")";
-    }
     void dfs(int s, int t)
     {
         memset(visited,0, sizeof(int)*MaxVertexNum);
         clearPrev();
         dfs_path(s, t);
         if(visited[t])
-            printPath_dfs(s,t);
+            printPath(s,t,t);
     }
     void dfs_path(int s, int t)//dfs搜索s到t的路径
     {
@@ -119,16 +105,16 @@ public:
         for(j = 0; j < vN; ++j)
             if(edges[s][j] == 1 && !visited[j] && !visited[t])
             {
-                prev[s] = j;//记录路径
+                prev[j] = s;//记录路径
                 dfs_path(j, t);
             }
     }
 
-    void printPath_bfs(int s, int t, int k)
+    void printPath(int s, int t, int k)
     {
         if(k != s)
         {
-            printPath_bfs(s,t,prev[k]);
+            printPath(s,t,prev[k]);
         }
         cout << endl;
         cout << "(" << vertex[k].farmer << vertex[k].wolf
@@ -153,7 +139,7 @@ public:
                     prev[j] = w;
                     if(j == t)
                     {
-                        printPath_bfs(s,t,j);
+                        printPath(s,t,j);
                         return;
                     }
                     visited[j] = true;
