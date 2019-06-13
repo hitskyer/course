@@ -7,6 +7,8 @@
  */
 #include <iostream>
 #include <queue>
+#include <memory.h>
+
 #define MaxVertexNum 10 //最多10种情况（顶点）
 using namespace std;
 struct vertexType
@@ -27,12 +29,12 @@ public:
 
     MGraph_Farmer():vN(0),eN(0)
     {
-        clearVisited();
+        memset(visited,0, sizeof(int)*MaxVertexNum);
     }
-    void clearVisited()
+    void clearPrev()
     {
         for(int i = 0; i < MaxVertexNum; ++i)
-            visited[i] = false;
+            prev[i] = -1;
     }
     int findPos(int F, int W, int S, int V)//查找顶点在图中的位置
     {
@@ -104,7 +106,8 @@ public:
     }
     void dfs(int s, int t)
     {
-        clearVisited();
+        memset(visited,0, sizeof(int)*MaxVertexNum);
+        clearPrev();
         dfs_path(s, t);
         if(visited[t])
             printPath_dfs(s,t);
@@ -133,7 +136,8 @@ public:
     }
     void bfs(int s, int t)//bfs搜索s到t的路径
     {
-        clearVisited();
+        memset(visited,0, sizeof(int)*MaxVertexNum);
+        clearPrev();
         queue<int> q;
         q.push(s);
         visited[s] = true;
