@@ -10,6 +10,12 @@
 using namespace std;
 #define MaxNum 20   //最大顶点数
 #define MaxValue 65535  //最大值(标记矩阵空位)
+#define MaxWeightValue 1000 //权值的最大上限
+struct CloseEdge    //每个点旁边最短的边
+{
+    int adjVertex;  //存储另一个点
+    int minWeight;  //最小的权值
+};
 class arrGraph  //邻接矩阵图
 {
 public:
@@ -17,8 +23,9 @@ public:
     int GType;              //图的类型（0无向图，1有向图）
     int v;                  //顶点个数
     int e;                  //边数量
-    int ew[MaxNum][MaxNum]; //边的权重
+    int ew[MaxNum][MaxNum]; //边的权重（邻接矩阵）
     int visited[MaxNum];    //访问标志
+    CloseEdge close_edge[MaxNum];   //存储最小生成树
     arrGraph(int vertexNum, int edgeNum, int gt = 0)
     {
         v = vertexNum;
@@ -322,6 +329,54 @@ public:
         delete [] prev;
         cout << endl;
     }
+
+    //----------prim最小生成树---------------
+    void MiniSpanTree_Prim(char ch)
+    {
+        int s = findPos(ch);
+        if(s >= v)
+            return;
+        int i, j, w, k;
+        for(i = 0; i < v; ++i)
+            visited[i] = 0;//访问标志置0
+        for(i = 0; i < v; ++i)  //初始化数组
+        {
+            if(i != s)
+            {
+                close_edge[i].adjVertex = s;
+                close_edge[i].minWeight = ew[s][i];
+            }
+        }
+        close_edge[s].minWeight = MaxValue;
+        for(i = 0; i < v-1; ++i)//除了起点外，其余的点
+        {
+            w = MaxWeightValue;
+            for(j = 0; j < v; ++j)
+            {
+                if(close_edge[j].minWeight != MaxValue && close_edge[j].minWeight < w)
+                {
+                    w = close_edge[j].minWeight;
+                    k = j;
+                }
+                close_edge[k].minWeight = MaxValue;
+                for(j = 0; j < v; ++j)
+                {
+                    if(ew[k][j] < close_edge[j].minWeight)
+                    {
+                        close_edge[j].adjVertex = k;
+                        close_edge[j].minWeight = ew[k][j];
+                    }
+                }
+            }
+            for(i = 0; i < v; ++i)
+                if(i != s)
+                {
+                    cout << i << " -> " << vertex[close_edge[i].adjVertex] << ","
+                            << ew[i][close_edge[i].adjVertex] << endl;
+                }
+
+        }
+    }
 };
 
 int main()
@@ -344,5 +399,17 @@ int main()
                 // 如 B E G H F D C A && E G H F C D A B
                 //可能非递归版的dfs就不叫dfs了，我瞎说的
     ag.dfs('A','H');
+    //------------以下测试Prim最小生成树------------------
+    arrGraph bg(8,10);    //8个顶点，10条边，默认生成无向图
+    bg.creatGraph();
+//    A -40- B -50- C
+//  30|    60|    20|
+//    D -35- E -45- F
+//         55|    10|
+//           G -25- H
+//请输入以下数据生成上面的图
+//A B C D E F G H  A B 40 B C 50 A D 30 B E 60 C F 20 D E 35 E F 45 E G 55 F H 10 G H 25
+    bg.printArrOfGraph();
+    bg.MiniSpanTree_Prim('A');
     return 0;
 }
