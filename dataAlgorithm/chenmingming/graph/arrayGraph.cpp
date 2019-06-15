@@ -7,14 +7,20 @@
 #include <iostream>
 #include <queue>
 #include <stack>
+#include <algorithm>
+
 using namespace std;
 #define MaxNum 20   //最大顶点数
 #define MaxValue 65535  //最大值(标记矩阵空位)
-#define MaxWeightValue 1000 //权值的最大上限
-struct CloseEdge    //每个点旁边最短的边
+struct CloseEdge    //最短的边
 {
-    int adjVertex;  //存储另一个点
+    int startV;
+    int endV;
     int minWeight;  //最小的权值
+    bool operator < (const CloseEdge &s) const
+    {//符号重载
+        return minWeight < s.minWeight;
+    }
 };
 class arrGraph  //邻接矩阵图
 {
@@ -26,6 +32,7 @@ public:
     int ew[MaxNum][MaxNum]; //边的权重（邻接矩阵）
     int visited[MaxNum];    //访问标志
     CloseEdge close_edge[MaxNum];   //存储最小生成树
+
     arrGraph(int vertexNum, int edgeNum, int gt = 0)
     {
         v = vertexNum;
@@ -336,80 +343,117 @@ public:
         int s = findPos(ch);
         if(s >= v)
             return;
-        int i, j, w, k;
+        cout << "从 " << ch << " 开始的Prim最小生成树：" << endl;
+        int i, j, k, x, w, minid, sum = 0;
         for(i = 0; i < v; ++i)
             visited[i] = 0;//访问标志置0
-        for(i = 0; i < v; ++i)  //初始化数组
+        visited[s] = 1;
+        vector<int> q;
+        vector<int>::iterator it;
+        q.push_back(s);
+        for(i = 0; i < v-1; ++i)
         {
-            if(i != s)
+            for(it = q.begin(),x = 0; it != q.end(); ++it,++x)
             {
-                close_edge[i].adjVertex = s;
-                close_edge[i].minWeight = ew[s][i];
-            }
-        }
-        close_edge[s].minWeight = MaxValue;
-        for(i = 0; i < v-1; ++i)//除了起点外，其余的点
-        {
-            w = MaxWeightValue;
-            for(j = 0; j < v; ++j)
-            {
-                if(close_edge[j].minWeight != MaxValue && close_edge[j].minWeight < w)
-                {
-                    w = close_edge[j].minWeight;
-                    k = j;
-                }
-                close_edge[k].minWeight = MaxValue;
+                w = MaxValue;
                 for(j = 0; j < v; ++j)
                 {
-                    if(ew[k][j] < close_edge[j].minWeight)
+                    if (!visited[j] && ew[*it][j] < w)
                     {
-                        close_edge[j].adjVertex = k;
-                        close_edge[j].minWeight = ew[k][j];
+                        w = ew[*it][j];
+                        minid = j;//记录较小的权的序号为k
                     }
                 }
+                close_edge[x].minWeight = w;
+                close_edge[x].startV = *it;
+                close_edge[x].endV = minid;
             }
-            for(i = 0; i < v; ++i)
-                if(i != s)
-                {
-                    cout << i << " -> " << vertex[close_edge[i].adjVertex] << ","
-                            << ew[i][close_edge[i].adjVertex] << endl;
-                }
-
+            sort(close_edge,close_edge+x);
+            visited[close_edge[0].endV] = 1;
+            cout << vertex[close_edge[0].startV] << "-" << vertex[close_edge[0].endV] << " 权值 " << close_edge[0].minWeight << endl;
+            sum += close_edge[0].minWeight;
+            q.push_back(close_edge[0].endV);
         }
+        cout << "最小生成树权重总和为：" << sum << endl;
+//        for(i = 0; i < v; ++i)  //初始化数组
+//        {
+//            if(i != s)
+//            {
+//                close_edge[i].adjVertex = s;
+//                close_edge[i].minWeight = ew[s][i];//每个顶点的权值初始为起始点s到该点的权
+//            }
+//        }
+//        close_edge[s].adjVertex = s;
+//        close_edge[s].minWeight = MaxValue;//到自身的权不存在，置为MaxValue标记
+//        for(i = 0; i < v; ++i)
+//        {
+//            if (s == i)
+//                continue;//除了起点外，其余的点
+//            w = MaxWeightValue;
+//            for (j = 0; j < v; ++j)
+//            {
+//                if (close_edge[j].minWeight != MaxValue && close_edge[j].minWeight < w)
+//                {
+//                    w = close_edge[j].minWeight;
+//                    minid = j;//记录较小的权的序号为k
+//                }
+//            }
+//            cout << vertex[close_edge[minid].adjVertex] << "-" << vertex[minid] << " 权值 " << w << endl;
+//            sum += w;
+//            close_edge[minid].minWeight = MaxValue;//第
+//            for (j = 0; j < v; ++j)
+//            {
+//                if (ew[minid][j] < close_edge[j].minWeight)
+//                {
+//                    close_edge[j].adjVertex = minid;
+//                    close_edge[j].minWeight = ew[minid][j];
+//                }
+//            }
+//        }
+//        for(i = 0; i < v; ++i)
+//            if(i != s)
+//            {
+//                cout << i << " -> " << close_edge[i].adjVertex << ","
+//                        << ew[i][close_edge[i].adjVertex] << endl;
+//            }
     }
 };
 
+
 int main()
 {
-    arrGraph ag(8,10);    //8个顶点，10条边，默认生成无向图
-    ag.creatGraph();
+//-------------------------------------------------
 //    A — B — C
 //    |    |    |
 //    D — E — F
 //         |    |
 //         G — H
 //请输入A B C D E F G H  A B 1 B C 1 A D 1 B E 1 C F 1 D E 1 E F 1 E G 1 F H 1 G H 1
-    cout << "打印图的邻接矩阵：" << endl;
-    ag.printArrOfGraph();
-    ag.bfs('B');
-    ag.bfs('A','G');
-    ag.dfs_r('E');
-    ag.dfs_r('A','H');
-    ag.dfs('E');//非递归版本dfs貌似路径不太合理,
-                // 如 B E G H F D C A && E G H F C D A B
-                //可能非递归版的dfs就不叫dfs了，我瞎说的
-    ag.dfs('A','H');
-    //------------以下测试Prim最小生成树------------------
-    arrGraph bg(8,10);    //8个顶点，10条边，默认生成无向图
-    bg.creatGraph();
+//-------------------------------------------------
+//    arrGraph ag(8,10);    //8个顶点，10条边，默认生成无向图
+//    ag.creatGraph();
+//    cout << "打印图的邻接矩阵：" << endl;
+//    ag.printArrOfGraph();
+//    ag.bfs('B');
+//    ag.bfs('A','G');
+//    ag.dfs_r('E');
+//    ag.dfs_r('A','H');
+//    ag.dfs('E');//非递归版本dfs貌似路径不太合理,
+//                // 如 B E G H F D C A && E G H F C D A B
+//                //可能非递归版的dfs就不叫dfs了，我瞎说的
+//    ag.dfs('A','H');
+//------------以下测试Prim最小生成树------------------
 //    A -40- B -50- C
-//  30|    60|    20|
+//  30|  \10 5|    20|
 //    D -35- E -45- F
-//         55|    10|
-//           G -25- H
+//  10|    55|    10|
+//    I -15- G -25- H
 //请输入以下数据生成上面的图
-//A B C D E F G H  A B 40 B C 50 A D 30 B E 60 C F 20 D E 35 E F 45 E G 55 F H 10 G H 25
+//A B C D E F G H I  A B 40 B C 50 A D 30 B E 5 C F 20 D E 35 E F 45 E G 55 F H 10 G H 25 A E 10 D I 10 I G 15
+    arrGraph bg(9,13);    //9个顶点，13条边，默认生成无向图
+    bg.creatGraph();
     bg.printArrOfGraph();
     bg.MiniSpanTree_Prim('A');
+    bg.MiniSpanTree_Prim('I');//从任一点出发，最小花费都一样
     return 0;
 }
