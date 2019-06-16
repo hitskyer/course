@@ -11,6 +11,7 @@
 
 using namespace std;
 #define MaxNum 20   //最大顶点数
+#define MaxEdgeNum 25 //最大边数目
 #define MaxValue 65535  //最大值(标记矩阵空位)
 struct CloseEdge    //最短的边
 {
@@ -351,7 +352,7 @@ public:
         vector<int> q;
         vector<int>::iterator it;
         q.push_back(s);
-        for(i = 0; i < v-1; ++i)
+        for(i = 0; i < v-1; ++i)//O(n^3)
         {
             for(it = q.begin(),x = 0; it != q.end(); ++it,++x)
             {
@@ -375,47 +376,90 @@ public:
             q.push_back(close_edge[0].endV);
         }
         cout << "最小生成树权重总和为：" << sum << endl;
-//        for(i = 0; i < v; ++i)  //初始化数组
-//        {
-//            if(i != s)
-//            {
-//                close_edge[i].adjVertex = s;
-//                close_edge[i].minWeight = ew[s][i];//每个顶点的权值初始为起始点s到该点的权
-//            }
-//        }
-//        close_edge[s].adjVertex = s;
-//        close_edge[s].minWeight = MaxValue;//到自身的权不存在，置为MaxValue标记
-//        for(i = 0; i < v; ++i)
-//        {
-//            if (s == i)
-//                continue;//除了起点外，其余的点
-//            w = MaxWeightValue;
-//            for (j = 0; j < v; ++j)
-//            {
-//                if (close_edge[j].minWeight != MaxValue && close_edge[j].minWeight < w)
-//                {
-//                    w = close_edge[j].minWeight;
-//                    minid = j;//记录较小的权的序号为k
-//                }
-//            }
-//            cout << vertex[close_edge[minid].adjVertex] << "-" << vertex[minid] << " 权值 " << w << endl;
-//            sum += w;
-//            close_edge[minid].minWeight = MaxValue;//第
-//            for (j = 0; j < v; ++j)
-//            {
-//                if (ew[minid][j] < close_edge[j].minWeight)
-//                {
-//                    close_edge[j].adjVertex = minid;
-//                    close_edge[j].minWeight = ew[minid][j];
-//                }
-//            }
-//        }
-//        for(i = 0; i < v; ++i)
-//            if(i != s)
-//            {
-//                cout << i << " -> " << close_edge[i].adjVertex << ","
-//                        << ew[i][close_edge[i].adjVertex] << endl;
-//            }
+    }
+    void MiniSpanTree_Prim_O_n2(char ch)
+    {
+        int s = findPos(ch);
+        if (s >= v)
+            return;
+        cout << "从 " << ch << " 开始的Prim最小生成树：" << endl;
+        int i, j, k, minweight, sum = 0;
+        int adjvex[v];  //保存顶点下标
+        int lowcost[v]; //保存相关顶点见的权值
+        lowcost[s] = 0; //=0，加入了生成树
+        adjvex[s] = s;  //起点下标为自己
+        for(i = 0; i < v; ++i)
+        {
+            if(i == s)
+                continue;
+            lowcost[i] = ew[s][i];//将s起点与其他点的权值初始化
+            adjvex[i] = s;//到达i的前一个点初始化为起点
+        }
+        for(i = 0; i < v-1; ++i)
+        {
+            minweight = MaxValue;
+            for(j = 0, k = 0; j < v; ++j)//O(n^2)
+            {
+                if(lowcost[j] != 0 && lowcost[j] < minweight)//未加入生成树的，且j点的比较小
+                {
+                    minweight = lowcost[j];//更新最小值
+                    k = j;//下标记录入k
+                }
+            }
+            cout << vertex[adjvex[k]] << "-" << vertex[k] << " 权值 " << ew[adjvex[k]][k] << endl;
+            lowcost[k] = 0;//最小的权值点k加入生成树
+            sum += ew[adjvex[k]][k];
+            for(j = 0; j < v; ++j)
+            {
+                if(lowcost[j] != 0 && ew[k][j] < lowcost[j])//k加入生成树后，对k周围的权与最小权lowcost比较
+                {
+                    lowcost[j] = ew[k][j];//更小的权更新lowcost数组
+                    adjvex[j] = k;//并记录j的前一位是k
+                }
+            }
+        }
+        cout << "最小生成树权重总和为：" << sum << endl;
+    }
+    //----------Kruskal最小生成树---------------
+    void MiniSpanTree_Kruskal()
+    {
+        cout << "Kruskal最小生成树：" << endl;
+        int i, j, k = 0, sum = 0;
+        CloseEdge edges[MaxEdgeNum];    //边数据集
+        for(i = 0; i < v; ++i)  //把边信息输入到edges数组
+            for(j = 0; j < v; ++j)
+                if(ew[i][j] != MaxValue && i > j)//无向图，i>j 矩阵中一半就可获取全部信息
+                {
+                    edges[k].startV = i;
+                    edges[k].endV = j;
+                    edges[k].minWeight = ew[i][j];
+                    k++;
+                }
+        sort(edges,edges+k);//边排序
+        int parent[e];             //作用，判断边与边是否形成回路
+        int vf1, vf2;
+        for(i = 0; i < k; ++i)
+            parent[i] = 0;
+        for(i = 0; i < k; ++i)
+        {
+            vf1 = Find(parent, edges[i].startV);
+            vf2 = Find(parent, edges[i].endV);
+            if(vf1 != vf2)//没有回路，可以选入生成树
+            {
+                parent[vf2] = vf1;
+                cout << vertex[edges[i].startV] << "-" << vertex[edges[i].endV]
+                    << " 权重 " << edges[i].minWeight << endl;
+                sum += edges[i].minWeight;
+            }
+        }
+        cout << "最小生成树权重总和为：" << sum << endl;
+    }
+    int Find(int* parent, int v)
+    {
+        int t = v;
+        while(parent[t] > 0)
+            t = parent[t];
+        return t;
     }
 };
 
@@ -455,5 +499,7 @@ int main()
     bg.printArrOfGraph();
     bg.MiniSpanTree_Prim('A');
     bg.MiniSpanTree_Prim('I');//从任一点出发，最小花费都一样
+    bg.MiniSpanTree_Prim_O_n2('I');
+    bg.MiniSpanTree_Kruskal();
     return 0;
 }
