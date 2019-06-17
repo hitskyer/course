@@ -50,7 +50,7 @@ bool str_RK_2d(char s[][nc], char t[][mc])//s是主串，t是模式串
     value = cal_hash_t(table,mr,mc,t);//计算2d模式串哈希值
     for(i = 0; i < nr-mr+1; ++i)//行最多nr-mr+1次比较
     {
-        for(j = 0; j < nc-mc+i; ++j)//列最多nc-mc+1次比较
+        for(j = 0; j < nc-mc+1; ++j)//列最多nc-mc+1次比较
         {
             hash_val = cal_hash_s_child(table,i,j,mr+i,mc+j,s);//计算2d子串哈希值
             if(hash_val == value && same(s,t,i,j))
