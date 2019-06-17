@@ -6,7 +6,7 @@
  */
 #include <iostream>
 #define nr 5    //主串行数
-#define nc 5    //主串列数
+#define nc 4    //主串列数
 #define mr 2    //模式串行数
 #define mc 2    //模式串列数
 int cal_hash_t(int* table, int r, int c, char ch[][mc])
@@ -65,14 +65,14 @@ bool str_RK_2d(char s[][nc], char t[][mc])//s是主串，t是模式串
 
 int main()
 {
-    char s[  ][nc] = {{ 'a', 'b', 'a', 'b', 'a' },
-                      { 'a', 'b', 'a', 'b', 'a' },
-                      { 'a', 'b', 'b', 'a', 'a' },
-                      { 'a', 'b', 'a', 'a', 'b' },
-                      { 'b', 'b', 'a', 'b', 'a' }};
-    char t[  ][mc] = {{ 'a', 'b' },
-                      { 'b', 'a' }};
-    str_RK_2d(s,t);
+//    char s[  ][nc] = {{ 'a', 'b', 'a', 'b', 'a' },
+//                      { 'a', 'b', 'a', 'b', 'a' },
+//                      { 'a', 'b', 'b', 'a', 'a' },
+//                      { 'a', 'b', 'a', 'a', 'b' },
+//                      { 'b', 'b', 'a', 'b', 'a' }};
+//    char t[  ][mc] = {{ 'a', 'b' },
+//                      { 'b', 'a' }};
+//    str_RK_2d(s,t);
     char a[  ][nc] = {{ 'd', 'a', 'b', 'c' },
                       { 'e', 'f', 'a', 'd' },
                       { 'c', 'c', 'a', 'f' },
