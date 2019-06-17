@@ -5,10 +5,10 @@
  * @modified by: 
  */
 #include <iostream>
-#define nr 5
-#define nc 5
-#define mr 2
-#define mc 2
+#define nr 5    //主串行数
+#define nc 5    //主串列数
+#define mr 2    //模式串行数
+#define mc 2    //模式串列数
 int cal_hash_t(int* table, int r, int c, char ch[][mc])
 {
     int i, j, value = 0;
@@ -61,7 +61,6 @@ bool str_RK_2d(char s[][nc], char t[][mc])//s是主串，t是模式串
         }
     }
     return false;
-
 }
 
 int main()
