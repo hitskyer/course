@@ -23,7 +23,7 @@ void generateBadChar(char *b, int m, int *badchar)//(模式串字符b，模式�
         badchar[ascii] = i;//重复字符被覆盖，记录的是最后出现的该字符的位置
     }
 }
-void generateGS(char *b, int m, int *suffix, bool *prefix)
+void generateGS(char *b, int m, int *suffix, bool *prefix)//预处理模式串，填充suffix，prefix
 {
     int i, j, k;
     for(i = 0; i < m; ++i)//两个数组初始化
@@ -65,7 +65,7 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
     generateBadChar(b,m,badchar);     //构建坏字符哈希表
     int *suffix = new int [m];
     bool *prefix = new bool [m];
-    generateGS(b, m, suffix, prefix);
+    generateGS(b, m, suffix, prefix);   //预处理模式串，填充suffix，prefix
     int i = 0, j, moveLen1, moveLen2;//j表示主串与模式串匹配的第一个字符
     while(i < n-m+1)
     {
@@ -99,6 +99,6 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
 int main()
 {
     string a = "abcacabcbcbacabc", b = "cbacabc";
-    cout << str_bm(&a[0],a.size(),&b[0],b.size());
+    cout << a << "中第一次出现" << b << "的位置(从0开始)是：" << str_bm(&a[0],a.size(),&b[0],b.size());
     return 0;
 }
