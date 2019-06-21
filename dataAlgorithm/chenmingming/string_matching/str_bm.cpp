@@ -10,7 +10,7 @@
 
 using namespace std;
 #define SIZE 256    //字符集字符数
-void generateHash(char *b, int m, int *badchar)//(模式串字符b，模式串长度m，模式串的哈希表)
+void generateBadChar(char *b, int m, int *badchar)//(模式串字符b，模式串长度m，模式串的哈希表)
 {
     int i, ascii;
     for(i = 0; i < SIZE; ++i)
@@ -62,7 +62,7 @@ int moveByGS(int j, int m, int *suffix, bool *prefix)//传入的j是坏字符对
 int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式串,长m
 {
     int *badchar = new int [SIZE];//记录模式串中每个字符最后出现的位置
-    generateHash(b,m,badchar);     //构建坏字符哈希表
+    generateBadChar(b,m,badchar);     //构建坏字符哈希表
     int *suffix = new int [m];
     bool *prefix = new bool [m];
     generateGS(b, m, suffix, prefix);
@@ -82,13 +82,13 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
             return i;   //返回主串与模式串第一个匹配的字符的位置
         }
         //这里等同于将模式串往后滑动 j-badchar[int(a[i+j])] 位
-        moveLen1 = j - badchar[int(a[i+j])];
+        moveLen1 = j - badchar[int(a[i+j])];//按照坏字符规则移动距离
         moveLen2 = 0;
         if(j < m-1)//如果有好后缀的话
         {
-            moveLen2 = moveByGS(j,m,suffix,prefix);
+            moveLen2 = moveByGS(j,m,suffix,prefix);//按照好后缀移动距离
         }
-        i = i + max(moveLen1,moveLen2);
+        i = i + max(moveLen1,moveLen2);//取大的移动
     }
     delete [] badchar;
     delete [] suffix;
