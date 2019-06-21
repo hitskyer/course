@@ -50,14 +50,14 @@ void generateGS(char *b, int m, int *suffix, bool *prefix)
 int moveByGS(int j, int m, int *suffix, bool *prefix)//传入的j是坏字符对应的模式串中的字符下标
 {
     int k = m - 1 - j;//好后缀长度
-    if(suffix[k] != -1)
+    if(suffix[k] != -1)//case1，找到跟好后缀一样的模式子串（多个的话，存的靠后的那个（子串起始下标））
         return j - suffix[k] + 1;
-    for(int r = j + 2; r < m; ++r)
+    for(int r = j + 2; r < m; ++r)//case2
     {
-        if(prefix[m-r] == true)
-            return r;
+        if(prefix[m-r] == true)//m-r是好后缀的子串的长度，如果这个好后缀的子串是模式串的前缀子串
+            return r;//在上面没有找到相同的好后缀下，移动r位，对齐前缀到好后缀
     }
-    return m;
+    return m;//case3,都没有匹配的，移动m位（模式串长度）
 }
 int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式串,长m
 {
@@ -86,7 +86,7 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
         moveLen2 = 0;
         if(j < m-1)//如果有好后缀的话
         {
-            moveLen2 = moveByGS(j,m,suffix,prefix);//按照好后缀移动距离
+            moveLen2 = moveByGS(j,m,suffix,prefix);//按照好后缀规则移动距离
         }
         i = i + max(moveLen1,moveLen2);//取大的移动
     }
