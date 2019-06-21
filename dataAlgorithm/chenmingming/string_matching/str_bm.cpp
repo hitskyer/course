@@ -9,7 +9,8 @@
 #include <iostream>
 
 using namespace std;
-#define SIZE 256    //字符集字符数
+//#define SIZE 256    //字符集字符数
+#define SIZE 3    //字符集字符数(调试用)
 void generateBadChar(char *b, int m, int *badchar)//(模式串字符b，模式串长度m，模式串的哈希表)
 {
     int i, ascii;
@@ -19,7 +20,8 @@ void generateBadChar(char *b, int m, int *badchar)//(模式串字符b，模式�
     }
     for(i = 0; i < m; ++i)
     {
-        ascii = int(b[i]);  //计算字符的ASCII值
+//        ascii = int(b[i]);  //计算字符的ASCII值
+        ascii = int(b[i]-'a');  //计算字符的ASCII值(调试用)
         badchar[ascii] = i;//重复字符被覆盖，记录的是最后出现的该字符的位置
     }
 }
@@ -46,6 +48,8 @@ void generateGS(char *b, int m, int *suffix, bool *prefix)//预处理模式串�
         if(j == -1)//查找到模式串的头部了
             prefix[k] = true;//如果公共后缀子串也是模式串的前缀子串
     }
+    for(i = 0; i < m; ++i)//调试代码
+        cout << "i=" << i << ",suffix[i]: " << suffix[i] << "; prefix[i]：" << prefix[i] << endl;
 }
 int moveByGS(int j, int m, int *suffix, bool *prefix)//传入的j是坏字符对应的模式串中的字符下标
 {
@@ -82,7 +86,8 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
             return i;   //返回主串与模式串第一个匹配的字符的位置
         }
         //这里等同于将模式串往后滑动 j-badchar[int(a[i+j])] 位
-        moveLen1 = j - badchar[int(a[i+j])];//按照坏字符规则移动距离
+//        moveLen1 = j - badchar[int(a[i+j])];//按照坏字符规则移动距离
+        moveLen1 = j - badchar[int(a[i+j])-'a'];//按照坏字符规则移动距离（调试代码）
         moveLen2 = 0;
         if(j < m-1)//如果有好后缀的话
         {
