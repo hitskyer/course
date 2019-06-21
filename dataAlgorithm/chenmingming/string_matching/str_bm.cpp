@@ -34,20 +34,20 @@ void generateGS(char *b, int m, int *suffix, bool *prefix)
     for(i = 0; i < m-1; ++i)//b[0,i]
     {
         j = i;
-        k = 0;//公共后缀子串长度
+        k = 0;//公共后缀子串长度(模式串尾部取k个出来，分别比较)
         while(j >= 0 && b[j] == b[m-1-k])//与b[0,m-1]求公共后缀子串
         {
             --j;
             ++k;
-            suffix[k] = j+1;//j+1表示公共后缀子串在b[0,i]中的起始下标
-            //suffix[i]：表示从模式串的位置 i 开始向前扫描，
-            //能够与整个模式串的后缀匹配的最大长度，我们把这个长度作为suffix[i]的值
+            suffix[k] = j+1;
+            //相同后缀子串长度为k时，该子串在b[0,i]中的起始下标
+            // (如果有多个相同长度的子串，被赋值覆盖，存较大的)
         }
-        if(j == -1)
+        if(j == -1)//查找到模式串的头部了
             prefix[k] = true;//如果公共后缀子串也是模式串的前缀子串
     }
 }
-int moveByGS(int j, int m, int *suffix, bool *prefix)//j表示坏字符对应的模式串中的字符下标
+int moveByGS(int j, int m, int *suffix, bool *prefix)//传入的j是坏字符对应的模式串中的字符下标
 {
     int k = m - 1 - j;//好后缀长度
     if(suffix[k] != -1)
@@ -64,8 +64,6 @@ int str_bm(char *a, int n, char *b, int m)//a表示主串，长n; b表示模式�
     int *badchar = new int [SIZE];//记录模式串中每个字符最后出现的位置
     generateHash(b,m,badchar);     //构建坏字符哈希表
     int *suffix = new int [m];
-    //suffix[i]：表示从模式串的位置 i 开始向前扫描，
-    //能够与整个模式串的后缀匹配的最大长度，我们把这个长度作为suffix[i]的值
     bool *prefix = new bool [m];
     generateGS(b, m, suffix, prefix);
     int i = 0, j, moveLen1, moveLen2;//j表示主串与模式串匹配的第一个字符
