@@ -7,25 +7,6 @@
 #include <string>
 #include <iostream>
 using namespace std;
-//void calNexts(char *b, int m, int *next)
-//{
-//    next[0] = -1;
-//    int k = -1;
-//    for(int i = 1; i < m; ++i)
-//    {
-//        while(k != -1 && b[k+1] != b[i])
-//        {
-//            k = next[k];
-//        }
-//        if(b[k+1] == b[i])
-//        {
-//            ++k;
-//        }
-//        next[i] = k;
-//    }
-//    for(int j = 0; j < m; ++j)//调试代码
-//        cout << "next[" << j << "] " << next[j] << endl;
-//}
 void calNexts(char *b, int m, int *next)
 {
     next[0] = -1;
@@ -47,20 +28,22 @@ int str_kmp(char *a, int n, char *b, int m)
 {
     int *next = new int [m];
     calNexts(b, m, next);
-    int i, j = 0;
-    for(i = 0; i < n; ++i)
+    int i = 0, j = 0;
+    while(i < n && j < m)
     {
-        while(j > 0 && a[i] != b[j])
+        if(j == -1 || a[i] == b[j])
         {
-            j = next[j-1] + 1;
+            i++;j++;
         }
-        if(a[i] == b[j])
-            ++j;
-        if(j == m)//找到了匹配的
+        else
         {
-            delete [] next;
-            return i-m+1;
+            j = next[j];
         }
+    }
+    if(j == m)
+    {
+        delete [] next;
+        return i-j;
     }
     delete [] next;
     return -1;
