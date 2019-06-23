@@ -16,7 +16,8 @@ void calNexts(char *b, int m, int *next)
         if(k == -1 || b[j] == b[k])
         {
             j++;k++;
-            next[j] = k;
+            if(j != m)//最后一个位置越界
+                next[j] = k;
         }
         else
             k = next[k];
