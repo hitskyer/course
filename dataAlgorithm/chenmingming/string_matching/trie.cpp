@@ -82,41 +82,36 @@ public:
     }
     bool delString(const string &text)
     {
+        if(!find(text))
+            return false;
         TrieNode *p = root, *q = NULL;
-        int index, count=1, rec_index;
+        int index, rec_index;
         bool flag = true;
-        for(int i = 0; i < text.size(); ++i)
+        for(int i = 0; i < text.size() && flag; ++i)
         {
             index = text[i] - 'a';
-            if(p->children[index] == NULL)
-                return false;//还没匹配完
-            if(p->children[index]->count == 1 && flag)
+            if(p->children[index]->count == 1)
             {
                 q = p;//记录下只有一个单词占用的节点(要删的起始节点)的父节点
                 rec_index = index;//记录此时状态
                 flag = false;//此处代码块只执行一次
             }
+            p->count--;//单词占用记录减1
             p = p->children[index];
         }
-        if(p->isEndOfWord == false)//匹配完，但是只是前缀
-            return false;
-        else
-        {
-            p = q;
-            q = q->children[rec_index];
-            if(p != NULL)
-            {
-                p->children[rec_index] = NULL;//断开要删除的部分
-            }
-           while(q != NULL)
-           {
-               p = q;
-               q = q->children[rec_index];
-               delete p;//删除节点（conut为1的）
-               p = NULL;
-           }
-            return true;
-        }
+        q->children[index] = NULL;//断开要删除的部分
+       while(p != NULL)
+       {
+           q = p;
+           p = p->children[rec_index];
+           delete q;//删除节点（conut为1的）
+           q = NULL;
+       }
+        return true;
+    }
+    size_t itemCount()
+    {
+        return root->count;
     }
 };
 int main()
@@ -125,8 +120,9 @@ int main()
     textlib.insert("hello");
     textlib.insert("her");
     textlib.insert("world");
-    cout << textlib.find("hello") << " " << textlib.find("he") << endl;
+    cout << textlib.find("hello") << " " << textlib.find("her") << endl;
     cout << textlib.delString("hello") << endl;
-    cout << textlib.find("hello") << " ";
+    cout << textlib.find("her") << " " << endl;
+    cout << "共有：" << textlib.itemCount() << "个单词。" << endl;
     return 0;
 }
