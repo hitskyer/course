@@ -99,6 +99,7 @@ public:
             p = p->children[index];
         }
         q->children[index] = NULL;//断开要删除的部分
+        cout << q->data << " " << index << endl;
        while(p != NULL)
        {
            index = text[i++] - 'a';
@@ -122,7 +123,7 @@ int main()
     textlib.insert("her");
     textlib.insert("world");
     cout << textlib.find("hello") << " " << textlib.find("her") << endl;
-    cout << textlib.delString("hello") << endl;
+//    cout << textlib.delString("hello") << endl;
     cout << textlib.find("her") << " " << endl;
     cout << "共有：" << textlib.itemCount() << "个单词。" << endl;
     return 0;
