@@ -25,9 +25,8 @@ public:
 };
 class Trie
 {
-private:
-    TrieNode* root;
 public:
+    TrieNode* root;
     Trie()
     {
         root = new TrieNode;
@@ -121,6 +120,14 @@ public:
     {
         return root->count;
     }
+    void print(TrieNode *proot)
+    {
+        if(proot == NULL)
+            return;
+        cout << proot->data << endl;
+        for(int i = 0; i < charNum; ++i)
+            print(proot->children[i]);
+    }
 };
 int main()
 {
@@ -128,6 +135,7 @@ int main()
     textlib.insert("hello");
     textlib.insert("her");
     textlib.insert("world");
+    textlib.print(textlib.root);
     cout << textlib.find("hello") << " " << textlib.find("her") << endl;
     cout << textlib.delString_1("hello") << endl;
     cout << textlib.find("her") << " " << endl;
