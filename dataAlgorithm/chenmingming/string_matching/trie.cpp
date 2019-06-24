@@ -113,6 +113,7 @@ public:
                p = q;
                q = q->children[rec_index];
                delete p;//删除节点（conut为1的）
+               p = NULL;
            }
             return true;
         }
