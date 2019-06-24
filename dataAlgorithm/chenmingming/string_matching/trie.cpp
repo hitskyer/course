@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include <cstring>
+#include <stack>
+
 #define charNum 26
 using namespace std;
 class TrieNode//Trie树节点类,假设只有26个字母的数据集
@@ -111,6 +113,40 @@ public:
        }
         return true;
     }
+    bool delString_1(const string &text)
+    {
+        TrieNode *p = root;
+        stack<TrieNode*> nodeStack;
+        nodeStack.push(root);
+        int index;
+        for(int i = 0; i < text.size(); ++i)
+        {
+            index = text[i] - 'a';
+            if(p->children[index] == NULL)
+                return false;//还没匹配完
+            p = p->children[index];
+            nodeStack.push(p);
+        }
+        if(p->isEndOfWord == false)//匹配完，但是只是前缀
+            return false;
+        else
+        {
+            while(nodeStack.top()->count == 1)//删除单词只要自己包含的部分
+            {
+                cout << "要删的是：" << nodeStack.top()->data << endl;
+                delete nodeStack.top();
+                nodeStack.pop();
+                index = nodeStack.top()->data - 'a';
+            }
+            nodeStack.top()->children[index] = NULL;//断开已删除的部分
+            while(!nodeStack.empty())
+            {
+                nodeStack.top()->count--;//单词占用记录减1
+                nodeStack.pop();
+            }
+            return true;
+        }
+    }
     size_t itemCount()
     {
         return root->count;
@@ -123,7 +159,7 @@ int main()
     textlib.insert("her");
     textlib.insert("world");
     cout << textlib.find("hello") << " " << textlib.find("her") << endl;
-//    cout << textlib.delString("hello") << endl;
+    cout << textlib.delString_1("hello") << endl;
     cout << textlib.find("her") << " " << endl;
     cout << "共有：" << textlib.itemCount() << "个单词。" << endl;
     return 0;
