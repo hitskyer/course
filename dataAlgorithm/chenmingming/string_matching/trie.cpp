@@ -105,7 +105,7 @@ public:
            q = p;
            p = p->children[index];
            cout << "要删的是：" << q->data << endl;
-           delete q;//删除节点（conut为1的）
+           delete q;//删除节点（count为1的）
            q = NULL;
        }
         return true;
