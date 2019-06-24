@@ -85,15 +85,14 @@ public:
         if(!find(text))
             return false;
         TrieNode *p = root, *q = NULL;
-        int index, rec_index;
+        int i, index;
         bool flag = true;
-        for(int i = 0; i < text.size() && flag; ++i)
+        for(i = 0; i < text.size() && flag; ++i)
         {
             index = text[i] - 'a';
             if(p->children[index]->count == 1)
             {
                 q = p;//记录下只有一个单词占用的节点(要删的起始节点)的父节点
-                rec_index = index;//记录此时状态
                 flag = false;//此处代码块只执行一次
             }
             p->count--;//单词占用记录减1
@@ -102,8 +101,10 @@ public:
         q->children[index] = NULL;//断开要删除的部分
        while(p != NULL)
        {
+           index = text[i++] - 'a';
            q = p;
-           p = p->children[rec_index];
+           p = p->children[index];
+           cout << "要删的是：" << q->data << endl;
            delete q;//删除节点（conut为1的）
            q = NULL;
        }
