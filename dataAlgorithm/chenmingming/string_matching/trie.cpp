@@ -51,6 +51,7 @@ public:
             p->count++;
             p = p->children[index];
         }
+        p->count++;
         p->isEndOfWord = true;
     }
     bool find(const string &text)//查找某个字符串
@@ -82,37 +83,6 @@ public:
         delete proot;
         proot = NULL;
     }
-    bool delString(const string &text)
-    {
-        if(!find(text))
-            return false;
-        TrieNode *p = root, *q = NULL;
-        int i, index;
-        bool flag = true;
-        for(i = 0; i < text.size() && flag; ++i)
-        {
-            index = text[i] - 'a';
-            if(p->children[index]->count == 1)
-            {
-                q = p;//记录下只有一个单词占用的节点(要删的起始节点)的父节点
-                flag = false;//此处代码块只执行一次
-            }
-            p->count--;//单词占用记录减1
-            p = p->children[index];
-        }
-        q->children[index] = NULL;//断开要删除的部分
-        cout << q->data << " " << index << endl;
-       while(p != NULL)
-       {
-           index = text[i++] - 'a';
-           q = p;
-           p = p->children[index];
-           cout << "要删的是：" << q->data << endl;
-           delete q;//删除节点（count为1的）
-           q = NULL;
-       }
-        return true;
-    }
     bool delString_1(const string &text)
     {
         TrieNode *p = root;
@@ -133,10 +103,10 @@ public:
         {
             while(nodeStack.top()->count == 1)//删除单词只要自己包含的部分
             {
+                index = nodeStack.top()->data - 'a';
                 cout << "要删的是：" << nodeStack.top()->data << endl;
                 delete nodeStack.top();
                 nodeStack.pop();
-                index = nodeStack.top()->data - 'a';
             }
             nodeStack.top()->children[index] = NULL;//断开已删除的部分
             while(!nodeStack.empty())
