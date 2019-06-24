@@ -84,15 +84,17 @@ public:
     {
         TrieNode *p = root, *q = NULL;
         int index, count=1, rec_index;
+        bool flag = true;
         for(int i = 0; i < text.size(); ++i)
         {
             index = text[i] - 'a';
             if(p->children[index] == NULL)
                 return false;//还没匹配完
-            if(p->children[index]->count == 1)
+            if(p->children[index]->count == 1 && flag)
             {
-                q = p;//记录下只有一个单词占用的节点的父节点
+                q = p;//记录下只有一个单词占用的节点(要删的起始节点)的父节点
                 rec_index = index;//记录此时状态
+                flag = false;//此处代码块只执行一次
             }
             p = p->children[index];
         }
@@ -120,6 +122,7 @@ int main()
 {
     Trie textlib;
     textlib.insert("hello");
+    textlib.insert("her");
     textlib.insert("world");
     cout << textlib.find("hello") << " " << textlib.find("he") << endl;
     cout << textlib.delString("hello") << endl;
