@@ -29,6 +29,10 @@ public:
     {
         root = new TrieNode;
     }
+    ~Trie()
+    {
+        destory(root);
+    }
     void insert(const string &text)//插入一个字符串
     {
         TrieNode *p = root;
@@ -61,9 +65,18 @@ public:
         else
             return true;
     }
-    void destory()
+    void destory(TrieNode* proot)
     {
-
+        if(proot == NULL)
+        {
+            return;
+        }
+        for(int i = 0; i < charNum; ++i)
+        {
+            destory(proot->children[i]);
+        }
+        delete proot;
+        proot = NULL;
     }
 };
 int main()
