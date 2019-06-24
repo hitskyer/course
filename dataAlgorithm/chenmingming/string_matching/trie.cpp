@@ -22,8 +22,13 @@ public:
 };
 class Trie
 {
-public:
+private:
     TrieNode* root;
+public:
+    Trie()
+    {
+        root = new TrieNode;
+    }
     void insert(const string &text)//插入一个字符串
     {
         TrieNode *p = root;
@@ -55,6 +60,10 @@ public:
             return false;
         else
             return true;
+    }
+    void destory()
+    {
+
     }
 };
 int main()
