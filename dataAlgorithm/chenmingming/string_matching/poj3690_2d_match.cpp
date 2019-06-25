@@ -16,8 +16,10 @@ ull cal_hash_b(int r, int c, int b[][51])
     ull value = 0;
     for (i = 0; i < r; ++i) //计算2d模式串的hash值value
     {
-        for(j = 0, k = 1; j < c; ++j,++k)
+        for(j = 0, k = c-1; j < c; ++j,--k)
+        {
             value += b[i][j]*pow(2.0,k);
+        }
     }
     return value;
 }
@@ -27,7 +29,7 @@ ull cal_hash_a_child(int i0, int j0, int r, int c, int a[][1001])
     ull hash_value = 0;
     for (i = i0; i < r; ++i) //计算2d子串的hash值value
     {
-        for(j = j0, k = 1; j < c; ++j,++k)
+        for(j = j0, k = c-1; j < c; ++j,--k)
             hash_value += a[i][j]*pow(2.0,k);
     }
     return hash_value;
@@ -45,6 +47,13 @@ bool same(int a[][1001], int b[][51], int i0, int j0, int mr, int mc)
     }
     return true;
 }
+int sum(int a[][1001], int i0, int j0, int mr)
+{
+    int sum = 0;
+    for(int x = 0; x < mr; ++x,++i0)
+        sum += a[i0][j0];
+    return sum;
+}
 int str_RK_2d(int a[][1001], int nr, int nc, int b[][51], int mr, int mc)//s是主串，t是模式串
 {
     int i, j;
@@ -54,7 +63,10 @@ int str_RK_2d(int a[][1001], int nr, int nc, int b[][51], int mr, int mc)//s是�
     {
         for(j = 0; j < nc-mc+1; ++j)//列最多nc-mc+1次比较
         {
-            hash_val = cal_hash_a_child(i,j,mr+i,mc+j,a);//计算2d子串哈希值
+            if(j == 0)
+                hash_val = cal_hash_a_child(i,j,mr+i,mc+j,a);//计算2d子串哈希值
+            else
+                hash_val = (hash_val-pow(2.0,mc-1)*sum(a,i,j,mr))*2 + sum(a,i,j+mc-1,mr);
             if(hash_val == value && same(a,b,i,j,mr,mc))
             {//如果2d子串哈希值等于模式串的，且"真的"字符串匹配（避免冲突带来的假匹配）
                 return 1;
