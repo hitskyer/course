@@ -142,7 +142,7 @@ public:
             while(nodeStack.top()->count == 1)//删除单词只要自己包含的部分
             {
                 index = nodeStack.top()->data - 'a';
-                cout << "del char: " << nodeStack.top()->data << endl;
+//                cout << "del char: " << nodeStack.top()->data << endl;//(调试代码)
                 delete nodeStack.top();
                 nodeStack.pop();
             }
@@ -159,30 +159,73 @@ public:
     {
         return root->count;
     }
-    void print(TrieNode *proot)
+    void printStrWithPre(const string prefix)//打印有指定前缀的单词
     {
-        if(proot == NULL)
+        if(prefix.size() == 0)
             return;
-        cout << proot->data << endl;
-        for(int i = 0; i < charNum; ++i)
-            print(proot->children[i]);
+        TrieNode *p = root;
+        int index,printID = 0;
+        for(int i = 0; i < prefix.size(); ++i)
+        {
+            index = prefix[i] - 'a';
+            if(p->children[index] == NULL)//前缀还没匹配成功
+            {
+                cout << "-------------------------" << endl;
+                cout << "no string with prefix: " << prefix << " can be found!" << endl;
+                return;
+            }
+            else
+                p = p->children[index];
+        }//匹配完了，p指向前缀最后一个字符节点
+        cout << "-------------------------" << endl;
+        cout << "string with prefix: " << prefix << " , as following:" << endl;
+        printWordsOfNode(p,prefix,printID);
+        cout << "-----------end-----------" << endl;
+    }
+    void printDict()//字典序输出全部单词
+    {
+        string word("");
+        int printID = 0;
+        cout << "-------------------------" << endl;
+        cout << "all words as following:" << endl;
+        printWordsOfNode(root,word,printID);
+        cout << "-----------end-----------" << endl;
+    }
+private:
+    void printWordsOfNode(TrieNode* p, string prefix, int &order)
+    {//递归打印前缀最后一个字符对应节点下面所有的字符
+        if(!p->isEndOfWord)
+        {
+            for(int i = 0; i < charNum; ++i)
+            {
+                if(p->children[i] != NULL)
+                    printWordsOfNode(p->children[i],prefix+(p->children[i]->data),order);
+            }
+        }
+        else    //是终止字符，prefix是不断+出来的，是整个字符串
+            cout << ++order << " " << prefix << ", frequency: " << p->freq << endl;
     }
 };
 int main()
 {
     Trie textlib;
-    string a("hello"), b("her"), c("world"), d("he");
+    string a("hello"), b("her"), c("so"), d("hi"), e("how"), f("see");
     textlib.insert(a);
     textlib.insert(a);
     textlib.insert(b);
     textlib.insert(c);
-//    textlib.print(textlib.root);
+    textlib.insert(d);
+    textlib.insert(e);
+    textlib.insert(f);
     textlib.find(a);
     textlib.find(b);
     textlib.find(d);
+    textlib.printStrWithPre("h");
+    textlib.printDict();
     textlib.delString("hello");
     textlib.find(a);
-    textlib.find("her");
+    textlib.printStrWithPre("hel");
+    textlib.printDict();
     cout << "total kind(s) of word: " << textlib.itemCount() << endl;
     return 0;
 }
