@@ -16,7 +16,7 @@ public:
     char data;
     TrieNode *children[charNum];
     size_t count;//记录这个节点被多少个单词占用
-    bool isEndOfWord;
+    bool isEndOfWord;//是否是一个单词的结束字符
     TrieNode(char ch = '/'):data(ch), isEndOfWord(false), count(0)
     {
         memset(children,0,sizeof(TrieNode*) * charNum);
