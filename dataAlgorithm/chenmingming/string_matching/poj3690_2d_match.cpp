@@ -5,11 +5,17 @@
  * @modified by: 
  */
 #include <iostream>
-#include <math.h>
 using namespace std;
+typedef unsigned long long ull;
 int a[1001][1001];
 int b[51][51];
-typedef unsigned long long ull;
+ull powTable[51];
+void fill_powtable()
+{
+    powTable[0] = 1;
+    for(int i = 1; i < 51; ++i)
+        powTable[i] = 2*powTable[i-1];
+}
 ull cal_hash_b(int r, int c, int b[][51])
 {
     int i, j, k;
@@ -18,7 +24,7 @@ ull cal_hash_b(int r, int c, int b[][51])
     {
         for(j = 0, k = c-1; j < c; ++j,--k)
         {
-            value += b[i][j]*pow(2.0,k);
+            value += b[i][j]*powTable[k];
         }
     }
     return value;
@@ -30,7 +36,7 @@ ull cal_hash_a_child(int i0, int j0, int r, int c, int a[][1001])
     for (i = i0; i < r; ++i) //计算2d子串的hash值value
     {
         for(j = j0, k = c-1; j < c; ++j,--k)
-            hash_value += a[i][j]*pow(2.0,k);
+            hash_value += a[i][j]*powTable[k];
     }
     return hash_value;
 }
@@ -66,7 +72,7 @@ int str_RK_2d(int a[][1001], int nr, int nc, int b[][51], int mr, int mc)//s是�
             if(j == 0)
                 hash_val = cal_hash_a_child(i,j,mr+i,mc+j,a);//计算2d子串哈希值
             else
-                hash_val = (hash_val-pow(2.0,mc-1)*sum(a,i,j,mr))*2 + sum(a,i,j+mc-1,mr);
+                hash_val = (hash_val-powTable[mc-1]*sum(a,i,j,mr))*2 + sum(a,i,j+mc-1,mr);
             if(hash_val == value && same(a,b,i,j,mr,mc))
             {//如果2d子串哈希值等于模式串的，且"真的"字符串匹配（避免冲突带来的假匹配）
                 return 1;
@@ -105,6 +111,7 @@ void creatMatrix_b(int b[][51], int r, int c)
 }
 int main()
 {
+    fill_powtable();
     int N, M, T, P, Q, count, ID = 1;
     while(cin >> N >> M >> T >> P >> Q && N)
     {
