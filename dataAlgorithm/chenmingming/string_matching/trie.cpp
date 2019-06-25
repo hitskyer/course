@@ -178,7 +178,7 @@ public:
                 p = p->children[index];
         }//匹配完了，p指向前缀最后一个字符节点
         cout << "-------------------------" << endl;
-        cout << "string with prefix: " << prefix << " , as following:" << endl;
+        cout << p->count << " string(s) with prefix: " << prefix << " , as following:" << endl;
         printWordsOfNode(p,prefix,printID);
         cout << "-----------end-----------" << endl;
     }
@@ -187,7 +187,7 @@ public:
         string word("");
         int printID = 0;
         cout << "-------------------------" << endl;
-        cout << "all words as following:" << endl;
+        cout << "all " << itemCount() << " words as following:" << endl;
         printWordsOfNode(root,word,printID);
         cout << "-----------end-----------" << endl;
     }
