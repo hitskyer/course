@@ -10,74 +10,66 @@ using namespace std;
 typedef unsigned long long ull;
 int a[1001][1001];
 int b[51][51];
-//ull powTable[51];
-//void fill_powtable()
-//{
-//    powTable[0] = 1;
-//    for(int i = 1; i < 51; ++i)
-//        powTable[i] = (powTable[i-1])<<1;
-//}
-ull cal_hash_b(int r, int c, int b[][51])
+ull hash_b[51];//存放每行的哈希值，每行相当于一个2进制数
+ull hash_a[1001][1001];//存放主串子串的哈希值
+
+void cal_hash_b(int r, int c, int b[][51])
 {
     int i, j, k;
-    ull value = 0;
+    ull value;
     for (i = 0; i < r; ++i) //计算2d模式串的hash值value
     {
+        value = 0;
         for(j = 0, k = c-1; j < c; ++j,--k)
         {
             value += b[i][j]<<k;
         }
+        hash_b[i] = value;
     }
-    return value;
+    return;
 }
-ull cal_hash_a_child(int i0, int j0, int r, int c, int a[][1001])
+void cal_hash_a_child(int N, int M, int a[][1001], int P, int Q)
 {
-    int i, j, k;
-    ull hash_value = 0;
-    for (i = i0; i < r; ++i) //计算2d子串的hash值value
+    int i, j, k, x;
+    ull hash_value;
+    for (i = 0; i < N; ++i) //计算2d子串的每行的hash值
     {
-        for(j = j0, k = c-1; j < c; ++j,--k)
-            hash_value += a[i][j]<<k;
-    }
-    return hash_value;
-}
-bool same(int a[][1001], int b[][51], int i0, int j0, int mr, int mc)
-{
-    int x = i0, y = j0, i, j;
-    for(i = 0; i < mr; ++i,++x)
-    {
-        for(j = 0, y = j0; j < mc; ++j,++y)//记得写y=j0,换行后y复位
-        {
-            if(a[x][y] != b[i][j])
-                return false;
-        }
-    }
-    return true;
-}
-int sum(int a[][1001], int i0, int j0, int mr)
-{
-    int sum = 0;
-    for(int x = 0; x < mr; ++x,++i0)
-        sum += a[i0][j0];
-    return sum;
-}
-int str_RK_2d(int a[][1001], int nr, int nc, int b[][51], int mr, int mc)//s是主串，t是模式串
-{
-    int i, j;
-    ull hash_val, value;
-    value = cal_hash_b(mr,mc,b);//计算2d模式串哈希值
-    for(i = 0; i < nr-mr+1; ++i)//行最多nr-mr+1次比较
-    {
-        for(j = 0; j < nc-mc+1; ++j)//列最多nc-mc+1次比较
+        for(j = 0; j < M-Q+1; ++j)
         {
             if(j == 0)
-                hash_val = cal_hash_a_child(i,j,mr+i,mc+j,a);//计算2d子串哈希值
-            else
-                hash_val = ((hash_val-(sum(a,i,j,mr)<<(mc-1)))<<1) + sum(a,i,j+mc-1,mr);
-            if(hash_val == value && same(a,b,i,j,mr,mc))
-            {//如果2d子串哈希值等于模式串的，且"真的"字符串匹配（避免冲突带来的假匹配）
-                return 1;
+            {
+                hash_value = 0;
+                for(x = j, k = Q-1; x < j+Q && k >= 0; ++x,--k)
+                    hash_value += a[i][x]<<k;
             }
+            else
+                hash_value = ((hash_a[i][j-1]-(a[i][j-1]<<(Q-1)))<<1)+a[i][j+Q-1];
+            hash_a[i][j] = hash_value;
+        }
+    }
+}
+
+int str_RK_2d(int a[][1001], int N, int M, int b[][51], int P, int Q)//s是主串，t是模式串
+{
+    int i, j, k, x;
+    bool flag = false;
+    cal_hash_b(P,Q,b);//计算2d模式串每行哈希值
+    for(j = 0; j < M-Q+1; ++j)//列最多nc-mc+1次比较,分别比较每行，列先固定
+    {
+        for(i = 0; i < N-P+1; ++i)
+        {//行最多nr-mr+1次比较,一组比较P行
+            for(x = i, k = 0; x < j+Q && k < Q; ++x,++k)
+            {
+                if(hash_a[x][j] == hash_b[k])//比较子串哈希值
+                    flag = true;
+                else
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag == true)
+                return 1;
         }
     }
     return 0;
@@ -112,14 +104,14 @@ void creatMatrix_b(int b[][51], int r, int c)
 }
 int main()
 {
-    clock_t start, finish;
-    start = clock();
-//    fill_powtable();
+//    clock_t start, finish;
+//    start = clock();
     int N, M, T, P, Q, count, ID = 1;
     while(cin >> N >> M >> T >> P >> Q && N)
     {
         count = 0;
         creatMatrix_a(a,N,M);
+        cal_hash_a_child(N,M,a,P,Q);
         while(T--)
         {
             creatMatrix_b(b,P,Q);
@@ -127,7 +119,7 @@ int main()
         }
         cout << "Case " << ID++ << ": " << count << endl;
     }
-    finish = clock();
-    cout << "takes "<< finish-start << " ms." << endl;
+//    finish = clock();
+//    cout << "takes "<< finish-start << " ms." << endl;
     return 0;
 }
