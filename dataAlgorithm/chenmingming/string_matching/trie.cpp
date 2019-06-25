@@ -19,7 +19,7 @@ public:
     bool isEndOfWord;
     TrieNode(char ch = '/'):data(ch), isEndOfWord(false), count(0)
     {
-        memset(children,NULL,sizeof(TrieNode*) * charNum);
+        memset(children,0,sizeof(TrieNode*) * charNum);
     }
     ~TrieNode(){}
 };
