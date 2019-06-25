@@ -224,7 +224,7 @@ int main()
     textlib.printDict();
     textlib.delString("hello");
     textlib.find(a);
-    textlib.printStrWithPre("hel");
+    textlib.printStrWithPre("h");
     textlib.printDict();
     cout << "total kind(s) of word: " << textlib.itemCount() << endl;
     return 0;
