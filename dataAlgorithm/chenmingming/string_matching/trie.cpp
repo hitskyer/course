@@ -61,23 +61,29 @@ public:
         p->freq++;
         p->isEndOfWord = true;
     }
-    TrieNode* find(const string &text) const//查找某个字符串,返回最后一个字符节点的指针
+    void find(const string &text) const//查找某个字符串
     {
         TrieNode *p = root;
         int index;
         for(int i = 0; i < text.size(); ++i)
         {
             index = text[i] - 'a';
-            if(p->children[index] == NULL)
-                return NULL;//还没匹配完
+            if(p->children[index] == NULL)//还没匹配完
+            {
+                cout << "can not find string: " << text << endl;
+                return;
+            }
             p = p->children[index];
         }
         if(p->isEndOfWord == false)//匹配完，但是只是前缀
-            return NULL;
+        {
+            cout << "can not find string: " << text << endl;
+            return;
+        }
         else
         {
             cout << text << " occurs " << p->freq << " time(s)." << endl;
-            return p;
+            return;
         }
     }
 
@@ -177,6 +183,6 @@ int main()
     textlib.delString("hello");
     textlib.find(a);
     textlib.find("her");
-    cout << "total kinds of word: " << textlib.itemCount() << endl;
+    cout << "total kind(s) of word: " << textlib.itemCount() << endl;
     return 0;
 }
