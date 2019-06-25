@@ -133,9 +133,10 @@ int main()
 {
     Trie textlib;
     textlib.insert("hello");
+    textlib.insert("hello");
     textlib.insert("her");
     textlib.insert("world");
-    textlib.print(textlib.root);
+    // textlib.print(textlib.root);
     cout << textlib.find("hello") << " " << textlib.find("her") << endl;
     cout << textlib.delString_1("hello") << endl;
     cout << textlib.find("her") << " " << endl;
