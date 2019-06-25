@@ -37,6 +37,8 @@ public:
     }
     void insert(const string &text)//插入一个字符串
     {
+        if(find(text))
+            return;
         TrieNode *p = root;
         int index;
         for(int i = 0; i < text.size(); ++i)
@@ -103,7 +105,7 @@ public:
             while(nodeStack.top()->count == 1)//删除单词只要自己包含的部分
             {
                 index = nodeStack.top()->data - 'a';
-                cout << "要删的是：" << nodeStack.top()->data << endl;
+                cout << "del char: " << nodeStack.top()->data << endl;
                 delete nodeStack.top();
                 nodeStack.pop();
             }
@@ -136,10 +138,10 @@ int main()
     textlib.insert("hello");
     textlib.insert("her");
     textlib.insert("world");
-    // textlib.print(textlib.root);
+    textlib.print(textlib.root);
     cout << textlib.find("hello") << " " << textlib.find("her") << endl;
     cout << textlib.delString_1("hello") << endl;
     cout << textlib.find("her") << " " << endl;
-    cout << "共有：" << textlib.itemCount() << "个单词。" << endl;
+    cout << "total word num: " << textlib.itemCount() << endl;
     return 0;
 }
