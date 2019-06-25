@@ -17,7 +17,8 @@ public:
     TrieNode *children[charNum];
     size_t count;//记录这个节点被多少个单词占用
     bool isEndOfWord;//是否是一个单词的结束字符
-    TrieNode(char ch = '/'):data(ch), isEndOfWord(false), count(0)
+    size_t freq;    //单词插入的频次
+    TrieNode(char ch = '/'):data(ch), isEndOfWord(false), count(0), freq(0)
     {
         memset(children,0,sizeof(TrieNode*) * charNum);
     }
@@ -37,9 +38,13 @@ public:
     }
     void insert(const string &text)//插入一个字符串
     {
-        if(find(text))
+        TrieNode *p = find_private(text);
+        if(p)//找到了字符串，不用插入，频次加1
+        {
+            p->freq++;
             return;
-        TrieNode *p = root;
+        }
+        p = root;
         int index;
         for(int i = 0; i < text.size(); ++i)
         {
@@ -53,9 +58,10 @@ public:
             p = p->children[index];
         }
         p->count++;
+        p->freq++;
         p->isEndOfWord = true;
     }
-    bool find(const string &text)//查找某个字符串
+    TrieNode* find(const string &text) const//查找某个字符串,返回最后一个字符节点的指针
     {
         TrieNode *p = root;
         int index;
@@ -63,14 +69,39 @@ public:
         {
             index = text[i] - 'a';
             if(p->children[index] == NULL)
-                return false;//还没匹配完
+                return NULL;//还没匹配完
             p = p->children[index];
         }
         if(p->isEndOfWord == false)//匹配完，但是只是前缀
-            return false;
+            return NULL;
         else
-            return true;
+        {
+            cout << text << " occurs " << p->freq << " time(s)." << endl;
+            return p;
+        }
     }
+
+private:
+    TrieNode* find_private(const string &text) const//查找某个字符串,返回最后一个字符节点的指针
+    {
+        TrieNode *p = root;
+        int index;
+        for(int i = 0; i < text.size(); ++i)
+        {
+            index = text[i] - 'a';
+            if(p->children[index] == NULL)
+                return NULL;//还没匹配完
+            p = p->children[index];
+        }
+        if(p->isEndOfWord == false)//匹配完，但是只是前缀
+            return NULL;
+        else
+        {
+            return p;//私有find无输出信息
+        }
+    }
+
+public:
     void destory(TrieNode* proot)//树不再使用，结束前，释放资源
     {
         if(proot == NULL)
@@ -84,7 +115,7 @@ public:
         delete proot;
         proot = NULL;
     }
-    bool delString_1(const string &text)
+    bool delString(const string &text)
     {
         TrieNode *p = root;
         stack<TrieNode*> nodeStack;
@@ -118,7 +149,7 @@ public:
             return true;
         }
     }
-    size_t itemCount()
+    size_t itemCount()//字典中单词种数
     {
         return root->count;
     }
@@ -134,14 +165,18 @@ public:
 int main()
 {
     Trie textlib;
-    textlib.insert("hello");
-    textlib.insert("hello");
-    textlib.insert("her");
-    textlib.insert("world");
-    textlib.print(textlib.root);
-    cout << textlib.find("hello") << " " << textlib.find("her") << endl;
-    cout << textlib.delString_1("hello") << endl;
-    cout << textlib.find("her") << " " << endl;
-    cout << "total word num: " << textlib.itemCount() << endl;
+    string a("hello"), b("her"), c("world"), d("he");
+    textlib.insert(a);
+    textlib.insert(a);
+    textlib.insert(b);
+    textlib.insert(c);
+//    textlib.print(textlib.root);
+    textlib.find(a);
+    textlib.find(b);
+    textlib.find(d);
+    textlib.delString("hello");
+    textlib.find(a);
+    textlib.find("her");
+    cout << "total kinds of word: " << textlib.itemCount() << endl;
     return 0;
 }
