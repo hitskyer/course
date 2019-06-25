@@ -7,7 +7,6 @@
 #include <iostream>
 #include <cstring>
 #include <stack>
-
 #define charNum 26
 using namespace std;
 class TrieNode//Trie树节点类,假设只有26个字母的数据集
@@ -155,11 +154,11 @@ public:
             return true;
         }
     }
-    size_t itemCount()//字典中单词种数
+    size_t itemCount() const//字典中单词种数
     {
         return root->count;
     }
-    void printStrWithPre(const string prefix)//打印有指定前缀的单词
+    void printStrWithPre(const string prefix) const//打印有指定前缀的单词
     {
         if(prefix.size() == 0)
             return;
@@ -182,7 +181,7 @@ public:
         printWordsOfNode(p,prefix,printID);
         cout << "-----------end-----------" << endl;
     }
-    void printDict()//字典序输出全部单词
+    void printDict() const//字典序输出全部单词
     {
         string word("");
         int printID = 0;
@@ -192,7 +191,7 @@ public:
         cout << "-----------end-----------" << endl;
     }
 private:
-    void printWordsOfNode(TrieNode* p, string prefix, int &order)
+    void printWordsOfNode(TrieNode* p, string prefix, int &order) const
     {//递归打印前缀最后一个字符对应节点下面所有的字符
         if(!p->isEndOfWord)
         {
