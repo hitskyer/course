@@ -8,7 +8,7 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
-#define K 26    //K大于等于字符集数
+#define K 25    //K大于等于字符集数 k>=25
 typedef unsigned long long ull;
 char a[1000001], b[10001];
 ull ha[1000001];
