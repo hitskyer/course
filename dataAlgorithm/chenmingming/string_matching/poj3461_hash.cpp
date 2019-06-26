@@ -41,9 +41,9 @@ int str_RK(char *a, int n, char *b, int m)//a是主串，b是模式串
         if(i == 0)
             hash_val = hashf(m,a);
         else
-            hash_val = ha[i+m-1] - ha[i-1]*powk[m];
+            hash_val = ha[i+m-1] - ha[i-1]*powk[m];//这个公式可以自己推导一下
         if(hash_val == value)
-        {//如果子串哈希值等于模式串的，匹配成功（无冲突）
+        {//如果子串哈希值等于模式串的，匹配成功（该哈希无冲突）
             times++;
         }
     }
