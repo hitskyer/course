@@ -1,6 +1,6 @@
-#include <string>
 #include <stdio.h>
 #include <iostream>
+#include <cstring>
 int next[10001];
 char a[1000001], b[10001];
 void calNexts(char *b, int m, int *next)
@@ -12,7 +12,6 @@ void calNexts(char *b, int m, int *next)
         if(k == -1 || b[j] == b[k])
         {
             j++;k++;
-//            if(j != m)//最后一个位置越界
                 next[j] = k;
         }
         else
@@ -43,27 +42,13 @@ int str_kmp(char *a, int n, char *b, int m)
 }
 int main()
 {
-    char ch;
-    int count, len_a, len_b;
+    int count;
     std::cin >> count;
     while(count--)
     {
-        len_a = len_b = 0;
-        ch = getchar();
-        while(ch == ' '||ch == '\n')
-            ch = getchar();
-        while(ch != '\n')
-        {
-            b[len_b++] = ch;
-            ch = getchar();
-        }
-        ch = getchar();
-        while(ch != '\n')
-        {
-            a[len_a++] = ch;
-            ch = getchar();
-        }
-        printf("%d\n",str_kmp(a,len_a, b,len_b));
+        scanf("%s",&b);
+        scanf("%s",&a);
+        printf("%d\n",str_kmp(&a[0], strlen(a), &b[0], strlen(b)));
     }
     return 0;
 }
