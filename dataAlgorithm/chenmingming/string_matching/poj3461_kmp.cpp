@@ -12,7 +12,7 @@ void calNexts(char *b, int m, int *next)
         if(k == -1 || b[j] == b[k])
         {
             j++;k++;
-            if(j != m)//最后一个位置越界
+//            if(j != m)//最后一个位置越界
                 next[j] = k;
         }
         else
@@ -36,7 +36,7 @@ int str_kmp(char *a, int n, char *b, int m)
         if(j == m)
         {
             times++;
-            j = next[j-1];
+            j = next[j];
         }
     }
     return times;
