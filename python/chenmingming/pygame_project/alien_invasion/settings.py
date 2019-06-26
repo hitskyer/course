@@ -9,3 +9,6 @@ class Settings():
         self.bullet_height = 10
         self.bullet_color = 60, 60, 100  #子弹颜色
         self.bullets_allowed = 3        #屏幕中允许的子弹数量
+        self.alien_speed_factor = 1
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1
