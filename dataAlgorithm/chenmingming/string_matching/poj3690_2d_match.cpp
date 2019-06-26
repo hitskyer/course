@@ -5,8 +5,7 @@
  * @modified by:
  */
 #include <time.h>
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 typedef unsigned long long ull;
 int a[1001][1001];
 int b[51][51];
@@ -57,9 +56,9 @@ int str_RK_2d(int a[][1001], int N, int M, int b[][51], int P, int Q)//s是主�
     for(j = 0; j < M-Q+1; ++j)//列最多nc-mc+1次比较,分别比较每行，列先固定
     {
         for(i = 0; i < N-P+1; ++i)
-        {//行最多nr-mr+1次比较,一组比较P行
-            for(x = i, k = 0; x < j+Q && k < Q; ++x,++k)
-            {
+        {//行最多nr-mr+1次比较
+            for(x = i, k = 0; x < i+P && k < P; ++x,++k)
+            {//一组比较P行
                 if(hash_a[x][j] == hash_b[k])//比较子串哈希值
                     flag = true;
                 else
@@ -81,7 +80,9 @@ void creatMatrix_a(int a[][1001], int r, int c)
     for(i = 0; i < r; ++i)
         for(j = 0; j < c; ++j)
         {
-            cin >> ch;
+            ch = getchar();
+            while(ch == ' '||ch == '\n')
+                ch = getchar();
             if(ch == '*')
                 a[i][j] = 1;
             else
@@ -95,7 +96,9 @@ void creatMatrix_b(int b[][51], int r, int c)
     for(i = 0; i < r; ++i)
         for(j = 0; j < c; ++j)
         {
-            cin >> ch;
+            ch = getchar();
+            while(ch == ' '||ch == '\n')
+                ch = getchar();
             if(ch == '*')
                 b[i][j] = 1;
             else
@@ -107,7 +110,7 @@ int main()
 //    clock_t start, finish;
 //    start = clock();
     int N, M, T, P, Q, count, ID = 1;
-    while(cin >> N >> M >> T >> P >> Q && N)
+    while((scanf("%d%d%d%d%d",&N,&M,&T,&P,&Q)!=EOF) && N)
     {
         count = 0;
         creatMatrix_a(a,N,M);
@@ -117,7 +120,7 @@ int main()
             creatMatrix_b(b,P,Q);
             count += str_RK_2d(a,N,M,b,P,Q);
         }
-        cout << "Case " << ID++ << ": " << count << endl;
+        printf("Case %d: %d\n",ID++,count);
     }
 //    finish = clock();
 //    cout << "takes "<< finish-start << " ms." << endl;
