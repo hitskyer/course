@@ -12,12 +12,12 @@
 typedef unsigned long long ull;
 char a[1000001], b[10001];
 ull ha[1000001];
-ull powk[1000001];//存储K的幂值
+ull powk[10001];//存储K的幂值
 using namespace std;
-void fillpowk(int n)
+void fillpowk(int m)
 {
     powk[0] = 1;
-    for(int i = 1; i < n; ++i)
+    for(int i = 1; i <= m; ++i)
         powk[i] = powk[i-1]*K;
 }
 ull hashf(int m, char *str)
