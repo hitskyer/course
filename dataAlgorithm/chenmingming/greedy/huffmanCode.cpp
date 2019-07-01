@@ -23,12 +23,6 @@ struct htNode
     {
         parent = lchild = rchild = NULL;
     }
-    bool operator<(const htNode &a)const
-    {
-        if(weight == a.weight)
-            return data > a.data;
-        return weight > a.weight;
-    }
     htNode& operator=(const htNode &a)
     {
         data = a.data;
@@ -40,82 +34,92 @@ struct htNode
         return *this;
     }
 };
+class comp
+{
+public:
+    bool operator()(htNode* &a, htNode* &b)const
+    {
+        if(a->weight == b->weight)
+            return a->data > b->data;
+        return a->weight > b->weight;
+    }
+};
+
 class HuffmanTree
 {
 public:
-    htNode root;
-    htNode node[2*N-1];
-    priority_queue<htNode,vector<htNode> > pri_queue;
+    htNode *root;
+    htNode* node[2*N-1];
+    priority_queue<htNode*,vector<htNode*>,comp> pri_queue;
+
     void creatTree(int *w)
     {
         char ch = 'a';
-        htNode left, right;
+        htNode *left, *right;
         for(int i = 0; i < N; ++i,++ch)
         {
-            node[i].weight = w[i];
-            node[i].data = ch;
+            node[i] = new htNode();
+            node[i]->weight = w[i];
+            node[i]->data = ch;
             pri_queue.push(node[i]);
         }
         for(int i = N; i < 2*N-1; ++i)
         {
-            left = pri_queue.top();
-            left.code = '0';
-            pri_queue.pop();
-            right = pri_queue.top();
-            right.code = '1';
-            pri_queue.pop();
-            node[i].weight = left.weight+right.weight;
-            node[i].lchild = &left;
-            node[i].rchild = &right;
-            left.parent = &node[i];
-            right.parent = &node[i];
+            node[i] = new htNode();
+            if(pri_queue.top()->data != '/')
+            {
+                right = pri_queue.top();
+                right->code = '1';
+                pri_queue.pop();
+                left = pri_queue.top();
+                left->code = '0';
+                pri_queue.pop();
+            }
+            else
+            {
+                left = pri_queue.top();
+                left->code = '0';
+                pri_queue.pop();
+                right = pri_queue.top();
+                right->code = '1';
+                pri_queue.pop();
+            }
+            node[i]->weight = left->weight+right->weight;
+            node[i]->lchild = left;
+            node[i]->rchild = right;
+            left->parent = node[i];
+            right->parent = node[i];
             pri_queue.push(node[i]);
         }
         root = pri_queue.top();
     }
     void creatHuffCode()
     {
-        queue<htNode*> nodeQueue;
-        htNode* leafNode[N];
-        memset(leafNode,NULL,N* sizeof(htNode*));
-        nodeQueue.push(&root);
-        htNode *left, *right, *parent;
-        int i = 0;
+        htNode *parent;
         string huffcode;
-        while(!nodeQueue.empty())//按层遍历，获取叶子节点
-        {
-            left = nodeQueue.front()->lchild;
-            right = nodeQueue.front()->rchild;
-            if(left && right)//霍夫曼树左右节点成对出现
-            {
-                nodeQueue.push(left);
-                nodeQueue.push(right);
-            }
-            else
-            {
-                leafNode[i++] = nodeQueue.front();//存储叶子节点
-            }
-            nodeQueue.pop();
-        }
-        for(i = 0; i < N; ++i)
+        int codelen = 0;
+        for(int i = 0; i < N; ++i)
         {
             huffcode = "";
-            parent = leafNode[i];
-            cout << i+1 << " " << leafNode[i]->data << " 的霍夫曼编码是: ";
-            while(parent != &root)
+            parent = node[i];
+            cout << i+1 << " " << node[i]->data << " 的霍夫曼编码是: ";
+            while(parent != root)
             {
                 huffcode.push_back(parent->code);
+                parent = parent->parent;
             }
             reverse(huffcode.begin(),huffcode.end());
             cout << huffcode << endl;
+            codelen += huffcode.size()*node[i]->weight;
         }
+        cout << "该字符串的huffman编码长度为: " << codelen << " bits.";
     }
 };
 
 int main()
 {
     HuffmanTree huff;
-    cout << "请输入依次" << N << "个字母abc...的权值（频率）：" << endl;
+    cout << "请输入某字符串中" << N << "个字母abc...的权值（频率）：" << endl;
     int w[N];//权重
     for(int i = 0; i < N; ++i)
     {
