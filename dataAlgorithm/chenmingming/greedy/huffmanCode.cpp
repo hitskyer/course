@@ -23,16 +23,6 @@ struct htNode
     {
         parent = lchild = rchild = NULL;
     }
-    htNode& operator=(const htNode &a)
-    {
-        data = a.data;
-        code = a.code;
-        weight = a.weight;
-        parent = a.parent;
-        lchild = a.lchild;
-        rchild = a.rchild;
-        return *this;
-    }
 };
 class comp
 {
@@ -51,7 +41,7 @@ public:
     htNode *root;
     htNode* node[2*N-1];
     priority_queue<htNode*,vector<htNode*>,comp> pri_queue;
-
+    //优先队列中存放类指针时，第三个参数应该另写一个comp类，类内写operator()
     void creatTree(int *w)
     {
         char ch = 'a';
