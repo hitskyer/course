@@ -45,7 +45,7 @@ class HuffmanTree
 public:
     htNode root;
     htNode node[2*N-1];
-    priority_queue<htNode,vector<htNode>> pri_queue;
+    priority_queue<htNode,vector<htNode> > pri_queue;
     void creatTree(int *w)
     {
         char ch = 'a';
