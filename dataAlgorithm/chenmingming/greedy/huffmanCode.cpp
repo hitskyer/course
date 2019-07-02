@@ -86,7 +86,7 @@ public:
         }
         root = pri_queue.top();//最后还剩一个节点，是根节点
         creatHuffCode();
-        for(int i = N; i < 2*N-1; ++i)//释放资源
+        for(int i = 0; i < 2*N-1; ++i)//释放资源
         {
         	delete node[i];
         }
