@@ -28,11 +28,12 @@ bool compx(const Point &a, const Point &b)
         return a.x < b.x;
     return a.y < b.y;
 }
-PointVec points_vec;
-bool compy(const int &a, const int &b)
+bool compy(const Point &a, const Point &b)
 {
-    return points_vec[a].y < points_vec[b].y;
+    return a.y < b.y;
 }
+PointVec points_vec;
+
 class ClosestPoint
 {
     PointVec points_vec;
@@ -100,23 +101,27 @@ public:
         double distance = RAND_MAX, d;
         distance = min(distance,calcDist(left,mid,s,t));
         distance = min(distance,calcDist(mid+1,right,s,t));
-        size_t ID[right-left+1], i, j, k = 0;
+        size_t i, j, k = 0;
+        PointVec temp;
         for(i = left; i <= right; ++i)
         {
             if(fabs(points_vec[i].x-mid_x) <= distance)
-                ID[k++] = i;
+            {
+                temp.push_back(points_vec[i]);
+                k++;
+            }
         }
-        sort(ID,ID+k,compy);
+        sort(temp.begin(),temp.end()+k,compy);
         for(i = 0; i < k; ++i)
         {
-            for(j = i+1; j < k && points_vec[ID[j]].y-points_vec[ID[i]].y < distance; ++j)
+            for(j = i+1; j < k && temp[j].y-temp[i].y < distance; ++j)
             {
-                d = dist(points_vec[ID[i]],points_vec[ID[j]]);
+                d = dist(temp[j],temp[j]);
                 if(d < distance)
                 {
                     distance = d;
-                    s = points_vec[ID[i]].id;
-                    t = points_vec[ID[j]].id;
+                    s = temp[i].id;
+                    t = temp[j].id;
                 }
             }
         }
