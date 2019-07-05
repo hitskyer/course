@@ -14,7 +14,7 @@
 #define LOWER_BOUND 0.0
 #define UPPER_BOUND 100.0   //随机点的范围
 using namespace std;
-class Point
+class Point//点
 {
 public:
     int id;
@@ -32,7 +32,6 @@ bool compy(const Point &a, const Point &b)
 {
     return a.y < b.y;
 }
-PointVec points_vec;
 
 class ClosestPoint
 {
@@ -41,6 +40,7 @@ class ClosestPoint
 public:
     ClosestPoint()
     {
+        srand(unsigned(time(0)));
         double x, y;
         cout << "请输入测试点个数，将随机生成散点：";
         cin >> numOfPoint;
@@ -53,15 +53,13 @@ public:
         }
     }
 
-
-
     double dist(const Point &a, const Point &b)
     {
         double dx = a.x - b.x;
         double dy = a.y - b.y;
         return sqrt(dx*dx + dy*dy);//返回两点之间的距离
     }
-    void bfCalDist()
+    void bfCalDist()//暴力求解
     {
         size_t num = points_vec.size();
         if(num <= 1)
@@ -83,11 +81,10 @@ public:
                 }
             }
         cout << "点" << s << "到点" << t << "的距离最小：" << distance << endl;
-        cout << "---------------------------------" << endl;
     }
     double calcDist(size_t left, size_t right, size_t &s, size_t &t)
     {
-        if(left == right)//一个点
+        if(left == right)//一个点,返回无穷大
             return RAND_MAX;
         if(left+1 == right)//两个点，直接计算距离
         {
@@ -96,27 +93,28 @@ public:
             return dist(points_vec[left],points_vec[right]);
         }
         sort(points_vec.begin()+left,points_vec.begin()+right+1,compx);
+        //把点群按照x排序
         size_t mid = (left+right)/2;
         double mid_x = points_vec[mid].x;
         double distance = RAND_MAX, d;
-        distance = min(distance,calcDist(left,mid,s,t));
-        distance = min(distance,calcDist(mid+1,right,s,t));
+        distance = min(distance,calcDist(left,mid,s,t));//递归划分左边
+        distance = min(distance,calcDist(mid+1,right,s,t));//递归划分右边
         size_t i, j, k = 0;
-        PointVec temp;
+        PointVec temp;//存储临时点（在mid_x左右d范围内的）
         for(i = left; i <= right; ++i)
         {
             if(fabs(points_vec[i].x-mid_x) <= distance)
             {
-                temp.push_back(points_vec[i]);
+                temp.emplace_back(points_vec[i].id,points_vec[i].x,points_vec[i].y);
                 k++;
             }
         }
-        sort(temp.begin(),temp.end()+k,compy);
+        sort(temp.begin(),temp.end(),compy);//再把范围内的点，按y排序
         for(i = 0; i < k; ++i)
         {
             for(j = i+1; j < k && temp[j].y-temp[i].y < distance; ++j)
-            {
-                d = dist(temp[j],temp[j]);
+            {//在临时点里寻找距离更小的，内层循环最多执行不超过4次就会退出
+                d = dist(temp[i],temp[j]);
                 if(d < distance)
                 {
                     distance = d;
@@ -127,7 +125,7 @@ public:
         }
         return distance;
     }
-    void closestDist()
+    void closestDist()//调用分治求解
     {
         size_t num = points_vec.size();
         if(num <= 1)
@@ -144,13 +142,13 @@ public:
 int main()
 {
     ClosestPoint cp;
-    srand(unsigned(time(0)));
     clock_t start, end;
     cout << "方法1，暴力求解：" << endl;
     start = clock();
     cp.bfCalDist();
     end = clock();
     cout << "耗时：" << (double)(end - start) << "ms." << endl;
+    cout << "-------------------" << endl;
     cout << "方法2，分治求解：" << endl;
     start = clock();
     cp.closestDist();
