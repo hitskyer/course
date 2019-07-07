@@ -11,9 +11,14 @@ class EightQueen
     int result[8];//下标表示行，值表示queen在哪一列
     void printQueens(int *result)
     {
-        int r,c,flag = 1;
+        int i,r,c,flag = 1;
+        cout << "  ";
+        for(i = 0; i < 8; ++i)
+            cout << "▁";
+        cout << endl;
         for(r = 0; r < 8; ++r)
         {
+            cout << "┃";
             for(c = 0; c < 8; ++c)
             {
                 if(result[r] == c)
@@ -21,13 +26,19 @@ class EightQueen
                 else
                 {
                     if(flag < 0)
-                        cout << " ";
+                        cout << "  ";
                     else
                         cout << "■";
                 }
+                flag = -1*flag;
             }
+            cout << "▏" << endl;
             flag = -1*flag;
         }
+        cout << "  ";
+        for(i = 0; i < 8; ++i)
+            cout << "▔";
+        cout << endl;
     }
     bool isOk(int r, int c)//判断在r行c列放置是否可以满足要求
     {
@@ -51,10 +62,14 @@ class EightQueen
         return true;
     }
 public:
+    int kinds;  //可行布局种类
+    EightQueen():kinds(0){}
     void cal8queens(int row)    //调用方式cal8queens(0)
     {
         if(row == 8)    //8个棋子都放置好了，打印结果
         {
+            kinds++;
+            cout << "第" << kinds << "种放法：" << endl;
             printQueens(result);
             return;//都放置好了，没法再递归了
         }
@@ -71,5 +86,8 @@ public:
 };
 int main()
 {
-    cout << "";
+    EightQueen eq;
+    eq.cal8queens(0);
+    cout << "共有" << eq.kinds << "种摆放方法。" << endl;
+    return 0;
 }
