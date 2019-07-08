@@ -5,8 +5,12 @@
  * @modified by: 
  */
 #include <iostream>
+#define MaxWeight 100   //背包承载极限
 using namespace std;
+void fill(int i, int curWeight, int *bag, int n, int w)
+{
 
+}
 int main()
 {
     return 0;
