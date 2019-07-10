@@ -13,6 +13,21 @@ class Pattern
     bool matched;
     string pattern;//正则表达式
     int plen;//正则表达式长度
+
+public:
+    Pattern(const string &pat, int len)
+    {
+        matched = false;
+        pattern = pat;
+        plen = len;
+    }
+    bool match(string text, int tlen)//文本串及长度
+    {
+        matched = false;
+        rmatch(0,0,text,tlen);
+        return matched;
+    }
+private:
     void rmatch(int ti, int pj, string text, int tlen)
     {
         if(matched)//已经匹配，停止递归
@@ -36,19 +51,7 @@ class Pattern
         else if(ti < tlen && pattern[pj] == text[ti])//纯字符匹配才行
             rmatch(ti+1,pj+1,text,tlen);
     }
-public:
-    Pattern(const string &pat, int len)
-    {
-        matched = false;
-        pattern = pat;
-        plen = len;
-    }
-    bool match(string text, int tlen)//文本串及长度
-    {
-        matched = false;
-        rmatch(0,0,text,tlen);
-        return matched;
-    }
+
 };
 
 int main()
