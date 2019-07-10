@@ -15,8 +15,8 @@ void fill(int i, int curWeight, int *bag, int N, int &maxweightinbag)
             maxweightinbag = curWeight;//记录历史最大装载量
         return;
     }
-    fill(i+1,curWeight,bag,N,maxweightinbag);
-    if(curWeight+bag[i] <= MaxWeight)
+    fill(i+1,curWeight,bag,N,maxweightinbag);//不选择当前i物品，cw不更新
+    if(curWeight+bag[i] <= MaxWeight)//选择当前i物品，cw更新
     {//没有达到极限，继续装
         fill(i+1,curWeight+bag[i],bag,N,maxweightinbag);
     }
