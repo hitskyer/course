@@ -56,7 +56,7 @@ private:
 
 int main()
 {
-    Pattern Pat("*?i",3);
-    cout << Pat.match("xiaoi",6);
+    Pattern Pat("xia?mi",6);
+    cout << Pat.match("xiaomi",6);
     return 0;
 }
