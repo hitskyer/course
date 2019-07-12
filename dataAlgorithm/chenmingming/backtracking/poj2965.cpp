@@ -9,7 +9,7 @@
 #include <queue>
 using namespace std;
 bool a[4][4];
-queue<pair<int,int> > posqueue;
+
 bool isok()//判断是否都是-号（0）
 {
     int i, j;
@@ -29,11 +29,13 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其所在行和列
 {
     a[r][c] = !a[r][c];
     for(int i = 0; i < 4; ++i)
+    {
         a[r][i] = !a[r][i];
-    for(int i = 0; i < 4; ++i)
         a[i][c] = !a[i][c];
+    }
 }
-void flip(int r, int c,int curstep, long &minstep)
+
+void flip(int r, int c,int curstep, long &minstep, queue<pair<int,int> > &posqueue)
 {
     if(isok())
     {
@@ -42,18 +44,23 @@ void flip(int r, int c,int curstep, long &minstep)
         return;
     }
     if(c+1 < 4)
-        flip(r,c+1,curstep,minstep);
+        flip(r,c+1,curstep,minstep,posqueue);
     else if(c+1 == 4 && r+1 < 4)
-        flip(r+1,0,curstep,minstep);
+        flip(r+1,0,curstep,minstep,posqueue);
     flipAndUpdate(r,c);
     posqueue.push(make_pair(r,c));
     curstep++;
     if(c+1 < 4)
-        flip(r,c+1,curstep,minstep);
+        flip(r,c+1,curstep,minstep,posqueue);
     else if(c+1 == 4 && r+1 < 4)
-        flip(r+1,0,curstep,minstep);
+        flip(r+1,0,curstep,minstep,posqueue);
     flipAndUpdate(r,c);//翻完了，还要复原？
 }
+//void flip(int r, int c,int curstep, long &minstep)
+//{
+//    queue<pair<int,int> > posqueue;
+//    flip(0,0,0,minstep,posqueue);
+//}
 int main()
 {
     string s;
@@ -70,7 +77,8 @@ int main()
                 a[i][j] = 1;
         }
     }
-    flip(0,0,0,minstep);
+    queue<pair<int,int> > posqueue;
+    flip(0,0,0,minstep,posqueue);
     cout << minstep;
     return 0;
 }
