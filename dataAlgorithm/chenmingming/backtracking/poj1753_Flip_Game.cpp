@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-bool a[4][4];
+bool a[5][5];
 bool isok()//判断是否都是同种颜色
 {
     int i, j;
@@ -44,6 +44,8 @@ void flip(int r, int c,int curstep, long &minstep)
             minstep = curstep;
         return;
     }
+//    if(r == 4)
+//        return;
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
     else if(c+1 == 4 && r+1 < 4)
