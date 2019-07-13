@@ -41,7 +41,6 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其所在行和列
         a[i][c] = !a[i][c];
     }
 }
-
 void flip(int r, int c,int curstep, long &minstep)
 {
 //    cout << "rc" << r << " " << c << " " << ++cou << endl;
@@ -55,7 +54,6 @@ void flip(int r, int c,int curstep, long &minstep)
                 finalposi[i].row = posi[i].row;
                 finalposi[i].column = posi[i].column;
             }
-
         }
         return;
     }
@@ -67,18 +65,12 @@ void flip(int r, int c,int curstep, long &minstep)
     posi[curstep].row = r;
     posi[curstep].column = c;
     curstep++;
-
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
     else if(c+1 == 4 && r+1 < 4)
         flip(r+1,0,curstep,minstep);
     flipAndUpdate(r,c);//翻完了，还要复原？
 }
-//void flip(int r, int c,int curstep, long &minstep)
-//{
-//    queue<pair<int,int> > posqueue;
-//    flip(0,0,0,minstep,posqueue);
-//}
 int main()
 {
     string s;
@@ -97,9 +89,9 @@ int main()
     }
     flip(0,0,0,minstep);
     cout << minstep << endl;
-//    for(int i = 0; i < minstep; ++i)
-//    {
-//        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
-//    }
+    for(int i = 0; i < minstep; ++i)
+    {
+        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
+    }
     return 0;
 }
