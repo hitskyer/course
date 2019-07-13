@@ -89,9 +89,9 @@ int main()
     }
     flip(0,0,0,minstep);
     cout << minstep << endl;
-    for(int i = 0; i < minstep; ++i)
-    {
-        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
-    }
+//    for(int i = 0; i < minstep; ++i)
+//    {
+//        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
+//    }
     return 0;
 }
