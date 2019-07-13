@@ -9,7 +9,13 @@
 #include <queue>
 using namespace std;
 bool a[4][4];
-
+struct position
+{
+    int row;
+    int column;
+};
+position posi[30];
+position finalposi[30];
 bool isok()//判断是否都是-号（0）
 {
     int i, j;
@@ -40,7 +46,15 @@ void flip(int r, int c,int curstep, long &minstep, queue<pair<int,int> > &posque
     if(isok())
     {
         if(curstep < minstep)
+        {
             minstep = curstep;
+            for(int i = 0; i < curstep; ++i)
+            {
+                finalposi[i].row = posi[i].row;
+                finalposi[i].column = posi[i].column;
+            }
+
+        }
         return;
     }
     if(c+1 < 4)
@@ -49,6 +63,8 @@ void flip(int r, int c,int curstep, long &minstep, queue<pair<int,int> > &posque
         flip(r+1,0,curstep,minstep,posqueue);
     flipAndUpdate(r,c);
     posqueue.push(make_pair(r,c));
+    posi[curstep].row = r;
+    posi[curstep].column = c;
     curstep++;
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep,posqueue);
@@ -79,6 +95,10 @@ int main()
     }
     queue<pair<int,int> > posqueue;
     flip(0,0,0,minstep,posqueue);
-    cout << minstep;
+    cout << minstep << endl;
+//    for(int i = 0; i < minstep; ++i)
+//    {
+//        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
+//    }
     return 0;
 }
