@@ -16,6 +16,7 @@ struct position
 };
 position posi[30];
 position finalposi[30];
+long cou = 0;
 bool isok()//判断是否都是-号（0）
 {
     int i, j;
@@ -43,6 +44,7 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其所在行和列
 
 void flip(int r, int c,int curstep, long &minstep)
 {
+//    cout << "rc" << r << " " << c << " " << ++cou << endl;
     if(isok())
     {
         if(curstep < minstep)
@@ -65,6 +67,7 @@ void flip(int r, int c,int curstep, long &minstep)
     posi[curstep].row = r;
     posi[curstep].column = c;
     curstep++;
+
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
     else if(c+1 == 4 && r+1 < 4)
