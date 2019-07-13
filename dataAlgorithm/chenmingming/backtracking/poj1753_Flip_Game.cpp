@@ -35,6 +35,7 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其周围棋子
     if(c+1 < 4)
         a[r][c+1] = !a[r][c+1];
 }
+
 void flip(int r, int c,int curstep, long &minstep)
 {
     if(isok())
