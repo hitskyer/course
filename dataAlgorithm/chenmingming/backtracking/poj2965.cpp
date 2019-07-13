@@ -41,7 +41,7 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其所在行和列
     }
 }
 
-void flip(int r, int c,int curstep, long &minstep, queue<pair<int,int> > &posqueue)
+void flip(int r, int c,int curstep, long &minstep)
 {
     if(isok())
     {
@@ -58,18 +58,17 @@ void flip(int r, int c,int curstep, long &minstep, queue<pair<int,int> > &posque
         return;
     }
     if(c+1 < 4)
-        flip(r,c+1,curstep,minstep,posqueue);
+        flip(r,c+1,curstep,minstep);
     else if(c+1 == 4 && r+1 < 4)
-        flip(r+1,0,curstep,minstep,posqueue);
+        flip(r+1,0,curstep,minstep);
     flipAndUpdate(r,c);
-    posqueue.push(make_pair(r,c));
     posi[curstep].row = r;
     posi[curstep].column = c;
     curstep++;
     if(c+1 < 4)
-        flip(r,c+1,curstep,minstep,posqueue);
+        flip(r,c+1,curstep,minstep);
     else if(c+1 == 4 && r+1 < 4)
-        flip(r+1,0,curstep,minstep,posqueue);
+        flip(r+1,0,curstep,minstep);
     flipAndUpdate(r,c);//翻完了，还要复原？
 }
 //void flip(int r, int c,int curstep, long &minstep)
@@ -93,8 +92,7 @@ int main()
                 a[i][j] = 1;
         }
     }
-    queue<pair<int,int> > posqueue;
-    flip(0,0,0,minstep,posqueue);
+    flip(0,0,0,minstep);
     cout << minstep << endl;
 //    for(int i = 0; i < minstep; ++i)
 //    {
