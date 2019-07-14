@@ -1,5 +1,5 @@
 /**
- * @description: 0-1背包--dp应用
+ * @description: 0-1背包--dp应用引入案例
  * @author: michael ming
  * @date: 2019/7/9 1:13
  * @modified by: 
