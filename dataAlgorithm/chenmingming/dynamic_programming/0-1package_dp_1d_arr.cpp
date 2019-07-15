@@ -16,18 +16,15 @@ int fill_dp(int *bag, int N)
         states[bag[0]] = true;//第1个背包放
     for(int i = 1; i < N; ++i)//动态规划状态转移
     {
-        for(int j = 0; j <= MaxWeight; ++j)//不把第i个物品放入背包
+        for(int j = MaxWeight-bag[i]; j >= 0; --j)//把第i个物品放入背包
         {
-            if(states[i-1][j] == true)
-                states[i][j] = states[i-1][j];//把上一行的状态复制下来（i不放物品）
+            if(states[j] == true)
+                states[j+bag[i]] = true;
         }
-        for(int j = 0; j+bag[i] <= MaxWeight; ++j)
-            if(states[i-1][j] == true)
-                states[i][j+bag[i]] = true;//把第i个物品放入背包
     }
-    for(int i = MaxWeight; i >= 0; --i)//把最后一行，从后往前找最重的背包
+    for(int i = MaxWeight; i >= 0; --i)//输出结果
     {
-        if(states[N-1][i] == true)
+        if(states[i] == true)
             return i;//最大重量
     }
     return 0;
