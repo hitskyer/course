@@ -25,15 +25,16 @@ int fill_value_dp(int* weight, int* value, int N)
     {
         for (int j = 0; j <= MaxWeight; ++j)
         { // 不选择第 i 个物品
-            if (states[i-1][j] >= 0) states[i][j] = states[i-1][j];
+            if (states[i-1][j] >= 0)
+                states[i][j] = states[i-1][j];//直接复制上一层的状态
         }
-        for (int j = 0; j <= MaxWeight-weight[i]; ++j)
+        for (int j = 0; j+weight[i] <= MaxWeight; ++j)
         { // 选择第 i 个物品
             if (states[i-1][j] >= 0)
             {
                 int v = states[i-1][j] + value[i];
                 if (v > states[i][j+weight[i]])
-                {
+                {//只存价值最大的
                     states[i][j+weight[i]] = v;
                 }
             }
