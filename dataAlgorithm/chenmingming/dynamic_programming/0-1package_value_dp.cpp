@@ -47,6 +47,7 @@ int fill_value_dp(int* weight, int* value, int N)
         if (states[N-1][j] > maxvalue)
             maxvalue = states[N-1][j];
     }
+    delete [] states;
     return maxvalue;
 }
 int main()
