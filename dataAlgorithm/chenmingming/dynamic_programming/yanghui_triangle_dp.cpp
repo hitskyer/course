@@ -10,7 +10,7 @@
 
 using namespace std;
 const int high = 5;
-int YHTriangle[high][high] = {{5},{7,8},{2,3,4},{4,9,6,1},{2,7,9,4,5}};
+int YHTriangle[high][high] = {{5},{7,8},{2,1,4},{4,2,6,1},{2,7,3,4,5}};
 
 void shortestPath()
 {
@@ -59,6 +59,8 @@ void shortestPath()
                 cout << YHTriangle[i-1][j-1] << " ";
                 j--;
             }
+            else
+                cout << YHTriangle[i-1][j] << " ";
         }
     }
 }
