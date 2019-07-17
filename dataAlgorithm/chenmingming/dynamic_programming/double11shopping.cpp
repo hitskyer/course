@@ -12,7 +12,7 @@ const int MaxSumOfPrice = 3*limitMoney;//超过3倍就没有媷羊毛的必要�
 void double11shopping(int *price, int n)
 {
     bool (*states) [MaxSumOfPrice+1] = new bool [n][MaxSumOfPrice+1];
-    memset(states,0,(MaxSumOfPrice+1)* sizeof(bool));
+    memset(states,0,n*(MaxSumOfPrice+1)*sizeof(bool));
     states[0][0] = true;//第一个不买
     if(price[0] <= MaxSumOfPrice)
         states[0][price[0]] = true;//第一个买
