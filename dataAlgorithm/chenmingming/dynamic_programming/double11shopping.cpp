@@ -38,7 +38,8 @@ void double11shopping(int *price, int n)
     }
     if(j == MaxSumOfPrice+1)
         return;//超出满减金额很多，没必要选了，直接买吧
-    for(i = n-1; i >= 1; --i)
+
+    for(i = n-1; i >= 1; --i)//打印该买的商品
     {
         if(j-price[i] >= 0 && states[i-1][j-price[i]] == true)
         {
