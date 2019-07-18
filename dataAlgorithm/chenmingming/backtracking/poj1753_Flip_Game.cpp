@@ -44,7 +44,7 @@ void flip(int r, int c,int curstep, long &minstep)
             minstep = curstep;
         return;
     }
-   if(r == 4)
+   	if(r == 4)
        return;
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
