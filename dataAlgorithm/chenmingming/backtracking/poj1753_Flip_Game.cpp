@@ -44,17 +44,17 @@ void flip(int r, int c,int curstep, long &minstep)
             minstep = curstep;
         return;
     }
-//    if(r == 4)
-//        return;
+   if(r == 4)
+       return;
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
-    else if(c+1 == 4 && r+1 < 4)
+    else if(c+1 == 4)
         flip(r+1,0,curstep,minstep);
     flipAndUpdate(r,c);
     curstep++;
     if(c+1 < 4)
         flip(r,c+1,curstep,minstep);
-    else if(c+1 == 4 && r+1 < 4)
+    else if(c+1 == 4)
         flip(r+1,0,curstep,minstep);
     flipAndUpdate(r,c);//翻完了，还要复原？
 }
