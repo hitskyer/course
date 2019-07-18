@@ -8,15 +8,14 @@
 #include <string>
 #include <queue>
 using namespace std;
-bool a[4][4];
-struct position
+bool a[4][4];//存储地图
+struct position//位置
 {
     int row;
     int column;
 };
-position posi[30];
-position finalposi[30];
-long cou = 0;
+position posi[30];//位置信息
+position finalposi[30];//成功开门的位置信息
 bool isok()//判断是否都是-号（0）
 {
     int i, j;
@@ -43,14 +42,13 @@ void flipAndUpdate(int r, int c)//翻转r，c处及其所在行和列
 }
 void flip(int r, int c,int curstep, long &minstep)
 {
-//    cout << "rc" << r << " " << c << " " << ++cou << endl;
     if(isok())
     {
         if(curstep < minstep)
         {
-            minstep = curstep;
+            minstep = curstep;//是一个较短路径
             for(int i = 0; i < curstep; ++i)
-            {
+            {//较短路径付给最终要输出的路径数组
                 finalposi[i].row = posi[i].row;
                 finalposi[i].column = posi[i].column;
             }
@@ -59,19 +57,19 @@ void flip(int r, int c,int curstep, long &minstep)
     }
     if(r == 4)
         return;
-    if(c+1 < 4)
+    if(c+1 < 4)//不按这个按钮
         flip(r,c+1,curstep,minstep);
     else if(c+1 == 4)
         flip(r+1,0,curstep,minstep);
-    flipAndUpdate(r,c);
+    flipAndUpdate(r,c);//按这个按钮
     posi[curstep].row = r;
-    posi[curstep].column = c;
+    posi[curstep].column = c;//记录按钮位置
     curstep++;
-    if(c+1 < 4)
+    if(c+1 < 4)//按这个按钮
         flip(r,c+1,curstep,minstep);
     else if(c+1 == 4)
         flip(r+1,0,curstep,minstep);
-    flipAndUpdate(r,c);//翻完了，还要复原？
+    flipAndUpdate(r,c);//按完了，还要复原
 }
 int main()
 {
@@ -90,10 +88,10 @@ int main()
         }
     }
     flip(0,0,0,minstep);
-    cout << minstep << endl;
-//    for(int i = 0; i < minstep; ++i)
-//    {
-//        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
-//    }
+    cout << minstep << endl;//输出最短次数
+    for(int i = 0; i < minstep; ++i)
+    {//输出按按钮的位置信息
+        cout << finalposi[i].row+1 << " " << finalposi[i].column+1 << endl;
+    }
     return 0;
 }
