@@ -1,7 +1,7 @@
 /**
  * @description: dp课第二节，案例回溯法求解
  * @author: michael ming
- * @date: 2019/7/19 12:55
+ * @date: 2019/7/19 19:55
  * @modified by: 
  */
 #include <iostream>
