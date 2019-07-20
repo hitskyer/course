@@ -8,7 +8,7 @@
 #include <stack>
 #define N 4//地图大小
 using namespace std;
-int (*states)[N] = new int [N][N];
+int states [N][N];
 void printShortestWay(int (*map)[N], int (*states)[N])
 {
     stack<int> path;
