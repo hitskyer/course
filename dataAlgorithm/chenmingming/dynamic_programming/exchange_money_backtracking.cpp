@@ -5,8 +5,6 @@
  * @modified by:
  */
 #include <iostream>
-#include <memory.h>
-#include <math.h>
 #define N 3
 int rmb[N] = {1,9,10};//钞票面额
 int amount[N];
@@ -35,7 +33,7 @@ void exchange(const int &targetMoney, int curMoney, int &minPiece, int piece)
 }
 int main()
 {
-    int minPiece = 65535, piece = 0,targetMoney = 18, curMoney = 0;
+    int minPiece = 65535, piece = 0,targetMoney = 91, curMoney = 0;
     exchange(targetMoney,curMoney,minPiece,piece);
     cout << "凑成" << targetMoney << "元，最少需要：" << minPiece << "张(枚)。" << endl;
     int i = 0;
