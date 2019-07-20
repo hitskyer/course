@@ -57,7 +57,7 @@ class EightQueen
                 if(result[i] == rightup)//第i行rightup列有棋子吗
                     return false;
             }
-            --leftup; ++rightup;
+            --leftup; ++rightup;//对角线，往上一行，左右向外走一步
         }
         return true;
     }
