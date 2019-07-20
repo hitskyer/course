@@ -9,12 +9,12 @@
 #include <math.h>
 #define N 10
 using namespace std;
-void exchange(float money, float *rmb, int i0, int *amount)
+void exchange(float money, float *rmb, int *amount)
 {
     if(money < 0.1)
         return;
-    int i = i0, k = 0;
-    for(;i < N; ++i)
+    int i, k = 0;
+    for(i = 0; i < N; ++i)
     {
         money = round(money*10)/10.0;//四舍五入掉分
         k = money/rmb[i];
@@ -34,7 +34,7 @@ int main()
         cin >> money;
         money = round(money*10)/10.0;//四舍五入掉分
         cout << "找零结果如下(分位四舍五入)：" << endl;
-        exchange(money,rmb,0,amount);
+        exchange(money,rmb,amount);
         int i = 0;
         while(i < N)
         {
