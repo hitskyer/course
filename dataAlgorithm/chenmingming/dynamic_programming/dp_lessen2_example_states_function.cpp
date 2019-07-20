@@ -1,7 +1,7 @@
 /**
- * @description: 
+ * @description: dp 状态方程 递归
  * @author: michael ming
- * @date: 2019/7/19 23:30
+ * @date: 2019/7/20 9:35
  * @modified by: 
  */
 #include <iostream>
