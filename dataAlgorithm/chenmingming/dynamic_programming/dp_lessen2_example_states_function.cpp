@@ -9,7 +9,7 @@
 #define N 4//地图大小
 using namespace std;
 int states [N][N];
-void printShortestWay(int (*map)[N], int (*states)[N])
+void printShortestWay(int (*map)[N])
 {
     stack<int> path;
     path.push(map[N-1][N-1]);//终点
@@ -32,21 +32,22 @@ int minDist(int (*map)[N], int i, int j)//从起点到i,j点的最小距离
 {
     if(i == 0 && j == 0)//从起点到起点，返回该位置数值
         return map[0][0];
-    if(states[i][j] > 0)
+    if(states[i][j] > 0)//遇到算过的，直接返回结果
         return states[i][j];
     int minLeft, minUp;
     minLeft = minUp = 65535;
     if(j-1 >= 0)
-        minLeft = minDist(map,i,j-1);
+        minLeft = minDist(map,i,j-1);//点左边的点的最小距离
     if(i-1 >= 0)
-        minUp = minDist(map,i-1,j);
+        minUp = minDist(map,i-1,j);//点上面的点的最小距离
     int currMinDist = map[i][j]+min(minLeft,minUp);
-    states[i][j] = currMinDist;
+    states[i][j] = currMinDist;//备忘录更新
     return currMinDist;
 }
 int main()
 {
     int map[N][N] = {1,3,5,9,2,1,3,4,5,2,6,7,6,8,4,3};
     cout << "最短路径是：" << minDist(map,N-1,N-1) << endl;
+    printShortestWay(map);
     return 0;
 }
