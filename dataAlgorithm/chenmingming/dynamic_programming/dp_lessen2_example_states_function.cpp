@@ -8,6 +8,7 @@
 #include <stack>
 #define N 4//地图大小
 using namespace std;
+int (*states)[N] = new int [N][N];
 void printShortestWay(int (*map)[N], int (*states)[N])
 {
     stack<int> path;
@@ -27,32 +28,25 @@ void printShortestWay(int (*map)[N], int (*states)[N])
         path.pop();
     }
 }
-void step_dp(int (*map)[N])
+int minDist(int (*map)[N], int i, int j)//从起点到i,j点的最小距离
 {
-    int (*states)[N] = new int [N][N];
-    int i, j, sum = 0;
-    for(j = 0; j < N; ++j)//初始化第一行状态
-    {
-        sum += map[0][j];
-        states[0][j] = sum;
-    }
-    sum = 0;
-    for(i = 0; i < N; ++i)//初始化第一列状态
-    {
-        sum += map[i][0];
-        states[i][0] = sum;
-    }
-    for(i = 1; i < N; ++i)//填写状态表
-        for(j = 1; j < N; ++j)
-            states[i][j] = map[i][j]+min(states[i][j-1],states[i-1][j]);
-    cout << "最短路径是：" << states[N-1][N-1] << endl;
-    printShortestWay(map,states);
-    delete [] states;
-    return;
+    if(i == 0 && j == 0)//从起点到起点，返回该位置数值
+        return map[0][0];
+    if(states[i][j] > 0)
+        return states[i][j];
+    int minLeft, minUp;
+    minLeft = minUp = 65535;
+    if(j-1 >= 0)
+        minLeft = minDist(map,i,j-1);
+    if(i-1 >= 0)
+        minUp = minDist(map,i-1,j);
+    int currMinDist = map[i][j]+min(minLeft,minUp);
+    states[i][j] = currMinDist;
+    return currMinDist;
 }
 int main()
 {
     int map[N][N] = {1,3,5,9,2,1,3,4,5,2,6,7,6,8,4,3};
-    step_dp(map);
+    cout << "最短路径是：" << minDist(map,N-1,N-1) << endl;
     return 0;
 }
