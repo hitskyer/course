@@ -15,9 +15,13 @@ using namespace std;
 int exchange(int Money)
 {
     int maxPiece = targetMoney/rmb[0];//最大张数
-    int (*states)[targetMoney+1] = new int [maxPiece][targetMoney+1];
-    memset(states,65535,maxPiece*(targetMoney+1)* sizeof(int));
     int i, j, k;
+    int (*states)[targetMoney+1] = new int [maxPiece][targetMoney+1];
+    //memset(states,65535,maxPiece*(targetMoney+1)*sizeof(int));
+    //上面错误！！！memset一般只付0或极大值
+    for(i = 0; i < maxPiece; ++i)
+        for(j = 0; j <= targetMoney; ++j)
+            states[i][j] = 65535;
     for(i = 0, j = 0; j <= targetMoney; ++j)
     {
         if(i < N && j == rmb[i])
@@ -28,7 +32,7 @@ int exchange(int Money)
     }
     for(i = 1; i < maxPiece; ++i)
     {
-        for(j = 0; j <= targetMoney; ++j)
+        for(j = 0; j <= targetMoney; ++j)//上面一行的数据考下来
             states[i][j] = states[i-1][j];
         for(j = 0; j <= targetMoney; ++j)
         {
@@ -46,6 +50,8 @@ int exchange(int Money)
     }
     cout << "凑成" << targetMoney << "元，最少需要："
          << states[maxPiece-1][targetMoney] << "张(枚)。" << endl;
+    //------------打印选择的信息---------------------------
+    
     return 0;
 }
 int main()
