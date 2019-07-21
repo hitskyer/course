@@ -12,7 +12,7 @@
 const int targetMoney = 18;//目标金额
 int rmb[N] = {1,9,10};//钞票面额,从小到大
 using namespace std;
-int exchange(int Money)
+void exchange(int Money)
 {
     int maxPiece = targetMoney/rmb[0];//最大张数
     int i, j, k;
@@ -21,16 +21,16 @@ int exchange(int Money)
     //上面错误！！！memset一般只付0或极大值
     for(i = 0; i < maxPiece; ++i)
         for(j = 0; j <= targetMoney; ++j)
-            states[i][j] = 65535;
-    for(i = 0, j = 0; j <= targetMoney; ++j)
+            states[i][j] = 65535;//初始化
+    for(k = 0, j = 0; j <= targetMoney; ++j)
     {
-        if(i < N && j == rmb[i])
+        if(k < N && j == rmb[k])
         {//初始化第一行数据
             states[0][j] = 1;//一张rmb
-            i++;
+            k++;
         }
     }
-    for(i = 1; i < maxPiece; ++i)
+    for(i = 1; i < maxPiece; ++i)//动态规划
     {
         for(j = 0; j <= targetMoney; ++j)//上面一行的数据考下来
             states[i][j] = states[i-1][j];
@@ -40,10 +40,8 @@ int exchange(int Money)
             {
                 for(k = 0; k < N; ++k)
                 {
-                    if(j+rmb[k] <= targetMoney
-                        && states[i-1][j+rmb[k]] > states[i-1][j]+1)
+                    if(j+rmb[k] <= targetMoney && states[i-1][j+rmb[k]] > states[i-1][j]+1)
                         states[i][j+rmb[k]] = states[i-1][j]+1;
-
                 }
             }
         }
@@ -51,10 +49,32 @@ int exchange(int Money)
     cout << "凑成" << targetMoney << "元，最少需要："
          << states[maxPiece-1][targetMoney] << "张(枚)。" << endl;
     //------------打印选择的信息---------------------------
-    
-    return 0;
+    for(i = maxPiece-1; i >= 1 && states[i][targetMoney] == states[i-1][targetMoney]; --i)
+        ;//此时i等于最早出现的答案处的行
+    for(j = targetMoney; j > 0; )
+    {
+        if(i != 0)
+        {
+            for(k = 0; k < N; ++k)
+            {
+                if(states[i-1][j-rmb[k]] == states[i][j]-1)
+                {
+                    cout << "1张" << rmb[k] << " ";
+                    j = j-rmb[k];
+                    i--;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            cout << "1张" << j << " ";
+            break;
+        }
+    }
 }
 int main()
 {
     exchange(targetMoney);
+    return 0;
 }
