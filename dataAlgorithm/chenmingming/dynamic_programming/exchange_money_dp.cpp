@@ -1,5 +1,5 @@
 /**
- * @description: 找零钱，需要张数最少
+ * @description: 找零钱，需要张数最少，状态方程法
  * @author: michael ming
  * @date: 2019/7/20 18:35
  * @modified by: 
