@@ -9,7 +9,7 @@
 #include <memory.h>
 
 #define N 3
-const int targetMoney = 18;//目标金额
+const int targetMoney = 91;//目标金额
 int rmb[N] = {1,9,10};//钞票面额,从小到大
 using namespace std;
 void exchange(int Money)
@@ -72,6 +72,7 @@ void exchange(int Money)
             break;
         }
     }
+    delete [] states;//释放资源
 }
 int main()
 {
