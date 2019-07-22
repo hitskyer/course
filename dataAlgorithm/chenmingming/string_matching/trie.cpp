@@ -193,16 +193,16 @@ public:
 private:
     void printWordsOfNode(TrieNode* p, string prefix, int &order) const
     {//递归打印前缀最后一个字符对应节点下面所有的字符
-        if(!p->isEndOfWord)
+        if(p != NULL)
         {
+            if(p->isEndOfWord)//是终止字符，prefix是不断+出来的，是整个字符串
+                cout << ++order << " " << prefix << ", frequency: " << p->freq << endl;
             for(int i = 0; i < charNum; ++i)
             {
                 if(p->children[i] != NULL)
                     printWordsOfNode(p->children[i],prefix+(p->children[i]->data),order);
             }
         }
-        else    //是终止字符，prefix是不断+出来的，是整个字符串
-            cout << ++order << " " << prefix << ", frequency: " << p->freq << endl;
     }
 };
 int main()
