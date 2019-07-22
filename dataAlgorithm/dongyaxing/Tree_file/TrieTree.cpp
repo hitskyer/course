@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <queue>
 using namespace std;
 
 /************************************************************************/
@@ -13,6 +14,8 @@ typedef struct TrieNode
 	char data;
 	TrieNode *children[26];
 	bool isEndingChar;
+	int count;	// 记录此结点被多少个单词占用
+	int freq;	// 记录单词被插入多少次
 	TrieNode()
 	{
 		isEndingChar = false;
@@ -20,6 +23,8 @@ typedef struct TrieNode
 		{
 			children[i] = NULL;
 		}
+		count = 0;
+		freq = 0;
 	}
 }TrieNode;
 
@@ -29,7 +34,7 @@ typedef struct TrieNode
 /************************************************************************/
 class Trie
 {
-private:
+public:
 	TrieNode *root;		// 根结点
 
 public:
@@ -45,7 +50,6 @@ public:
 		delete root;
 		root = NULL;
 	}
-
 	
 	/****************************************************************
 	* @brief : 		插入字符串
@@ -70,8 +74,10 @@ public:
 				p->children[index] = new TrieNode;
 				p->children[index]->data = text[i];
 			}
+			p->count++;
 			p = p->children[index];
 		}
+		p->count++;
 		p->isEndingChar = true;
 	}
 
@@ -108,10 +114,20 @@ public:
 	* @inparam : 
 	* @outparam : 
 	*****************************************************************/
-	void print(void)
+	void print(TrieNode *Root, string prefix, int &order) const
 	{
-		// 未完待续。。。
-		cout << "uncomple..." << endl;
+		if (!Root->isEndingChar)
+		{
+			for (int i = 0; i < 26; ++i)
+			{
+				if (Root->children[i] != NULL)
+				{
+					print(Root->children[i], prefix + (Root->children[i]->data), order);	// 通过prefix+root->children[i]->data, 链接所有单词
+				}
+			}
+		}
+		else
+			cout << ++order << " " << prefix << endl;// ", frequency: " << Root->freq << endl;
 	}
 };
 
@@ -120,14 +136,16 @@ public:
 int main()
 {
 	Trie *trie = new Trie();
-	trie->insert("abc");
+	trie->insert("are");
+	trie->insert("arrg");
 	trie->insert("hello");
 	trie->insert("her");
 	trie->insert("his");
 	trie->insert("history");
 	cout << trie->find("him") << endl;
 	cout << trie->find("his") << endl;
-	trie->print();
+	int id = 0;
+	trie->print(trie->root, " ", id);
 //	system("pause");
 	return 0;
 }
