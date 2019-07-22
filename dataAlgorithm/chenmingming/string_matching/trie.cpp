@@ -208,7 +208,7 @@ private:
 int main()
 {
     Trie textlib;
-    string a("hello"), b("her"), c("so"), d("hi"), e("how"), f("see");
+    string a("hello"), b("he"), c("so"), d("hi"), e("how"), f("see");
     textlib.insert(a);
     textlib.insert(a);
     textlib.insert(b);
