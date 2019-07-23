@@ -9,39 +9,27 @@
 
 using namespace std;
 int *states = new int [100001];
+//int states[13];
 int exchange(int targetMoney, int *amount, int *rmb, int kinds)
 {
     if(targetMoney == 0)
         return 0;
     memset(states,0,100001*sizeof(int));
     int i,j,k;
-    for(k = 0; k < kinds; ++k)
-    {
-        if(amount[k] != 0 && rmb[k] <= targetMoney)
-        {
-            states[rmb[k]] = 1;
-            amount[k]--;
-        }
-    }
-    for(i = 0; i <= targetMoney; ++i)
-    {
-        if(states[i] != 0)
-        {
-            for(k = 0; k < kinds; ++k)
+    for(i = 0; i < kinds; ++i)
+        for(k = 0; k < amount[i]; ++k)
+            for(j = targetMoney; j >= rmb[i]; --j)
             {
-                if(amount[k] != 0 && rmb[k] <= targetMoney)
-                {
-                    states[]
-                }
+                states[j] = max(states[j],states[j-rmb[i]]+rmb[i]);
+//                cout << j << " " << states[j] << endl;
             }
-        }
-    }
-
+    return states[targetMoney];
 }
 int main()
 {
     int targetMoney, k, rmb[10], amount[10];
     while(cin >> targetMoney >> k)
+//    cin >> targetMoney >> k;
     {
         if(k == 0)
             cout << "0" << endl;
