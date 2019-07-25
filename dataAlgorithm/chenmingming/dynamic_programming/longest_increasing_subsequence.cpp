@@ -40,8 +40,8 @@ int len_dp(int *a, int N)
 int main()
 {
     int maxLen = 1;
-    const int N = 7;
-    int arr[N] = {2,9,3,6,5,1,7};
+    const int N = 10;
+    int arr[N] = {2,9,3,6,5,1,7,0,9,10};
     lis(arr,N,0,1,maxLen);
     cout << "arr数组最长递增子序列长度（回溯）：" << maxLen << endl;
     cout << "arr数组最长递增子序列长度（DP）：" << len_dp(arr,N) << endl;
