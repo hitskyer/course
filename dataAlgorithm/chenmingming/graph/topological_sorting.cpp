@@ -95,7 +95,7 @@ public:
         {
             if(visited[i] == false)
             {
-                visited[i] == true;
+                visited[i] = true;
                 dfs(i, reverseadj, visited);
             }
         }
