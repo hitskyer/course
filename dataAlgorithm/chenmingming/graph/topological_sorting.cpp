@@ -34,6 +34,7 @@ public:
     }
     ~Graph()
     {
+        delete [] pGNode;
         delete [] adj;
     }
     int findIdx(char ch)
@@ -56,9 +57,10 @@ public:
     }
     void topoSortByKahn()
     {
-        int i, j;
+        int i, j, k;
         queue<G_Node> nodeQueue;
         G_Node frontNode;
+        list<G_Node>::iterator it;
         for(i = 0; i < v; ++i)
         {
             if(pGNode[i].indegree == 0)
@@ -67,8 +69,26 @@ public:
         while(!nodeQueue.empty())
         {
             frontNode = nodeQueue.front();
+            i = findIdx(frontNode.info);
             nodeQueue.pop();
-            cout <<
+            cout << frontNode.info << "->";
+            for(it = adj[i].begin(); it != adj[i].end(); ++it)
+            {
+                it->indegree--;
+                if(it->indegree == 0)
+                    nodeQueue.push(*it);
+            }
         }
     }
 };
+int main()
+{
+    Graph grp(6);
+    grp.addEdge('a','b');
+    grp.addEdge('b','e');
+    grp.addEdge('b','d');
+    grp.addEdge('d','c');
+    grp.addEdge('d','f');
+    grp.topoSortByKahn();
+    return 0;
+}
