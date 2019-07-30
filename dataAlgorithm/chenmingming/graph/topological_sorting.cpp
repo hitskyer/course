@@ -59,24 +59,25 @@ public:
     {
         int i, j, k;
         queue<G_Node*> nodeQueue;
+        //坑，要存指针在里面，后面才能修改入度，否则修改的是副本
         G_Node *frontNode;
         list<G_Node*>::iterator it;
         for(i = 0; i < v; ++i)
         {
             if(pGNode[i].indegree == 0)
-                nodeQueue.push(&pGNode[i]);
+                nodeQueue.push(&pGNode[i]);//找到所有入度为0的入队
         }
         while(!nodeQueue.empty())
         {
             frontNode = nodeQueue.front();
             i = findIdx(frontNode->info);
             nodeQueue.pop();
-            cout << frontNode->info << "->";
+            cout << frontNode->info << "->";//输出入度为0的，出队
             for(it = adj[i].begin(); it != adj[i].end(); ++it)
             {
-                (*it)->indegree--;
-                if((*it)->indegree == 0)
-                    nodeQueue.push(*it);
+                (*it)->indegree--;//该节点后面跟着的所有节点入度-1
+                if((*it)->indegree == 0)//入度如果等于0
+                    nodeQueue.push(*it);//入队，一会可以打印了
             }
         }
     }
