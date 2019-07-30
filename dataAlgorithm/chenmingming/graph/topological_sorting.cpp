@@ -6,51 +6,69 @@
  */
 #include <list>
 #include <iostream>
+#include <queue>
 
 using namespace std;
-class G_Node
+class G_Node    //节点类
 {
 public:
-    char info;
-    int indegree;
+    char info;//节点存储信息
+    int indegree;//节点入度
     G_Node(char ch = '/'):info(ch),indegree(0){};
 };
-class Graph
+class Graph //图类
 {
-    int v;//顶点个数
-    list<G_Node> *adj;//邻接表
+    int v;  //顶点个数
+    list<G_Node> *adj;  //邻接表
+    G_Node *pGNode;//节点
 public:
     Graph(int vn)
     {
         v = vn;
         adj = new list<G_Node> [v];
-        auto *pGNode = new G_Node [v];
+        pGNode = new G_Node [v];
         cout << "请顺序输入节点的信息：" << endl;
         char ch;
         for(int i = 0; i < v; ++i)
-        {
             cin >> pGNode[i].info;
-        }
     }
     ~Graph()
     {
         delete [] adj;
     }
+    int findIdx(char ch)
+    {
+        for(int i = 0; i < v; ++i)
+        {
+            if(pGNode[i].info == ch)
+                return i;
+        }
+        return INT_MIN;
+    }
     void addEdge(char s, char t)//s先于t,边s->t
     {
-        adj[s].push_back(t);
+        int i = findIdx(s), j = findIdx(t);
+        if(i != INT_MIN && j != INT_MIN)
+        {
+            adj[i].push_back(G_Node(t));
+            pGNode[j].indegree++;
+        }
     }
     void topoSortByKahn()
     {
-        int *indegree = new int[v];//统计每个顶点的入度
-        int i, w;
-        list<int>::iterator it;
+        int i, j;
+        queue<G_Node> nodeQueue;
+        G_Node frontNode;
         for(i = 0; i < v; ++i)
         {
-            for(it = adj[i].begin(); it != adj[i].end(); ++it)
-            {
-                indegree[*]
-            }
+            if(pGNode[i].indegree == 0)
+                nodeQueue.push(pGNode[i]);
+        }
+        while(!nodeQueue.empty())
+        {
+            frontNode = nodeQueue.front();
+            nodeQueue.pop();
+            cout <<
         }
     }
 };
