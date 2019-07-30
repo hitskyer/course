@@ -19,13 +19,13 @@ public:
 class Graph //图类
 {
     int v;  //顶点个数
-    list<G_Node> *adj;  //邻接表
+    list<G_Node*> *adj;  //邻接表
     G_Node *pGNode;//节点
 public:
     Graph(int vn)
     {
         v = vn;
-        adj = new list<G_Node> [v];
+        adj = new list<G_Node*> [v];
         pGNode = new G_Node [v];
         cout << "请顺序输入节点的信息：" << endl;
         char ch;
@@ -51,31 +51,31 @@ public:
         int i = findIdx(s), j = findIdx(t);
         if(i != -1 && j != -1)
         {
-            adj[i].push_back(pGNode[j]);
+            adj[i].push_back(&pGNode[j]);
             pGNode[j].indegree++;
         }
     }
     void topoSortByKahn()
     {
         int i, j, k;
-        queue<G_Node> nodeQueue;
-        G_Node frontNode;
-        list<G_Node>::iterator it;
+        queue<G_Node*> nodeQueue;
+        G_Node *frontNode;
+        list<G_Node*>::iterator it;
         for(i = 0; i < v; ++i)
         {
             if(pGNode[i].indegree == 0)
-                nodeQueue.push(pGNode[i]);
+                nodeQueue.push(&pGNode[i]);
         }
         while(!nodeQueue.empty())
         {
             frontNode = nodeQueue.front();
-            i = findIdx(frontNode.info);
+            i = findIdx(frontNode->info);
             nodeQueue.pop();
-            cout << frontNode.info << "->";
+            cout << frontNode->info << "->";
             for(it = adj[i].begin(); it != adj[i].end(); ++it)
             {
-                it->indegree--;
-                if(it->indegree == 0)
+                (*it)->indegree--;
+                if((*it)->indegree == 0)
                     nodeQueue.push(*it);
             }
         }
