@@ -20,12 +20,14 @@ class Graph //图类
 {
     int v;  //顶点个数
     list<G_Node*> *adj;  //邻接表
+    list<G_Node*> *reverseadj;  //逆邻接表
     G_Node *pGNode;//节点
 public:
     Graph(int vn)
     {
         v = vn;
         adj = new list<G_Node*> [v];
+        reverseadj = new list<G_Node*> [v];
         pGNode = new G_Node [v];
         cout << "请顺序输入节点的信息：" << endl;
         char ch;
@@ -35,6 +37,7 @@ public:
     ~Graph()
     {
         delete [] pGNode;
+        delete [] reverseadj;
         delete [] adj;
     }
     int findIdx(char ch)
@@ -51,13 +54,15 @@ public:
         int i = findIdx(s), j = findIdx(t);
         if(i != -1 && j != -1)
         {
-            adj[i].push_back(&pGNode[j]);
+            adj[i].push_back(&pGNode[j]);//s->t，邻接表
             pGNode[j].indegree++;
+            reverseadj[j].push_back(&pGNode[i]);//逆邻接表
         }
     }
     void topoSortByKahn()
     {
-        int i, j, k;
+        cout << "topoSortByKahn:" << endl;
+        int i;
         queue<G_Node*> nodeQueue;
         //坑，要存指针在里面，后面才能修改入度，否则修改的是副本
         G_Node *frontNode;
@@ -81,7 +86,35 @@ public:
             }
         }
     }
+    void topoSortByDFS()
+    {
+        cout << "topoSortByDFS:" << endl;
+        bool *visited = new bool [v];
+        for(int i = 0; i < v; ++i)  //深度优先遍历
+        {
+            if(visited[i] == false)
+            {
+                visited[i] == true;
+                dfs(i, reverseadj, visited);
+            }
+        }
+        delete [] visited;
+    }
+    void dfs(int i, list<G_Node*> *reverseadj, bool *visited)
+    {
+        int idx;
+        for(auto it = reverseadj[i].begin(); it != reverseadj[i].end(); ++it)
+        {
+            idx = findIdx((*it)->info);
+            if(visited[idx] == true)
+                continue;
+            visited[idx] = true;
+            dfs(idx,reverseadj,visited);
+        }
+        cout << pGNode[i].info << "->";
+    }
 };
+
 int main()
 {
     Graph grp(6);
@@ -90,6 +123,10 @@ int main()
     grp.addEdge('b','d');
     grp.addEdge('d','c');
     grp.addEdge('d','f');
+//    grp.addEdge('e','a');//测试添加环a-b-e-a，程序输出空
+    //输入abcdef
     grp.topoSortByKahn();
+    cout << endl;
+    grp.topoSortByDFS();
     return 0;
 }
