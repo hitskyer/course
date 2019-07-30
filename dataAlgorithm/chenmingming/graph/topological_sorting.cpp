@@ -44,12 +44,12 @@ public:
             if(pGNode[i].info == ch)
                 return i;
         }
-        return INT_MIN;
+        return -1;
     }
     void addEdge(char s, char t)//s先于t,边s->t
     {
         int i = findIdx(s), j = findIdx(t);
-        if(i != INT_MIN && j != INT_MIN)
+        if(i != -1 && j != -1)
         {
             adj[i].push_back(G_Node(t));
             pGNode[j].indegree++;
