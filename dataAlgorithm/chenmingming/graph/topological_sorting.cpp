@@ -7,7 +7,7 @@
 #include <list>
 #include <iostream>
 #include <queue>
-
+#include <cstring>
 using namespace std;
 class G_Node    //节点类
 {
@@ -90,6 +90,7 @@ public:
     {
         cout << "topoSortByDFS:" << endl;
         bool *visited = new bool [v];
+        memset(visited,0,v*sizeof(bool));
         for(int i = 0; i < v; ++i)  //深度优先遍历
         {
             if(visited[i] == false)
