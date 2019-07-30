@@ -51,7 +51,7 @@ public:
         int i = findIdx(s), j = findIdx(t);
         if(i != -1 && j != -1)
         {
-            adj[i].push_back(G_Node(t));
+            adj[i].push_back(pGNode[j]);
             pGNode[j].indegree++;
         }
     }
