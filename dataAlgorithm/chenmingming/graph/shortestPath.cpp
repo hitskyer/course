@@ -12,9 +12,9 @@ using namespace std;
 class G_Node    //节点类
 {
 public:
-    char info;//节点存储信息
+    int id;//节点id
     int dist;//从起始顶点到这个顶点的距离
-    G_Node(char ch, int d):info(ch),dist(d){};
+    G_Node(int idx = 0, int d = INT_MAX):id(idx),dist(d){};
 };
 class Edge  //边
 {
@@ -32,41 +32,27 @@ class Graph //图类
 {
     int v;  //顶点个数
     list<G_Node *> *adj;  //邻接表
-    list<G_Node *> *reverseadj;  //逆邻接表
     G_Node *pGNode;//节点
 public:
-    Graph(int vn) {
+    Graph(int vn)
+    {
         v = vn;
         adj = new list<G_Node *>[v];
-        reverseadj = new list<G_Node *>[v];
-        pGNode = new G_Node[v];
-        cout << "请顺序输入节点的信息：" << endl;
-        char ch;
+        pGNode = new G_Node[v]();
         for (int i = 0; i < v; ++i)
-            cin >> pGNode[i].info;
+            pGNode[i].id = i;
     }
 
-    ~Graph() {
+    ~Graph()
+    {
         delete[] pGNode;
-        delete[] reverseadj;
         delete[] adj;
     }
 
-    int findIdx(char ch) {
-        for (int i = 0; i < v; ++i) {
-            if (pGNode[i].info == ch)
-                return i;
-        }
-        return -1;
-    }
-
-    void addEdge(char s, char t)//s先于t,边s->t
+    void addEdge(int s, int t)
     {
-        int i = findIdx(s), j = findIdx(t);
-        if (i != -1 && j != -1) {
-            adj[i].push_back(&pGNode[j]);//s->t，邻接表
-            pGNode[j].indegree++;
-            reverseadj[j].push_back(&pGNode[i]);//逆邻接表
-        }
+        if(s == t)
+            return;
+        adj[s].push_back(&pGNode[t]);//s->t,邻接表
     }
 };
