@@ -60,21 +60,23 @@ public:
     ~Graph()
     {
         delete[] pGNode;
+        delete[] pEdge;
         delete[] adj;
     }
 
-    void addEdge(int s, int t)
+    Edge findEdge(int s, int t)
     {
-        if(s == t)
-            return;
-        adj[s].push_back(&pGNode[t]);//s->t,邻接表
+        for(int i = 0; i < e; ++i)
+        {
+            if(s == pEdge[i].sid && t == pEdge[i].tid)
+                return pEdge[i];
+        }
     }
     void dijkstra(int s, int t)
     {
         int *path = new int [v];
         bool *inqueue = new bool[v];
         priority_queue<G_Node,vector<G_Node>,greater<int> > pqueue;
-        bool *everinqueue = new bool[v];
         pGNode[s].dist = 0;
         pqueue.push(pGNode[s]);
         inqueue[s] = true;
@@ -85,9 +87,11 @@ public:
             pqueue.pop();
             if(minDnode.id == t)
                 break;
-            for(int i = 0; i < adj[minDnode.id].size(); ++i)
+            for(auto it = adj[minDnode.id].begin(); it != adj[minDnode.id].end(); ++it)
             {
-                
+                Edge e = findEdge(minDnode.id, (*it)->id);
+                G_Node nextNode = pGNode[e.tid];
+                if(minDnode.dist + e.w < )
             }
         }
     }
