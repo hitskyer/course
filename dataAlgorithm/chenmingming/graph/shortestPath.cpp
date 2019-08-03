@@ -49,7 +49,10 @@ public:
         pEdge = new Edge[e]();
         pGNode = new G_Node[v]();
         for(int i = 0; i < v; ++i)
+        {
             pGNode[i].id = i;
+            pGNode[i].dist = INT_MAX;
+        }
         cout << "请输入起点序号，终点序号，其间距离" << endl;
         for(int i = 0; i < e; ++i)
         {
@@ -91,7 +94,11 @@ public:
             {
                 Edge e = findEdge(minDnode.id, (*it)->id);
                 G_Node nextNode = pGNode[e.tid];
-                if(minDnode.dist + e.w < )
+                if(minDnode.dist + e.w < nextNode.dist)
+                {
+                    nextNode.dist = minDnode.dist + e.w;
+                    path[]
+                }
             }
         }
     }
