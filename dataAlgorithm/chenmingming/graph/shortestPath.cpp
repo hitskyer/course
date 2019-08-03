@@ -97,7 +97,11 @@ public:
                 if(minDnode.dist + e.w < nextNode.dist)
                 {
                     nextNode.dist = minDnode.dist + e.w;
-                    path[]
+                    path[nextNode.id] = minDnode.id;
+                    if(inqueue[nextNode.id] == true)
+                    {
+                        pqueue.
+                    }
                 }
             }
         }
