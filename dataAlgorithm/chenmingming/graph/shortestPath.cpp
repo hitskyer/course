@@ -33,13 +33,15 @@ public:
         w = dist;
     }
 };
+
 class Graph //图类
 {
     int v;  //顶点个数
     int e;  //边个数
     list<G_Node *> *adj;  //邻接表
-    G_Node *pGNode;//节点
     Edge *pEdge;//节点
+    G_Node *pGNode;//节点
+    friend class PriorityQueue;
 public:
     Graph(int vn, int en)
     {
@@ -100,10 +102,31 @@ public:
                     path[nextNode.id] = minDnode.id;
                     if(inqueue[nextNode.id] == true)
                     {
-                        pqueue.
+//                        pqueue.
                     }
                 }
             }
         }
+    }
+};
+class PriorityQueue //优先队列
+{
+    Graph *grp;
+    G_Node *node;
+    int count;
+    int n;
+public:
+    PriorityQueue(Graph *g)
+    {
+        grp = g;
+        node = new G_Node [grp->v+1];
+        n = grp->v;
+    }
+    G_Node* poll()
+    {
+        if(count < 1)
+            return NULL;
+        G_Node* temp = &grp->pGNode[1];
+
     }
 };
