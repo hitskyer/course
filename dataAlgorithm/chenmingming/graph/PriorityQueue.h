@@ -4,8 +4,7 @@
  * @date: 2019/8/5 1:21
  * @modified by: 
  */
-class Graph;
-class G_Node;
+#include "shortestPath.h"
 class PriorityQueue //优先队列
 {
     Graph *grp;
