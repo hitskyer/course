@@ -9,6 +9,6 @@
 int main()
 {
     Graph g(6,8);
-
+    g.dijkstra(0,3);
     return 0;
 }
