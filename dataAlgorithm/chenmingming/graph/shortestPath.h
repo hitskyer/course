@@ -7,6 +7,7 @@
 #include <list>
 #include <iostream>
 #include <queue>
+#include <limits.h>
 using namespace std;
 class G_Node    //节点类
 {
@@ -53,7 +54,7 @@ public:
         
     }
 
-    Edge findEdge(int s, int t)
+    Edge* findEdge(int s, int t)
     {
         
     }
