@@ -5,6 +5,7 @@
  * @modified by: 
  */
 #include "PriorityQueue.h"
+#include <limits.h>
 Graph::Graph(int vn, int en)
 {
     v = vn;
@@ -33,13 +34,14 @@ Graph::~Graph()
     delete[] adj;
 }
 
-Edge Graph::findEdge(int s, int t)
+Edge* Graph::findEdge(int s, int t)
 {
     for(int i = 0; i < e; ++i)
     {
         if(s == pEdge[i].sid && t == pEdge[i].tid)
-            return pEdge[i];
+            return &pEdge[i];
     }
+    return NULL;
 }
 void Graph::dijkstra(int s, int t)
 {
@@ -56,11 +58,11 @@ void Graph::dijkstra(int s, int t)
             break;
         for(auto it = adj[minDnode.id].begin(); it != adj[minDnode.id].end(); ++it)
         {
-            Edge e = findEdge(minDnode.id, (*it)->id);
-            G_Node nextNode = pGNode[e.tid];
-            if(minDnode.dist + e.w < nextNode.dist)
+            Edge *e = findEdge(minDnode.id, (*it)->id);
+            G_Node nextNode = pGNode[e->tid];
+            if(minDnode.dist + e->w < nextNode.dist)
             {
-                nextNode.dist = minDnode.dist + e.w;
+                nextNode.dist = minDnode.dist + e->w;
                 path[nextNode.id] = minDnode.id;
                 if(inqueue[nextNode.id] == true)
                 {
