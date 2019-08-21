@@ -76,7 +76,7 @@ double Closest_Pair(int left, int right)
 
 int main()
 {
-	cout << "please input data: " << endl;
+	cout << "请输入数组对数，并依次输入数组对 : " << endl;
 	int n;
 	while(1)
 	{
@@ -88,7 +88,10 @@ int main()
 			cin >> point[i].x >> point[i].y;
 		}
 		sort(point, point + n, cmpxy);
-		cout << Closest_Pair(0, (n - 1)/2);
+		cout << "最近的距离为： "<< Closest_Pair(0, (n - 1)/2) << endl;
+		cout << endl;
+		cout << "如果继续，请输入需要的数组对数，并输入数组对。否则输入 0，退出程序。" << endl;
 	}
+	cout << "程序结束！" << endl;
 	return 0;
 }
