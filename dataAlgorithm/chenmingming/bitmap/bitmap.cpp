@@ -5,6 +5,7 @@
  * @modified by: 
  */
 #include <iostream>
+#include <cstring>
 using namespace std;
 class BitMap
 {
@@ -15,6 +16,7 @@ public:
     {
         nbits = n;
         bytes = new char [nbits/8 + 1];
+        memset(bytes, 0, (nbits/8+1)*sizeof(char));
     }
     ~BitMap()
     {
@@ -36,11 +38,17 @@ public:
         int bitIndex = k%8;
         return (bytes[byteIndex] & (1 << bitIndex)) != 0;
     }
+    void print()
+    {
+    	for(int i = 15; i >= 0; --i)
+    		cout << get(i) << " ";
+    }
 };
 int main()
 {
     BitMap bm(8);
     bm.set(8);
-    cout << bm.get(8);
+    cout << bm.get(8) << endl;
+    bm.print();
     return 0;
 }
