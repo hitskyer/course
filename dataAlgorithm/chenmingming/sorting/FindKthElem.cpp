@@ -30,7 +30,7 @@ void selectMiddle(int *arr, size_t left, size_t right)  //三数取中，并挪�
         swap(arr[mid], arr[right]);
     if(arr[left] > arr[right])
         swap(arr[left], arr[right]);
-    if(arr[mid], arr[left])
+    if(arr[mid] > arr[left])
         swap(arr[mid], arr[left]);
 }
 int findkthelem(int *arr, size_t N, size_t K, size_t left, size_t right)
