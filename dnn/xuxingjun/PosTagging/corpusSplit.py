@@ -15,7 +15,8 @@ def corpusSplit(infile, sentenceList):
 				if len(w_p) == 2:
 					word = w_p[0]
 					pos  = w_p[1]
-					sentence.append(s)
+					pos  = re.sub("].*", "", pos)
+					sentence.append(word+"/"+pos)
 					if word in fullStopDict:
 						if flag == True:
 							sentenceList.append(" ".join(sentence))
@@ -46,6 +47,7 @@ def out(sentenceList, out_dir):
 	fdo_dev.close()
 	fdo_test.close()
 import sys
+import re
 import random
 try:
 	infile  = sys.argv[1]
