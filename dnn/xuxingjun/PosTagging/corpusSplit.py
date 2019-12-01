@@ -16,7 +16,10 @@ def corpusSplit(infile, sentenceList):
 					word = w_p[0]
 					pos  = w_p[1]
 					pos  = re.sub("].*", "", pos)
-					sentence.append(word+"/"+pos)
+					if word == "" or pos == "":
+						flag = False
+					else:
+						sentence.append(word+"/"+pos)
 					if word in fullStopDict:
 						if flag == True:
 							sentenceList.append(" ".join(sentence))
