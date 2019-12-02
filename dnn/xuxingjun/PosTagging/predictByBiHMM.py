@@ -20,12 +20,12 @@ def loadModel(infile, gPosList, transDict, emitDict):
 		if infs[0] == "trans_prob":
 			pos1 = infs[1]
 			pos2 = infs[2]
-			prob = math.log(float(infs[3]))
+			prob = float(infs[3])
 			add2transDict(pos1, pos2, prob, transDict)
 		if infs[0] == "emit_prob":
 			pos = infs[1]
 			word = infs[2]
-			prob = math.log(float(infs[3]))
+			prob = float(infs[3])
 			add2emitDict(pos, word, prob, emitDict)
 	fdi.close()
 def getWords(infs):

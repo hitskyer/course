@@ -65,9 +65,9 @@ def out4model(transDict, emitDict, model_file):
 			num2 = 1
 			if pos2 in transDict[pos1]:
 				num2 = transDict[pos1][pos2] + 1
-				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, num2/num1))
+				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/num1)))
 			else:
-				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, 1/total_word_num))
+				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1/total_word_num)))
 	# 发射概率
 	for pos,_ in pnList:
 		if pos == "__start__" or pos == "__end__":
@@ -76,10 +76,11 @@ def out4model(transDict, emitDict, model_file):
 		wnList.sort(key=lambda infs:infs[1], reverse=True)
 		num1 = sum([num for _, num in wnList])+len(wnList)+1
 		for word, num2 in wnList:
-			fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, (num2+1)/num1))
-		fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, "__NEW__", 1/total_word_num))
+			fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log((num2+1)/num1)))
+		fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, "__NEW__", math.log(1/total_word_num)))
 	fdo.close()
 import sys
+import math
 try:
 	infile     = sys.argv[1]
 	model_file = sys.argv[2]
