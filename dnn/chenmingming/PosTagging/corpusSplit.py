@@ -1,5 +1,5 @@
 def corpusSplit(infile, sentenceList):  # 将语料分割为句子
-    fdi = open(infile)  # 打开原始数据
+    fdi = open(infile, 'r', encoding='UTF-8')  # 打开原始数据
     fullStopDict = {"。": 1, "；": 1, "？": 1, "！": 1}
     for line in fdi:
         text = line.strip()  # 删除左右空格
