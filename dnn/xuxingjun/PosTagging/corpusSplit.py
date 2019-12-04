@@ -14,7 +14,7 @@ def corpusSplit(infile, sentenceList):
 				w_p = s.split("/")
 				if len(w_p) == 2:
 					word = w_p[0]
-					if word.startswith("[") == 0:
+					if word.startswith("["):
 						word = word.replace("[", "")
 					pos  = w_p[1]
 					pos  = re.sub("].*", "", pos)
