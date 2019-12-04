@@ -67,7 +67,7 @@ except:
 '''
 # step 1 : 将语料分割为句子
 infile = "./data/corpus4pos_tagging.txt"
-out_dir = "./splitData"
+out_dir = "./data"
 sentenceList = []
 corpusSplit(infile, sentenceList)
 # step 2 : 输出
