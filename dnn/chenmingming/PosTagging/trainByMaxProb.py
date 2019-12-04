@@ -15,6 +15,7 @@ def staForWordToPosDict(infile, word2posDict):
 						word2posDict[word][pos]  = 1
 				else:
 					word2posDict[word] = {pos:1}
+				# 两重字典 {word ： {pos, count}}
 	fdi.close()
 def getMaxProbPos(posDict):
 	total = sum(posDict.values())
@@ -27,12 +28,13 @@ def getMaxProbPos(posDict):
 	return max_pos, max_num/total
 def out4model(word2posDict, model_file):
 	wordNumList = [[word, sum(word2posDict[word].values())] for word in  word2posDict]
-	wordNumList.sort(key=lambda infs:(infs[1]), reverse=True)
+	# [[word, counts]] 两重列表
+	wordNumList.sort(key=lambda infs:(infs[1]), reverse=True)	# 按counts降序
 	fdo = open(model_file, "w")
 	for word, num in wordNumList:
-		pos, prob = getMaxProbPos(word2posDict[word])
+		pos, prob = getMaxProbPos(word2posDict[word])	# 词性，及其最大的概率
 		if word != "" and pos != "":
-			fdo.write("%s\t%d\t%s\t%f\n" % (word, num, pos, prob))
+			fdo.write("%s\t%d\t%s\t%f\n" % (word, num, pos, prob))	# 写入文件
 	fdo.close()
 import sys
 try:
@@ -42,5 +44,5 @@ except:
 	sys.stderr.write("\tpython "+sys.argv[0]+" infile model_file\n")
 	sys.exit(-1)
 word2posDict = {}
-staForWordToPosDict(infile, word2posDict)
+staForWordToPosDict(infile, word2posDict)	# 对训练文件进行统计
 out4model(word2posDict, model_file)
