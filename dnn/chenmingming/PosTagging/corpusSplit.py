@@ -42,7 +42,7 @@ def out(sentenceList, out_dir): # 将句子分别写到20个文件中，18个训
     fdo_test = open(out_dir + "/test.txt", "w", encoding='utf-8')
     for sindx in range(len(sentenceList)):
         if sindx % 20 < 18:
-            for i in range(sindx % 20, 18):
+            for i in range(sindx % 20, 18): # 后面的文件语料多
                 fdo_train_list[i].write(sentenceList[sindx] + "\n")
         elif sindx % 20 == 18:
             fdo_dev.write(sentenceList[sindx] + "\n")   # 1个开发集
