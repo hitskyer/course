@@ -136,7 +136,7 @@ $\pi$ 和 $A$ 决定状态序列，$B$ 决定观测序列。隐马尔可夫模�
 \begin{bmatrix}
 \sum_{j=1}^N a_t(j)A_{j,i}
 \end{bmatrix}B_{i,x_{t+1}}\quad i = 1,2,...,N$
-3. 终止： $P(X|\lambda) = \sum_{i=1}^N a_T(i)$
+3. 终止： $P(X|\lambda) = \sum_{i=1}^N a_T(i)$（看前向概率定义，全概率公式）
 
 算法解释：
 
@@ -147,7 +147,31 @@ $\pi$ 和 $A$ 决定状态序列，$B$ 决定观测序列。隐马尔可夫模�
 - 最后一个时刻 $T$ 时的所有前向概率求和就是 $P(X|\lambda) = \sum_{i=1}^N a_T(i)$
 - 前向算法是基于路径的，$t+1$ 时刻，直接用 $t$ 时刻的结果，时间复杂度 $O(TN^2)$
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191207181724462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taWNoYWVsLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70)
-#### 2.2.1 盒子和球例子
+#### 2.2.1 前向公式证明
+首先有公式联合概率 $P(ABC) = P(A)P(B|A)P(C|AB)$,对任意多个项都成立
+递推公式证明：
+$$
+\begin{aligned}
+a_t(j)A_{j,i} &= P(x_1,x_2,...,x_t,y_t=q_j|\lambda)P(y_{t+1}=q_i|y_t=q_j,\lambda)\\
+&={\color{red}P(x_1,x_2,...,x_t|y_t=q_j,\lambda)}P(y_t=q_j|\lambda)P(y_{t+1}=q_i|y_t=q_j,\lambda)\\
+&= {\color{red}P(x_1,x_2,...,x_t|y_t=q_j,{\color{blue}y_{t+1}=q_i},\lambda)}P(y_t=q_j|\lambda)P(y_{t+1}=q_i|y_t=q_j,\lambda)\\
+&=P(x_1,x_2,...,x_t,y_t=q_j,y_{t+1}=q_i|\lambda)\\
+\{\sum_{j=1}^N a_t(j)A_{j,i}\} B_{i,x_{t+1}} &= P(x_1,x_2,...,x_t,y_{t+1}=q_i|\lambda)P(x_{t+1}|y_{t+1}=q_i,\lambda)\\
+&={\color{red}P(x_1,x_2,...,x_t|y_{t+1}=q_i,\lambda)}P(y_{t+1}=q_i|\lambda)P(x_{t+1}|y_{t+1}=q_i,\lambda)\\
+&={\color{red}P(x_1,x_2,...,x_t|y_{t+1}=q_i,{\color{blue}x_{t+1}},\lambda)}P(y_{t+1}=q_i|\lambda)P(x_{t+1}|y_{t+1}=q_i,\lambda)\\
+&=P(x_1,x_2,...,x_t,x_{t+1},y_{t+1}=q_i|\lambda)=a_{t+1}(i)
+\end{aligned}
+$$
+第一个蓝色处：前 $t$ 个观测序列，显然跟 $t+1$ 时刻的状态 $y_{t+1}$无关，第二个蓝色处：观测独立性
+
+终止公式证明(全概率公式)：
+$$
+\begin{aligned}
+\sum_{i=1}^N a_T(i)&=P(x_1,x_2,...,x_T,y_T=q_1|\lambda)+P(x_1,x_2,...,x_T,y_T=q_2|\lambda)+P(x_1,x_2,...,x_T,y_T=q_N|\lambda)\\
+&= P(x_1,x_2,...,x_T|\lambda)=P(X|\lambda)
+\end{aligned}
+$$
+#### 2.2.2 盒子和球例子
 考虑盒子和球模型 $\lambda = (A,B,\pi)$，状态集合（盒子的编号）$Q=\{1,2,3\}$，观测集合 $V=\{红，白\}$
 $$
 \pi=\begin{bmatrix}
@@ -211,10 +235,32 @@ $a_3(3)=\{ \sum_{j=1}^3 a_2(j)A_{j,3} \} B_{3,1}=(0.077*0.3+0.1104*0.2+0.0606*0.
 2. 递推：对 $t=T-1,T-2,...,1$，$\beta_{t}(i)=\sum_{j=1}^N A_{i,j}B_{j,x_{t+1}}\beta_{t+1}(j)\quad i = 1,2,...,N$
 3. 终止： $P(X|\lambda) = \sum_{i=1}^N \pi_iB_{i,x_1}\beta_1(i)$
 
-相关推导过程：https://blog.csdn.net/qq_37334135/article/details/86265648
-
 算法解释：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191207201318844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9taWNoYWVsLmJsb2cuY3Nkbi5uZXQ=,size_16,color_FFFFFF,t_70)
+#### 2.3.1 后向公式证明
+递推公式证明：
+$$
+\begin{aligned}
+\sum_{j=1}^N A_{i,j}B_{j,x_{t+1}}\beta_{t+1}(j) &= \sum_{j=1}^N A_{i,j}{\color{red}P(x_{t+1}|y_{t+1}=q_j,\lambda)}P(x_{t+2},...,x_T|y_{t+1}=q_j,\lambda)\\
+&= \sum_{j=1}^N A_{i,j}{\color{red}P(x_{t+1}|{\color{blue}x_{t+2},...,x_T},y_{t+1}=q_j,\lambda)}P(x_{t+2},...,x_T|y_{t+1}=q_j,\lambda)\\
+&= \sum_{j=1}^N A_{i,j}P(x_{t+1},x_{t+2},...,x_T|{\color{red}y_{t+1}=q_j},\lambda)\\
+&= \sum_{j=1}^N A_{i,j}P(x_{t+1},x_{t+2},...,x_T|{\color{red}y_{t+1}=q_j},{\color{blue}y_t=q_i},\lambda)\\
+&= \sum_{j=1}^N P(y_{t+1}=q_j|y_t=q_i,\lambda)P(x_{t+1},x_{t+2},...,x_T|{\color{red}y_{t+1}=q_j},{\color{blue}y_t=q_i},\lambda)\\
+&= \sum_{j=1}^N P(x_{t+1},x_{t+2},...,x_T,{\color{red}y_{t+1}=q_j}|{\color{blue}y_t=q_i},\lambda)\\
+&= P(x_{t+1},x_{t+2},...,x_T|{\color{blue}y_t=q_i},\lambda)=\beta_{t}(i)\\
+\end{aligned}\\
+$$
+第一个蓝色处：观测独立性；第二个蓝色处：观测独立性（$x_{t+1},...x_T$都与$y_t$无关）
 
-- 利用 前向 和 后向 概率的定义，可以将观测序列概率 $P(X|\lambda)$ 写成：
+终止公式证明：
+$$
+\begin{aligned}
+\pi_iB_{i,x_1}\beta_1(i)&=P(y_1=q_i|\lambda)P(x_1|y_1=q_i,\lambda)\color{red}P(x_2,x_3,...,x_T|y_1=q_i,\lambda)\\
+&=P(y_1=q_i|\lambda)P(x_1|y_1=q_i,\lambda)\color{red}P(x_2,x_3,...,x_T|y_1=q_i,{\color{blue}{x_1}},\lambda)\\
+&=P(x_1,x_2,...,x_T,y_1=q_i|\lambda)\\
+\sum_{i=1}^N \pi_iB_{i,x_1}\beta_1(i) &= \sum_{i=1}^N P(x_1,x_2,...,x_T,y_1=q_i|\lambda)=P(x_1,x_2,...,x_T|\lambda)=P(X|\lambda)\\
+\end{aligned}
+$$
+
+ 利用 前向 和 后向 概率的定义，可以将观测序列概率 $P(X|\lambda)$ 写成：
 $P(X|\lambda)=\sum_{i=1}^N\sum_{j=1}^N \alpha_t(i)A_{i,j}B_{j,x_{t+1}}\beta_{t+1}(j),\quad t= 1,2,...,T-1$
