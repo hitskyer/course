@@ -1,3 +1,4 @@
+# staForPosDistribution.py
 import sys
 def add2posDict(pos, pDict):
 	if pos in pDict:
@@ -5,7 +6,7 @@ def add2posDict(pos, pDict):
 	else:
 		pDict[pos]  = 1
 def sta(infile, pDict):
-	fdi = open(infile)
+	fdi = open(infile, 'r', encoding='utf-8')
 	for line in fdi:
 		infs = line.strip().split()
 		posList = [s.split("/")[1] for s in infs]	# 词性list
@@ -26,4 +27,4 @@ except:
 	sys.exit(-1)
 pDict = {}
 sta(infile, pDict)	# 统计训练集中的语料出现频率
-out(pDict)
+out(pDict)	# 打印输出
