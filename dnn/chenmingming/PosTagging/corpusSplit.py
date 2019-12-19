@@ -1,3 +1,4 @@
+# corpusSplit.py
 def corpusSplit(infile, sentenceList):  # 将语料分割为句子
     fdi = open(infile, 'r', encoding='utf-8')  # 打开原始数据
     fullStopDict = {"。": 1, "；": 1, "？": 1, "！": 1}
@@ -55,7 +56,7 @@ def out(sentenceList, out_dir): # 将句子分别写到20个文件中，18个训
 
 
 import sys
-import re
+import re # 正则表达式模块
 import random
 '''
 try:
