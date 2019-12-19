@@ -7291,3 +7291,4 @@ dnn/niuhongli/PosTagging/data/train.8
 dnn/niuhongli/PosTagging/data/train.9
 dnn/chenmingming/PosTagging/data/train.0.MaxProb.predict
 dnn/chenmingming/PosTagging/data/model.MaxProb.0
+dnn/chenmingming/PosTagging/data/train.0.MaxProb.eval
