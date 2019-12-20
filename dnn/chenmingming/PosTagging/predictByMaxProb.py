@@ -43,6 +43,6 @@ except:
 	sys.exit(-1)
 word2posDict = {}
 loadModel(model_file, word2posDict)	# 加载训练模型
-sys.stdout.write("加载模型成功！")
+sys.stdout.write("加载MaxProb模型成功！\n")
 predict(infile, word2posDict, outfile)	# 输出
-sys.stdout.write("结果写入预测文件！")
+sys.stdout.write("结果写入预测文件！\n")
