@@ -28,3 +28,4 @@ do
 	python predictByBiHMM.py ./data/test.txt ./data/model.BiHMM.${i} ./data/test.${i}.BiHMM.predict
 	python resultEval.py ./data/test.txt ./data/test.${i}.BiHMM.predict ./data/test.${i}.BiHMM.eval
 done
+echo "FINISH !!!"
