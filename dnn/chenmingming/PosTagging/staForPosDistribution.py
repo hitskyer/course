@@ -1,4 +1,5 @@
 # staForPosDistribution.py
+# -*- coding: UTF-8 -*-
 import sys
 def add2posDict(pos, pDict):
 	if pos in pDict:

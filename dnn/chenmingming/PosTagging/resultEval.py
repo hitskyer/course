@@ -1,4 +1,5 @@
 # resultEval.py
+# -*- coding: UTF-8 -*-
 import sys
 def getPosList(infs):
 	return [s.split("/")[1] for s in infs]

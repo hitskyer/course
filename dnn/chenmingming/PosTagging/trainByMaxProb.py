@@ -1,4 +1,5 @@
 # trainByMaxProb.py
+# -*- coding: UTF-8 -*-
 def staForWordToPosDict(infile, word2posDict):
 	fdi = open(infile, 'r', encoding='utf-8')
 	for line in fdi:

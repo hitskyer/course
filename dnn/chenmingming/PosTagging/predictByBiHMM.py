@@ -1,4 +1,4 @@
-
+# -*- coding: UTF-8 -*-
 def add2transDict(pos1, pos2, prob, transDict):
 	if pos1 in transDict:
 		transDict[pos1][pos2] = prob

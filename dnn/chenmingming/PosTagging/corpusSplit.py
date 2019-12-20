@@ -1,4 +1,5 @@
 # corpusSplit.py
+# -*- coding: UTF-8 -*-
 def corpusSplit(infile, sentenceList):  # 将语料分割为句子
     fdi = open(infile, 'r', encoding='utf-8')  # 打开原始数据
     fullStopDict = {"。": 1, "；": 1, "？": 1, "！": 1}

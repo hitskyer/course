@@ -1,4 +1,5 @@
 # predictByMaxProb.py
+# -*- coding: UTF-8 -*-
 def loadModel(model_file, word2posDict):	# 加载训练模型
 	fdi = open(model_file, 'r', encoding='utf-8')
 	for line in fdi:
