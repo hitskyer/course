@@ -9,9 +9,9 @@ trainEval = []
 devEval = []
 testEval = []
 for i in range(18):
-    filename1 = "train." + str(i) + ".MaxProb.eval"
-    filename2 = "dev." + str(i) + ".MaxProb.eval"
-    filename3 = "test." + str(i) + ".MaxProb.eval"
+    filename1 = ".\\data.\\train." + str(i) + ".MaxProb.eval"
+    filename2 = ".\\data.\\dev." + str(i) + ".MaxProb.eval"
+    filename3 = ".\\data\\test." + str(i) + ".MaxProb.eval"
     with open(filename1, 'r', encoding='utf-8') as f1:
         trainEval.append(float(f1.readline().split()[2]))
     with open(filename2, 'r', encoding='utf-8') as f2:
