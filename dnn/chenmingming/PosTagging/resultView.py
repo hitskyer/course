@@ -20,8 +20,12 @@ for i in range(2):
         testEval.append(float(f3.readline().split()[2]))
 
 import matplotlib.pyplot as plt
+
+# plt.rcParams['font.family'] = 'sans-serif'	# 消除中文乱码
+plt.rcParams['font.sans-serif'] = 'SimHei'	# 消除中文乱码
 plt.title("不同大小语料下的结果对比")
 plt.xlabel("语料")
 plt.ylabel("准确率")
 plt.plot(trainEval, 'r-', devEval, 'b-', testEval, 'g-')
+plt.legend(('train', 'dev', 'test'), loc='upper right')
 plt.show()
