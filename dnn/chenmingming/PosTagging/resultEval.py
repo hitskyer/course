@@ -75,4 +75,6 @@ except:
 staDict = {}
 errDict = {}
 sta(label_file, predict_file, staDict, errDict)	# 统计正确率
+sys.stdout.write("统计预测的正确率！")
 out(staDict, errDict, outfile)	# 写入评估文件
+sys.stdout.write("评估结果写入文件！")

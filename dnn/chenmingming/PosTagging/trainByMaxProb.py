@@ -51,4 +51,6 @@ except:
 	sys.exit(-1)
 word2posDict = {}
 staForWordToPosDict(infile, word2posDict)	# 对训练文件进行统计
+sys.stdout.write("训练统计完成！")
 out4model(word2posDict, model_file)	# 输出到文件
+sys.stdout.write("训练输出到模型文件！")
