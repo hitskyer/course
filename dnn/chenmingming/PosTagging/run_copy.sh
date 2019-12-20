@@ -1,3 +1,4 @@
+alias python='/usr/local/bin/python3.7'
 python trainByMaxProb.py ./data/train.0 ./data/model.MaxProb.0
 python predictByMaxProb.py ./data/train.0 ./data/model.MaxProb.0 ./data/train.0.MaxProb.predict
 python resultEval.py ./data/train.0 ./data/train.0.MaxProb.predict ./data/train.0.MaxProb.eval
