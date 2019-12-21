@@ -8,7 +8,7 @@
 trainEval = []
 devEval = []
 testEval = []
-for i in range(2):
+for i in range(18):
     filename1 = "./data/train." + str(i) + ".MaxProb.eval"
     filename2 = "./data/dev." + str(i) + ".MaxProb.eval"
     filename3 = "./data/test." + str(i) + ".MaxProb.eval"
