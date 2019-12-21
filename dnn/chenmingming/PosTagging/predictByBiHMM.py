@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+# predictByBiHMM.py
 def add2transDict(pos1, pos2, prob, transDict):
 	if pos1 in transDict:
 		transDict[pos1][pos2] = prob
@@ -28,6 +29,7 @@ def loadModel(infile, gPosList, transDict, emitDict):
 			prob = float(infs[3])
 			add2emitDict(pos, word, prob, emitDict)
 	fdi.close()
+	
 def getWords(infs):
 	return [s.split("/")[0] for s in infs]
 def getEmitProb(emitDict, pos, word):
