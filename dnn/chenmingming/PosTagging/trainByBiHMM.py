@@ -70,14 +70,16 @@ def out4model(transDict, emitDict, model_file):
     for pos1, num1 in pnList:  # 前一个词性，频次
         if pos1 == "__end__":
             continue
-        num1 += len(pnList) - 1
+        a = (len(pnList) - 1)/total_word_num
+        lam = a*num1/(1-a)
+        #num1 += lam 
         for pos2, _ in pnList:
             if pos2 == "__start__":
                 continue
-            num2 = 1
+            #num2 = 1
             if pos2 in transDict[pos1]:
-                num2 = transDict[pos1][pos2] + 1
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2 / num1)))
+                num2 = transDict[pos1][pos2]
+                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2 / (num1+lam)))
             else:
                 fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1 / total_word_num)))
     # 发射概率
