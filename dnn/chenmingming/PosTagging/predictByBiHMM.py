@@ -11,7 +11,7 @@ def add2emitDict(pos, word, prob, emitDict):
 	else:
 		emitDict[pos] = {word:prob}
 def loadModel(infile, gPosList, transDict, emitDict):
-	fdi = open(infile)
+	fdi = open(infile, 'r', encoding='utf-8')
 	for line in fdi:
 		infs = line.strip().split()
 		if infs[0] == "pos_set":
@@ -31,7 +31,7 @@ def loadModel(infile, gPosList, transDict, emitDict):
 	fdi.close()
 	
 def getWords(infs):
-	return [s.split("/")[0] for s in infs]
+	return [s.split("/")[0] for s in infs]	# 只获取单词
 def getEmitProb(emitDict, pos, word):
 	if word in emitDict[pos]:
 		return emitDict[pos][word]
@@ -41,19 +41,19 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 	if words == []:
 		return
 	prePosDictList = []
-	for i in range(len(words)):
+	for i in range(len(words)):	# 遍历单词，相当于时间i
 		prePosDict = {}
-		for pos in gPosList:
-			if i == 0:
+		for pos in gPosList:	# 遍历词性，即状态
+			if i == 0:	# 初始时刻
 				trans_prob = transDict["__start__"][pos]
 				emit_prob  = getEmitProb(emitDict, pos, words[i])
-				total_prob = trans_prob + emit_prob
+				total_prob = trans_prob + emit_prob	# 概率之前取了log，logA+logB = logAB
 				prePosDict[pos] = [total_prob, "__start__"]
 			else:
 				emit_prob = getEmitProb(emitDict, pos, words[i])
 				max_total_prob = -10000000.0
 				max_pre_pos    = ""
-				for pre_pos in prePosDictList[i-1]:
+				for pre_pos in prePosDictList[i-1]:	# 在前一次的里面找最大的
 					pre_prob   = prePosDictList[i-1][pre_pos][0]
 					trans_prob = transDict[pre_pos][pos]
 					total_prob = pre_prob + trans_prob + emit_prob
@@ -62,18 +62,6 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 						max_pre_pos = pre_pos
 				prePosDict[pos] = [max_total_prob, max_pre_pos]
 		prePosDictList.append(prePosDict)
-	#indx = -1
-	#for prePosDict in prePosDictList:
-	#	tmpList = []
-	#	for pos in prePosDict:
-	#		tmpList.append(prePosDict[pos]+[pos])
-	#	tmpList.sort(reverse=True)
-	#	indx += 1
-	#	print("indx =", indx)
-	#	for prob, pre_pos, pos in tmpList:
-	#		print("%s\t%s\t%f" % (pre_pos, pos, prob))
-	#	print("--------------------------------------")
-	#sys.exit(0)
 	max_total_prob = -10000000.0
 	max_pre_pos    = ""
 	for pre_pos in prePosDictList[len(prePosDictList)-1]:
@@ -83,7 +71,7 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 		if max_pre_pos == "" or total_prob > max_total_prob:
 			max_total_prob = total_prob
 			max_pre_pos = pre_pos
-	posList = [max_pre_pos]
+	posList = [max_pre_pos]	# 最优路径
 	indx = len(prePosDictList)-1
 	max_pre_pos = prePosDictList[indx][max_pre_pos][1]
 	indx -= 1
@@ -99,8 +87,8 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 		sys.stderr.write("error : the number of pos is not equal to the number of words!\n")
 		sys.exit(-1)
 def predict(infile, gPosList, transDict, emitDict, outfile):
-	fdi = open(infile)
-	fdo = open(outfile, "w")
+	fdi = open(infile, 'r', encoding='utf-8')
+	fdo = open(outfile, "w", encoding='utf-8')
 	for line in fdi:
 		infs = line.strip().split()
 		# 盖住答案，闭卷考试
@@ -110,6 +98,7 @@ def predict(infile, gPosList, transDict, emitDict, outfile):
 		fdo.write(" ".join(results)+"\n")
 	fdo.close()
 	fdi.close()
+
 import sys
 import math
 try:
