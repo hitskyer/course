@@ -25,14 +25,15 @@ def sta(infile, transDict, emitDict):
     for line in fdi:
         infs = line.strip().split()
         wpList = [["__NONE__", "__start__"]] + [s.split("/") for s in infs] + [["__NONE_", "__end__"]]
+        # 边界处理，首尾加个开始和结束标记
         for i in range(1, len(wpList)):
             pre_pos = wpList[i - 1][1]  # 前面一个词性（隐藏状态 y_t-1）
-            cur_pos = wpList[i][1]  # 当前状态 y_t
+            cur_pos = wpList[i][1]  # 当前词性状态 y_t
             word = wpList[i][0]  # 当前观测值(发射值) x_t
             if word == "" or cur_pos == "" or pre_pos == "":
                 continue
-            add2transDict(pre_pos, cur_pos, transDict)
-            add2emitDict(cur_pos, word, emitDict)
+            add2transDict(pre_pos, cur_pos, transDict)	# 统计转移频次
+            add2emitDict(cur_pos, word, emitDict)	# 统计发射频次
         add2transDict("__end__", "__end__", transDict)
     fdi.close()
 
@@ -70,18 +71,16 @@ def out4model(transDict, emitDict, model_file):
     for pos1, num1 in pnList:  # 前一个词性，频次
         if pos1 == "__end__":
             continue
-        a = (len(pnList) - 1)/total_word_num
+        a = (len(pnList) - 1)/total_word_num	# 对0概率进行平滑操作的参数
         lam = a*num1/(1-a)
-        #num1 += lam 
         for pos2, _ in pnList:
             if pos2 == "__start__":
                 continue
-            #num2 = 1
             if pos2 in transDict[pos1]:
                 num2 = transDict[pos1][pos2]
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2 / (num1+lam)))
-            else:
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1 / total_word_num)))
+                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/(num1+lam) + 1/total_word_num))
+            else:	# 转移频次为0的，需要进行概率平滑，避免概率为0，给其一个概率，相应的上面出现的概率减小，保证概率和为1
+                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1/total_word_num)))
     # 发射概率
     for pos, _ in pnList:
         if pos == "__start__" or pos == "__end__":
@@ -92,6 +91,7 @@ def out4model(transDict, emitDict, model_file):
         for word, num2 in wnList:
             fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log((num2 + 1) / num1)))
         fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, "__NEW__", math.log(1 / total_word_num)))
+        # pos词性下，发射其他未统计到的词时的概率给个平滑
     fdo.close()
 
 
