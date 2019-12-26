@@ -64,10 +64,10 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 		prePosDictList.append(prePosDict)
 	max_total_prob = -10000000.0
 	max_pre_pos    = ""
-	for pre_pos in prePosDictList[len(prePosDictList)-1]:
+	for pre_pos in prePosDictList[len(prePosDictList)-1]:	# 最后一列
 		pre_prob   = prePosDictList[len(prePosDictList)-1][pre_pos][0]
 		trans_prob = transDict[pre_pos]["__end__"]
-		total_prob = pre_prob + trans_prob
+		total_prob = pre_prob + trans_prob	# end 不发射
 		if max_pre_pos == "" or total_prob > max_total_prob:
 			max_total_prob = total_prob
 			max_pre_pos = pre_pos
@@ -77,12 +77,12 @@ def predict4one(words, gPosList, transDict, emitDict, results):
 	indx -= 1
 	while indx >= 0:
 		posList.append(max_pre_pos)
-		max_pre_pos = prePosDictList[indx][max_pre_pos][1]
+		max_pre_pos = prePosDictList[indx][max_pre_pos][1]	# 递推前向的路径
 		indx -= 1
 	if len(posList) == len(words):
-		posList.reverse()
+		posList.reverse()	# 原来的推出来的路径是逆向的，反转下
 		for i in range(len(posList)):
-			results.append(words[i]+"/"+posList[i])
+			results.append(words[i]+"/"+posList[i])	# 预测结果
 	else:
 		sys.stderr.write("error : the number of pos is not equal to the number of words!\n")
 		sys.exit(-1)
