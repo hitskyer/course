@@ -2,6 +2,7 @@ echo "将python的路径改为当前机器环境下的路径"
 alias python='/usr/local/bin/python3.7'
 for ((i=0; i<=17; i++))
 do
+	alias python='/usr/local/bin/python3.7'
 	# step 1 : 最大概率模型
 	# step 1.1 : 训练模型
 	python trainByMaxProb.py ./data/train.${i} ./data/model.MaxProb.${i}
