@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 # plt.rcParams['font.family'] = 'sans-serif'	# 消除中文乱码
 plt.rcParams['font.sans-serif'] = 'SimHei'	# 消除中文乱码
-plt.title("BiHMM 不同大小语料下的结果对比")
+plt.title("BiHMM模型在不同大小语料下的结果对比")
 plt.xlabel("语料")
 plt.ylabel("准确率")
 plt.plot(trainEval, 'r-', devEval, 'b-', testEval, 'g-')
