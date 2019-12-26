@@ -9,9 +9,12 @@ trainEval = []
 devEval = []
 testEval = []
 for i in range(18):
-    filename1 = "./data/train." + str(i) + ".MaxProb.eval"
-    filename2 = "./data/dev." + str(i) + ".MaxProb.eval"
-    filename3 = "./data/test." + str(i) + ".MaxProb.eval"
+    # filename1 = "./data/train." + str(i) + ".MaxProb.eval"
+    # filename2 = "./data/dev." + str(i) + ".MaxProb.eval"
+    # filename3 = "./data/test." + str(i) + ".MaxProb.eval"
+    filename1 = "./data/train." + str(i) + ".BiHMM.eval"
+    filename2 = "./data/dev." + str(i) + ".BiHMM.eval"
+    filename3 = "./data/test." + str(i) + ".BiHMM.eval"
     with open(filename1, 'r', encoding='utf-8') as f1:
         trainEval.append(float(f1.readline().split()[2]))
     with open(filename2, 'r', encoding='utf-8') as f2:
@@ -23,7 +26,7 @@ import matplotlib.pyplot as plt
 
 # plt.rcParams['font.family'] = 'sans-serif'	# 消除中文乱码
 plt.rcParams['font.sans-serif'] = 'SimHei'	# 消除中文乱码
-plt.title("不同大小语料下的结果对比")
+plt.title("BiHMM 不同大小语料下的结果对比")
 plt.xlabel("语料")
 plt.ylabel("准确率")
 plt.plot(trainEval, 'r-', devEval, 'b-', testEval, 'g-')
