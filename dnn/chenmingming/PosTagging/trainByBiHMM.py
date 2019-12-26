@@ -78,7 +78,7 @@ def out4model(transDict, emitDict, model_file):
                 continue
             if pos2 in transDict[pos1]:
                 num2 = transDict[pos1][pos2]
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/(num1+lam) + 1/total_word_num))
+                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/(num1+lam) + 1/total_word_num)))
             else:	# 转移频次为0的，需要进行概率平滑，避免概率为0，给其一个概率，相应的上面出现的概率减小，保证概率和为1
                 fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1/total_word_num)))
     # 发射概率
