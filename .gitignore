@@ -7372,3 +7372,5 @@ dnn/chenmingming/PosTagging/data/train.6.MaxProb.eval
 dnn/chenmingming/PosTagging/data/train.7.MaxProb.eval
 dnn/chenmingming/PosTagging/data/train.8.MaxProb.eval
 dnn/chenmingming/PosTagging/data/train.9.MaxProb.eval
+dnn/chenmingming/PosTagging/data/train.0.BiHMM.predict
+dnn/chenmingming/PosTagging/data/model.BiHMM.0
