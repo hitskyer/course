@@ -1,0 +1,111 @@
+1》
+corpusSplit.py 文件说明：
+
+对原文件 corpus4pos_tagging.txt 进行处理，
+第一步：
+对原文件中每个段落（或者行），进行处理，去掉 [ ] 专有名词的符号，如果有 {"。": 1, "；": 1, "？": 1, "！": 1} 符号，则将此段落（行）以此符号为分割，断开成两行。
+最终得到一句话是一行，且每句话中形式都是：单词/词性(此处一个空格) 单词/词性....
+
+第二步：
+针对第一步分割的结果，将整个文件分成20份，
+其中
+train.0 ---- train.17 存储训练样本
+存储内容：迈向/v 充满/v 希望/n 的/u 新/a 世纪/n ??/w 一九九八年/t 新年/t 讲话/n （/w 附/v 图片/n １/m 张/q ）/w
+dev.txt 存储开发样本。开发集，用于反复测试训练的参数。
+test.txt 存储测试样本。测试集，用于最后测试训练的参数。
+
+
+
+2》
+staForPosDistribution.py 文件说明：
+
+对分割好的每一个文件train.17(17 文件，包含了前18份的内容) ，进行统计。
+统计结果直接打印输出到屏幕上。如下所示：
+all	1.0000
+n	0.2081
+v	0.1611
+w	0.1488
+u	0.0661
+m	0.0533
+d	0.0427
+vn	0.0409
+p	0.0363
+a	0.0299
+r	0.0290
+nr	0.0284
+ns	0.0240
+c	0.0227
+q	0.0212
+t	0.0173
+......
+
+
+
+3》
+trainByMaxProb.by  文件说明：
+
+对分割好的18份文件，分别进行相同的处理。
+加载训练样本  train.0---train.17  文件，将这些数据，填充到word2posDict中，
+组成：word-pos-count。 例如： word2posDict = {'apple':{ 'n' : 10，‘v’:20}}
+然后即统计每个文件中，每个单词 word 出现的总次数 num，
+且这个单词出现的所有词性中最多的词性 pos，
+以及计算这个词性出现的概率 prob。
+即 word num pos prob 
+最后把统计结果输出到 model.MaxProb.0------model.MaxProb..17 中，如下：
+，	24467	w	1.000000
+的	18002	u	0.999833
+。	11798	w	1.000000
+、	6714	w	1.000000
+在	3792	p	0.955696
+和	3780	c	0.973545
+了	3727	u	0.892943
+...
+
+
+4》
+predictByMaxProb.py  文件说明：
+
+加载model.MaxProb.0---model.MaxProb.17 文件，
+此文件中写好了 word num pos prob  的对照关系，
+取出word pos，填充word2posDict字典，
+预测文件：
+加载train.0---train.17文件，文件中写好了 单词/词性 的对照关系，
+取出train文件中的word, 不取pos，
+判断train 中的 word 是否在上面字典中：
+如果在字典中，将word/pos 追加到输出train.0.MaxProb.predict文件中，
+如果不在，将word/unknown 追加到输出train.0.MaxProb.predict文件中。
+//*******//
+grep -n unknown train.0.MaxProb.predict 
+执行上一行命令，可以查看某个文件中，是否有这个unknown字母。
+结果显示，并没有这个词，与判断一致。
+//*******//
+总结一下，就是把某个词概率最大的词性统计出来，然后只要遇到该词，都以这个词性标注。
+
+
+
+5》
+resultEval.py 文件说明：
+评估预测的结果。
+train.0文件，原始文件
+train.0.MaxProb.predict   预测结果，是根据model 重新修改过的。
+上面两个文件的格式相同，唯一不同的可能是某些word的pos 用该word的最大概率pos替换，会导致不一样。
+staDict={pos:[pos, label_count, predict_count, prob]}
+    for pos, nlabel, npredict, nright in staList:
+        fdo.write("pos_%s\t%.4f\t%.4f\t%.4f\n" % (pos,
+                                                  nlabel / total,
+                                                  nright / (npredict if npredict > 0 else 100),
+                                                  nright / (nlabel if nlabel > 0 else 100)))
+train.0.MaxProb.eval 存储结果
+随着语料的增加，
+nright/npredict， 这个数值应该是逐渐上升的。
+nright/nlabel ， 这个数值应该是逐渐上升的。
+
+
+6》
+trainByBiHMM.py 文件说明：
+输入 train.0---train.17的文件，进行处理。
+处理结果：存储在model.BiHMM.0---model.BiHMM.17 中。
+
+
+
+

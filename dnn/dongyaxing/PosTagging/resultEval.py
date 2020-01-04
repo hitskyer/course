@@ -18,13 +18,13 @@ def add2errDict(mykey, errDict):
     else:
         errDict[mykey] = 1
 
-
+# 判断两个文件不一致的地方
 def sta(label_file, predict_file, staDict, errDict):
     fdi1 = open(label_file)    # 打开标签文件
     fdi2 = open(predict_file)    # 打开待预测文件
     while True:
         line1 = fdi1.readline()    # 取一行带标签的句子
-        line2 = fdi2.readline()    # 取一行待测句子
+        line2 = fdi2.readline()    # 取一行待对比的句子
         if line1 == "" and line2 == "":
             break
         elif line1 == "" or line2 == "":
@@ -40,34 +40,39 @@ def sta(label_file, predict_file, staDict, errDict):
                 sys.exit(-1)
             else:
                 for i in range(len(labelList)):
-                    label = labelList[i]
-                    predict = predictList[i]
-                    add2staDict(label, 1, staDict)
-                    add2staDict(predict, 2, staDict)
-                    add2staDict("all", 1, staDict)
-                    add2staDict("all", 2, staDict)
+                    label = labelList[i]  # 本身的label
+                    predict = predictList[i]  # 预测得到的label
+                    add2staDict(label, 1, staDict)  # 第一列是label的个数。staDict={pos:[pos, label_count, predict_count, '相等的个数']}
+                    add2staDict(predict, 2, staDict)  # 第二列是predict的个数
+                    add2staDict("all", 1, staDict)  # 记录label总个数
+                    add2staDict("all", 2, staDict)  # 记录predict总个数
                     if label == predict:
                         add2staDict(label, 3, staDict)
                         add2staDict("all", 3, staDict)
                     else:
-                        add2errDict("%s-->%s" % (label, predict), errDict)
+                        add2errDict("%s-->%s" % (label, predict), errDict)  # 记录label被写成predict的次数
                         add2errDict("all-->all", errDict)
     fdi2.close()
     fdi1.close()
 
 
+# 输入正确的字典，和错误的字典，输出结果。
 def out(staDict, errDict, outfile):
-    staList = list(staDict.values())
-    staList.sort(key=lambda infs: (infs[1]), reverse=True)
-    errList = list(errDict.items())
-    errList.sort(key=lambda infs: (infs[1]), reverse=True)
+    staList = list(staDict.values())  # 把staDict的值，转化为staList
+    staList.sort(key=lambda infs: (infs[1]), reverse=True)    # 按照标签值的顺序，由大到小进行排序
+    errList = list(errDict.items())    # 把errDict的值，转化为errList
+    errList.sort(key=lambda infs: (infs[1]), reverse=True)    # 按照值的顺序，由大到小进行排序
     fdo = open(outfile, "w")
-    total = staList[0][1]
+    total = staList[0][1]    # 取出all的总数，也就是扫描label的所有个数
+    # 这里的nright值，肯定是小于等于npredict 和 nlabel的值，
+    # 由于初始的时候npredict 和 nlabel 是0，所以需要判断是否为0
+    # 当npredict 和 nlabel 是0，此时nright 也是0
     for pos, nlabel, npredict, nright in staList:
         fdo.write("pos_%s\t%.4f\t%.4f\t%.4f\n" % (pos,
                                                   nlabel / total,
                                                   nright / (npredict if npredict > 0 else 100),
                                                   nright / (nlabel if nlabel > 0 else 100)))
+    # 总的错误的个数
     total = errList[0][1]
     for errKey, num in errList:
         fdo.write("err_%s\t%.4f\n" % (errKey, num / total))

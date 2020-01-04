@@ -2,7 +2,7 @@
 def corpusSplit(infile, sentenceList):
     # 打开文件，open(filename, model = 'r'), 默认只读模式
     fdi = open(infile)
-    # 建立一个字典，标点符号，用于分割单词
+    # 建立一个字典，标点符号，用于分割句子
     fullStopDict = {"。": 1, "；": 1, "？": 1, "！": 1}
     # line 关键字，逐行读取
     for line in fdi:
@@ -11,7 +11,7 @@ def corpusSplit(infile, sentenceList):
             continue
         else:
             infs = text.split()  # 将字符串从空格处分开，成数组
-            sentence = []  # 初始化为一个数组
+            sentence = []  # 初始化为一组词组，然后将其放入sentenceList，再清空sentence
             flag = True
             # 处理 infs 单词列表
             for s in infs:
@@ -28,7 +28,7 @@ def corpusSplit(infile, sentenceList):
                         flag = False
                     else:
                         sentence.append(word + "/" + pos)  # 把单词和标注再链接在一起
-                    # 检查单词是否为标点符号
+                    # 检查单词是否为标点符号，直到遇到标点符号，才清空sentence，且标点符号与词性均追加上去。
                     if word in fullStopDict:
                         if flag:
                             sentenceList.append(" ".join(sentence))  # 碰到特殊标点，用空格替换。
