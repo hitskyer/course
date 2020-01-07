@@ -71,7 +71,7 @@ def out4model(transDict, emitDict, model_file):
 	for pos, num in pnList:
 		fdo.write("pos_set\t%s\t%d\t%f\n" % (pos, num, num/total))  # 文件中存储 pos, num, 概率。这个词性在整篇文章中出现的概率
 	# 转移概率
-	total_word_num = getTotalWordNum(emitDict)  # 统计所有单词的和
+	total_word_num = getTotalWordNum(emitDict)  # 统计所有单词的和(词性对应的单词个数相加)
 	for pos1, num1 in pnList:
 		if pos1 == "__end__":
 			continue
@@ -116,6 +116,7 @@ emitDict  = {}
 
 # 输入：train文件
 # 输出：转移字典，发射字典
+# 将训练文件进行处理，得出转移字典A+π，和 发射字典B
 sta(infile, transDict, emitDict)
 
 # 根据转移字典和发射字典
