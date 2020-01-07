@@ -55,29 +55,38 @@ def out4model(transDict, emitDict, model_file):
 	
 	# 转移概率
 	total_word_num = getTotalWordNum(emitDict)
-	for pos1, num1 in pnList:
+	for pos1,num1 in pnList:
 		if pos1 == "__end__":
 			continue
-		num1 += len(pnList)-1
+		#smoothing_factor = num1/total_word_num # 平滑方案1
+		smoothing_factor = 1.0                  # 平滑方案2
+		tmpList = []
 		for pos2, _ in pnList:
 			if pos2 == "__start__":
 				continue
-			num2 = 1
 			if pos2 in transDict[pos1]:
-				num2 = transDict[pos1][pos2] + 1
-				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/num1)))
+				tmpList.append([pos2, transDict[pos1][pos2] + smoothing_factor])
 			else:
-				fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1/total_word_num)))
+				tmpList.append([pos2, smoothing_factor])
+		denominator = sum([infs[1] for infs in tmpList])
+		for pos2, numerator in tmpList:
+			fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(numerator/denominator)))
 	# 发射概率
 	for pos,_ in pnList:
 		if pos == "__start__" or pos == "__end__":
 			continue
 		wnList = list(emitDict[pos].items())
 		wnList.sort(key=lambda infs:infs[1], reverse=True)
-		num1 = sum([num for _, num in wnList])+len(wnList)+1
-		for word, num2 in wnList:
-			fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log((num2+1)/num1)))
-		fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, "__NEW__", math.log(1/total_word_num)))
+		num = sum([num for _, num in wnList])
+		#smoothing_factor = num/total_word_num # 平滑方案1
+		smoothing_factor = 1.0                 # 平滑方案2
+		tmpList = []
+		for word, num in wnList:
+			tmpList.append([word, num+smoothing_factor])
+		tmpList.append(["__NEW__", smoothing_factor])
+		denominator = sum([infs[1] for infs in tmpList])
+		for word, numerator in tmpList:
+			fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log(numerator/denominator)))
 	fdo.close()
 import sys
 import math
