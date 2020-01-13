@@ -18,6 +18,15 @@ def add2transDict(pp_pos, p_pos, cur_pos, transDict):
             transDict[pp_pos][p_pos] = {cur_pos : 1}
     else:
         transDict[pp_pos] = {pp_pos : {cur_pos : 1}}
+def add2emitDict(cur_pos, word, emitDict):
+    if cur_pos in emitDict:
+        if word in emitDict[cur_pos]:
+            emitDict[cur_pos][word] += 1
+        else:
+            emitDict[cur_pos][word] = 1
+    else:
+        emitDict[cur_pos] = {word : 1}
+
 def sta(infile, transDict, emitDict):
     f = open(infile, 'r', encoding='utf-8')
     for line in f:
@@ -37,6 +46,15 @@ def sta(infile, transDict, emitDict):
         add2transDict(pp_pos, p_pos, cur_pos, transDict)
         add2emitDict(cur_pos, word, emitDict)
     f.close()
+
+def getPosNumList(transDict):
+    pnList = []
+    for pp_pos, dict in transDict.items():
+
+        num = sum(transDict[pp_pos])
+
+def out4model(transDict, emitDict, model_file):
+    pnList = getPosNumList(transDict)
 try:
     infile = sys.argv[1]
     model_file = sys.argv[2]
@@ -47,6 +65,6 @@ transDict = {}
 emitDict = {}
 
 sta(infile, transDict, emitDict)
-
+out4model(transDict, emitDict, model_file)
 if __name__ == '__main__':
     pass
