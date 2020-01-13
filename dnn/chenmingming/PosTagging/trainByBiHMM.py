@@ -71,27 +71,37 @@ def out4model(transDict, emitDict, model_file):
     for pos1, num1 in pnList:  # 前一个词性，频次
         if pos1 == "__end__":
             continue
-        a = (len(pnList) - 1)/total_word_num	# 对0概率进行平滑操作的参数
-        lam = a*num1/(1-a)
+        #smoothing_factor = num1/total_word_num # 平滑方案1
+        smoothing_factor = 1.0                  # 平滑方案2
+        tmpList = []
         for pos2, _ in pnList:
             if pos2 == "__start__":
                 continue
             if pos2 in transDict[pos1]:
-                num2 = transDict[pos1][pos2]
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(num2/(num1+lam) + 1/total_word_num)))
-            else:	# 转移频次为0的，需要进行概率平滑，避免概率为0，给其一个概率，相应的上面出现的概率减小，保证概率和为1
-                fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(1/total_word_num)))
+                tmpList.append([pos2, transDict[pos1][pos2] + smoothing_factor])
+            else:
+                tmpList.append([pos2, smoothing_factor])
+        denominator = sum([infs[1] for infs in tmpList])
+        for pos2, numerator in tmpList:
+            fdo.write("trans_prob\t%s\t%s\t%f\n" % (pos1, pos2, math.log(numerator/denominator)))
+        
     # 发射概率
     for pos, _ in pnList:
         if pos == "__start__" or pos == "__end__":
             continue
         wnList = list(emitDict[pos].items())
         wnList.sort(key=lambda infs: infs[1], reverse=True)
-        num1 = sum([num for _, num in wnList]) + len(wnList) + 1
-        for word, num2 in wnList:
-            fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log((num2 + 1) / num1)))
-        fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, "__NEW__", math.log(1 / total_word_num)))
+        num = sum([num for _, num in wnList])
+        #smoothing_factor = num/total_word_num # 平滑方案1
+        smoothing_factor = 1.0                 # 平滑方案2
+        tmpList = []
+        for word, num in wnList:
+            tmpList.append([word, num+smoothing_factor])
+        tmpList.append(["__NEW__", smoothing_factor])
         # pos词性下，发射其他未统计到的词时的概率给个平滑
+        denominator = sum([infs[1] for infs in tmpList])
+        for word, numerator in tmpList:
+            fdo.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log(numerator/denominator)))    
     fdo.close()
 
 
