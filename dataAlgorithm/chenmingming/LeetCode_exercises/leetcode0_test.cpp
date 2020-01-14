@@ -6,10 +6,27 @@
  */
 #include <bits/stdc++.h>
 using namespace std;
+
+class Solution {
+public:
+    int distinctEchoSubstrings(string text) {
+        int i, len, n = text.size(), count = 0;
+        string s, doubS;
+        for(len = 1; len <= n/2+1; len++)
+        {
+            for(i = 0; i <= n-len; ++i)
+            {
+                s = text.substr(i, len);
+                doubS = s+s;
+                if(text.find(doubS) != text.npos)
+                    count++;
+            }
+        }
+        return count;
+    }
+};
 int main()
 {
-    string a = "abc", b = "cdef";
-    char x('a'), y('r'), z('b'), w('e');
-    int c = x^y^z^w;
-    cout << c << endl;
+    Solution s;
+    s.distinctEchoSubstrings("abcabcabc");
 }
