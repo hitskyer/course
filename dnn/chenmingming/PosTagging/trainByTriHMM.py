@@ -17,7 +17,7 @@ def add2transDict(pp_pos, p_pos, cur_pos, transDict):
         else:
             transDict[pp_pos][p_pos] = {cur_pos : 1}
     else:
-        transDict[pp_pos] = {pp_pos : {cur_pos : 1}}
+        transDict[pp_pos] = {p_pos : {cur_pos : 1}}
 def add2emitDict(cur_pos, word, emitDict):
     if cur_pos in emitDict:
         if word in emitDict[cur_pos]:
@@ -31,14 +31,11 @@ def sta(infile, transDict, emitDict):
     f = open(infile, 'r', encoding='utf-8')
     for line in f:
         infos = line.strip().split()
-    wpList = [["__NONE__", "__start__"]] + [s.split("/") for s in infos] + [["__NONE__", "__end__"]]
-    for i in range(1, len(wpList)):
-        pp_pos = p_pos = ""
-        if i == 1:
-            pp_pos = p_pos = wpList[i-1][1]
-        else:
-            pp_pos = wpList[i-2][1]
-            p_pos = wpList[i-1][1]
+    wpList = [["__NONE__", "__start__"]] + [["__NONE__", "__start__"]] + [s.split("/") for s in infos] \
+             + [["__NONE__", "__end__"]] + [["__NONE__", "__end__"]]
+    for i in range(2, len(wpList)):
+        pp_pos = wpList[i-2][1]
+        p_pos = wpList[i-1][1]
         cur_pos = wpList[i][1]
         word = wpList[i][0]
         if word == "" or cur_pos == "" or p_pos == "" or pp_pos == "":
@@ -49,9 +46,19 @@ def sta(infile, transDict, emitDict):
 
 def getPosNumList(transDict):
     pnList = []
-    for pp_pos, dict in transDict.items():
+    for pp_pos in transDict:
+        num = 0
+        for p_pos in transDict[pp_pos]:
+            num += sum(transDict[pp_pos][p_pos].values())
+        pnList.append([pp_pos, num])
+    pnList.sort(key=lambda infs:(infs[1]), reverse=True)
+    return pnList
 
-        num = sum(transDict[pp_pos])
+def getTotalWordNum(emitDict):
+    total_word_num = 0
+    for pos in emitDict:
+        total_word_num += sum(list(emitDict[pos].values()))
+    return total_word_num
 
 def out4model(transDict, emitDict, model_file):
     pnList = getPosNumList(transDict)
