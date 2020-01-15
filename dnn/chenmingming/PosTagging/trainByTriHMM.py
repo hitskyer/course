@@ -62,6 +62,28 @@ def getTotalWordNum(emitDict):
 
 def out4model(transDict, emitDict, model_file):
     pnList = getPosNumList(transDict)
+
+    # 状态集合
+    f = open(model_file, 'w', encoding='utf-8')
+    total = sum([num for pos, num in pnList])
+    for pos, num in pnList:
+        f.write("pos_set\t%s\t%s\t%s\n" %(pos, num, num/total))
+
+    # 转移概率
+    total_word_num = getTotalWordNum(emitDict)
+    for pp_pos, num1 in pnList:
+        if pp_pos == "__end__":
+            continue
+        tmpList = []
+        smoothing_factor = num1 / total_word_num
+        for p_pos, num2 in pnList:
+            smoothing_factor *= num2 / total_word_num
+            if p_pos in transDict[pp_pos]:
+                for cur_pos in pnList:
+                    if cur_pos in transDict[pp_pos][p_pos]:
+
+
+
 try:
     infile = sys.argv[1]
     model_file = sys.argv[2]
