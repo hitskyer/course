@@ -1,0 +1,20 @@
+pos_set	v	5	0.25
+pos_set	n	4	0.2
+pos_set	__start__	2	0.1
+pos_set	w	2	0.1
+pos_set	vn	2	0.1
+pos_set	m	1	0.05
+pos_set	s	1	0.05
+pos_set	j	1	0.05
+pos_set	b	1	0.05
+pos_set	c	1	0.05
+trans_prob	v	v	['v', 5]	-2.302585
+trans_prob	v	v	['n', 4]	-2.302585
+trans_prob	v	v	['__start__', 2]	-2.302585
+trans_prob	v	v	['w', 2]	-2.302585
+trans_prob	v	v	['vn', 2]	-2.302585
+trans_prob	v	v	['m', 1]	-2.302585
+trans_prob	v	v	['s', 1]	-2.302585
+trans_prob	v	v	['j', 1]	-2.302585
+trans_prob	v	v	['b', 1]	-2.302585
+trans_prob	v	v	['c', 1]	-2.302585

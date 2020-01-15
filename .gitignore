@@ -7420,3 +7420,5 @@ dnn/chenmingming/PosTagging/data/train.7.BiHMM.eval
 dnn/chenmingming/PosTagging/data/train.8.BiHMM.eval
 dnn/chenmingming/PosTagging/data/train.9.BiHMM.eval
 dnn/chenmingming/PosTagging/resultView.jpg
+dnn/chenmingming/PosTagging/data/model.TriHMM.0
+dnn/chenmingming/PosTagging/data/model.TriHMM.0
