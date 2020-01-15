@@ -5,8 +5,6 @@
 # @Website: https://michael.blog.csdn.net/
 # @File: trainByTriHMM.py
 
-import sys
-import math
 def add2transDict(pp_pos, p_pos, cur_pos, transDict):
     if pp_pos in transDict:
         if p_pos in transDict[pp_pos]:
@@ -78,12 +76,37 @@ def out4model(transDict, emitDict, model_file):
         smoothing_factor = num1 / total_word_num
         for p_pos, num2 in pnList:
             smoothing_factor *= num2 / total_word_num
-            if p_pos in transDict[pp_pos]:
-                for cur_pos in pnList:
+            for cur_pos in pnList:
+                if p_pos not in transDict[pp_pos]:
+                    tmpList.append([cur_pos, smoothing_factor])
+                else:
                     if cur_pos in transDict[pp_pos][p_pos]:
+                        tmpList.append([cur_pos, transDict[pp_pos][p_pos][cur_pos]])
+                    else:
+                        tmpList.append([cur_pos, smoothing_factor])
+            denominator = sum([infs[1] for infs in tmpList])
+            for cur_pos, number in tmpList:
+                f.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pp_pos, p_pos, cur_pos, math.log(number/denominator)))
+    # 发射概率
+    for pos, _ in pnList:
+        if pos == "__start__" or pos == "__end__":
+            continue
+        wnList = list(emitDict[pos].items())
+        wnList.sort(key=lambda infs:infs[1], reverse=True)
+        num = sum([num for _, num in wnList])
+        smoothing_factor = num/total_word_num
+        tmpList = []
+        for word, n in wnList:
+            tmpList.append([word, n+smoothing_factor])
+        tmpList.append(["__NEW__", smoothing_factor])
 
+        denominator = sum([infs[1] for infs in tmpList])
+        for word, number in tmpList:
+            f.write("emit_prob\t%s\t%s\t%f\n" % (pos, word, math.log(number/denominator)))
+    f.close()
 
-
+import sys
+import math
 try:
     infile = sys.argv[1]
     model_file = sys.argv[2]
@@ -95,5 +118,3 @@ emitDict = {}
 
 sta(infile, transDict, emitDict)
 out4model(transDict, emitDict, model_file)
-if __name__ == '__main__':
-    pass
