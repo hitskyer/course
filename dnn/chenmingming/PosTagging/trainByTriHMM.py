@@ -75,8 +75,12 @@ def out4model(transDict, emitDict, model_file):
         tmpList = []
         smoothing_factor = num1 / total_word_num
         for p_pos, num2 in pnList:
+            if (pp_pos != "__start__") and (p_pos == "__start__"):
+                continue
             smoothing_factor *= num2 / total_word_num
-            for cur_pos in pnList:
+            for cur_pos, _ in pnList:
+                if cur_pos == "__start__":
+                    continue
                 if p_pos not in transDict[pp_pos]:
                     tmpList.append([cur_pos, smoothing_factor])
                 else:
@@ -86,6 +90,8 @@ def out4model(transDict, emitDict, model_file):
                         tmpList.append([cur_pos, smoothing_factor])
             denominator = sum([infs[1] for infs in tmpList])
             for cur_pos, number in tmpList:
+                if cur_pos == "__start__":
+                    continue
                 f.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pp_pos, p_pos, cur_pos, math.log(number/denominator)))
     # 发射概率
     for pos, _ in pnList:
