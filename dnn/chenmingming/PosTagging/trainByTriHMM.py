@@ -29,17 +29,17 @@ def sta(infile, transDict, emitDict):
     f = open(infile, 'r', encoding='utf-8')
     for line in f:
         infos = line.strip().split()
-    wpList = [["__NONE__", "__start__"]] + [["__NONE__", "__start__"]] + [s.split("/") for s in infos] \
-             + [["__NONE__", "__end__"]] + [["__NONE__", "__end__"]]
-    for i in range(2, len(wpList)):
-        pp_pos = wpList[i-2][1]
-        p_pos = wpList[i-1][1]
-        cur_pos = wpList[i][1]
-        word = wpList[i][0]
-        if word == "" or cur_pos == "" or p_pos == "" or pp_pos == "":
-            continue
-        add2transDict(pp_pos, p_pos, cur_pos, transDict)
-        add2emitDict(cur_pos, word, emitDict)
+        wpList = [["__NONE__", "__start__"]] + [["__NONE__", "__start__"]] + [s.split("/") for s in infos] + [["__NONE__", "__end__"]] + [["__NONE__", "__end__"]]
+        for i in range(2, len(wpList)):
+            pp_pos = wpList[i-2][1]
+            p_pos = wpList[i-1][1]
+            cur_pos = wpList[i][1]
+            word = wpList[i][0]
+            if word == "" or cur_pos == "" or p_pos == "" or pp_pos == "":
+                continue
+            add2transDict(pp_pos, p_pos, cur_pos, transDict)
+            add2emitDict(cur_pos, word, emitDict)
+        # add2transDict
     f.close()
 
 def getPosNumList(transDict):
@@ -85,7 +85,7 @@ def out4model(transDict, emitDict, model_file):
                     tmpList.append([cur_pos, smoothing_factor])
                 else:
                     if cur_pos in transDict[pp_pos][p_pos]:
-                        tmpList.append([cur_pos, transDict[pp_pos][p_pos][cur_pos]])
+                        tmpList.append([cur_pos, transDict[pp_pos][p_pos][cur_pos]+smoothing_factor])
                     else:
                         tmpList.append([cur_pos, smoothing_factor])
             denominator = sum([infs[1] for infs in tmpList])
