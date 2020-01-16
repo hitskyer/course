@@ -63,7 +63,7 @@ def predict4one(words, gPosList, transDict, emitDict, results):
         prePosDict = {}
         for pos in gPosList:  # 遍历词性，即状态
             if i == 0:  # 初始时刻
-                trans_prob = transDict["__start__"][pos]
+                trans_prob = transDict["__start__"]["__start__"][pos]
                 emit_prob = getEmitProb(emitDict, pos, words[i])
                 total_prob = trans_prob + emit_prob  # 概率之前取了log，logA+logB = logAB
                 prePosDict[pos] = [total_prob, "__start__"]
