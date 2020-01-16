@@ -99,12 +99,66 @@ train.0.MaxProb.eval 存储结果
 随着语料的增加，
 nright/npredict， 这个数值应该是逐渐上升的。
 nright/nlabel ， 这个数值应该是逐渐上升的。
+但需要看总体的，也就是第一个all的正确率。
 
 
 6》
 trainByBiHMM.py 文件说明：
+
+# 转移字典，A+， pos1转移到pos2的频次
+# transDict = {pos1:{pos2:count, pos3:count, ...}, pos2:{pos3:count, ...}, ...}
+transDict = {}
+# 发射字典 B。也就是word是pos词性的频次。
+# emitDict = {pos1:{word1:count, word2:count, ...}, pos2:{word1:count, ...}, ...}
+emitDict  = {}
+
 输入 train.0---train.17的文件，进行处理。
 处理结果：存储在model.BiHMM.0---model.BiHMM.17 中。
+结果呈献形式：
+pos_set pos num num/total  
+(也就是：pos_set  词性 数量 此词性数量占所有词性数量的比例)
+
+trans_prob pos1 pos2 log(num2/num1) 
+ (也就是：转移概率 词性1 词性2 log())
+
+emit_prob pos word log((num2+1)/(num1))
+(也就是：发射概率 词性 单词 log())
+
+7》
+predictByBiHMM.py 文件说明：
+
+加载model_file , 填充gPosList, transDict, emitDitc。
+gPosList 中仅包含词性，也就是train中的词性，且去掉了__start__, __end__
+
+transDict中，包含pos1转移到pos2的概率等
+transDict = {pos1:{pos2:count, pos3:count, ...}, pos2:{pos3:count, ...}, ...}
+
+emitDict中，包含在pos1下，word1发射概率。pos1下，word2发射概率，等等
+emitDict = {pos1:{word1:count, word2:count, ...}, pos2:{word1:count, ...}, ...}
+
+
+获取第一个单词在第一个词性下的转移概率（前面已经补全了__start__），第一个单词在第一个词性下的发射概率
+转移概率+发射概率 = 总概率。
+
+获取第一个单词在第二个词性下的发射概率，第一个词性（任何词性）转移到第二个词性的概率，前一个前置概率
+上面三者相加，得到最大概率。
+
+只有第一个单词，测试了以所有词性开始，并保留从start转移到每个词性的概率。
+第二个单词开始，仅保留从prePos转移到curPos的最大的词性及概率。
+
+
+根据记录的最大概率的词性，将其匹配给当前的单词，然后这个单词的词性就确定下来了。
+就可以输出 word/pos,...等
+
+8》 findDiff.py文件
+将train.0-train.17文件中，被train.0.ByHMM.predict预测错误的，重新写入mark.diff.0-mark.diff.17 .
+错误的用 word/right_pos --> err_pos
+mark.diff.0--mark.diff.17 文件最后，有：
+err_cnt = 16976
+right_cnt = 353085
+, total_cnt= 370061
+
+
 
 
 
