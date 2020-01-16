@@ -39,7 +39,7 @@ def sta(infile, transDict, emitDict):
                 continue
             add2transDict(pp_pos, p_pos, cur_pos, transDict)
             add2emitDict(cur_pos, word, emitDict)
-        # add2transDict
+        add2transDict("__end__", "__end__", "__end__", transDict)
     f.close()
 
 def getPosNumList(transDict):
@@ -77,9 +77,15 @@ def out4model(transDict, emitDict, model_file):
         for p_pos, num2 in pnList:
             if (pp_pos != "__start__") and (p_pos == "__start__"):
                 continue
+            if (pp_pos == "__start__") and (p_pos == "__end__"):
+                continue
             smoothing_factor *= num2 / total_word_num
             for cur_pos, _ in pnList:
                 if cur_pos == "__start__":
+                    continue
+                if (p_pos == "__end__") and (cur_pos != "__end__"):
+                    continue
+                if pp_pos == "__start__" and p_pos == "__start__" and cur_pos == "__end__":
                     continue
                 if p_pos not in transDict[pp_pos]:
                     tmpList.append([cur_pos, smoothing_factor])
@@ -91,6 +97,10 @@ def out4model(transDict, emitDict, model_file):
             denominator = sum([infs[1] for infs in tmpList])
             for cur_pos, number in tmpList:
                 if cur_pos == "__start__":
+                    continue
+                if (p_pos == "__end__") and (cur_pos != "__end__"):
+                    continue
+                if pp_pos == "__start__" and p_pos == "__start__" and cur_pos == "__end__":
                     continue
                 f.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pp_pos, p_pos, cur_pos, math.log(number/denominator)))
     # 发射概率
