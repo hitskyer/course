@@ -66,36 +66,50 @@ def predict4one(words, gPosList, transDict, emitDict, results):
                 trans_prob = transDict["__start__"]["__start__"][pos]
                 emit_prob = getEmitProb(emitDict, pos, words[i])
                 total_prob = trans_prob + emit_prob  # 概率之前取了log，logA+logB = logAB
-                prePosDict[pos] = [total_prob, "__start__"]
+                prePosDict[pos] = [total_prob, "__start__", "__start__"]
+            elif i == 1:
+                emit_prob = getEmitProb(emitDict, pos, words[i])
+                max_total_prob = -10000000.0
+                max_pre_pos = []
+                for pre_pos in prePosDictList[0]:  # 在前一次的里面找最大的
+                    pre_prob = prePosDictList[0][pre_pos][0]
+                    trans_prob = transDict["__start__"][pre_pos][pos]
+                    total_prob = pre_prob + trans_prob + emit_prob
+                    if max_pre_pos == [] or total_prob > max_total_prob:
+                        max_total_prob = total_prob
+                        max_pre_pos = ["__start__", pre_pos]
+                prePosDict[pos] = [max_total_prob, max_pre_pos[0], max_pre_pos[1]]
             else:
                 emit_prob = getEmitProb(emitDict, pos, words[i])
                 max_total_prob = -10000000.0
-                max_pre_pos = ""
-                for pre_pos in prePosDictList[i - 1]:  # 在前一次的里面找最大的
-                    pre_prob = prePosDictList[i - 1][pre_pos][0]
-                    trans_prob = transDict[pre_pos][pos]
+                max_pre_pos = []
+                for pre_pos in prePosDictList[i-1]:  # 在前一次的里面找最大的
+                    pre_prob = prePosDictList[i-1][pre_pos][0]
+                    pp_pos = prePosDictList[i-1][pre_pos][2]
+                    trans_prob = transDict[pp_pos][pre_pos][pos]
                     total_prob = pre_prob + trans_prob + emit_prob
-                    if max_pre_pos == "" or total_prob > max_total_prob:
+                    if max_pre_pos == [] or total_prob > max_total_prob:
                         max_total_prob = total_prob
-                        max_pre_pos = pre_pos
-                prePosDict[pos] = [max_total_prob, max_pre_pos]
+                        max_pre_pos = [pp_pos, pre_pos]
+                prePosDict[pos] = [max_total_prob, max_pre_pos[0], max_pre_pos[1]]
         prePosDictList.append(prePosDict)
     max_total_prob = -10000000.0
-    max_pre_pos = ""
+    max_pre_pos = []
     for pre_pos in prePosDictList[len(prePosDictList) - 1]:  # 最后一列
         pre_prob = prePosDictList[len(prePosDictList) - 1][pre_pos][0]
-        trans_prob = transDict[pre_pos]["__end__"]
+        pp_pos = prePosDictList[len(prePosDictList) - 1][pre_pos][2]
+        trans_prob = transDict[pp_pos][pre_pos]["__end__"]
         total_prob = pre_prob + trans_prob  # end 不发射
-        if max_pre_pos == "" or total_prob > max_total_prob:
+        if max_pre_pos == [] or total_prob > max_total_prob:
             max_total_prob = total_prob
-            max_pre_pos = pre_pos
-    posList = [max_pre_pos]  # 最优路径
+            max_pre_pos = [pp_pos, pre_pos]
+    posList = [max_pre_pos[1]]  # 最优路径
     indx = len(prePosDictList) - 1
-    max_pre_pos = prePosDictList[indx][max_pre_pos][1]
+    best_pre_pos = prePosDictList[indx][posList[-1]][2]
     indx -= 1
     while indx >= 0:
-        posList.append(max_pre_pos)
-        max_pre_pos = prePosDictList[indx][max_pre_pos][1]  # 递推前向的路径
+        posList.append(best_pre_pos)
+        best_pre_pos = prePosDictList[indx][posList[-1]][2]  # 递推前向的路径
         indx -= 1
     if len(posList) == len(words):
         posList.reverse()  # 原来的推出来的路径是逆向的，反转下
