@@ -3,7 +3,7 @@
 # @Time: 2020/1/16 22:37
 # @Author: Michael Ming
 # @Website: https://michael.blog.csdn.net/
-# @File: predictByTrihmm.py
+# @File: predictByTriHMM.py
 
 def add2transDict(pos1, pos2, pos3, prob, transDict):
     if pos1 in transDict:
