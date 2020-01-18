@@ -98,7 +98,7 @@ def predict4one(words, gPosList, transDict, emitDict, results):
     for pre_pos in prePosDictList[len(prePosDictList) - 1]:  # 最后一列
         pre_prob = prePosDictList[len(prePosDictList) - 1][pre_pos][0]
         pp_pos = prePosDictList[len(prePosDictList) - 1][pre_pos][2]
-        trans_prob = transDict[pp_pos][pre_pos]["__end__"]
+        trans_prob = transDict[pp_pos][pre_pos]["__end__"]+transDict[pre_pos]["__end__"]["__end__"]
         total_prob = pre_prob + trans_prob  # end 不发射
         if max_pre_pos == [] or total_prob > max_total_prob:
             max_total_prob = total_prob

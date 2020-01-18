@@ -72,7 +72,7 @@ def out4model(transDict, emitDict, model_file):
     for pp_pos, num1 in pnList:
         if pp_pos == "__end__":
             continue
-        tmpList = []
+        # tmpList = []
         smoothing_factor = num1 / total_word_num
         for p_pos, num2 in pnList:
             if (pp_pos != "__start__") and (p_pos == "__start__"):
@@ -80,6 +80,7 @@ def out4model(transDict, emitDict, model_file):
             if (pp_pos == "__start__") and (p_pos == "__end__"):
                 continue
             smoothing_factor *= num2 / total_word_num
+            tmpList = []
             for cur_pos, _ in pnList:
                 if cur_pos == "__start__":
                     continue
