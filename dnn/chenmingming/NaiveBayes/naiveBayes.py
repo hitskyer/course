@@ -25,7 +25,7 @@ for i in range(len(data[0])):  # 统计Yi的数量
     nY[Y.index(data[2][i])] += 1
 PY = [0.0] * len(Y)
 for i in range(len(Y)):
-    PY[i] = nY[i] / len(data[0])  # Yi的概率
+    PY[i] = (nY[i]+1) / (len(data[0])+len(Y)) # Yi的概率,+1为平滑
 PX1_Y = np.zeros((len(X1), len(Y)))  # 条件概率
 PX2_Y = np.zeros((len(X2), len(Y)))
 
@@ -33,8 +33,8 @@ for i in range(len(data[0])):
     PX1_Y[X1.index(data[0][i])][Y.index(data[2][i])] += 1  # 统计频数
     PX2_Y[X2.index(data[1][i])][Y.index(data[2][i])] += 1
 for i in range(len(Y)):
-    PX1_Y[:, i] /= nY[i]  # 转成条件概率
-    PX2_Y[:, i] /= nY[i]
+    PX1_Y[:, i] = (PX1_Y[:, i] + 1)/(nY[i]+len(X1))  # 转成条件概率,带平滑
+    PX2_Y[:, i] = (PX2_Y[:, i] + 1)/(nY[i]+len(X2))
 x = [2, 'S']
 PX_Y = [PX1_Y, PX2_Y]
 X = [X1, X2]
