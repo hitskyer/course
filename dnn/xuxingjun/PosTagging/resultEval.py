@@ -21,7 +21,8 @@ def sta(label_file, predict_file, staDict, errDict):
 		elif line1 == "" or line2 == "":
 			sys.stderr.write("the number of lines is not equal between %s and %s!\n" % (
 				label_file, predict_file))
-			sys.exit(-1)
+			break
+			#sys.exit(-1)
 		else:
 			labelList = getPosList(line1.strip().split())
 			predictList = getPosList(line2.strip().split())
