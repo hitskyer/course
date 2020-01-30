@@ -73,21 +73,22 @@ def out4model(transDict, emitDict, model_file):
         if pp_pos == "__end__":
             continue
         # tmpList = []
-        smoothing_factor = num1 / total_word_num
+        # smoothing_factor = num1 / total_word_num
         for p_pos, num2 in pnList:
             if (pp_pos != "__start__") and (p_pos == "__start__"):
                 continue
             if (pp_pos == "__start__") and (p_pos == "__end__"):
                 continue
-            smoothing_factor *= num2 / total_word_num
+            # smoothing_factor *= num2 / total_word_num
             tmpList = []
-            for cur_pos, _ in pnList:
+            for cur_pos, num3 in pnList:
                 if cur_pos == "__start__":
                     continue
                 if (p_pos == "__end__") and (cur_pos != "__end__"):
                     continue
                 if pp_pos == "__start__" and p_pos == "__start__" and cur_pos == "__end__":
                     continue
+                smoothing_factor = num3 / total_word_num
                 if p_pos not in transDict[pp_pos]:
                     tmpList.append([cur_pos, smoothing_factor])
                 else:
@@ -97,12 +98,12 @@ def out4model(transDict, emitDict, model_file):
                         tmpList.append([cur_pos, smoothing_factor])
             denominator = sum([infs[1] for infs in tmpList])
             for cur_pos, number in tmpList:
-                if cur_pos == "__start__":
-                    continue
-                if (p_pos == "__end__") and (cur_pos != "__end__"):
-                    continue
-                if pp_pos == "__start__" and p_pos == "__start__" and cur_pos == "__end__":
-                    continue
+                # if cur_pos == "__start__":
+                #     continue
+                # if (p_pos == "__end__") and (cur_pos != "__end__"):
+                #     continue
+                # if pp_pos == "__start__" and p_pos == "__start__" and cur_pos == "__end__":
+                #     continue
                 f.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pp_pos, p_pos, cur_pos, math.log(number/denominator)))
     # 发射概率
     for pos, _ in pnList:
