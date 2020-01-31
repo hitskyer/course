@@ -7481,3 +7481,5 @@ dnn/chenmingming/PosTagging/data/train.6.TriHMM.eval
 dnn/chenmingming/PosTagging/data/train.7.TriHMM.eval
 dnn/chenmingming/PosTagging/data/train.8.TriHMM.eval
 dnn/chenmingming/PosTagging/data/train.9.TriHMM.eval
+dnn/chenmingming/PosTagging/data/test.0.TriHMM.eval_cmm
+dnn/chenmingming/PosTagging/data/test.0.TriHMM.predict_xxj
