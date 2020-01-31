@@ -55,22 +55,22 @@ def out4model(transDict, emitDict, model_file):
 	# 转移概率
 	total_word_num = getTotalWordNum(emitDict)
 	for pos1,_ in pnList:
-		tmpList = []
 		for pos2, _ in pnList:
+			tmpList = []
 			if pos2 in transDict[pos1]:
 				for pos3, num3 in pnList:
 					smoothing_factor = num3/total_word_num
 					if pos3 in transDict[pos1][pos2]:
-						tmpList.append([pos2, pos3, transDict[pos1][pos2][pos3] + smoothing_factor])
+						tmpList.append([pos3, transDict[pos1][pos2][pos3] + smoothing_factor])
 					else:
-						tmpList.append([pos2, pos3, smoothing_factor])
+						tmpList.append([pos3, smoothing_factor])
 			else:
 				for pos3, num3 in pnList:
 					smoothing_factor = num3/total_word_num
-					tmpList.append([pos2, pos3, smoothing_factor])
-		denominator = sum([infs[2] for infs in tmpList])
-		for pos2, pos3, numerator in tmpList:
-			fdo.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pos1, pos2, pos3, math.log(numerator/denominator)))
+					tmpList.append([pos3, smoothing_factor])
+			denominator = sum([infs[1] for infs in tmpList])
+			for pos3, numerator in tmpList:
+				fdo.write("trans_prob\t%s\t%s\t%s\t%f\n" % (pos1, pos2, pos3, math.log(numerator/denominator)))
 	# 发射概率
 	for pos,_ in pnList:
 		wnList = list(emitDict[pos].items())
