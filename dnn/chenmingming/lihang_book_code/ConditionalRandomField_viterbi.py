@@ -52,7 +52,7 @@ def crf_viterbi():
 
     print("最优路径:", y_star + 1)  # +1表示所有的都+1，序号从1开始
     print("概率矩阵：\n", delta)
-    psi[1:] += 1
+    psi[1:] += 1  # 序号从1开始
     print("Psi路径：\n", psi)
 
 
