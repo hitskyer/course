@@ -11,7 +11,7 @@ def viterbi(s, t):
     time = len(s)
     y_state = [0, 1]  # 表示状态 1，2
     m = len(y_state)  # 状态数量
-    y_star = np.zeros((time))  # 最优路径
+    y_star = np.zeros((time), dtype=np.int32)  # 最优路径
     delta = np.zeros((time, m))  # 最大概率矩阵(可以DP状态压缩)
     psi = np.zeros((time, m), dtype=np.int32)  # 记录最优路径
 
@@ -32,7 +32,7 @@ def viterbi(s, t):
 
     # 返回
     for i in range(time - 2, -1, -1):
-        y_star[i] = psi[i + 1][int(y_star[i + 1])]
+        y_star[i] = psi[i + 1][y_star[i + 1]]
     return y_star, delta, psi
 
 
@@ -52,7 +52,7 @@ def crf_viterbi():
 
     print("最优路径:", y_star + 1)  # +1表示所有的都+1，序号从1开始
     print("概率矩阵：\n", delta)
-    psi[1:] += 1  # 序号从1开始
+    psi[1:] += 1  # 序号从1开始，第0行没用
     print("Psi路径：\n", psi)
 
 
