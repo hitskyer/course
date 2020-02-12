@@ -22,7 +22,7 @@ def get_parabolic_curve_data_set(n):
     # 设置随机数的种子，以保证每回运行程序的随机结果一致
     np.random.seed(520)  # 520 可以随便写 Seed must be between 0 and 2**32 - 1
     # 随机生成200个样本，每个样本两维特征
-    X = np.random.normal(0, 1, size=(n, 2))# 正态分布，中心0，标准差1
+    X = np.random.normal(0, 1, size=(n, 2))  # 正态分布，中心0，标准差1
     # 分类面（线）是y=-x^2+1.5，开口向下的抛物线，口内为1类，口外为0类
     y = np.array(X[:, 0] ** 2 + X[:, 1] < 1.5, dtype=int)  # 满足关系的为1，否则为0
     # 加入10%的噪声数据
@@ -33,6 +33,7 @@ def get_parabolic_curve_data_set(n):
 
 def show_data_set(X, y):
     plt.scatter(X[y == 0, 0], X[y == 0, 1], c='r')
+    # 散点图，分量1,为y==0的行的0列，分量2，y==0的行的1列，c表示颜色
     plt.scatter(X[y == 1, 0], X[y == 1, 1], c='b')
     plt.show()
 
@@ -40,21 +41,26 @@ def show_data_set(X, y):
 def PolynomialLogisticRegression(degree=2, C=1.0, penalty='l2'):
     # 对输入特征依次做多项式转换、归一化转换、类别预测
     return Pipeline([
-        # 以多项式的方式对原始特征做转换
+        # Pipeline 可以把多个评估器链接成一个。例如特征选择、标准化和分类
+        # 以多项式的方式对原始特征做转换，degree次多项式
         ('poly', PolynomialFeatures(degree=degree)),
-        # 对多项式转换后的特征向量做归一化处理
+        # 对多项式转换后的特征向量做归一化处理，例如（数据-均值）/标准差
         ('std_scaler', StandardScaler()),
-        # 用转换后的特征向量做预测
+        # 用转换后的特征向量做预测，penalty是正则化约束，C正则化强度，值越小，强度大
+        # solver 不同的求解器擅长的规模类型差异
+        # 正则化https://blog.csdn.net/zouxy09/article/details/24971995/
         ('log_reg', LogisticRegression(C=C, penalty=penalty, solver="liblinear"))
     ])
 
 
 def plot_decision_boundary(x_min, x_max, y_min, y_max, pred_func):
     h = 0.01
+    # 产生网格
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+    # ravel将矩阵展平，np_c[a,b]将a,b按列拼在一起
     Z = pred_func(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)# 填充等高线
+    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)  # 填充等高线
 
 
 def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
@@ -79,7 +85,7 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
 
 if __name__ == '__main__':
     # 随机生成200个拥有2维实数特征 且 分类面（线）为y=-x^2+1.5(换言之，x2=-x1^2+1.5)的语料
-    X, y = get_parabolic_curve_data_set(200)
+    X, y = get_parabolic_curve_data_set(20)
     # 预留30%作为测试语料
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
     # 展示所生成的数据
