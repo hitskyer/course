@@ -32,8 +32,8 @@ def get_parabolic_curve_data_set(n):
 
 
 def show_data_set(X, y):
-    plt.scatter(X[y == 0, 0], X[y == 0, 1], c='b')
-    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='r')
+    plt.scatter(X[y == 0, 0], X[y == 0, 1], c='r')
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='b')
     plt.show()
 
 
@@ -54,7 +54,7 @@ def plot_decision_boundary(x_min, x_max, y_min, y_max, pred_func):
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
     Z = pred_func(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)
+    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)# 填充等高线
 
 
 def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
@@ -79,7 +79,7 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
 
 if __name__ == '__main__':
     # 随机生成200个拥有2维实数特征 且 分类面（线）为y=-x^2+1.5(换言之，x2=-x1^2+1.5)的语料
-    X, y = get_parabolic_curve_data_set(20)
+    X, y = get_parabolic_curve_data_set(200)
     # 预留30%作为测试语料
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
     # 展示所生成的数据
