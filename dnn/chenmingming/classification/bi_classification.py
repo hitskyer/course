@@ -4,12 +4,12 @@
 	2）"终端-->python-->import xx-->help(xx.yy)"，一开始的时候这么做没啥用，但作为资深工程师是必备技能
 	3）试着修改一些参数，观察其输出的变化，在后面的程序中，会不断的演示这种办法
 '''
-# write by hitskyer
-# modified by Michael Ming
+# written by hitskyer
+# modified by Michael Ming on 2020.2.12
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-# sklearn 中文文档https://sklearn.apachecn.org/docs/0.21.3/
+# sklearn 中文文档 https://sklearn.apachecn.org/docs/0.21.3/
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -48,7 +48,7 @@ def PolynomialLogisticRegression(degree=2, C=1.0, penalty='l2'):
         ('std_scaler', StandardScaler()),
         # 用转换后的特征向量做预测，penalty是正则化约束，C正则化强度，值越小，强度大
         # solver 不同的求解器擅长的规模类型差异
-        # 正则化https://blog.csdn.net/zouxy09/article/details/24971995/
+        # 正则化 https://blog.csdn.net/zouxy09/article/details/24971995/
         ('log_reg', LogisticRegression(C=C, penalty=penalty, solver="liblinear"))
     ])
 
@@ -61,6 +61,7 @@ def plot_decision_boundary(x_min, x_max, y_min, y_max, pred_func):
     Z = pred_func(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
     plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)  # 填充等高线
+    # 等高线参考 https://blog.csdn.net/lens___/article/details/83960810
 
 
 def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
@@ -85,7 +86,7 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
 
 if __name__ == '__main__':
     # 随机生成200个拥有2维实数特征 且 分类面（线）为y=-x^2+1.5(换言之，x2=-x1^2+1.5)的语料
-    X, y = get_parabolic_curve_data_set(20)
+    X, y = get_parabolic_curve_data_set(200)
     # 预留30%作为测试语料
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
     # 展示所生成的数据
