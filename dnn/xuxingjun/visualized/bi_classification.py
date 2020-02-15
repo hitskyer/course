@@ -71,7 +71,7 @@ show_data_set(X,y)
 # 测试不同的超参数组合
 print("准确率高，比较恰当的模型")
 test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2')
-print("准确率高，且恰当的模型")
+print("准确率高，比较恰当的模型")
 test(X_train, X_test, y_train, y_test, degree=2, C=0.1, penalty='l2')
 print("准确率高，但是过拟合的模型")
 test(X_train, X_test, y_train, y_test, degree=20, C=1.0, penalty='l2')
