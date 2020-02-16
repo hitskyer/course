@@ -101,4 +101,4 @@ if __name__ == '__main__':
     print("准确率低，且过拟合的模型")
     test(X_train, X_test, y_train, y_test, degree=20, C=0.1, penalty='l2')
     print("准确率高，且恰当的模型")
-    test(X_train, X_test, y_train, y_test, degree=20, C=0.1, penalty='l1')
+    test(X_train, X_test, y_train, y_test, degree=20, C=0.05, penalty='l1')
