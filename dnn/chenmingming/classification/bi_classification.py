@@ -83,7 +83,7 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
     plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='r')
     plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='b')
     plt.xlabel("x1")
-    plt.ylabel("x2",rotation=90)
+    plt.ylabel("x2")
     plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
     plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
     plt.title("参数：degree:%d, C:%.2f, penalty:%s -- 准确率: %.4f" % (degree, C, penalty, score))
@@ -92,7 +92,7 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
 
 if __name__ == '__main__':
     # 随机生成200个拥有2维实数特征 且 分类面（线）为y=-x^2+1.5(换言之，x2=-x1^2+1.5)的语料
-    X, y = get_parabolic_curve_data_set(2000)
+    X, y = get_parabolic_curve_data_set(20000)
     # 预留30%作为测试语料
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
     # 展示所生成的数据
