@@ -20,7 +20,7 @@ from sklearn import metrics
 
 def get_parabolic_curve_data_set(n):
     # 设置随机数的种子，以保证每回运行程序的随机结果一致
-    np.random.seed(520)  # 520 可以随便写 Seed must be between 0 and 2**32 - 1
+    np.random.seed(777)  # 520 可以随便写 Seed must be between 0 and 2**32 - 1
     # 随机生成200个样本，每个样本两维特征
     X = np.random.normal(0, 1, size=(n, 2))  # 正态分布，中心0，标准差1
     # 分类面（线）是y=-x^2+1.5，开口向下的抛物线，口内为1类，口外为0类
@@ -74,19 +74,25 @@ def test(X_train, X_test, y_train, y_test, degree=2, C=1.0, penalty='l2'):
         degree, C, penalty, metrics.accuracy_score(y_train, predict_train)))
     # 在测试数据上做测试
     predict_test = poly_log_reg.predict(X_test)
+    score = metrics.accuracy_score(y_test, predict_test)
     sys.stdout.write("LR(degree = %d, C=%.2f, penalty=%s) Test Accuracy : %.4g\n" % (
-        degree, C, penalty, metrics.accuracy_score(y_test, predict_test)))
+        degree, C, penalty, score))
     print("--------------------------------------")
     # 展示分类边界
     plot_decision_boundary(-4, 4, -4, 4, lambda x: poly_log_reg.predict(x))
     plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='r')
     plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='b')
+    plt.xlabel("x1")
+    plt.ylabel("x2",rotation=90)
+    plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
+    plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+    plt.title("参数：degree:%d, C:%.2f, penalty:%s -- 准确率: %.4f" % (degree, C, penalty, score))
     plt.show()
 
 
 if __name__ == '__main__':
     # 随机生成200个拥有2维实数特征 且 分类面（线）为y=-x^2+1.5(换言之，x2=-x1^2+1.5)的语料
-    X, y = get_parabolic_curve_data_set(200)
+    X, y = get_parabolic_curve_data_set(2000)
     # 预留30%作为测试语料
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
     # 展示所生成的数据
@@ -101,4 +107,4 @@ if __name__ == '__main__':
     print("准确率低，且过拟合的模型")
     test(X_train, X_test, y_train, y_test, degree=20, C=0.1, penalty='l2')
     print("准确率高，且恰当的模型")
-    test(X_train, X_test, y_train, y_test, degree=20, C=0.05, penalty='l1')
+    test(X_train, X_test, y_train, y_test, degree=20, C=0.1, penalty='l1')
