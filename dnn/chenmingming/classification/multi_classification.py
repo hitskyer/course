@@ -30,6 +30,18 @@ def show_data_set(X, y, data):
     plt.show()
 
 
+def plot_data(X, y):
+    plt.plot(X[y == 0, 0], X[y == 0, 1], 'rs', label='setosa')
+    plt.plot(X[y == 1, 0], X[y == 1, 1], 'bx', label='versicolor')
+    plt.plot(X[y == 2, 0], X[y == 2, 1], 'go', label='virginica')
+    plt.xlabel("sepal length (cm)")
+    plt.ylabel("sepal width (cm)")
+    plt.title("预测分类边界")
+    plt.legend()
+    plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
+    plt.show()
+
+
 def plot_decision_boundary(x_min, x_max, y_min, y_max, pred_func):
     h = 0.01
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
@@ -39,7 +51,7 @@ def plot_decision_boundary(x_min, x_max, y_min, y_max, pred_func):
 
 
 def test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear'):
-    log_reg = LogisticRegression(multi_class=multi_class, solver=solver)
+    log_reg = LogisticRegression(multi_class=multi_class, solver=solver)  # 调用ovr多分类
     log_reg.fit(X_train, y_train)
     predict_train = log_reg.predict(X_train)
     sys.stdout.write("LR(multi_class = %s, solver = %s) Train Accuracy : %.4g\n" % (
@@ -48,13 +60,15 @@ def test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear
     sys.stdout.write("LR(multi_class = %s, solver = %s) Test  Accuracy : %.4g\n" % (
         multi_class, solver, metrics.accuracy_score(y_test, predict_test)))
     plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: log_reg.predict(x))
-    plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='r')
-    plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='b')
-    plt.scatter(X_train[y_train == 2, 0], X_train[y_train == 2, 1], color='g')
-    plt.show()
+    plot_data(X_train, y_train)
 
 
 def test2(X_train, X_test, y_train, y_test):
+    #  multi_class默认auto
+    # 'auto' selects 'ovr' if the data is binary, or if solver='liblinear',
+    #  and otherwise selects 'multinomial'.
+    #  看完help知道auto选择的是ovr，因为下面求解器选的是 liblinear
+    #  所以test1和test2是同种效果，不一样的写法
     log_reg = LogisticRegression(solver='liblinear')
     ovr = OneVsRestClassifier(log_reg)
     ovr.fit(X_train, y_train)
@@ -65,15 +79,13 @@ def test2(X_train, X_test, y_train, y_test):
     sys.stdout.write("LR(ovr) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
     plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovr.predict(x))
-    plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='r')
-    plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='b')
-    plt.scatter(X_train[y_train == 2, 0], X_train[y_train == 2, 1], color='g')
-    plt.show()
+    plot_data(X_train, y_train)
 
 
 def test3(X_train, X_test, y_train, y_test):
+    # For multiclass problems, only 'newton-cg', 'sag', 'saga' and 'lbfgs' handle multinomial loss;
     log_reg = LogisticRegression(multi_class='multinomial', solver='newton-cg')
-    ovo = OneVsOneClassifier(log_reg)
+    ovo = OneVsOneClassifier(log_reg)  # ovo多分类
     ovo.fit(X_train, y_train)
     predict_train = ovo.predict(X_train)
     sys.stdout.write("LR(ovo) Train Accuracy : %.4g\n" % (
@@ -82,10 +94,7 @@ def test3(X_train, X_test, y_train, y_test):
     sys.stdout.write("LR(ovo) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
     plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovo.predict(x))
-    plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color='r')
-    plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color='b')
-    plt.scatter(X_train[y_train == 2, 0], X_train[y_train == 2, 1], color='g')
-    plt.show()
+    plot_data(X_train, y_train)
 
 
 if __name__ == '__main__':
@@ -93,10 +102,10 @@ if __name__ == '__main__':
     # print(dir(iris))    # 查看data所具有的属性或方法
     # print(iris.data)    # 数据
     # print(iris.DESCR)   # 数据描述
-    X = iris.data[:, :2]    # 取前2列特征（平面只能展示2维）
-    y = iris.target
+    X = iris.data[:, :2]  # 取前2列特征（平面只能展示2维）
+    y = iris.target  # 分类
     show_data_set(X, y, iris)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=777)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=777)  # 默认test比例0.25
     test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear')
     test2(X_train, X_test, y_train, y_test)
     test1(X_train, X_test, y_train, y_test, multi_class='multinomial', solver='newton-cg')
