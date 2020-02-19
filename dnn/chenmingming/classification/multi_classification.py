@@ -18,10 +18,15 @@ from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multiclass import OneVsOneClassifier
 
 
-def show_data_set(X, y):
-    plt.scatter(X[y == 0, 0], X[y == 0, 1], c='r')
-    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='b')
-    plt.scatter(X[y == 2, 0], X[y == 2, 1], c='g')
+def show_data_set(X, y, data):
+    plt.plot(X[y == 0, 0], X[y == 0, 1], 'rs', label=data.target_names[0])
+    plt.plot(X[y == 1, 0], X[y == 1, 1], 'bx', label=data.target_names[1])
+    plt.plot(X[y == 2, 0], X[y == 2, 1], 'go', label=data.target_names[2])
+    plt.xlabel(data.feature_names[0])
+    plt.ylabel(data.feature_names[1])
+    plt.title("鸢尾花2维数据")
+    plt.legend()
+    plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
     plt.show()
 
 
@@ -85,9 +90,12 @@ def test3(X_train, X_test, y_train, y_test):
 
 if __name__ == '__main__':
     iris = datasets.load_iris()
-    X = iris.data[:, :2]
+    # print(dir(iris))    # 查看data所具有的属性或方法
+    # print(iris.data)    # 数据
+    # print(iris.DESCR)   # 数据描述
+    X = iris.data[:, :2]    # 取前2列特征（平面只能展示2维）
     y = iris.target
-    show_data_set(X, y)
+    show_data_set(X, y, iris)
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=777)
     test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear')
     test2(X_train, X_test, y_train, y_test)
