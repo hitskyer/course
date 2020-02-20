@@ -59,7 +59,7 @@ def test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear
     predict_test = log_reg.predict(X_test)
     sys.stdout.write("LR(multi_class = %s, solver = %s) Test  Accuracy : %.4g\n" % (
         multi_class, solver, metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: log_reg.predict(x))
+    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: log_reg.predict(x)) # 4个特征下注释掉
     plot_data(X_train, y_train)
 
 
@@ -78,14 +78,14 @@ def test2(X_train, X_test, y_train, y_test):
     predict_test = ovr.predict(X_test)
     sys.stdout.write("LR(ovr) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovr.predict(x))
+    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovr.predict(x))# 4个特征下注释掉
     plot_data(X_train, y_train)
 
 
 def test3(X_train, X_test, y_train, y_test):
     # For multiclass problems, only 'newton-cg', 'sag', 'saga' and 'lbfgs' handle multinomial loss;
     log_reg = LogisticRegression(multi_class='multinomial', solver='newton-cg')
-    ovo = OneVsOneClassifier(log_reg)  # ovo多分类
+    ovo = OneVsOneClassifier(log_reg)  # ovo多分类，传入LR(multinomial,newton-cg or lbfgs)
     ovo.fit(X_train, y_train)
     predict_train = ovo.predict(X_train)
     sys.stdout.write("LR(ovo) Train Accuracy : %.4g\n" % (
@@ -93,7 +93,7 @@ def test3(X_train, X_test, y_train, y_test):
     predict_test = ovo.predict(X_test)
     sys.stdout.write("LR(ovo) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovo.predict(x))
+    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovo.predict(x)) # 4个特征下注释掉
     plot_data(X_train, y_train)
 
 
@@ -103,9 +103,10 @@ if __name__ == '__main__':
     # print(iris.data)    # 数据
     # print(iris.DESCR)   # 数据描述
     X = iris.data[:, :2]  # 取前2列特征（平面只能展示2维）
+    # X = iris.data  # 全部4个特征
     y = iris.target  # 分类
     show_data_set(X, y, iris)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=777)  # 默认test比例0.25
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=520)  # 默认test比例0.25
     test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear')
     test2(X_train, X_test, y_train, y_test)
     test1(X_train, X_test, y_train, y_test, multi_class='multinomial', solver='newton-cg')
