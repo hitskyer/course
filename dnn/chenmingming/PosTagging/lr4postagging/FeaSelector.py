@@ -1,6 +1,7 @@
 
 def readSentences(train_file, sentences):
-	fdi = open(train_file)
+	# 文件转成[[[w,p][w,p][w,p]],[[w,p][w,p][w,p]]]
+	fdi = open(train_file, 'r', encoding='utf-8')
 	for line in fdi:
 		wps = []
 		for s in line.strip().split():
