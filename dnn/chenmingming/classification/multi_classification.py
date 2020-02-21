@@ -61,7 +61,7 @@ def test1(X_train, X_test, y_train, y_test, multi_class='ovr', solver='liblinear
     predict_test = log_reg.predict(X_test)
     sys.stdout.write("LR(multi_class = %s, solver = %s) Test  Accuracy : %.4g\n" % (
         multi_class, solver, metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: log_reg.predict(x))  # 4个特征下注释掉，前两特征
+    # plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: log_reg.predict(x))  # 4个特征下注释掉，前两特征
     # plot_decision_boundary(0.5, 7.5, 0, 3, lambda x: log_reg.predict(x))  # 4个特征下注释掉，后两特征
     plot_data(X_train, y_train)
 
@@ -72,7 +72,8 @@ def test2(X_train, X_test, y_train, y_test):
     #  and otherwise selects 'multinomial'.
     #  看完help知道auto选择的是ovr，因为下面求解器选的是 liblinear
     #  所以test1和test2是同种效果，不一样的写法
-    log_reg = LogisticRegression(solver='liblinear')
+    # log_reg = LogisticRegression(solver='liblinear')
+    log_reg = LogisticRegression(multi_class='multinomial', solver='newton-cg')
     ovr = OneVsRestClassifier(log_reg)
     ovr.fit(X_train, y_train)
     predict_train = ovr.predict(X_train)
@@ -81,14 +82,15 @@ def test2(X_train, X_test, y_train, y_test):
     predict_test = ovr.predict(X_test)
     sys.stdout.write("LR(ovr) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovr.predict(x))  # 4个特征下注释掉，前两特征
+    # plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovr.predict(x))  # 4个特征下注释掉，前两特征
     # plot_decision_boundary(0.5, 7.5, 0, 3, lambda x: ovr.predict(x))  # 4个特征下注释掉，后两特征
     plot_data(X_train, y_train)
 
 
 def test3(X_train, X_test, y_train, y_test):
     # For multiclass problems, only 'newton-cg', 'sag', 'saga' and 'lbfgs' handle multinomial loss;
-    log_reg = LogisticRegression(multi_class='multinomial', solver='newton-cg')
+    # log_reg = LogisticRegression(multi_class='multinomial', solver='newton-cg')
+    log_reg = LogisticRegression(multi_class='ovr', solver='liblinear')
     ovo = OneVsOneClassifier(log_reg)  # ovo多分类，传入LR(multinomial,newton-cg or lbfgs)
     ovo.fit(X_train, y_train)
     predict_train = ovo.predict(X_train)
@@ -97,7 +99,7 @@ def test3(X_train, X_test, y_train, y_test):
     predict_test = ovo.predict(X_test)
     sys.stdout.write("LR(ovo) Test  Accuracy : %.4g\n" % (
         metrics.accuracy_score(y_test, predict_test)))
-    plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovo.predict(x))  # 4个特征下注释掉,前两特征
+    # plot_decision_boundary(4, 8.5, 1.5, 4.5, lambda x: ovo.predict(x))  # 4个特征下注释掉,前两特征
     # plot_decision_boundary(0.5, 7.5, 0, 3, lambda x: ovo.predict(x))  # 4个特征下注释掉,后两特征
     plot_data(X_train, y_train)
 
