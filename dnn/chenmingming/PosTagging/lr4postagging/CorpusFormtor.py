@@ -28,8 +28,7 @@ class CorpusFormtor:
 			indx = int(indx)
 			posDict[pos] = indx
 		fdi.close()
-import sys
-from pandas import DataFrame
+
 from FeaExtractor import *
 if __name__ == "__main__":
 	try:

@@ -1,5 +1,5 @@
 import sys
-from pandas import DataFrame
+# from pandas import DataFrame
 
 
 class FeaExtractor:
@@ -16,19 +16,19 @@ class FeaExtractor:
         for fkey in self.__feaKeyList:
             feaKeyList.append(fkey)
 
-    def getFeaDataFrame(self, wps):
-        tmpDict = {}
-        for windx in range(len(wps)):
-            feaList = []
-            self.getFeaList(wps, windx, feaList)
-            for findx in range(len(feaList)):
-                mykey = self.__feaKeyList[findx]
-                myval = feaList[findx]
-                if mykey not in tmpDict:
-                    tmpDict[mykey] = []
-                tmpDict[mykey].append(myval)
-        df = DataFrame(tmpDict)
-        return df
+    # def getFeaDataFrame(self, wps):
+    #     tmpDict = {}
+    #     for windx in range(len(wps)):
+    #         feaList = []
+    #         self.getFeaList(wps, windx, feaList)
+    #         for findx in range(len(feaList)):
+    #             mykey = self.__feaKeyList[findx]
+    #             myval = feaList[findx]
+    #             if mykey not in tmpDict:
+    #                 tmpDict[mykey] = []
+    #             tmpDict[mykey].append(myval)
+    #     df = DataFrame(tmpDict)
+    #     return df
 
     def getFeaList(self, wps, indx, feaList):
         if self.__feaKeyList == None:
