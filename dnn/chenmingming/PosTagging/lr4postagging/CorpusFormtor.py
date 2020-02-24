@@ -5,8 +5,8 @@ class CorpusFormtor:
 		self.__loadPosDict(pos_file, self.__posDict)
 		self.__fe = FeaExtractor(fig_file=fig_file, fnumber=fnumber)
 	def format4label_file(self, label_file, format_file):
-		fdi = open(label_file)
-		fdo = open(format_file, "w")
+		fdi = open(label_file, 'r', encoding='utf-8')
+		fdo = open(format_file, "w", encoding='utf-8')
 		feaKeyList = ["label"]
 		self.__fe.getFeaKeyList(feaKeyList)
 		fdo.write(",".join(feaKeyList)+"\n")
@@ -22,7 +22,7 @@ class CorpusFormtor:
 		fdi.close()
 		fdo.close()
 	def __loadPosDict(self, pos_file, posDict):
-		fdi = open(pos_file)
+		fdi = open(pos_file, 'r', encoding='utf-8')
 		for line in fdi:
 			pos, indx = line.strip().split()
 			indx = int(indx)

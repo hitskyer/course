@@ -24,7 +24,9 @@ def getPosDict(sentences, posDict):
     for pos, _ in tmpList:
         posDict[pos] = len(posDict)
     # posDict {'n': 0, 'v': 1, 'w': 2, 'u': 3, 'm': 4, ...}
-	# 获取词性的对应下标
+
+
+# 获取词性的对应下标
 
 
 def sta4one(cfeaDict, total, indx, feaDict):
@@ -45,8 +47,8 @@ def sta(sentences, posDict, feaDict):
     fe = FeaExtractor()
     for wps in sentences:
         for i in range(len(wps)):
-            cfeaDict = {}
-            fe.getFeaDict(wps, i, cfeaDict) #
+            cfeaDict = {}  # {'cw_充满': 1, 'cwsc_充': 1, 'cwec_满': 1, 'p1w_迈向': 1, 's1w_希望': 1}
+            fe.getFeaDict(wps, i, cfeaDict)  #
             _, pos = wps[i]
             sta4one(cfeaDict, len(posDict), posDict[pos], feaDict)
 
@@ -83,7 +85,7 @@ def compute(feaDict, igDict):
 def out1(igDict, fig_file):
     igList = list(igDict.items())
     igList.sort(key=lambda infs: infs[1], reverse=True)
-    fdo = open(fig_file, "w")
+    fdo = open(fig_file, "w", encoding='utf-8')
     for fea, ig in igList:
         fdo.write("%s\t%f\n" % (fea, ig))
     fdo.close()
@@ -92,7 +94,7 @@ def out1(igDict, fig_file):
 def out2(posDict, pos_file):
     tmpList = list(posDict.items())
     tmpList.sort(key=lambda infs: infs[1])
-    fdo = open(pos_file, "w")
+    fdo = open(pos_file, "w", encoding='utf-8')
     for pos, indx in tmpList:
         fdo.write("%s\t%d\n" % (pos, indx))
     fdo.close()
@@ -110,12 +112,18 @@ except:
     sys.stderr.write("\tpython " + sys.argv[0] + " train_file fig_file pos_file\n")
     sys.exit(-1)
 sentences = []
-readSentences(train_file, sentences)  # 从训练文件读取句子
+readSentences(train_file, sentences)
+# 从训练文件读取句子
 posDict = {}
-getPosDict(sentences, posDict)  # 获取词性的频数，并按频数降序，生成词性映射下标
+getPosDict(sentences, posDict)
+# 获取词性的频数，并按频数降序，生成词性映射下标
 feaDict = {}
 sta(sentences, posDict, feaDict)
+# 计数 当前词汇、及其开始字符、结束字符、前字符串、后字符串 在当前pos下的频次+1
 igDict = {}
 compute(feaDict, igDict)
+# 计算特征的熵值
 out1(igDict, fig_file)
+# 熵值写入文件
 out2(posDict, pos_file)
+# pos 与 映射下标写入文件

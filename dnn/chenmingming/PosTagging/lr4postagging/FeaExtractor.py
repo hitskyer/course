@@ -76,7 +76,7 @@ class FeaExtractor:
 
     # 特征可以持续扩充...
     def __setFeaKeyList(self, fig_file, fnumber, feaKeyList):
-        fdi = open(fig_file)
+        fdi = open(fig_file, 'r', encoding='utf-8')
         indx = -1
         for line in fdi:
             indx += 1

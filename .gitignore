@@ -7487,3 +7487,11 @@ dnn/chenmingming/PosTagging/data/test.0.TriHMM.eval_xxj
 dnn/chenmingming/PosTagging/data/test.0.TriHMM.predict
 dnn/chenmingming/PosTagging/data/test.17.TriHMM.err_xxj
 dnn/chenmingming/PosTagging/data/test.17.TriHMM.err_cmm
+dnn/chenmingming/PosTagging/lr4postagging/data/fig.0
+dnn/chenmingming/PosTagging/lr4postagging/data/pos.0
+dnn/chenmingming/PosTagging/lr4postagging/data/train.0.csv
+dnn/chenmingming/PosTagging/lr4postagging/data/fig.0
+dnn/chenmingming/PosTagging/lr4postagging/data/train.0.csv
+dnn/chenmingming/PosTagging/lr4postagging/data/fig.0
+dnn/chenmingming/PosTagging/lr4postagging/data/pos.0
+dnn/chenmingming/PosTagging/lr4postagging/data/train.0.csv

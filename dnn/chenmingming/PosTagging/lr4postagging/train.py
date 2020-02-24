@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.multiclass import OneVsOneClassifier
-from sklearn.externals import joblib
+import joblib
 from FeaExtractor import *
 try:
 	train_file = sys.argv[1]
