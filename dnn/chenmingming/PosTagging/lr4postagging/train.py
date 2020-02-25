@@ -28,8 +28,8 @@ TRAIN_LABEL = train_corpus[label_column]
 TEST_FEATURE = test_corpus[features]
 TEST_LABEL = test_corpus[label_column]
 print("step 3 : 训练")
-log_reg = LogisticRegression(solver='liblinear')
-ovr = OneVsRestClassifier(log_reg)
+log_reg = LogisticRegression(solver='newton-cg')
+ovr = OneVsOneClassifier(log_reg)
 ovr.fit(TRAIN_FEATURE, TRAIN_LABEL)
 joblib.dump(ovr, model_file)
 ovr = joblib.load(model_file)

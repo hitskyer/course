@@ -16,4 +16,4 @@ python train.py ./data/train.0.${snumber}.csv ./data/test.0.${snumber}.csv ./dat
 # step 5 : 预测
 python predict.py ../data/test.txt ./data/pos.0 ./data/fig.0 ${fnumber} ./data/model.0.${snumber}_${fnumber}.ovr ./data/test.0.${snumber}_${fnumber}.predict
 # step 5 : 评估
-python ../PosTagging/resultEval.py ../data/test.txt ./data/test.0.${snumber}_${fnumber}.predict ./data/test.0.${snumber}_${fnumber}.eval
+python ../resultEval.py ../data/test.txt ./data/test.0.${snumber}_${fnumber}.predict ./data/test.0.${snumber}_${fnumber}.eval
