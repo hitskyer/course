@@ -124,6 +124,6 @@ igDict = {}
 compute(feaDict, igDict)
 # 计算特征的熵值
 out1(igDict, fig_file)
-# 熵值写入文件
+# 熵值写入文件, 特征很多，选取信息增益比较大的特征作为后序输入
 out2(posDict, pos_file)
 # pos 与 映射下标写入文件
