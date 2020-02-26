@@ -18,7 +18,7 @@ except:
 print("step 1 : 获取特征key列表")
 fe = FeaExtractor(fig_file, fnumber)
 features = []
-fe.getFeaKeyList(features)
+fe.getFeaKeyList(features)# 特征，当前词，前后词，当前词首尾字符
 print("step 2 : 读取语料&&分离出标签与特征向量")
 train_corpus = pandas.read_csv(train_file)
 test_corpus  = pandas.read_csv(test_file)
