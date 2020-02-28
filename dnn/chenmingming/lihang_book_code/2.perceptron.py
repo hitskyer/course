@@ -72,6 +72,9 @@ if __name__ == '__main__':
         perceptron.fit()
         eta_iterTime.append([eta, perceptron.iterTimes])
     plt.plot(eta_iterTime[:][0], eta_iterTime[:][1], 'bo')
+    plt.show()
+
+    # 绘制分类超平面
     # x_points = np.linspace(4, 7, 100)
     # y_ = -(perceptron.w[0] * x_points + perceptron.b) / perceptron.w[1]
     # plt.plot(x_points, y_)
