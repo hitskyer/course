@@ -83,7 +83,7 @@ if __name__ == '__main__':
         eta_iterTime.append([eta, perceptron.iterTimes])
     for i in range(len(eta_iterTime)):
         plt.plot(eta_iterTime[i][0], eta_iterTime[i][1], 'b+')
-    plt.xlabel('步长')
+    plt.xlabel('步长(学习率)')
     plt.ylabel('迭代次数')
     plt.show()
 
