@@ -57,8 +57,7 @@ if __name__ == '__main__':
     plt.scatter(df[50:100][iris.feature_names[0]], df[50:100][iris.feature_names[1]], label=iris.target_names[1])
     plt.xlabel(iris.feature_names[0])
     plt.ylabel(iris.feature_names[1])
-    plt.legend()
-    plt.show()
+
     # 选取数据,前100行，前两个特征，最后一列标签
     data = np.array(df.iloc[:100, [0, 1, -1]])
     # X是除最后一列外的所有列，y是最后一列
@@ -66,16 +65,27 @@ if __name__ == '__main__':
     # 生成感知机的标签值，+1， -1, 第一种-1，第二种+1
     y = np.array([1 if i == 1 else -1 for i in y])
 
+    perceptron = PerceptronModel(X, y, eta=0.01)
+    perceptron.fit()
+
+    # 绘制分类超平面
+    x_points = np.linspace(4, 7, 100)
+    y_ = -(perceptron.w[0] * x_points + perceptron.b) / perceptron.w[1]
+    plt.rcParams['font.sans-serif'] = 'SimHei' # 消除中文乱码
+    plt.plot(x_points, y_, label='分类线')
+    plt.legend()
+    plt.show()
+
     eta_iterTime = []
-    for eta in np.linspace(0.01, 1.01, 100):
+    for eta in np.linspace(0.01, 1.01, 50):
         perceptron = PerceptronModel(X, y, eta)
         perceptron.fit()
         eta_iterTime.append([eta, perceptron.iterTimes])
-    plt.plot(eta_iterTime[:][0], eta_iterTime[:][1], 'bo')
+    for i in range(len(eta_iterTime)):
+        plt.plot(eta_iterTime[i][0], eta_iterTime[i][1], 'b+')
+    plt.xlabel('步长')
+    plt.ylabel('迭代次数')
+    plt.legend()
     plt.show()
 
-    # 绘制分类超平面
-    # x_points = np.linspace(4, 7, 100)
-    # y_ = -(perceptron.w[0] * x_points + perceptron.b) / perceptron.w[1]
-    # plt.plot(x_points, y_)
-    # plt.show()
+
