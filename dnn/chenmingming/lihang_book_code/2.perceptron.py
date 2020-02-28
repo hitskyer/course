@@ -85,7 +85,6 @@ if __name__ == '__main__':
         plt.plot(eta_iterTime[i][0], eta_iterTime[i][1], 'b+')
     plt.xlabel('步长')
     plt.ylabel('迭代次数')
-    plt.legend()
     plt.show()
 
 
