@@ -65,6 +65,7 @@ if __name__ == '__main__':
     # 生成感知机的标签值，+1， -1, 第一种-1，第二种+1
     y = np.array([1 if i == 1 else -1 for i in y])
 
+    # 调用感知机进行分类，学习率eta
     perceptron = PerceptronModel(X, y, eta=0.01)
     perceptron.fit()
 
