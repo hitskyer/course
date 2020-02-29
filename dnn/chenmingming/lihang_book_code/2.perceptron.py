@@ -9,6 +9,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.datasets import load_iris
+from sklearn.linear_model import Perceptron
 import matplotlib.pyplot as plt
 
 
@@ -122,16 +123,16 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
     # ------------------学习率不同，查看迭代次数----------------------------
-    n = 100
+    n = 5
     i = 0
     eta_iterTime = np.zeros((n, 3), dtype=float)
     for eta in np.linspace(0.01, 1.01, n):
-        eta_iterTime[i][0] = eta    # 第一列，学习率
+        eta_iterTime[i][0] = eta  # 第一列，学习率
         perceptron = PerceptronModel(X, y, eta)
         perceptron.OriginClassifier()
-        eta_iterTime[i][1] = perceptron.iterTimes # 第二列，原始算法迭代次数
+        eta_iterTime[i][1] = perceptron.iterTimes  # 第二列，原始算法迭代次数
         perceptron.DualFormClassifier()
-        eta_iterTime[i][2] = perceptron.iterTimes # 第三列，对偶算法迭代次数
+        eta_iterTime[i][2] = perceptron.iterTimes  # 第三列，对偶算法迭代次数
         i += 1
     x = eta_iterTime[:, 0]  # 数据切片
     y0 = eta_iterTime[:, 1]
@@ -141,5 +142,25 @@ if __name__ == '__main__':
     plt.xlabel('步长(学习率)')
     plt.ylabel('迭代次数')
     plt.title("不同步长，不同算法形式下，迭代次数")
+    plt.legend()
+    plt.show()
+    # ------------------sklearn实现----------------------------
+    classify = Perceptron(fit_intercept=True, max_iter=10000, shuffle=False, eta0=0.5, tol=None)
+    classify.fit(X, y)
+    print("特征权重：", classify.coef_)  # 特征权重 w
+    print("截距（偏置）:", classify.intercept_)  # 截距 b
+
+    # 可视化
+    plt.scatter(df[:50][iris.feature_names[0]], df[:50][iris.feature_names[1]], label=iris.target_names[0])
+    plt.scatter(df[50:100][iris.feature_names[0]], df[50:100][iris.feature_names[1]], label=iris.target_names[1])
+    plt.xlabel(iris.feature_names[0])
+    plt.ylabel(iris.feature_names[1])
+
+    # 绘制分类超平面
+    x_points = np.linspace(4, 7, 10)
+    y = -(classify.coef_[0][0] * x_points + classify.intercept_) / classify.coef_[0][1]
+    plt.plot(x_points, y, 'r', label='sklearn Perceptron分类线')
+
+    plt.title("sklearn内置感知机分类")
     plt.legend()
     plt.show()
