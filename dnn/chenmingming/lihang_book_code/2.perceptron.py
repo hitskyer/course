@@ -122,17 +122,22 @@ if __name__ == '__main__':
     plt.legend()
     plt.show()
     # ------------------学习率不同，查看迭代次数----------------------------
-    eta_iterTime0 = []
-    eta_iterTime1 = []
-    for eta in np.linspace(0.01, 1.01, 50):
+    n = 10
+    i = 0
+    eta_iterTime = np.zeros((n, 3), dtype=float)
+    for eta in np.linspace(0.01, 1.01, n):
+        eta_iterTime[i][0] = eta
         perceptron = PerceptronModel(X, y, eta)
         perceptron.OriginClassifier()
-        eta_iterTime0.append([eta, perceptron.iterTimes])
+        eta_iterTime[i][1] = perceptron.iterTimes
         perceptron.DualFormClassifier()
-        eta_iterTime1.append([eta, perceptron.iterTimes])
-    for i in range(len(eta_iterTime0)):
-        plt.plot(eta_iterTime0[i][0], eta_iterTime0[i][1], 'r+', label='原始算法')
-        plt.plot(eta_iterTime1[i][0], eta_iterTime1[i][1], 'b*', label='对偶算法')
+        eta_iterTime[i][2] = perceptron.iterTimes
+        i += 1
+    x = eta_iterTime[:, 0]
+    y0 = eta_iterTime[:, 1]
+    y1 = eta_iterTime[:, 2]
+    plt.scatter(x, y0, color='r', label='原始算法')
+    plt.scatter(x, y1, color='b', label='对偶算法')
     plt.xlabel('步长(学习率)')
     plt.ylabel('迭代次数')
     plt.show()
