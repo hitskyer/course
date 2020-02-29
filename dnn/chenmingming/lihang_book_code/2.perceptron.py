@@ -65,7 +65,6 @@ class PerceptronModel():
         while not stop:
             wrong_count = 0
             for i in range(len(self.dataX)):
-                X = self.dataX[i]
                 y = self.datay[i]
                 G_i = self.Gmatrix[i]
                 if (y * self.sign1(self.a, G_i, self.datay, self.b)) <= 0:
@@ -102,7 +101,7 @@ if __name__ == '__main__':
     y = np.array([1 if i == 1 else -1 for i in y])
 
     # 调用感知机进行分类，学习率eta
-    perceptron = PerceptronModel(X, y, eta=0.01)
+    perceptron = PerceptronModel(X, y, eta=0.1)
     perceptron.OriginClassifier()  # 原始形式分类
 
     # 绘制原始算法分类超平面
@@ -111,33 +110,36 @@ if __name__ == '__main__':
     plt.plot(x_points, y0, 'r', label='原始算法分类线')
 
     perceptron.DualFormClassifier()  # 对偶形式分类
-
     # 由alpha，b 计算omega向量
     omega0 = sum(perceptron.a[i] * y[i] * X[i][0] for i in range(len(X)))
     omega1 = sum(perceptron.a[i] * y[i] * X[i][1] for i in range(len(X)))
     y1 = -(omega0 * x_points + perceptron.b) / omega1
+
+    # 绘制对偶算法分类超平面
     plt.plot(x_points, y1, 'b', label='对偶算法分类线')
 
     plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
     plt.legend()
     plt.show()
     # ------------------学习率不同，查看迭代次数----------------------------
-    n = 10
+    n = 100
     i = 0
     eta_iterTime = np.zeros((n, 3), dtype=float)
     for eta in np.linspace(0.01, 1.01, n):
-        eta_iterTime[i][0] = eta
+        eta_iterTime[i][0] = eta    # 第一列，学习率
         perceptron = PerceptronModel(X, y, eta)
         perceptron.OriginClassifier()
-        eta_iterTime[i][1] = perceptron.iterTimes
+        eta_iterTime[i][1] = perceptron.iterTimes # 第二列，原始算法迭代次数
         perceptron.DualFormClassifier()
-        eta_iterTime[i][2] = perceptron.iterTimes
+        eta_iterTime[i][2] = perceptron.iterTimes # 第三列，对偶算法迭代次数
         i += 1
-    x = eta_iterTime[:, 0]
+    x = eta_iterTime[:, 0]  # 数据切片
     y0 = eta_iterTime[:, 1]
     y1 = eta_iterTime[:, 2]
-    plt.scatter(x, y0, color='r', label='原始算法')
-    plt.scatter(x, y1, color='b', label='对偶算法')
+    plt.scatter(x, y0, c='r', marker='o', label='原始算法')
+    plt.scatter(x, y1, c='b', marker='x', label='对偶算法')
     plt.xlabel('步长(学习率)')
     plt.ylabel('迭代次数')
+    plt.title("不同步长，不同算法形式下，迭代次数")
+    plt.legend()
     plt.show()
