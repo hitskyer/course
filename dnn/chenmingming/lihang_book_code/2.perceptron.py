@@ -22,7 +22,7 @@ class PerceptronModel():
         self.iterTimes = 0  # 迭代次数
 
         # 对偶形式的参数
-        self.a = np.ones(len(X), dtype=np.float)  # alpha
+        self.a = np.zeros(len(X), dtype=np.float)  # alpha
         self.Gmatrix = np.zeros((len(X), len(X)), dtype=np.float)
         self.calculateGmatrix()  # 计算Gram矩阵
 
@@ -30,8 +30,8 @@ class PerceptronModel():
         y = np.dot(w, x) + b
         return y
 
-    def sign1(self, a, G_j, b):  # 对偶形式sign函数
-        y = np.dot(a, G_j) + b
+    def sign1(self, a, G_j, Y, b):  # 对偶形式sign函数
+        y = np.dot(np.multiply(a, Y), G_j) + b
         return y
 
     def OriginClassifier(self):  # 原始形式的分类算法
@@ -68,7 +68,7 @@ class PerceptronModel():
                 X = self.dataX[i]
                 y = self.datay[i]
                 G_i = self.Gmatrix[i]
-                if (y * self.sign1(self.a, G_i, self.b)) <= 0:
+                if (y * self.sign1(self.a, G_i, self.datay, self.b)) <= 0:
                     self.a[i] += self.eta
                     self.b += self.eta * y
                     wrong_count += 1
@@ -104,27 +104,35 @@ if __name__ == '__main__':
     # 调用感知机进行分类，学习率eta
     perceptron = PerceptronModel(X, y, eta=0.01)
     perceptron.OriginClassifier()  # 原始形式分类
-    perceptron.DualFormClassifier()  # 对偶形式分类
-    # 绘制分类超平面
+
+    # 绘制原始算法分类超平面
     x_points = np.linspace(4, 7, 10)
     y0 = -(perceptron.w[0] * x_points + perceptron.b) / perceptron.w[1]
+    plt.plot(x_points, y0, 'r', label='原始算法分类线')
 
+    perceptron.DualFormClassifier()  # 对偶形式分类
+
+    # 由alpha，b 计算omega向量
     omega0 = sum(perceptron.a[i] * y[i] * X[i][0] for i in range(len(X)))
     omega1 = sum(perceptron.a[i] * y[i] * X[i][1] for i in range(len(X)))
     y1 = -(omega0 * x_points + perceptron.b) / omega1
+    plt.plot(x_points, y1, 'b', label='对偶算法分类线')
+
     plt.rcParams['font.sans-serif'] = 'SimHei'  # 消除中文乱码
-    plt.plot(x_points, y0, label='原始算法分类线')
-    plt.plot(x_points, y1, label='对偶算法分类线')
     plt.legend()
     plt.show()
-
-    # eta_iterTime = []
-    # for eta in np.linspace(0.01, 1.01, 50):
-    #     perceptron = PerceptronModel(X, y, eta)
-    # perceptron.OriginClassifier()
-    # eta_iterTime.append([eta, perceptron.iterTimes0])
-    # for i in range(len(eta_iterTime)):
-    #     plt.plot(eta_iterTime[i][0], eta_iterTime[i][1], 'b+')
-    # plt.xlabel('步长(学习率)')
-    # plt.ylabel('迭代次数')
-    # plt.show()
+    # ------------------学习率不同，查看迭代次数----------------------------
+    eta_iterTime0 = []
+    eta_iterTime1 = []
+    for eta in np.linspace(0.01, 1.01, 50):
+        perceptron = PerceptronModel(X, y, eta)
+        perceptron.OriginClassifier()
+        eta_iterTime0.append([eta, perceptron.iterTimes])
+        perceptron.DualFormClassifier()
+        eta_iterTime1.append([eta, perceptron.iterTimes])
+    for i in range(len(eta_iterTime0)):
+        plt.plot(eta_iterTime0[i][0], eta_iterTime0[i][1], 'r+', label='原始算法')
+        plt.plot(eta_iterTime1[i][0], eta_iterTime1[i][1], 'b*', label='对偶算法')
+    plt.xlabel('步长(学习率)')
+    plt.ylabel('迭代次数')
+    plt.show()
