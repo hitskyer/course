@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from collections import Counter
+import time
 
 
 def L_p(xi, xj, p=2):
@@ -99,3 +100,14 @@ if __name__ == '__main__':
     plt.rcParams['axes.unicode_minus'] = False  # 正常显示负号
     plt.legend()
     plt.show()
+    # ---------sklearn KNN----------
+    from sklearn.neighbors import KNeighborsClassifier
+    clf_skl = KNeighborsClassifier(n_neighbors=50, p=4, algorithm='kd_tree')
+    start = time.time()
+    sum = 0
+    for i in range(100):
+        clf_skl.fit(X_train, y_train)
+        sum += clf_skl.score(X_test, y_test)
+    end = time.time()
+    print("平均准确率：%.4f" % (sum/100))
+    print("花费时间：%0.4f ms" % (1000*(end - start)/100))
