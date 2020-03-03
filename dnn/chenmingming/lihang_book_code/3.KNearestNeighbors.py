@@ -24,7 +24,7 @@ def L_p(xi, xj, p=2):
         return 0
 
 
-def KNN():
+def KNearNeighbors():
     def __init__(self, X_train, y_train, neighbors=3, p=2):
         self.n = neighbors
         self.p = p
@@ -36,6 +36,25 @@ def KNN():
         for i in range(self.n):
             dist = np.linalg.norm(X - self.X_train[i], ord=self.p)
             knn_list.append((dist, self.y_train[i]))
+        for i in range(self.n, len(self.X_train)):
+            max_index = knn_list.index(max(knn_list, key=lambda x: x[0]))
+            dist = np.linalg.norm(X - self.X_train[i], ord=self.p)
+            if knn_list[max_index][0] > dist:
+                knn_list[max_index] = (dist, self.y_train[i])
+        knn = [k[-1] for k in knn_list]
+        count_pairs = Counter(knn)
+        #         max_count = sorted(count_pairs, key=lambda x: x)[-1]
+        max_count = sorted(count_pairs.items(), key=lambda x: x[1])[-1][0]
+        return max_count
+
+    def score(self, X_test, y_test):
+        right_count = 0
+        n = 10
+        for X, y in zip(X_test, y_test):
+            label = self.predict(X)
+            if label == y:
+                right_count += 1
+        return right_count / len(X_test)
 
 
 if __name__ == '__main__':
@@ -57,8 +76,13 @@ if __name__ == '__main__':
     plt.xlabel(iris.feature_names[0])
     plt.ylabel(iris.feature_names[1])
     plt.legend()
-    plt.show()
 
     data = np.array(df.iloc[:100, [0, 1, -1]])
     X, y = data[:, :-1], data[:, -1]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    clf = KNearNeighbors(X_train, y_train)
+    clf.score(X_test, y_test)
+    test_point = [6.0, 3.0]
+    print("测试点的类别是：%d" % clf.predict(test_point))
+    plt.plot(test_point[0], test_point[1], 'bo', label='test_point')
+    plt.show()
