@@ -61,6 +61,9 @@ class KNearNeighbors():
         print("准确率：%.4f" % (right_count / len(X_test)))
         return right_count / len(X_test)
 
+class KdTree():
+    def __init__(self,data):
+
 
 if __name__ == '__main__':
     # ---------计算距离----------------
@@ -102,6 +105,7 @@ if __name__ == '__main__':
     plt.show()
     # ---------sklearn KNN----------
     from sklearn.neighbors import KNeighborsClassifier
+
     clf_skl = KNeighborsClassifier(n_neighbors=50, p=4, algorithm='kd_tree')
     start = time.time()
     sum = 0
@@ -109,5 +113,6 @@ if __name__ == '__main__':
         clf_skl.fit(X_train, y_train)
         sum += clf_skl.score(X_test, y_test)
     end = time.time()
-    print("平均准确率：%.4f" % (sum/100))
-    print("花费时间：%0.4f ms" % (1000*(end - start)/100))
+    print("平均准确率：%.4f" % (sum / 100))
+    print("花费时间：%0.4f ms" % (1000 * (end - start) / 100))
+    # ---------KD Tree--------------
