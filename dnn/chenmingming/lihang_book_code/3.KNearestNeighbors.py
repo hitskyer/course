@@ -142,7 +142,7 @@ def find_nearest(tree, point):
         # 计算目标点与分割点的欧氏距离
         p = np.array(pivot)
         t = np.array(target)
-        temp_dist = np.linalg.norm(p-t)
+        temp_dist = np.linalg.norm(p - t)
 
         if temp_dist < dist:  # 如果“更近”
             nearest = pivot  # 更新最近点
