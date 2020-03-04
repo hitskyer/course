@@ -91,11 +91,12 @@ class KdTree():
     def preorder(self, root):
         if root:
             print(root.dom_elt)
-        self.preorder(root.left)
-        self.preorder(root.right)
+        if root.left:
+            self.preorder(root.left)
+        if root.right:
+            self.preorder(root.right)
 
 
-from math import sqrt
 from collections import namedtuple
 
 # 定义一个namedtuple,分别存放最近坐标点、最近距离和访问过的节点数
@@ -108,8 +109,8 @@ def find_nearest(tree, point):
 
     def travel(kd_node, target, max_dist):
         if kd_node is None:
-            return result([0] * k, float("inf"),
-                          0)  # python中用float("inf")和float("-inf")表示正负无穷
+            return result([0] * k, float("inf"), 0)
+            # python中用float("inf")和float("-inf")表示正负无穷
 
         nodes_visited = 1
 
@@ -139,7 +140,9 @@ def find_nearest(tree, point):
 
         # ----------------------------------------------------------------------
         # 计算目标点与分割点的欧氏距离
-        temp_dist = sqrt(sum((p1 - p2) ** 2 for p1, p2 in zip(pivot, target)))
+        p = np.array(pivot)
+        t = np.array(target)
+        temp_dist = np.linalg.norm(p-t)
 
         if temp_dist < dist:  # 如果“更近”
             nearest = pivot  # 更新最近点
@@ -209,7 +212,31 @@ if __name__ == '__main__':
     end = time.time()
     print("平均准确率：%.4f" % (sum / 100))
     print("花费时间：%0.4f ms" % (1000 * (end - start) / 100))
-    # ---------KD Tree--------------
+    # ------build KD Tree--------------
     data = [[2, 3], [5, 4], [9, 6], [4, 7], [8, 1], [7, 2]]
     kd = KdTree(data)
     kd.preorder(kd.root)
+
+    # ------search in KD Tree-----------
+    from time import time
+    from random import random
+
+
+    def random_point(k):
+        return [random() for _ in range(k)]
+
+
+    def random_points(k, n):
+        return [random_point(k) for _ in range(n)]
+
+
+    ret = find_nearest(kd, [3, 4.5])
+    print(ret)
+
+    N = 400000
+    t0 = time()
+    kd2 = KdTree(random_points(3, N))
+    ret2 = find_nearest(kd2, [0.1, 0.5, 0.8])
+    t1 = time()
+    print("time: ", t1 - t0, " s")
+    print(ret2)
