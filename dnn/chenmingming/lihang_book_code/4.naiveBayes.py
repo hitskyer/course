@@ -78,21 +78,67 @@ print(x, "的多项式贝叶斯预测是", clf.predict([[2, ord('S')]]))
 
 # -------抄一遍，高斯朴素贝叶斯--------------------------------
 import math
+
+
 class GausNB():
     def __init__(self):
         self.model = None
+
     @staticmethod
     def mean(X):
-        return sum(X)/float(len(X))
-    def std(self,X):
+        return sum(X) / float(len(X))
+
+    def std(self, X):
         avg = self.mean(X)
-        return math.sqrt(sum([pow(x-avg,2) for x in X])/float(len(X)))
-    def gaus_prob(self,x,mean,std):
-        exponent = math.exp(-(math.pow(x-mean,2)/(2*math.pow(std,2))))
-        return (1/(math.sqrt(2*math.pi)*std))*exponent
-    def summarize(self,train_data):
-        summaries = [(self.mean(i),self.std(i)) for i in zip(*train_data)]
+        return np.sqrt(sum([pow(x - avg, 2) for x in X]) / float(len(X)))
+
+    def gaus_prob(self, x, mean, std):
+        exponent = math.exp(-(math.pow(x - mean, 2) / (2 * math.pow(std, 2))))
+        return (1 / (math.sqrt(2 * math.pi) * std)) * exponent
+
+    def summarize(self, train_data):
+        summaries = [(self.mean(i), self.std(i)) for i in zip(*train_data)]
         return summaries
-    def fit(self,X,y):
+
+    def fit(self, X, y):
         labels = list(set(y))
-        
+        data = {label: [] for label in labels}
+        for x, label in zip(X, y):
+            data[label].append(x)
+        self.model = {
+            label: [len(data[label]) / float(len(X)), self.summarize(value)]
+            for label, value in data.items()
+        }
+        return 'GuassNB train Done !'
+
+    def cal_prob(self, input_data):
+        prob = {}
+        for label, value in self.model.items():
+            prob[label] = value[0]  # P(Y=Ck)
+            for i in range(len(value[1])):
+                mean, std = value[1][i]
+                prob[label] *= self.gaus_prob(input_data[i], mean, std)
+        return prob
+
+    def predict(self, X_test):
+        label = sorted(self.cal_prob(X_test).items(), key=lambda x: x[-1])[-1][0]
+        return label
+
+    def predict_prob(self, X_test):
+        prob = sorted(self.cal_prob(X_test).items(), key=lambda x: x[-1])[-1][1]
+        return prob
+
+    def score(self, X_test, y_test):
+        right = 0
+        for X, y in zip(X_test, y_test):
+            label = self.predict(X)
+            if label == y:
+                right += 1
+        return right / float(len(X_test))
+
+
+clf = GausNB()
+clf.fit(X_train, y_train)
+x = [2, ord('S')]
+print(clf.predict(x))
+print(clf.predict_prob(x))
