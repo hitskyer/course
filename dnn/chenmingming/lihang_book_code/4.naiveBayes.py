@@ -7,7 +7,6 @@
 
 import numpy as np
 
-
 data = [[1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3],
         ['S', 'M', 'M', 'S', 'S', 'S', 'M', 'M', 'L', 'L', 'L', 'M', 'M', 'L', 'L'],
         [-1, -1, 1, 1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1]]
@@ -59,16 +58,41 @@ import pandas as pd
 from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.naive_bayes import MultinomialNB
-df = pd.DataFrame(data)
-print(df.T)
-X_train = df.T.iloc[:, :-1]
-print(X_train)
-X_train = [i-'A' for i in X_train[:,1]]
 
-y_train = df.T.iloc[:,[-1]]
+for i in range(len(data[0])):
+    data[1][i] = ord(data[1][i])  # 将字符转成ASCII数字
+data = np.array(pd.DataFrame(data).T)
+X_train, y_train = data[:, :-1], data[:, -1]
+
 clf = GaussianNB()
-# clf = BernoulliNB()
-# clf = MultinomialNB()
 clf.fit(X_train, y_train)
-clf.predict(x)
+print(x, "的高斯贝叶斯预测是", clf.predict([[2, ord('S')]]))
 
+clf = BernoulliNB()
+clf.fit(X_train, y_train)
+print(x, "的伯努利贝叶斯预测是", clf.predict([[2, ord('S')]]))
+
+clf = MultinomialNB()
+clf.fit(X_train, y_train)
+print(x, "的多项式贝叶斯预测是", clf.predict([[2, ord('S')]]))
+
+# -------抄一遍，高斯朴素贝叶斯--------------------------------
+import math
+class GausNB():
+    def __init__(self):
+        self.model = None
+    @staticmethod
+    def mean(X):
+        return sum(X)/float(len(X))
+    def std(self,X):
+        avg = self.mean(X)
+        return math.sqrt(sum([pow(x-avg,2) for x in X])/float(len(X)))
+    def gaus_prob(self,x,mean,std):
+        exponent = math.exp(-(math.pow(x-mean,2)/(2*math.pow(std,2))))
+        return (1/(math.sqrt(2*math.pi)*std))*exponent
+    def summarize(self,train_data):
+        summaries = [(self.mean(i),self.std(i)) for i in zip(*train_data)]
+        return summaries
+    def fit(self,X,y):
+        labels = list(set(y))
+        
