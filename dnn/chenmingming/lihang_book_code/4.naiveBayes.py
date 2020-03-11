@@ -66,15 +66,15 @@ X_train, y_train = data[:, :-1], data[:, -1]
 
 clf = GaussianNB()
 clf.fit(X_train, y_train)
-print(x, "的高斯贝叶斯预测是", clf.predict([[2, ord('S')]]))
+print(x, "的高斯贝叶斯预测是", clf.predict([[2, ord('S')]]), clf.predict_proba([[2, ord('S')]]))
 
 clf = BernoulliNB()
 clf.fit(X_train, y_train)
-print(x, "的伯努利贝叶斯预测是", clf.predict([[2, ord('S')]]))
+print(x, "的伯努利贝叶斯预测是", clf.predict([[2, ord('S')]]), clf.predict_proba([[2, ord('S')]]))
 
 clf = MultinomialNB()
 clf.fit(X_train, y_train)
-print(x, "的多项式贝叶斯预测是", clf.predict([[2, ord('S')]]))
+print(x, "的多项式贝叶斯预测是", clf.predict([[2, ord('S')]]), clf.predict_proba([[2, ord('S')]]))
 
 # -------抄一遍，高斯朴素贝叶斯--------------------------------
 import math
@@ -85,20 +85,20 @@ class GausNB():
         self.model = None
 
     @staticmethod
-    def mean(X):
+    def mean(X):  # 均值
         return sum(X) / float(len(X))
 
-    def std(self, X):
+    def std(self, X):  # 标准差
         avg = self.mean(X)
         return np.sqrt(sum([pow(x - avg, 2) for x in X]) / float(len(X)))
 
-    def gaus_prob(self, x, mean, std):
+    def gaus_prob(self, x, mean, std):  # 高斯概率密度
         exponent = math.exp(-(math.pow(x - mean, 2) / (2 * math.pow(std, 2))))
         return (1 / (math.sqrt(2 * math.pi) * std)) * exponent
 
     def summarize(self, train_data):
         summaries = [(self.mean(i), self.std(i)) for i in zip(*train_data)]
-        return summaries
+        return summaries  # 返回 [(各特征的均值，标准差),(),()...]]
 
     def fit(self, X, y):
         labels = list(set(y))
@@ -108,25 +108,28 @@ class GausNB():
         self.model = {
             label: [len(data[label]) / float(len(X)), self.summarize(value)]
             for label, value in data.items()
-        }
+        }  # model写入字典 label : [[label概率],[(各特征的均值，标准差),(),()...]]
         return 'GuassNB train Done !'
 
     def cal_prob(self, input_data):
         prob = {}
         for label, value in self.model.items():
-            prob[label] = value[0]  # P(Y=Ck)
+            prob[label] = value[0]  # P(Y=Ck), 此处修正了原作者的初始概率均等问题
             for i in range(len(value[1])):
                 mean, std = value[1][i]
                 prob[label] *= self.gaus_prob(input_data[i], mean, std)
+                # 分类器概率公式
         return prob
 
     def predict(self, X_test):
         label = sorted(self.cal_prob(X_test).items(), key=lambda x: x[-1])[-1][0]
+        # {label : prob},按照概率排序，取最后（最大）的【0】标签
         return label
 
     def predict_prob(self, X_test):
         prob = sorted(self.cal_prob(X_test).items(), key=lambda x: x[-1])[-1][1]
-        return prob
+        s = sum(i for i in self.cal_prob(X_test).values())
+        return prob / s  # 预测概率
 
     def score(self, X_test, y_test):
         right = 0
@@ -140,5 +143,4 @@ class GausNB():
 clf = GausNB()
 clf.fit(X_train, y_train)
 x = [2, ord('S')]
-print(clf.predict(x))
-print(clf.predict_prob(x))
+print(x, "自编程高斯贝叶斯预测", clf.predict(x), clf.predict_prob(x))
