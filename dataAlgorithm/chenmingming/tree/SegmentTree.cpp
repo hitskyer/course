@@ -40,6 +40,7 @@ public:
 
     void destroy(TreeNode* rt)
     {
+        if(!rt) return;
         destroy(rt->left);
         destroy(rt->right);
         delete rt;
@@ -51,7 +52,7 @@ public:
             return NULL;
         TreeNode* rt = new TreeNode(L,R,A[L]);
         if(L == R)
-            return root;
+            return rt;
         int mid = L+((R-L)>>1);
         rt->left = build(A,L,mid);
         rt->right = build(A,mid+1,R);
