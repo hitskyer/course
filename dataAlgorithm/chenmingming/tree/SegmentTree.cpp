@@ -2,7 +2,8 @@
  * @description: 线段树
  * @author: michael ming
  * @date: 2020/3/13 0:21
- * @modified by: 
+ * @modified by:
+ * @Website: https://michael.blog.csdn.net/
  */
 #include<vector>
 #include<iostream>
@@ -53,7 +54,7 @@ public:
         TreeNode* rt = new TreeNode(L,R,A[L]);
         if(L == R)
             return rt;
-        int mid = L+((R-L)>>1);
+        int mid = L+((R-L)>>1);//对半分开
         rt->left = build(A,L,mid);
         rt->right = build(A,mid+1,R);
         rt->sum = 0;
