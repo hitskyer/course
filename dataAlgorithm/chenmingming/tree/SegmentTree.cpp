@@ -32,42 +32,53 @@ public:
         root = build(A, 0, A.size()-1);
         data = A;
     }
+    ~SegmentTree()
+    {
+        destroy(root);
+    }
+
+    void destroy(TreeNode* rt)
+    {
+        destroy(rt->left);
+        destroy(rt->right);
+        delete rt;
+    }
 
     TreeNode* build(vector<int>& A, int L, int R)
     {
         if(L > R)
             return NULL;
-        TreeNode* root = new TreeNode(L,R,A[L]);
+        TreeNode* rt = new TreeNode(L,R,A[L]);
         if(L == R)
             return root;
         int mid = L+((R-L)>>1);
-        root->left = build(A,L,mid);
-        root->right = build(A,mid+1,R);
-        root->sum = 0;
-        if(root->left)
+        rt->left = build(A,L,mid);
+        rt->right = build(A,mid+1,R);
+        rt->sum = 0;
+        if(rt->left)
         {
-            root->sum += root->left->sum;
-            root->MAX = max(root->MAX, root->left->MAX);
-            root->MIN = min(root->MIN, root->left->MIN);
+            rt->sum += rt->left->sum;
+            rt->MAX = max(rt->MAX, rt->left->MAX);
+            rt->MIN = min(rt->MIN, rt->left->MIN);
         }
-        if(root->right)
+        if(rt->right)
         {
-            root->sum += root->right->sum;
-            root->MAX = max(root->MAX, root->right->MAX);
-            root->MIN = min(root->MIN, root->right->MIN);
+            rt->sum += rt->right->sum;
+            rt->MAX = max(rt->MAX, rt->right->MAX);
+            rt->MIN = min(rt->MIN, rt->right->MIN);
         }
-        return root;
+        return rt;
     }
 
-    vector<int> query(TreeNode *root, int s, int e)//查询区间的sum，min，max
+    vector<int> query(TreeNode *rt, int s, int e)//查询区间的sum，min，max
     {
-        if(s > root->end || e < root->start)
-            return {};//没有交集
-        if(s <= root->start && root->end <= e)
-            return {root->sum, root->MIN, root->MAX};//完全包含区间，取其值
+        if(s > rt->end || e < rt->start)
+            return {0, INT_MAX, INT_MIN};//没有交集
+        if(s <= rt->start && rt->end <= e)
+            return {rt->sum, rt->MIN, rt->MAX};//完全包含区间，取其值
         //不完全包含，左右查找
-        vector<int> l = query(root->left, s, e);
-        vector<int> r = query(root->right,s, e);
+        vector<int> l = query(rt->left, s, e);
+        vector<int> r = query(rt->right,s, e);
         //汇总信息
         vector<int> summary(3);
         summary[0] = l[0] + r[0];
@@ -76,38 +87,38 @@ public:
         return summary;
     }
 
-    void modify(TreeNode *root, int id, int val)
+    void modify(TreeNode *rt, int id, int val)
     {
-        if(root->start == root->end)
+        if(rt->start == rt->end)
         {	//叶子节点
-            root->sum = val;//和为自身
-            root->MAX = val;
-            root->MIN = val;
+            rt->sum = val;//和为自身
+            rt->MAX = val;
+            rt->MIN = val;
             data[id] = val;
             return;
         }
-        int mid = (root->start + root->end)/2;
+        int mid = (rt->start + rt->end)/2;
         if(id > mid)
-            modify(root->right, id, val);
+            modify(rt->right, id, val);
         else
-            modify(root->left, id, val);
+            modify(rt->left, id, val);
         root->sum = 0;
-        if(root->left)
+        if(rt->left)
         {
-            root->sum += root->left->sum;
-            root->MAX = max(root->MAX, root->left->MAX);
-            root->MIN = min(root->MIN, root->left->MIN);
+            rt->sum += rt->left->sum;
+            rt->MAX = max(rt->MAX, rt->left->MAX);
+            rt->MIN = min(rt->MIN, rt->left->MIN);
         }
-        if(root->right)
+        if(rt->right)
         {
-            root->sum += root->right->sum;
-            root->MAX = max(root->MAX, root->right->MAX);
-            root->MIN = min(root->MIN, root->right->MIN);
+            rt->sum += rt->right->sum;
+            rt->MAX = max(rt->MAX, rt->right->MAX);
+            rt->MIN = min(rt->MIN, rt->right->MIN);
         }
     }
 };
 //-------------test---------------------
-void printVec(vector<int> a)
+void printVec(vector<int> &a)
 {
     for(auto& ai : a)
         cout << ai << " ";
@@ -117,9 +128,22 @@ void printVec(vector<int> a)
 int main()
 {
     vector<int> v = {1,2,7,8,5};
+    printVec(v);
+
+    cout << "建立线段树" << endl;
     SegmentTree sgtree(v);
-    printVec(sgtree.query(sgtree.root,0,3));
+    printVec(sgtree.data);
+
+    cout << "查询区间的sum，MIN，MAX" << endl;
+    vector<int> qy_res = sgtree.query(sgtree.root,1,3);
+    printVec(qy_res);
+
+    cout << "修改某位置的值" << endl;
     sgtree.modify(sgtree.root,1,100);
     printVec(sgtree.data);
+
+    cout << "查询区间的sum，MIN，MAX" << endl;
+    qy_res = sgtree.query(sgtree.root,1,3);
+    printVec(qy_res);
     return 0;
 }
