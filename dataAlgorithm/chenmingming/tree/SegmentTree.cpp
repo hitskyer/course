@@ -6,7 +6,7 @@
  */
 #include<vector>
 #include<iostream>
-#include<string>
+#include<climits>
 using namespace std;
 class TreeNode
 {
