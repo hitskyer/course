@@ -8,13 +8,19 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris
+from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from collections import Counter
 import math
 from math import log
 import pprint
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_graphviz
+import graphviz
+import pydotplus
+
 
 
 def get_data():
@@ -42,5 +48,29 @@ def get_data():
 if __name__ == '__main__':
     # ---------书上贷款例子-----------------
     datasets, labels = get_data()
-    train_data = pd.DataFrame(datasets, columns=labels)
-   
+    train_data = np.array(pd.DataFrame(datasets, columns=labels))
+    X_train, y_train = train_data[:, :-1], train_data[:, -1:]
+    encoder = preprocessing.OrdinalEncoder()
+    encoder.fit(X_train)
+    X_train = encoder.transform(X_train)
+    A = encoder.transform([['青年', '否', '是', '一般']])
+    B = encoder.transform([['中年', '是', '否', '好']])
+    C = encoder.transform([['老年', '否', '是', '一般']])
+
+    encoder = preprocessing.OrdinalEncoder()
+    encoder.fit(y_train)
+    y_train = encoder.transform(y_train)
+
+    clf = DecisionTreeClassifier()
+    clf.fit(X_train, y_train)
+    print(encoder.inverse_transform([clf.predict(A)]))
+    print(clf.predict_proba(B))
+    print(clf.predict_proba(C))
+
+
+
+    with open('mytree.dot','w',encoding='utf-8') as f:
+        f = export_graphviz(clf,out_file=f)
+        dot = graphviz.Source(f,format='pdf')
+        dot.view()
+    # cmd dot -Tpdf tree.dot -o output.pdf，dot -Tpng tree.dot -o output.png
