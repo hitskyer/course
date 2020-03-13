@@ -22,7 +22,6 @@ import graphviz
 import pydotplus
 
 
-
 def get_data():
     datasets = [['青年', '否', '否', '一般', '否'],
                 ['青年', '否', '否', '好', '否'],
@@ -67,10 +66,13 @@ if __name__ == '__main__':
     print(clf.predict_proba(B))
     print(clf.predict_proba(C))
 
-
-
-    with open('mytree.dot','w',encoding='utf-8') as f:
-        f = export_graphviz(clf,out_file=f)
-        dot = graphviz.Source(f,format='pdf')
-        dot.view()
-    # cmd dot -Tpdf tree.dot -o output.pdf，dot -Tpng tree.dot -o output.png
+    # 需要安装graphviz,添加path，可视化决策树
+    with open('mytree.dot', 'w', encoding='utf-8') as f:
+        dot_data = export_graphviz(clf, out_file=None, feature_names=clf.feature_importances_,
+                                   filled=True, rounded=True, special_characters=True)
+    dot = graphviz.Source(dot_data)
+    dot.view()
+    # 写入png , pdf
+    graph = pydotplus.graph_from_dot_data(dot_data)
+    graph.write_png('tree.png')
+    # cmd: dot -Tpdf tree.dot -o output.pdf，dot -Tpng tree.dot -o output.png
