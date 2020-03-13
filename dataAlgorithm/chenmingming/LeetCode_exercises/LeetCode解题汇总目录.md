@@ -1,12 +1,12 @@
-此篇为学习完[《数据结构与算法之美》](https://michael.blog.csdn.net/article/details/89459835)后，在[LeetCode](https://leetcode-cn.com/problemset/all/)刷题的汇总目录，方便大家查找（Ctrl+F~ind~），一起刷题，一起PK交流！如果本文对你有帮助，可以给我点赞加油！  Updated on 2020.2.14
+此篇为学习完[《数据结构与算法之美》](https://michael.blog.csdn.net/article/details/89459835)后，在[LeetCode](https://leetcode-cn.com/problemset/all/)刷题的汇总目录，方便大家查找（Ctrl+F~ind~），一起刷题，一起PK交流！如果本文对你有帮助，可以给我点赞加油！  Updated on 2020.3.12
 
-刷题可以按照[不同的专题](https://leetcode-cn.com/explore/)进行，便于加强某个知识点的理解。另有[《剑指Offer》面试题](https://michael.blog.csdn.net/article/details/104271963)、[《程序员面试金典》面试题](https://blog.csdn.net/qq_21201267/article/details/104306869)。
+刷题可以按照[不同的专题](https://leetcode-cn.com/explore/)进行，便于加强某个知识点的理解。另有[《剑指Offer》面试题](https://michael.blog.csdn.net/article/details/104271963)、[《程序员面试金典》面试题](https://blog.csdn.net/qq_21201267/article/details/104306869)、[LintCode代码能力测试CAT](https://blog.csdn.net/qq_21201267/article/details/104603021)。
 
 [我的 LeetCode 主页](https://leetcode-cn.com/u/kobe24o/)
 
 [我的 GitHub 主页](https://github.com/kobe24o/LeetCode)
 
- **已解决 631/1245** - **简单 295** **中等 293** **困难 43**
+ **已解决 752/1568** - **简单 358** **中等 343** **困难 51**
 
 - 2019.7.24 - 2019.11.9，108天做了400道题
 - 2019.11.9 - 2019.11.24，   AC +100道，4个月共计500道题
@@ -20,6 +20,8 @@
 | [LeetCode 第 17 场双周赛（469/897，前52.3%）](https://michael.blog.csdn.net/article/details/103942178) |
 | [LeetCode 第 18 场双周赛（188/587，前32%）](https://michael.blog.csdn.net/article/details/104087738) |
 | [LeetCode 第 19 场双周赛（231/1120，前20.6%）](https://michael.blog.csdn.net/article/details/104230340) |
+| [LeetCode 第 20 场双周赛（294/1541，前19.1%，第1次全部通过）](https://michael.blog.csdn.net/article/details/104453219) |
+| [LeetCode 第 21 场双周赛（779/1913，前40.7%）](https://michael.blog.csdn.net/article/details/104725634) |
 
 ​          
 
@@ -29,6 +31,7 @@
 | [LeetCode 2. 两数相加（单链表反转）](https://blog.csdn.net/qq_21201267/article/details/97191786) |
 | [LeetCode 3. 无重复字符的最长子串（滑动窗口+哈希）](https://blog.csdn.net/qq_21201267/article/details/102333616) |
 | [LeetCode 4. 寻找两个有序数组的中位数（二分查找，难）](https://blog.csdn.net/qq_21201267/article/details/102828858) |
+| [LeetCode 6. Z 字形变换（找规律）](https://blog.csdn.net/qq_21201267/article/details/104782401) |
 | [LeetCode 7. 整数反转](https://blog.csdn.net/qq_21201267/article/details/100583336) |
 | [LeetCode 8. 字符串转换整数 (atoi)](https://blog.csdn.net/qq_21201267/article/details/100583821) |
 | [LeetCode 9. 回文数](https://blog.csdn.net/qq_21201267/article/details/100168231) |
@@ -73,6 +76,7 @@
 | [LeetCode 62. 不同路径（DP）](https://blog.csdn.net/qq_21201267/article/details/100148537) |
 | [LeetCode 63. 不同路径 II（DP）](https://michael.blog.csdn.net/article/details/102961510) |
 | [LeetCode 64. 最小路径和（DP）](https://blog.csdn.net/qq_21201267/article/details/100025545) |
+| [LeetCode 65. 有效数字（逻辑题，难）](https://blog.csdn.net/qq_21201267/article/details/104825661) |
 | [LeetCode 67. 二进制求和](https://blog.csdn.net/qq_21201267/article/details/101211346) |
 | [LeetCode 69. x 的平方根（二分查找）](https://blog.csdn.net/qq_21201267/article/details/100585531) |
 | [LeetCode 70. 爬楼梯（动态规划）](https://blog.csdn.net/qq_21201267/article/details/98478956) |
@@ -534,4 +538,28 @@
 | [LeetCode 1346. 检查整数及其两倍数是否存在（哈希）](https://michael.blog.csdn.net/article/details/104234658) |
 | [LeetCode 1347. 制造字母异位词的最小步骤数](https://michael.blog.csdn.net/article/details/104239038) |
 | [LeetCode 1348. 推文计数（哈希map+set）](https://michael.blog.csdn.net/article/details/104242072) |
+| [LeetCode 1351. 统计有序矩阵中的负数](https://michael.blog.csdn.net/article/details/104342220) |
+| [LeetCode 1352. 最后 K 个数的乘积](https://michael.blog.csdn.net/article/details/104342755) |
+| [LeetCode 1353. 最多可以参加的会议数目（排序+贪心，优先队列，难）](https://michael.blog.csdn.net/article/details/104344969) |
+| [LeetCode 1354. 多次求和构造目标数组（优先队列+逆向思考）](https://michael.blog.csdn.net/article/details/104351025) |
+| [LeetCode 1356. 根据数字二进制下 1 的数目排序（自定义lambda排序）](https://michael.blog.csdn.net/article/details/104453219#LeetCode_5323__1__easy_18) |
+| [LeetCode 1357. 每隔 n 个顾客打折（哈希）](https://michael.blog.csdn.net/article/details/104453219#LeetCode_5324__n__medium_90) |
+| [LeetCode 1358. 包含所有三种字符的子字符串数目（二分查找）](https://michael.blog.csdn.net/article/details/104453219#LeetCode_5325__medium_195) |
+| [LeetCode 1359. 有效的快递序列数目（动态规划）](https://michael.blog.csdn.net/article/details/104453219#LeetCode_5326__hard_307) |
+| [LeetCode 1360. 日期之间隔几天（闰年判断）](https://michael.blog.csdn.net/article/details/104462662) |
+| [LeetCode 1361. 验证二叉树（图的出入度）](https://michael.blog.csdn.net/article/details/104465277) |
+| [LeetCode 1362. 最接近的因数](https://michael.blog.csdn.net/article/details/104466518) |
+| [LeetCode 1363. 形成三的最大倍数（贪心，难）](https://michael.blog.csdn.net/article/details/104468904) |
+| [LeetCode 1365. 有多少小于当前数字的数字（排序）](https://michael.blog.csdn.net/article/details/104590855) |
+| [LeetCode 1366. 通过投票对团队排名（自定义排序）](https://michael.blog.csdn.net/article/details/104593866) |
+| [LeetCode 1367. 二叉树中的列表（双重递归）](https://michael.blog.csdn.net/article/details/104596571) |
+| [LeetCode 1368. 使网格图至少有一条有效路径的最小代价（BFS最短路径，难）](https://michael.blog.csdn.net/article/details/104598714) |
+| [LeetCode 1370. 上升下降字符串](https://michael.blog.csdn.net/article/details/104725634#LeetCode_5336__easy_8) |
+| [LeetCode 1371. 每个元音包含偶数次的最长子字符串（异或前缀值）](https://michael.blog.csdn.net/article/details/104725634#LeetCode_5337__medium_99) |
+| [LeetCode 1372. 二叉树中的最长交错路径（递归，注意不要超时）](https://michael.blog.csdn.net/article/details/104725634#LeetCode_5338__medium_174) |
+| [LeetCode 1373. 二叉搜索子树的最大键值和（自底向上DP，返回vector多变量）](https://michael.blog.csdn.net/article/details/104725634#LeetCode_5339__hard_264) |
+| [LeetCode 1374. 生成每种字符都是奇数个的字符串](https://michael.blog.csdn.net/article/details/104738254) |
+| [LeetCode 1375. 灯泡开关 III](https://michael.blog.csdn.net/article/details/104740515) |
+| [LeetCode 1376. 通知所有员工所需的时间（DFS）](https://michael.blog.csdn.net/article/details/104737998) |
+| [LeetCode 1377. T 秒后青蛙的位置（BFS）](https://michael.blog.csdn.net/article/details/104737728) |
 
