@@ -200,7 +200,42 @@ class DTree():
         '''
         _, y_train, features = train_data.iloc[:,:-1], train_data.iloc[:,-1],train_data.columns[:-1]
 
-        # 1. 若所有实例都属于同一分类，不用分了，直接返回那个类
+        # 1. 若所有D实例都属于同一分类，不用分了，直接返回那个类
         if len(y_train.value_counts())==1:
             return Node(root=True, label=y_train.iloc[0])
-        # 2. 
+        # 2. 若没有特征A，返回D中数量最多的分类
+        if len(features)==0:
+            return Node(root=True,label=y_train.value_counts().sort_values(
+                ascending=False).index[0])
+        # 3. 计算最大信息增益，取为特征
+        max_feature, max_info_gain = self.info_gain_train(np.array(train_data))
+        max_feature_name = features[max_feature]
+
+        # 4. 如果信息增益小于阈值epsilon，置为单节点，将实例数最大的类作为节点标记
+        if max_info_gain < self.epsilon:
+            return Node(root=True, label=y_train.value_counts().sort_values(
+                ascending=False).index[0])
+        # 5. 构建Ag子集
+        node_tree = Node(root=False, feature_name=max_feature_name,feature=max_feature)
+
+        feature_list = train_data[max_feature_name].value_counts().index
+        for f in feature_list:
+            sub_train_df = train_data.loc[train_data[max_feature_name]==f].drop([max_feature_name],axis=1)
+
+            # 6. 递归生成树
+            sub_tree = self.train(sub_train_df)
+            node_tree.add_node(f,sub_tree)
+        return node_tree
+    def fit(self,train_data):
+        self._tree = self.train(train_data)
+        return self._tree
+    def predict(self,X_test):
+        return self._tree.predict(X_test)
+
+train_data = pd.DataFrame(datasets, columns=labels)
+dt = DTree()
+tree = dt.fit(train_data)
+print(dt.predict(['老年', '否', '否', '一般']))
+print(dt.predict(['青年', '否', '是', '一般']))
+print(dt.predict(['中年', '是', '否', '好']))
+print(dt.predict(['老年', '否', '是', '一般']))
