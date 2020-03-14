@@ -39,6 +39,7 @@ if __name__ == '__main__':
     X, Y = np.meshgrid(x, y)
     plt.contourf(X, Y, heartfunc(X, Y), cmap=plt.cm.autumn)
     # 颜色查询 https://matplotlib.org/examples/color/colormaps_reference.html
+    plt.title("5201314")
     plt.show()
 
     loveInPi = str(cal_pi(1314))
