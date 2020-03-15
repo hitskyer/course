@@ -262,7 +262,7 @@ print(clf.score(X_test, y_test))
 with open('mytree.dot', 'w', encoding='utf-8') as f:
     dot_data = export_graphviz(clf, out_file=None, feature_names=df.columns[:2],
                                filled=True, rounded=True, special_characters=True,
-                               class_names=iris.target_names[0:2])
+                               class_names=iris.target_names)
 dot = graphviz.Source(dot_data)
 dot.view()
 # 写入png , pdf
