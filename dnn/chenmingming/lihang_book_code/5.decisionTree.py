@@ -48,9 +48,9 @@ def get_data():
 datasets, labels = get_data()
 train_data = np.array(pd.DataFrame(datasets, columns=labels))
 X_train, y_train = train_data[:, :-1], train_data[:, -1:]
-encoder = preprocessing.OrdinalEncoder()
-encoder.fit(X_train)
-X_train = encoder.transform(X_train)
+encoder = preprocessing.OrdinalEncoder()  # 将字符转成浮点
+encoder.fit(X_train)  # 先拟合
+X_train = encoder.transform(X_train)  # 转换成数字
 A = encoder.transform([['青年', '否', '是', '一般']])
 B = encoder.transform([['中年', '是', '否', '好']])
 C = encoder.transform([['老年', '否', '是', '一般']])
@@ -71,7 +71,7 @@ with open('mytree.dot', 'w', encoding='utf-8') as f:
     dot_data = export_graphviz(clf, out_file=None, feature_names=clf.feature_importances_,
                                filled=True, rounded=True, special_characters=True)
 dot = graphviz.Source(dot_data)
-dot.view()
+# dot.view()
 # 写入png , pdf
 graph = pydotplus.graph_from_dot_data(dot_data)
 graph.write_png('tree.png')
@@ -168,7 +168,7 @@ class DTree():
         entropy = -sum([(p / data_len) * log(p / data_len, 2) for p in label_count.values()])
         return entropy
 
-    def cond_entropy(self,datasets, axis=0):  # 经验条件熵H(D|A)
+    def cond_entropy(self, datasets, axis=0):  # 经验条件熵H(D|A)
         data_len = len(datasets)
         feature_set = {}
         for i in range(data_len):
@@ -193,19 +193,20 @@ class DTree():
             print("特征（{}）- info_gain - {:.3f}".format(labels[i], info_gain_i))
         best_feature_i = max(best_feature, key=lambda x: x[-1])
         return best_feature_i
-    def train(self,train_data):
+
+    def train(self, train_data):
         '''
         :input: 数据集D(DataFrame格式)，特征集A，阈值eta
         :return: 决策树DT
         '''
-        _, y_train, features = train_data.iloc[:,:-1], train_data.iloc[:,-1],train_data.columns[:-1]
+        _, y_train, features = train_data.iloc[:, :-1], train_data.iloc[:, -1], train_data.columns[:-1]
 
         # 1. 若所有D实例都属于同一分类，不用分了，直接返回那个类
-        if len(y_train.value_counts())==1:
+        if len(y_train.value_counts()) == 1:
             return Node(root=True, label=y_train.iloc[0])
         # 2. 若没有特征A，返回D中数量最多的分类
-        if len(features)==0:
-            return Node(root=True,label=y_train.value_counts().sort_values(
+        if len(features) == 0:
+            return Node(root=True, label=y_train.value_counts().sort_values(
                 ascending=False).index[0])
         # 3. 计算最大信息增益，取为特征
         max_feature, max_info_gain = self.info_gain_train(np.array(train_data))
@@ -216,21 +217,24 @@ class DTree():
             return Node(root=True, label=y_train.value_counts().sort_values(
                 ascending=False).index[0])
         # 5. 构建Ag子集
-        node_tree = Node(root=False, feature_name=max_feature_name,feature=max_feature)
+        node_tree = Node(root=False, feature_name=max_feature_name, feature=max_feature)
 
         feature_list = train_data[max_feature_name].value_counts().index
         for f in feature_list:
-            sub_train_df = train_data.loc[train_data[max_feature_name]==f].drop([max_feature_name],axis=1)
+            sub_train_df = train_data.loc[train_data[max_feature_name] == f].drop([max_feature_name], axis=1)
 
             # 6. 递归生成树
             sub_tree = self.train(sub_train_df)
-            node_tree.add_node(f,sub_tree)
+            node_tree.add_node(f, sub_tree)
         return node_tree
-    def fit(self,train_data):
+
+    def fit(self, train_data):
         self._tree = self.train(train_data)
         return self._tree
-    def predict(self,X_test):
+
+    def predict(self, X_test):
         return self._tree.predict(X_test)
+
 
 train_data = pd.DataFrame(datasets, columns=labels)
 dt = DTree()
@@ -239,3 +243,29 @@ print(dt.predict(['老年', '否', '否', '一般']))
 print(dt.predict(['青年', '否', '是', '一般']))
 print(dt.predict(['中年', '是', '否', '好']))
 print(dt.predict(['老年', '否', '是', '一般']))
+
+# ------------鸢尾花---------------
+iris = load_iris()
+df = pd.DataFrame(iris.data, columns=iris.feature_names)
+df['label'] = iris.target
+df.columns = ['sepal length', 'sepal width', 'petal length', 'petal width', 'label']
+data = np.array(df.iloc[:100, [0, 1, -1]])
+X = data[:, :2]
+y = data[:, -1]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+clf = DecisionTreeClassifier()
+print(clf)
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test))
+# --------------决策树可视化-------------
+# 需要安装graphviz,添加path，可视化决策树
+with open('mytree.dot', 'w', encoding='utf-8') as f:
+    dot_data = export_graphviz(clf, out_file=None, feature_names=df.columns[:2],
+                               filled=True, rounded=True, special_characters=True,
+                               class_names=iris.target_names[0:2])
+dot = graphviz.Source(dot_data)
+dot.view()
+# 写入png , pdf
+graph = pydotplus.graph_from_dot_data(dot_data)
+graph.write_png('tree.png')
+# cmd: dot -Tpdf tree.dot -o output.pdf，dot -Tpng tree.dot -o output.png
