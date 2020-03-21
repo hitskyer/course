@@ -27,7 +27,7 @@ def create_data():
 
 X, y = create_data()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-clf = SVC(C=2,kernel='linear')
+clf = SVC(C=1,kernel='linear')
 clf.fit(X_train, y_train)
 print(clf.score(X_test, y_test))
 
