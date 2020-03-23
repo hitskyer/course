@@ -1,6 +1,6 @@
-题目来源于LeetCode上的[《剑指Offer》](https://leetcode-cn.com/problemset/lcof/)，这里做一个目录方便大家查找。另外有本人的[LeetCode解题目录](https://michael.blog.csdn.net/article/details/100577842)、[《程序员面试金典》解题目录](https://blog.csdn.net/qq_21201267/article/details/104306869)、[LintCode解题目录](https://blog.csdn.net/qq_21201267/article/details/104603021) 可点击链接查看。updated on 2020.3.12
+题目来源于LeetCode上的[《剑指Offer》](https://leetcode-cn.com/problemset/lcof/)，这里做一个目录方便大家查找。另外有本人的[LeetCode解题目录](https://michael.blog.csdn.net/article/details/100577842)、[《程序员面试金典》解题目录](https://blog.csdn.net/qq_21201267/article/details/104306869)、[LintCode解题目录](https://blog.csdn.net/qq_21201267/article/details/104603021) 可点击链接查看。updated on 2020.3.18
 
-**已解决 69/75** - **简单 42** **中等 26** **困难 1**
+**已解决 75/75** - **简单 42** **中等 29** **困难 4** （更新完毕）
 
 | 已解题目                                                     |
 | :----------------------------------------------------------- |
@@ -15,11 +15,12 @@
 | [剑指Offer - 面试题11. 旋转数组的最小数字（二分查找，难）](https://blog.csdn.net/qq_21201267/article/details/104295164) |
 | [剑指Offer - 面试题12. 矩阵中的路径（DFS回溯）](https://blog.csdn.net/qq_21201267/article/details/104299657) |
 | [剑指Offer - 面试题13. 机器人的运动范围（BFS/DFS）](https://michael.blog.csdn.net/article/details/104304746) |
-| [剑指Offer - 面试题14- I. 剪绳子（DP）**](https://michael.blog.csdn.net/article/details/102942661) |
+| [剑指Offer - 面试题14- I. 剪绳子（DP）、剪绳子 II **](https://michael.blog.csdn.net/article/details/102942661) |
 | [剑指Offer - 面试题15. 二进制中1的个数（位运算）](https://michael.blog.csdn.net/article/details/104289467) |
 | [剑指Offer - 面试题16. 数值的整数次方（递归/循环）](https://michael.blog.csdn.net/article/details/102489210) |
 | [剑指Offer - 面试题17. 打印从1到最大的n位数](https://michael.blog.csdn.net/article/details/104289534) |
 | [剑指Offer - 面试题18. 删除链表的节点](https://blog.csdn.net/qq_21201267/article/details/104300064) |
+| [剑指Offer - 面试题19. 正则表达式匹配（递归）**](https://michael.blog.csdn.net/article/details/104951143) |
 | [剑指Offer - 面试题20. 表示数值的字符串](https://michael.blog.csdn.net/article/details/104825661) |
 | [剑指Offer - 面试题21. 调整数组顺序使奇数位于偶数前面（双指针，原地算法）](https://michael.blog.csdn.net/article/details/104304117) |
 | [剑指Offer - 面试题22. 链表中倒数第k个节点（快慢指针）](https://blog.csdn.net/qq_21201267/article/details/104318179) |
@@ -38,11 +39,13 @@
 | [剑指Offer - 面试题34. 二叉树中和为某一值的路径](https://michael.blog.csdn.net/article/details/100550154) |
 | [剑指Offer - 面试题35. 复杂链表的复制（原地算法值得学习）](https://michael.blog.csdn.net/article/details/101570854) |
 | [剑指Offer - 面试题36. 二叉搜索树与双向链表（中序循环/递归）](https://michael.blog.csdn.net/article/details/104795607) |
+| [剑指Offer - 面试题37. 序列化二叉树（前序/层序）](https://michael.blog.csdn.net/article/details/102513143) |
 | [剑指Offer - 面试题38. 字符串的排列（全排列，排序，回溯+剪枝）](https://michael.blog.csdn.net/article/details/104407890) |
 | [剑指Offer - 面试题39. 数组中出现次数超过一半的数字（摩尔投票）](https://michael.blog.csdn.net/article/details/99249031) |
 | [剑指Offer - 面试题40. 最小的k个数（排序/大顶堆）](https://michael.blog.csdn.net/article/details/104327350) |
 | [剑指Offer - 面试题41. 数据流中的中位数（大小堆）](https://michael.blog.csdn.net/article/details/102865997) |
 | [剑指Offer - 面试题42. 连续子数组的最大和（动态规划）](https://michael.blog.csdn.net/article/details/97559470) |
+| [剑指Offer - 面试题43. 1～n整数中1出现的次数（找规律+公式）*](https://michael.blog.csdn.net/article/details/104911201) |
 | [剑指Offer - 面试题44. 数字序列中某一位的数字（数学）](https://michael.blog.csdn.net/article/details/103571864) |
 | [剑指Offer - 面试题45. 把数组排成最小的数（字符串排序）](https://michael.blog.csdn.net/article/details/104451645) |
 | [剑指Offer - 面试题46. 把数字翻译成字符串（DP）](https://blog.csdn.net/qq_21201267/article/details/104797475) |
@@ -50,6 +53,7 @@
 | [剑指Offer - 面试题48. 最长不含重复字符的子字符串（滑动窗口）](https://michael.blog.csdn.net/article/details/102333616) |
 | [剑指Offer - 面试题49. 丑数（DP）](https://michael.blog.csdn.net/article/details/103738537) |
 | [剑指Offer - 面试题50. 第一个只出现一次的字符（unordered_map）](https://michael.blog.csdn.net/article/details/104322216) |
+| [剑指Offer - 面试题51. 数组中的逆序对（归并排序，求逆序对）](https://michael.blog.csdn.net/article/details/104899845) |
 | [剑指Offer - 面试题52. 两个链表的第一个公共节点](https://michael.blog.csdn.net/article/details/100168364) |
 | [剑指Offer - 面试题53 - I. 在排序数组中查找数字 I（二分查找的变形版本）](https://michael.blog.csdn.net/article/details/104335429) |
 | [剑指Offer - 面试题53 - II. 0～n-1中缺失的数字（二分、位运算）**](https://michael.blog.csdn.net/article/details/104333385) |

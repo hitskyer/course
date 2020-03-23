@@ -4,7 +4,7 @@
 
 [我的 LintCode 主页](https://www.lintcode.com/user/kobe24o)
 
-67 / 1575
+70 / 1495
 
 算法问题
 
@@ -21,7 +21,7 @@
 
 ​         
 
-| 部分较难题                                                   |
+| 部分题目如下                                                 |
 | :----------------------------------------------------------- |
 | [LintCode 125. 背包问题 II（DP）](https://blog.csdn.net/qq_21201267/article/details/104720589) |
 | [LintCode 183. 木材加工（二分查找）](https://michael.blog.csdn.net/article/details/104828329) |
@@ -32,6 +32,10 @@
 | [LintCode 563. 背包问题 V（DP）](https://michael.blog.csdn.net/article/details/104752590) |
 | [LintCode 600. 包裹黑色像素点的最小矩形（BFS）](https://michael.blog.csdn.net/article/details/104829039) |
 | [LintCode 633. 寻找重复的数（这个题要复习）](https://michael.blog.csdn.net/article/details/104785764) |
+| [LintCode 795. 4种独特的路径（DFS）](https://michael.blog.csdn.net/article/details/104920024) |
+| [LintCode 802. 数独（回溯）](https://michael.blog.csdn.net/article/details/104944124) |
+| [LintCode 1210. 升序子序列（DFS）](https://michael.blog.csdn.net/article/details/104923285) |
+| [LintCode 1353. 根节点到叶节点求和（DFS）](https://michael.blog.csdn.net/article/details/104934589) |
 | [LintCode 1652. 区间异或 II](https://michael.blog.csdn.net/article/details/104687019) |
 | [LintCode 1671. 玩游戏（贪心、难）](https://michael.blog.csdn.net/article/details/104679807) |
 | [LintCode 1677. 石头（自定义优先队列）](https://blog.csdn.net/qq_21201267/article/details/104719837) |
@@ -40,5 +44,7 @@
 | [LintCode 1690. 朋友推荐（二分插入）](https://michael.blog.csdn.net/article/details/104838218) |
 | [LintCode 1692. 组队打怪（田忌赛马，二分查找）](https://michael.blog.csdn.net/article/details/104837096) |
 | [LintCode 1753. 写作业（二分查找）](https://michael.blog.csdn.net/article/details/104678269) |
+| [LintCode 1859. 最小振幅（排序）](https://michael.blog.csdn.net/article/details/105008584) |
+| [LintCode 1862. 给树浇水的时间（图的遍历）](https://michael.blog.csdn.net/article/details/105007528) |
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200303225215256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMjAxMjY3,size_16,color_FFFFFF,t_70)
