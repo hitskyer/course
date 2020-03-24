@@ -51,7 +51,7 @@ void dfs(int &i) {
     dfs(i);
 }
 
-void dfs(int i, int j) {
+void dfs(double i, double j) {
     // 依次去掉d c b a z y x，观察一下：段错误的深度 && k变量每深入一层调用，其地址的相对偏移量
     int k = 0;
     cout << "&k = " << &k << endl;
@@ -62,8 +62,8 @@ void dfs(int i, int j) {
 
 
 int main() {
-    int i = 0;
-    int j = 0;
+    double i = 0;
+    double j = 0;
     int a = 0, b = 0, c = 0,d=0,e=0,f=0,g=0,h=0,l=0;
     memory1 m1;
     cout << "size of int& " << sizeof(int&) << endl;
