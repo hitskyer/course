@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.datasets import load_iris
 
 data = [[0, 1, 3, -1],
         [0, 3, 1, -1],
@@ -23,7 +24,7 @@ data = [[0, 1, 3, -1],
 data = pd.DataFrame(np.array(data))
 X, y = data.iloc[:, 0:-1], data.iloc[:, -1]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-clf = AdaBoostClassifier(n_estimators=100, learning_rate=0.5)
+clf = AdaBoostClassifier(n_estimators=50, learning_rate=0.5)
 clf.fit(X_train, y_train)
 print(clf.score(X_test, y_test))
 
@@ -112,6 +113,8 @@ class AdaBoost:
             return -1 if x > v else 1
 
     def fit(self, X, y):
+        axis = 0
+        final_dircet = None
         self.init_args(X, y)
         for epoch in range(self.clf_num):
             best_clf_error, best_v, clf_result = 100000, None, None
@@ -157,3 +160,23 @@ class AdaBoost:
             if self.predict(feature) == y_test[i]:
                 right_count += 1
         return right_count / len(X_test)
+
+
+def create_data():
+    iris = load_iris()
+    df = pd.DataFrame(iris.data, columns=iris.feature_names)
+    df['label'] = iris.target
+    df.columns = ['sepal length', 'sepal width', 'petal length', 'petal width', 'label']
+    data = np.array(df.iloc[:100, [0, 1, -1]])
+    for i in range(len(data)):
+        if data[i, -1] == 0:
+            data[i, -1] = -1
+    # print(data)
+    return data[:, :2], data[:, -1]
+
+
+X, y = create_data()
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+clf = AdaBoost(n_estimators=3, learning_rate=0.5)
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test))
