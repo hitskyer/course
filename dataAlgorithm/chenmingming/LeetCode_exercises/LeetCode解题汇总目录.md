@@ -6,12 +6,13 @@
 
 [我的 GitHub 主页](https://github.com/kobe24o/LeetCode)
 
-**已解决 792/1581** - **简单 368** **中等 361** **困难 63**
+**已解决 811/1582** - **简单 382** **中等 365** **困难 64**
 
 - 2019.7.24 - 2019.11.9，108天做了400道题
 - 2019.11.9 - 2019.11.24，   AC +100道，4个月共计500道题
 - 2019.11.24 - 2019.12.31，AC +72道，共计572道
-- 2020.1.1 - 2020.1.12，AC + 32道，共计604道，先暂停刷题，双周赛会积极参加
+- 2020.1.1 - 2020.1.12，AC + 32道，共计604道
+- 2020.1.12 - 2020.3.25，AC + 196道，共计800道，做了些面试题
 
 | 参赛记录                                                     |
 | :----------------------------------------------------------- |
@@ -391,6 +392,7 @@
 | [LeetCode 807. 保持城市天际线](https://blog.csdn.net/qq_21201267/article/details/100585707) |
 | [LeetCode 814. 二叉树剪枝（递归）](https://blog.csdn.net/qq_21201267/article/details/100566646) |
 | [LeetCode 816. 模糊坐标](https://michael.blog.csdn.net/article/details/103942445) |
+| [LeetCode 820. 单词的压缩编码（后缀树）](https://michael.blog.csdn.net/article/details/105158592) |
 | [LeetCode 821. 字符的最短距离](https://blog.csdn.net/qq_21201267/article/details/101001770) |
 | [LeetCode 829. 连续整数求和（数学）](https://michael.blog.csdn.net/article/details/103501644) |
 | [LeetCode 832. 翻转图像（异或^）](https://blog.csdn.net/qq_21201267/article/details/100585771) |
@@ -445,6 +447,7 @@
 | [LeetCode 994. 腐烂的橘子（图的BFS）](https://blog.csdn.net/qq_21201267/article/details/102906778) |
 | [LeetCode 997. 找到小镇的法官（图的出度和入度）](https://michael.blog.csdn.net/article/details/103174525) |
 | [LeetCode 998. 最大二叉树 II](https://blog.csdn.net/qq_21201267/article/details/100785910) |
+| [LeetCode 999. 车的可用捕获量](https://michael.blog.csdn.net/article/details/105108754) |
 | [LeetCode 1002. 查找常用字符（哈希）](https://blog.csdn.net/qq_21201267/article/details/100997357) |
 | [LeetCode 1003. 检查替换后的词是否有效（栈）](https://michael.blog.csdn.net/article/details/103509100) |
 | [LeetCode 1004. 最大连续1的个数 III（滑动窗口）](https://blog.csdn.net/qq_21201267/article/details/100855871) |
