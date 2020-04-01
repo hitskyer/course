@@ -143,5 +143,5 @@ def main():
     print("用时：{:.2f}s".format(end - star))
 
 
-if __name__ == "__main__":
-    main()
+main()
+
