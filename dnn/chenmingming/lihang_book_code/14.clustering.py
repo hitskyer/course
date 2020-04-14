@@ -6,5 +6,3 @@
 # @File: 14.clustering.py
 # @Reference: https://scikit-learn.org/stable/modules/clustering.html#
 
-if __name__ == '__main__':
-    
