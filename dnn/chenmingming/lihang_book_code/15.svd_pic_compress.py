@@ -38,7 +38,8 @@ def zip_img_by_svd(img, plotId, rate=0.8):
         MIN = np.min(zip_img[:, :, i])
         zip_img[:, :, i] = (zip_img[:, :, i] - MIN) / (MAX - MIN)
 
-    zip_img = np.round(zip_img * 255).astype("uint8")  # 不乘255图片是黑的，数据类型uint8
+    zip_img = np.round(zip_img * 255).astype("uint8")
+    # 不乘255图片是黑的（接近0,0,0），数据类型uint8
     plt.imsave("zip_svd_img.jpg", zip_img)  # 保存压缩后的图片
     zip_rate = (img.size - 3 * (
             u_shape[0] * u_shape[1] + sigma_shape[0] * sigma_shape[1] + vT_shape[0] * vT_shape[1])) / (zip_img.size)
