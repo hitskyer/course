@@ -18,7 +18,7 @@ docs = ["Love is patient, love is kind. It does not envy, it does not boast, it 
         they will be stilled; where there is knowledge, it will pass away. (1 Corinthians 13:4-8 NIV)"]
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(docs)  # 转成权重矩阵
-print("--------转成权重矩阵---------")
+print("--------转成权重---------")
 print(X)
 print("--------获取特征（单词）---------")
 words = vectorizer.get_feature_names()
@@ -39,8 +39,8 @@ topic_docid = [X1[:, t].argsort()[:-(pick_docs + 1):-1] for t in range(topics)]
 print("--------每个话题挑出2个最具代表性的文档---------")
 print(topic_docid)
 
-print("--------lsa.components_---------")
-print(lsa.components_)  # 4话题*52单词
+# print("--------lsa.components_---------")
+# print(lsa.components_)  # 4话题*52单词,话题向量空间
 pick_keywords = 3  # 每个话题挑出3个关键词
 topic_keywdid = [lsa.components_[t].argsort()[:-(pick_keywords + 1):-1] for t in range(topics)]
 print("--------每个话题挑出3个关键词---------")
