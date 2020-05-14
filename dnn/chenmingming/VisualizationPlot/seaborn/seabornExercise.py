@@ -67,5 +67,9 @@ plt.show()
 
 """
 
-#
-
+# 直方图 Histogram
+filepath = "iris.csv"
+iris_data = pd.read_csv(filepath, index_col='Id')
+print(iris_data.head())
+sns.distplot(a=iris_data['Petal Length (cm)'],kde=False)
+plt.show()
