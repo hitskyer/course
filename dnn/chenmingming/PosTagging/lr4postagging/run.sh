@@ -2,9 +2,9 @@ fnumber=512
 snumber=20480
 alias python="/usr/local/bin/python3"
 # step 1 : 基于信息增益选择特征 && 输出词性到词性标号的映射表
-python FeaSelector.py ../data/train-cmm.0 ./data/fig.0 ./data/pos.0
+python FeaSelector.py ../data/train.0 ./data/fig.0 ./data/pos.0
 # step 2 : 将语料格式化
-python CorpusFormtor.py ../data/train-cmm.0 ./data/pos.0 ./data/fig.0 ${fnumber} ./data/train.0.csv
+python CorpusFormtor.py ../data/train.0 ./data/pos.0 ./data/fig.0 ${fnumber} ./data/train.0.csv
 python CorpusFormtor.py ../data/dev.txt ./data/pos.0 ./data/fig.0 ${fnumber} ./data/dev.0.csv
 python CorpusFormtor.py ../data/test.txt ./data/pos.0 ./data/fig.0 ${fnumber} ./data/test.0.csv
 # step 3 : 只用部分训练语料（否则运行速度太慢）
