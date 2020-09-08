@@ -7606,3 +7606,16 @@ dnn/chenmingming/DL_Ng/exercise/Course2/week1/assignment - 1-Initialization+2-Re
 dnn/chenmingming/DL_Ng/exercise/Course2/week1/assignment - 1-Initialization+2-Regularization+3-Gradient+Checking/datasets/test_catvnoncat.h5
 dnn/chenmingming/DL_Ng/exercise/Course2/week1/assignment - 1-Initialization+2-Regularization+3-Gradient+Checking/datasets/data.mat
 dnn/chenmingming/DL_Ng/exercise/Course2/week1/assignment - 1-Initialization+2-Regularization+3-Gradient+Checking/read me - by ccg.txt
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/datasets/data.mat
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/cost.jpg
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/kiank_minibatch.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/kiank_partition.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/kiank_sgd.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/kiank_shuffle.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/Momentum.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/opt1.gif
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/opt2.gif
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/images/opt_momentum.png
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/readme - by ccg.txt
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/opt_utils.py
+dnn/chenmingming/DL_Ng/exercise/Course2/week2/assignment - Optimization+methods/testCases.py
