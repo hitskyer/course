@@ -40,6 +40,8 @@
 
 ### [W1.卷积神经网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484843&idx=1&sn=3ce4807967a9bb08bc7ad3ab504af771&chksm=eca49798dbd31e8eb4c02f1cb6de5cab81495c0a3978926cd758fb3fd932b4dee159d623f0de&token=1952248865&lang=zh_CN#rd)
 
+- [04W1 作业 - 手动/TensorFlow 实现卷积神经网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484924&idx=1&sn=948475a25662092ac84987d38fa81921&chksm=eca497cfdbd31ed9b734a67bb8a12ba70cecae1bd7d86d2230b656b3baf347c292f8b757423b&token=1577459587&lang=zh_CN#rd)
+
 
 ---
 
