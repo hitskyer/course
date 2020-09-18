@@ -42,6 +42,10 @@
 
 - [04W1 作业 - 手动/TensorFlow 实现卷积神经网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484924&idx=1&sn=948475a25662092ac84987d38fa81921&chksm=eca497cfdbd31ed9b734a67bb8a12ba70cecae1bd7d86d2230b656b3baf347c292f8b757423b&token=1577459587&lang=zh_CN#rd)
 
+### [W2.深度卷积网络：实例探究](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484957&idx=1&sn=ddd0c0645eb8ac82de66b634992801c6&chksm=eca4942edbd31d388247e9bd4fb3e44191401b057f84dd8cf05bc7d8a0ae52e92312669f6681&token=1330882993&lang=zh_CN#rd)
+
+
+
 
 ---
 
