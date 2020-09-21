@@ -44,7 +44,7 @@
 
 ### [W2.深度卷积网络：实例探究](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484957&idx=1&sn=ddd0c0645eb8ac82de66b634992801c6&chksm=eca4942edbd31d388247e9bd4fb3e44191401b057f84dd8cf05bc7d8a0ae52e92312669f6681&token=1330882993&lang=zh_CN#rd)
 
-
+- [04W2 作业 - Keras教程+ResNets残差网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247485028&idx=1&sn=60340bbfe04468e78ed61bd8143d01c2&chksm=eca49457dbd31d417a7d343d224220537915ff96aa124505de3feb9ffdb0c8ade58568150cec&token=1988417623&lang=zh_CN#rd)
 
 
 ---
