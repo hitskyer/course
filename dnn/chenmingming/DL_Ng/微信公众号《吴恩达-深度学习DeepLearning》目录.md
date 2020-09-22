@@ -46,6 +46,8 @@
 
 - [04W2 作业 - Keras教程+ResNets残差网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247485028&idx=1&sn=60340bbfe04468e78ed61bd8143d01c2&chksm=eca49457dbd31d417a7d343d224220537915ff96aa124505de3feb9ffdb0c8ade58568150cec&token=1988417623&lang=zh_CN#rd)
 
+### [W3.目标检测（YOLO）](https://mp.weixin.qq.com/s/vwkV0KNni3rmZ02yuEjucA)
+
 
 ---
 
