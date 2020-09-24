@@ -48,6 +48,8 @@
 
 ### [W3.目标检测（YOLO）](https://mp.weixin.qq.com/s/vwkV0KNni3rmZ02yuEjucA)
 
+- [04W3 作业 - 自动驾驶之汽车检测](https://mp.weixin.qq.com/s/-Qf9isR4bEDSeM7mhaKQRg)
+
 
 ---
 
