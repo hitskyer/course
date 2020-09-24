@@ -7680,13 +7680,20 @@ dnn/chenmingming/DL_Ng/exercise/Course4/week2/assignment2 - Residual+Networks/Re
 dnn/chenmingming/DL_Ng/exercise/Course4/week2/assignment2 - Residual+Networks/resnets_utils.py
 dnn/chenmingming/DL_Ng/exercise/Course4/week2/assignment1 - Keras+Tutorial+-+Happy+House/images/1.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week2/assignment1 - Keras+Tutorial+-+Happy+House/model.png
+<<<<<<< Updated upstream
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0004.jpg
+=======
+>>>>>>> Stashed changes
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/Drive.ai Dataset Sample LICENSE
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/font/FiraMono-Medium.otf
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/font/SIL Open Font License.txt
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0001.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0002.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0003.jpg
+<<<<<<< Updated upstream
+=======
+dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0004.jpg
+>>>>>>> Stashed changes
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0005.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0006.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/images/0007.jpg
@@ -7823,6 +7830,7 @@ dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+ap
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/nb_images/probability_extraction.png
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/nb_images/road_video_compressed.mp4
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/nb_images/road_video_compressed2.mp4
+<<<<<<< Updated upstream
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/0001.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/0002.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/0003.jpg
@@ -7950,6 +7958,9 @@ dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+ap
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/4.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/test.jpg
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out_gif.gif
+=======
+dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/out/test.jpg
+>>>>>>> Stashed changes
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/yad2k/models/keras_darknet19.py
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/yad2k/models/keras_yolo.py
 dnn/chenmingming/DL_Ng/exercise/Course4/week3/assignment - Autonomous+driving+application+-+Car+detection/yad2k/utils/__init__.py
