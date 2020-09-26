@@ -52,6 +52,8 @@
 
 ### [W4.特殊应用：人脸识别和神经风格转换](https://mp.weixin.qq.com/s/Qzk98c3K4KLfaeoEeBz5QQ)
 
+- [04W4 作业 - 快乐屋人脸识别+图片风格转换](https://mp.weixin.qq.com/s/C-5PtAg2jzsNnhoNbKHT-g)
+
 
 
 
