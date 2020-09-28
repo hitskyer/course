@@ -36,7 +36,7 @@
 
 ### [W2.机器学习策略(2)](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484801&idx=1&sn=0f00084f58cc0a00a462df45bea31120&chksm=eca497b2dbd31ea434f6d00bebee621f9f5b2d0b12ef735b5ef2472e55b52abdd4b9858a36b4&token=497206401&lang=zh_CN#rd)
 
-## 04.卷积神经网络
+## 04.卷积神经网络CNN
 
 ### [W1.卷积神经网络](https://mp.weixin.qq.com/s?__biz=MzI5ODQzNjQ0NA==&mid=2247484843&idx=1&sn=3ce4807967a9bb08bc7ad3ab504af771&chksm=eca49798dbd31e8eb4c02f1cb6de5cab81495c0a3978926cd758fb3fd932b4dee159d623f0de&token=1952248865&lang=zh_CN#rd)
 
@@ -53,6 +53,10 @@
 ### [W4.特殊应用：人脸识别和神经风格转换](https://mp.weixin.qq.com/s/Qzk98c3K4KLfaeoEeBz5QQ)
 
 - [04W4 作业 - 快乐屋人脸识别+图片风格转换](https://mp.weixin.qq.com/s/C-5PtAg2jzsNnhoNbKHT-g)
+
+## 05.序列模型
+
+### [W1.循环序列模型RNN](https://mp.weixin.qq.com/s/jil2NWoDPynjJZJVb1ICHw)
 
 
 
