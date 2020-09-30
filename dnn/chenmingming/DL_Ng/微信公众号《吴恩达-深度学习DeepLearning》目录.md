@@ -58,7 +58,7 @@
 
 ### [W1.循环序列模型RNN](https://mp.weixin.qq.com/s/jil2NWoDPynjJZJVb1ICHw)
 
-
+### [W2.自然语言处理与词嵌入](https://mp.weixin.qq.com/s/rkLkWVZBjT_VaVZ0RZFr6g)
 
 
 ---
