@@ -60,6 +60,8 @@
 
 ### [W2.自然语言处理与词嵌入](https://mp.weixin.qq.com/s/rkLkWVZBjT_VaVZ0RZFr6g)
 
+- [词向量+Emoji表情生成](https://mp.weixin.qq.com/s/PUWXsjsuMr5kIn0ejOKLow)
+
 
 ---
 
