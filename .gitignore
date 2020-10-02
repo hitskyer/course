@@ -8330,3 +8330,37 @@ dnn/chenmingming/DL_Ng/exercise/Course5/week1/assignment3 - Improvise+a+Jazz+Sol
 dnn/chenmingming/DL_Ng/exercise/Course5/week1/assignment3 - Improvise+a+Jazz+Solo+with+an+LSTM+Network/tune1.midi
 dnn/chenmingming/DL_Ng/exercise/Course5/week1/assignment1 - Building+a+Recurrent+Neural+Network+Step+by+Step/images/LSTM.png
 dnn/chenmingming/DL_Ng/exercise/Course5/week1/assignment1 - Building+a+Recurrent+Neural+Network+Step+by+Step/images/initial_state.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/data/glove.6B.50d.txt
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/data/input-Copy1.txt
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/data/input.txt
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/1-hot-vector.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/cosine_sim.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/equalize10.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/lookup.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/neutral.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/neutralize.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/images/neutralize_kiank.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/readme - by ccg.txt
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment1 - Operations+on+word+vectors/w2v_utils.py
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/emojify_data.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/glove.6B.50d.txt
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/tes.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/tess.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/tesss.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/test_emoji.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/testing.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/data/train_emoji.csv
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/emo_utils.py
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/data_set.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/dataset_kiank.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emb_kiank.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/embedding1.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emo_model.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emo_utils.py
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emojifier-v2.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emojifierv1.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emojify_model.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/emojiss.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/image_1.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/images/woebot.png
+dnn/chenmingming/DL_Ng/exercise/Course5/week2/assignment2 - Emojify/readme - by ccg.txt
