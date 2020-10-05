@@ -62,6 +62,10 @@
 
 - [词向量+Emoji表情生成](https://mp.weixin.qq.com/s/PUWXsjsuMr5kIn0ejOKLow)
 
+### [W3.序列模型和注意力机制](https://mp.weixin.qq.com/s/BFiAR5gXZ_qrECbTFVebKg)
+
+
+
 
 ---
 
