@@ -1,4 +1,4 @@
-吴恩达 -《深度学习DeepLearning》汇总目录
+吴恩达 -《深度学习DeepLearning》汇总目录（公众号）
 
 ## 01.神经网络和深度学习
 
@@ -60,14 +60,18 @@
 
 ### [W2.自然语言处理与词嵌入](https://mp.weixin.qq.com/s/rkLkWVZBjT_VaVZ0RZFr6g)
 
-- [词向量+Emoji表情生成](https://mp.weixin.qq.com/s/PUWXsjsuMr5kIn0ejOKLow)
+- [05W2 作业 - 词向量+Emoji表情生成](https://mp.weixin.qq.com/s/PUWXsjsuMr5kIn0ejOKLow)
 
 ### [W3.序列模型和注意力机制](https://mp.weixin.qq.com/s/BFiAR5gXZ_qrECbTFVebKg)
+
+- [05W3 作业 - 机器翻译+触发词检测](https://mp.weixin.qq.com/s/r9WspAOXELAGHr7kMfW5AA)
 
 
 
 
 ---
+
+[吴恩达-《深度学习DeepLearning》汇总目录（CSDN）](https://michael.blog.csdn.net/article/details/100111054)
 
 我的CSDN[博客地址 https://michael.blog.csdn.net/](https://michael.blog.csdn.net/)
 
