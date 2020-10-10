@@ -58,6 +58,10 @@
 
 ### [W1.循环序列模型RNN](https://mp.weixin.qq.com/s/jil2NWoDPynjJZJVb1ICHw)
 
+- [作业：手写RNN+恐龙名字生成+音乐生成（未做完）](https://michael.blog.csdn.net/article/details/108856749)
+
+  原文地址 https://michael.blog.csdn.net/article/details/108856749
+
 ### [W2.自然语言处理与词嵌入](https://mp.weixin.qq.com/s/rkLkWVZBjT_VaVZ0RZFr6g)
 
 - [05W2 作业 - 词向量+Emoji表情生成](https://mp.weixin.qq.com/s/PUWXsjsuMr5kIn0ejOKLow)
