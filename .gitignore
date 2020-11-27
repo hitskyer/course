@@ -8440,3 +8440,6 @@ dnn/chenmingming/NLP/email_cat/submission.csv
 dnn/chenmingming/NLP/email_cat/test.csv
 dnn/chenmingming/NLP/email_cat/train.csv
 dnn/chenmingming/NLP/jieba/shendiaoxialv.txt
+dnn/chenmingming/NLP/shendiaoxialv.txt
+dnn/chenmingming/NLP/wordcloud/wb.ttf
+dnn/chenmingming/NLP/wordcloud/background.png
