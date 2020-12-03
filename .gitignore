@@ -8443,3 +8443,11 @@ dnn/chenmingming/NLP/jieba/shendiaoxialv.txt
 dnn/chenmingming/NLP/shendiaoxialv.txt
 dnn/chenmingming/NLP/wordcloud/wb.ttf
 dnn/chenmingming/NLP/wordcloud/background.png
+dnn/chenmingming/NLP/tianchi/data/OCEMOTION_a.csv
+dnn/chenmingming/NLP/tianchi/data/OCEMOTION_train1128.csv
+dnn/chenmingming/NLP/tianchi/data/OCNLI_a.csv
+dnn/chenmingming/NLP/tianchi/data/OCNLI_train1128.csv
+dnn/chenmingming/NLP/tianchi/data/TNEWS_a.csv
+dnn/chenmingming/NLP/tianchi/data/TNEWS_train1128.csv
+dnn/chenmingming/NLP/tianchi/NLP_data_list_0715.csv
+dnn/chenmingming/NLP/tianchi/test_a_sample_submit.csv
