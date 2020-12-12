@@ -8989,3 +8989,7 @@ dnn/chenmingming/venv/Scripts/activate.bat
 dnn/chenmingming/venv/Scripts/Activate.ps1
 dnn/chenmingming/venv/Scripts/deactivate.bat
 dnn/chenmingming/NLP/text_generator/tangshi_generator_model.h5
+dnn/chenmingming/NLP/email_cat/email_cat_simpleRNN.h5
+dnn/chenmingming/NLP/email_cat/submission_gru.csv
+dnn/chenmingming/NLP/email_cat/submission_simpleRNN.csv
+dnn/chenmingming/NLP/email_cat/email_cat_lstm.h5
