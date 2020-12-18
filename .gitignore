@@ -8993,3 +8993,11 @@ dnn/chenmingming/NLP/email_cat/email_cat_simpleRNN.h5
 dnn/chenmingming/NLP/email_cat/submission_gru.csv
 dnn/chenmingming/NLP/email_cat/submission_simpleRNN.csv
 dnn/chenmingming/NLP/email_cat/email_cat_lstm.h5
+dnn/chenmingming/NLP/date_format/model.png
+dnn/chenmingming/NLP/translation/deu.txt
+dnn/chenmingming/NLP/translation/fra.txt
+dnn/chenmingming/NLP/translation/French.txt
+dnn/chenmingming/NLP/translation/model.best.h5
+dnn/chenmingming/NLP/translation/model.h5
+dnn/chenmingming/NLP/translation/model.png
+dnn/chenmingming/NLP/translation/translate_lstm.py
