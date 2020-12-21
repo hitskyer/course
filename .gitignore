@@ -9001,3 +9001,5 @@ dnn/chenmingming/NLP/translation/model.best.h5
 dnn/chenmingming/NLP/translation/model.h5
 dnn/chenmingming/NLP/translation/model.png
 dnn/chenmingming/NLP/translation/translate_lstm.py
+dnn/chenmingming/NLP/emotion analysis/trained_tokenizer.pkl
+dnn/chenmingming/NLP/emotion analysis/trained_model.h5
