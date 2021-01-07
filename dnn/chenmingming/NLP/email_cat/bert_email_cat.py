@@ -8,9 +8,9 @@ train = pd.read_csv("train.csv")
 test_csv = pd.read_csv("test.csv")
 train = train.fillna(" ")
 test_csv = test_csv.fillna(" ")
-train['all'] = train['subject'] + ' ' + train['email']
+train['all'] = train['subject'] + ' ' + train['email'] # 合并两个特征
 
-
+# 切分出一些验证集，分层抽样
 from sklearn.model_selection import StratifiedShuffleSplit
 splt = StratifiedShuffleSplit(n_splits=1,test_size=0.2,random_state=1)
 for train_idx, valid_idx in splt.split(train, train['spam']):
@@ -23,10 +23,9 @@ X_train = train_part['all']
 X_valid = valid_part['all']
 
 X_test = test_csv['subject'] + ' ' + test_csv['email']
-y_test = [0]*len(X_test)
-y_test = torch.LongTensor(y_test)
-# for t in X_train[:10]:
-#     print(t)
+y_test = [0]*len(X_test) # 测试集没有标签，这么处理方便代码处理
+y_test = torch.LongTensor(y_test) # 转成tensor
+
 
 #%%
 
@@ -41,6 +40,14 @@ pretrain_model = AutoModelForSequenceClassification.from_pretrained("./bert_hugg
 
 PAD, CLS = '[PAD]', '[CLS]'
 max_seq_len = 128
+bert_hidden = 768
+num_classes = 2
+learning_rate = 1e-5
+decay = 0.01
+num_epochs = 5
+early_stop_time = 2000
+batch_size = 32
+save_path = "./best_model.ckpt"
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def load_dataset(texts, labels):
@@ -60,7 +67,7 @@ def load_dataset(texts, labels):
             mask = [1]*max_seq_len
             token_ids = token_ids[:max_seq_len]
             seq_len = max_seq_len
-        y = [0]*2
+        y = [0]*num_classes
         y[label] = 1
         contents.append((token_ids, y, seq_len, mask))
     return contents
@@ -112,14 +119,6 @@ class datasetIter():
 
 #%%
 
-bert_hidden = 768
-num_classes = 2
-learning_rate = 1e-5
-decay = 0.01
-num_epochs = 5
-early_stop_time = 2000
-batch_size = 32
-save_path = "./best_model.ckpt"
 
 class myModel(nn.Module):
     def __init__(self):
