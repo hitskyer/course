@@ -48,9 +48,11 @@ def load_dataset(texts, labels):
     for t, label in zip(texts, labels):
         token = tokenizer.tokenize(t)
         token = [CLS] + token
+        # ['[CLS]', 'subject', ':', 'cell', 'phones', 'coming', 'soon', '<', 'html', '>', ...]
         seq_len = len(token)
         mask = []
         token_ids = tokenizer.convert_tokens_to_ids(token)
+        # [101, 3395, 1024, 3526, 11640, 2746, 2574, 1026, 16129, 。。。]
         if len(token) < max_seq_len:
             mask = [1]*len(token) + [0]*(max_seq_len-len(token))
             token_ids = token_ids + [0]*(max_seq_len-len(token))
@@ -188,9 +190,8 @@ def train(model, train_iter, dev_iter, test_iter):
     for epoch in range(num_epochs):
         print("Epoch {}/{}".format(epoch+1, num_epochs))
         for i, (X, y) in enumerate(train_iter):
-            outputs = model(X)
+            outputs = model(X) # batch_size * num_classes
             model.zero_grad()
-            # y = y.unsqueeze(1)
             loss = F.binary_cross_entropy(outputs, y)
             loss.backward()
             optimizer.step()
