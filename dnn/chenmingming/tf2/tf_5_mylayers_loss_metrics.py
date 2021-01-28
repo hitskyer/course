@@ -69,15 +69,34 @@ class myMetric(tf.keras.metrics.Metric):
         return self.count / self.total
 
 
-model = LinearModel()
-model.compile(
+mymodel = LinearModel()
+mymodel.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
     loss=myError(),
     metrics=[myMetric()]
 )
-model.fit(X, y, batch_size=6, epochs=10000)
-print(model.variables)
+path = "./checkp.ckpt"
+mycheckpoint = tf.train.Checkpoint(mybestmodel=mymodel)  # 接受 **kwargs 键值对
+manager = tf.train.CheckpointManager(mycheckpoint, directory="./",
+                                     checkpoint_name="checkp.ckpt",
+                                     max_to_keep=2)
+for i in range(3):
+    mymodel.fit(X, y, batch_size=6, epochs=81)
+    manager.save()
+print(mymodel.variables)
 
 X_test = tf.constant([[5.1], [6.1]])
-res = model.predict(X_test)
+res = mymodel.predict(X_test)
+print(res)
+
+# %%
+# path = "./checkp.ckpt"
+# mycheckpoint = tf.train.Checkpoint(mybestmodel=mymodel) # 接受 **kwargs 键值对
+# mycheckpoint.save(path)
+
+restored_model = LinearModel()
+mycheckpoint = tf.train.Checkpoint(mybestmodel=restored_model)
+mycheckpoint.restore(tf.train.latest_checkpoint("./"))
+X_test = tf.constant([[5.1], [6.1]])
+res = restored_model.predict(X_test)
 print(res)
