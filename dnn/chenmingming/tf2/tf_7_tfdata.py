@@ -19,7 +19,7 @@ def rotate90(img, label):
     return img, label
 
 
-mnistdata = mnistdata.map(map_func=rotate90,num_parallel_calls=2)
+mnistdata = mnistdata.map(map_func=rotate90, num_parallel_calls=2)
 
 mnistdata = mnistdata.prefetch(buffer_size=tf.data.experimental.AUTOTUNE).shuffle(buffer_size=100).batch(5)
 
