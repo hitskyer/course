@@ -39,7 +39,7 @@ if __name__ == "__main__":
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
         loss=tf.keras.losses.sparse_categorical_crossentropy,
-        metrics=[tf.keras.metrics.sparse_categorical_accuracy]
+        # metrics=[tf.keras.metrics.sparse_categorical_accuracy]
     )
 
     model.fit(train_dataset, epochs=num_epochs)
@@ -52,6 +52,6 @@ if __name__ == "__main__":
     print(model.metrics_names)
     ans = model.predict(test_data)
     print(ans)
-    id = list(range(12500))
+    id = list(range(1,12501))
     output = pd.DataFrame({'id': id, 'label': tf.argmax(ans, axis=1).numpy()})
     output.to_csv("submission.csv", index=False)
