@@ -6,7 +6,7 @@ import numpy as np
 import random
 import os
 
-num_epochs = 2
+num_epochs = 1
 batch_size = 32
 learning_rate = 1e-4
 train_data_dir = "./dogs-vs-cats/train/"
@@ -72,7 +72,13 @@ if __name__ == "__main__":
         metrics=[tf.keras.metrics.sparse_categorical_accuracy]
     )
 
-    model.fit(train_dataset, epochs=num_epochs, validation_data=valid_dataset)
+    # model.fit(train_dataset, epochs=num_epochs, validation_data=valid_dataset)
+
+    # 模型导出
+    # model.save('catdog.h5')
+
+    # 模型载入
+    model = tf.keras.models.load_model('catdog.h5')
 
     test_filenames = tf.constant([test_data_dir + filename for filename in os.listdir(test_data_dir)])
     test_data = tf.data.Dataset.from_tensor_slices(test_filenames)

@@ -74,6 +74,7 @@ class MLPmodel(tf.keras.Model):
         self.dense1 = tf.keras.layers.Dense(units=100, activation='relu')
         self.dense2 = tf.keras.layers.Dense(units=10)
 
+    @tf.function
     def call(self, input):
         x = self.flatten(input)
         x = self.dense1(x)
@@ -126,7 +127,7 @@ num_epochs = 5
 batch_size = 50
 learning_rate = 1e-4
 
-# mymodel = MLPmodel()
+mymodel = MLPmodel()
 # mymodel = myCNN()
 # mymodel = tf.keras.applications.MobileNetV2()
 
@@ -137,12 +138,12 @@ learning_rate = 1e-4
 #     tf.keras.layers.Softmax()
 # ])
 
-inp = tf.keras.Input(shape=(28, 28, 1))
-x = tf.keras.layers.Flatten()(inp)
-x = tf.keras.layers.Dense(units=100, activation=tf.nn.relu)(x)
-x = tf.keras.layers.Dense(units=10)(x)
-out = tf.keras.layers.Softmax()(x)
-mymodel = tf.keras.Model(inputs=inp, outputs=out)
+# inp = tf.keras.Input(shape=(28, 28, 1))
+# x = tf.keras.layers.Flatten()(inp)
+# x = tf.keras.layers.Dense(units=100, activation=tf.nn.relu)(x)
+# x = tf.keras.layers.Dense(units=10)(x)
+# out = tf.keras.layers.Softmax()(x)
+# mymodel = tf.keras.Model(inputs=inp, outputs=out)
 
 # %%
 data_loader = MNistLoader()
@@ -177,6 +178,13 @@ mymodel.fit(data_loader.train_data, data_loader.train_label,
 #                                              y_pred=y_pred)
 # print("test 准确率：{}".format(sparse_categorical_accuracy.result()))
 
-res = mymodel.evaluate(data_loader.test_data, data_loader.test_label)
-print(res) # [loss, acc]
+# 导出模型
+tf.saved_model.save(mymodel, "./my_model_path")
+# 载入模型
+mymodel = tf.saved_model.load('./my_model_path')
+
+# res = mymodel.evaluate(data_loader.test_data, data_loader.test_label)
+# print(res) # [loss, acc]
+res = mymodel.call(data_loader.test_data)
+print(res)
 # %%

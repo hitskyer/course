@@ -21,30 +21,45 @@ idx = int((1 - valid_ratio) * len(file_dir))
 train_files, valid_files = file_dir[:idx], file_dir[idx:]
 train_labels, valid_labels = labels[:idx], labels[idx:]
 
+# tfrecord 格式数据存储路径
 train_tfrecord_file = "./dogs-vs-cats/train.tfrecords"
 valid_tfrecord_file = "./dogs-vs-cats/valid.tfrecords"
+
+# 存储过程
+# 预先定义一个写入器
 with tf.io.TFRecordWriter(path=train_tfrecord_file) as writer:
+    # 遍历原始数据
     for filename, label in zip(train_files, train_labels):
         img = open(filename, 'rb').read()  # 读取图片，img 是 Byte 类型的字符串
+        # 建立 feature 的 字典 k : v
         feature = {
             'image': tf.train.Feature(bytes_list=tf.train.BytesList(value=[img])),
             'label': tf.train.Feature(int64_list=tf.train.Int64List(value=[label]))
         }
+        # feature 包裹成 example
         example = tf.train.Example(features=tf.train.Features(feature=feature))
+        # example 序列化为字符串，写入
         writer.write(example.SerializeToString())
 
-raw_train_dataset = tf.data.TFRecordDataset(train_tfrecord_file)  # 读取tfrecord
+# 读取过程
+# 读取 tfrecord 数据，得到 tf.data.Dataset 对象
+raw_train_dataset = tf.data.TFRecordDataset(train_tfrecord_file)
+# 特征的格式、数据类型
 feature_description = {
     'image': tf.io.FixedLenFeature(shape=[], dtype=tf.string),
     'label': tf.io.FixedLenFeature([], tf.int64),
 }
 
 
-def _parse_example(example_string):
+def _parse_example(example_string): # 解码每个example
+    # tf.io.parse_single_example 反序列化
     feature_dict = tf.io.parse_single_example(example_string, feature_description)
+    # 图像解码
     feature_dict['image'] = tf.io.decode_jpeg(feature_dict['image'])
+    # 返回数据 X, y
     return feature_dict['image'], feature_dict['label']
 
+# 处理数据集
 train_dataset = raw_train_dataset.map(_parse_example)
 
 import matplotlib.pyplot as plt
