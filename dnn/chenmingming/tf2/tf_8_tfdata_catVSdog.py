@@ -48,45 +48,47 @@ if __name__ == "__main__":
     train_dataset = processData(train_filenames, train_labels)
     valid_dataset = processData(valid_filenames, valid_labels)
 
-    basemodel = tf.keras.applications.MobileNetV2(input_shape=(256,256,3), include_top=False, classes=2)
-    model = tf.keras.Sequential([
-        basemodel,
-        # tf.keras.layers.Conv2D(32, 3, activation='relu', input_shape=(256, 256, 3)),
-        # tf.keras.layers.MaxPooling2D(),
-        # tf.keras.layers.Dropout(0.2),
-        # tf.keras.layers.Conv2D(64, 5, activation='relu'),
-        # tf.keras.layers.MaxPooling2D(),
-        # tf.keras.layers.Dropout(0.2),
-        # tf.keras.layers.Conv2D(128, 5, activation='relu'),
-        # tf.keras.layers.MaxPooling2D(),
-        # tf.keras.layers.Dropout(0.2),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(64, activation='relu'),
-        tf.keras.layers.Dense(2, activation='softmax')
-        # tf.keras.layers.Dense(2, activation='sigmoid')
-    ])
+    # basemodel = tf.keras.applications.MobileNetV2(input_shape=(256,256,3), include_top=False, classes=2)
+    # model = tf.keras.Sequential([
+    #     # basemodel,
+    #     tf.keras.layers.Conv2D(32, 3, activation='relu', input_shape=(256, 256, 3)),
+    #     # tf.keras.layers.MaxPooling2D(),
+    #     # tf.keras.layers.Dropout(0.2),
+    #     # tf.keras.layers.Conv2D(64, 5, activation='relu'),
+    #     # tf.keras.layers.MaxPooling2D(),
+    #     # tf.keras.layers.Dropout(0.2),
+    #     # tf.keras.layers.Conv2D(128, 5, activation='relu'),
+    #     # tf.keras.layers.MaxPooling2D(),
+    #     # tf.keras.layers.Dropout(0.2),
+    #     tf.keras.layers.Flatten(),
+    #     tf.keras.layers.Dense(64, activation='relu'),
+    #     tf.keras.layers.Dense(2, activation='softmax')
+    #     # tf.keras.layers.Dense(2, activation='sigmoid')
+    # ])
 
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
-        metrics=[tf.keras.metrics.sparse_categorical_accuracy]
-    )
+    # model.compile(
+    #     optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+    #     loss=tf.keras.losses.sparse_categorical_crossentropy,
+    #     metrics=[tf.keras.metrics.sparse_categorical_accuracy]
+    # )
 
     # model.fit(train_dataset, epochs=num_epochs, validation_data=valid_dataset)
 
     # 模型导出
     # model.save('catdog.h5')
+    # tf.saved_model.save(model, './saved')
 
     # 模型载入
-    model = tf.keras.models.load_model('catdog.h5')
+    # model = tf.keras.models.load_model('catdog.h5')
+    model = tf.saved_model.load('./saved')
 
     test_filenames = tf.constant([test_data_dir + filename for filename in os.listdir(test_data_dir)])
     test_data = tf.data.Dataset.from_tensor_slices(test_filenames)
     test_data = test_data.map(map_func=_decode_and_resize)
     test_data = test_data.batch(batch_size)
 
-    print(model.metrics_names)
-    ans = model.predict(test_data)
+    # print(model.metrics_names)
+    ans = model(test_data)
     prob = ans[:, 1] # dog 的概率
     id = list(range(1, 12501))
     output = pd.DataFrame({'id': id, 'label': prob})
