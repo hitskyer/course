@@ -48,9 +48,9 @@ if __name__ == "__main__":
     train_dataset = processData(train_filenames, train_labels)
     valid_dataset = processData(valid_filenames, valid_labels)
 
-    # basemodel = tf.keras.applications.MobileNetV2(input_shape=(256,256,3), include_top=False, classes=2)
-    # model = tf.keras.Sequential([
-    #     # basemodel,
+    basemodel = tf.keras.applications.MobileNetV2(input_shape=(256,256,3), include_top=False, classes=2)
+    model = tf.keras.Sequential([
+        basemodel,
     #     tf.keras.layers.Conv2D(32, 3, activation='relu', input_shape=(256, 256, 3)),
     #     # tf.keras.layers.MaxPooling2D(),
     #     # tf.keras.layers.Dropout(0.2),
@@ -60,27 +60,27 @@ if __name__ == "__main__":
     #     # tf.keras.layers.Conv2D(128, 5, activation='relu'),
     #     # tf.keras.layers.MaxPooling2D(),
     #     # tf.keras.layers.Dropout(0.2),
-    #     tf.keras.layers.Flatten(),
-    #     tf.keras.layers.Dense(64, activation='relu'),
-    #     tf.keras.layers.Dense(2, activation='softmax')
-    #     # tf.keras.layers.Dense(2, activation='sigmoid')
-    # ])
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(2, activation='softmax')
+        # tf.keras.layers.Dense(2, activation='sigmoid')
+    ])
 
-    # model.compile(
-    #     optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-    #     loss=tf.keras.losses.sparse_categorical_crossentropy,
-    #     metrics=[tf.keras.metrics.sparse_categorical_accuracy]
-    # )
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        metrics=[tf.keras.metrics.sparse_categorical_accuracy]
+    )
 
     # model.fit(train_dataset, epochs=num_epochs, validation_data=valid_dataset)
 
     # 模型导出
     # model.save('catdog.h5')
-    # tf.saved_model.save(model, './saved')
+    tf.saved_model.save(model, './3')
 
     # 模型载入
     # model = tf.keras.models.load_model('catdog.h5')
-    model = tf.saved_model.load('./saved')
+    model = tf.saved_model.load('./3')
 
     test_filenames = tf.constant([test_data_dir + filename for filename in os.listdir(test_data_dir)])
     test_data = tf.data.Dataset.from_tensor_slices(test_filenames)
@@ -88,8 +88,35 @@ if __name__ == "__main__":
     test_data = test_data.batch(batch_size)
 
     # print(model.metrics_names)
-    ans = model(test_data)
-    prob = ans[:, 1] # dog 的概率
-    id = list(range(1, 12501))
-    output = pd.DataFrame({'id': id, 'label': prob})
-    output.to_csv("submission.csv", index=False)
+    # ans = model.call(test_data)
+    # prob = ans[:, 1] # dog 的概率
+    # id = list(range(1, 12501))
+    # output = pd.DataFrame({'id': id, 'label': prob})
+    # output.to_csv("submission.csv", index=False)
+
+
+# -----------test serving--------
+import numpy as np
+import tensorflow as tf
+import json
+import requests
+import matplotlib.pyplot as plt
+
+test_pic = ["./dogs-vs-cats/test/1.jpg","./dogs-vs-cats/test/2.jpg"]
+test_data = np.array([_decode_and_resize(f).numpy() for f in test_pic])
+
+data = json.dumps({
+    'instances': test_data.tolist()
+})
+
+headers = {'content-type': 'application/json'}
+json_response = requests.post(
+    url='http://localhost:8501/v1/models/mymodel:predict',
+    data=data, headers=headers
+)
+pred = np.array(json.loads(json_response.text)['predictions'])
+print("预测结果：", np.argmax(pred, axis=-1))
+
+for img in test_data:
+    plt.imshow(img)
+    plt.show()

@@ -179,9 +179,9 @@ mymodel.fit(data_loader.train_data, data_loader.train_label,
 # print("test 准确率：{}".format(sparse_categorical_accuracy.result()))
 
 # 导出模型
-tf.saved_model.save(mymodel, "./my_model_path")
+tf.saved_model.save(mymodel, "./2")
 # 载入模型
-mymodel = tf.saved_model.load('./my_model_path')
+mymodel = tf.saved_model.load('./2')
 
 # res = mymodel.evaluate(data_loader.test_data, data_loader.test_label)
 # print(res) # [loss, acc]
