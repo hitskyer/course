@@ -7,7 +7,7 @@ import tensorflow as tf
 
 # 归一化，resize
 def load_image_local(img_path, img_size=(256, 256)):
-    # png 4 通道转jpg 3通道
+    # png 4 通道转 jpg 3通道
     if 'png' in img_path:
         img = Image.open(img_path)
         img = img.convert('RGB')
@@ -33,7 +33,7 @@ def show_image(img, title, save=False, fig_dpi=300):
 
 # 图片路径
 content_image_path = "pic1.png"
-style_image_path = "pic2.jpg"
+style_image_path = "pic3.jpg"
 
 # 处理图片
 content_image = load_image_local(content_image_path)
@@ -48,11 +48,11 @@ hub_url = 'https://hub.tensorflow.google.cn/google/magenta/arbitrary-image-styli
 hub_model = hub.load(hub_url)
 
 # 调用模型
-# outputs = hub_model(tf.constant(content_image), tf.constant(style_image))
-# stylized_image = outputs[0]  # 取出第一个样本预测值 [ :, :, 3]
-#
-# # 展示预测图片
-# show_image(stylized_image[0], "Stylized Image", True)
+outputs = hub_model(tf.constant(content_image), tf.constant(style_image))
+stylized_image = outputs[0]  # 取出第一个样本预测值 [ :, :, 3]
+
+# 展示预测图片
+show_image(stylized_image[0], "Stylized Image", True)
 
 # --------------------------------
 
