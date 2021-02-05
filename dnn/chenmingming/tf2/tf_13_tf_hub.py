@@ -1,13 +1,21 @@
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
+from PIL import Image
 import numpy as np
 import tensorflow as tf
 
 
 # 归一化，resize
 def load_image_local(img_path, img_size=(256, 256)):
-    # 添加一个 batch_size 轴
-    img = plt.imread(img_path).astype(np.float32)[np.newaxis, :, :, :]
+    # png 4 通道转jpg 3通道
+    if 'png' in img_path:
+        img = Image.open(img_path)
+        img = img.convert('RGB')
+        img.save("temp.jpg")
+        img = plt.imread("temp.jpg").astype(np.float32)[np.newaxis, :, :, :]
+    else:
+        # 添加一个 batch_size 轴
+        img = plt.imread(img_path).astype(np.float32)[np.newaxis, :, :, :]
     if img.max() > 1.0:
         img = img / 255.
     img = tf.image.resize(img, img_size, preserve_aspect_ratio=True)
@@ -24,7 +32,7 @@ def show_image(img, title, save=False, fig_dpi=300):
 
 
 # 图片路径
-content_image_path = "pic1.jpg"
+content_image_path = "pic1.png"
 style_image_path = "pic2.jpg"
 
 # 处理图片
